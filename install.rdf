@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+     xmlns:songbird="http://www.songbirdnest.com/2007/addon-metadata-rdf#">
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>{15988966-199b-421f-beb5-ddb8f3f565b1}</em:id>
+    <em:type>2</em:type>
+    <em:name>BlueJay</em:name>
+    <em:version>1.0.0.0</em:version>
+    <em:creator>Kesti Mikta</em:creator>
+
+
+    <em:description>Recommendation Engine</em:description>
+
+
+
+
+
+    <em:optionsURL>chrome://bluejay/content/options.xul</em:optionsURL>
+
+
+
+    <em:targetApplication>
+      <Description>
+        <em:id>songbird@songbirdnest.com</em:id>
+        <em:minVersion>1.8.0a</em:minVersion>
+        <em:maxVersion>1.10.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+
+
+
+
+    <!-- Register a pane to be displayed below the service sidebar.
+         See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Display_Panes -->
+    <songbird:displayPane>
+      <Description>
+        <songbird:contentTitle>BlueJay</songbird:contentTitle>
+        <songbird:contentUrl>chrome://bluejay/content/pane.xul</songbird:contentUrl>
+        <songbird:contentIcon>chrome://bluejay/skin/pane-icon.png</songbird:contentIcon>
+        <songbird:defaultWidth>200</songbird:defaultWidth>
+        <songbird:defaultHeight>100</songbird:defaultHeight>
+        <songbird:suggestedContentGroups>servicepane</songbird:suggestedContentGroups>
+        <songbird:showOnInstall>true</songbird:showOnInstall>
+      </Description>
+    </songbird:displayPane>
+
+
+
+    <!-- Register a custom media page.
+         See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Building_Media_Views -->
+    <songbird:mediaPage>
+      <Description>
+        <songbird:contentTitle>BlueJay</songbird:contentTitle>
+        <songbird:contentUrl>chrome://bluejay/content/media-page.xul</songbird:contentUrl>
+      </Description>
+    </songbird:mediaPage>
+
+  </Description>
+</RDF>
