@@ -1,5 +1,5 @@
-<!ENTITY prefwindow.title "BlueJay preferences">
-<!ENTITY pane1.title "BlueJay preferences">
+<!ENTITY prefwindow.title "Bluejay preferences">
+<!ENTITY pane1.title "Bluejay preferences">
 <!ENTITY checkboolpref.label "A Boolean Preference">
 <!ENTITY checkboolpref.accesskey "B">
 <!ENTITY intpref.label "An Integer Preference">

@@ -2,14 +2,14 @@
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#"
      xmlns:songbird="http://www.songbirdnest.com/2007/addon-metadata-rdf#">
   <Description about="urn:mozilla:install-manifest">
-    <em:id>{15988966-199b-421f-beb5-ddb8f3f565b1}</em:id>
+    <em:id>{0686d43b-1ae0-46cb-8a79-5e190abbba0b}</em:id>
     <em:type>2</em:type>
-    <em:name>BlueJay</em:name>
+    <em:name>Bluejay</em:name>
     <em:version>1.0.0.0</em:version>
-    <em:creator>Kesti Mikta</em:creator>
+    <em:creator>Me</em:creator>
 
 
-    <em:description>Recommendation Engine</em:description>
+    <em:description>Recommendation Engine for Songbird</em:description>
 
 
 
@@ -35,7 +35,7 @@
          See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Display_Panes -->
     <songbird:displayPane>
       <Description>
-        <songbird:contentTitle>BlueJay</songbird:contentTitle>
+        <songbird:contentTitle>Bluejay</songbird:contentTitle>
         <songbird:contentUrl>chrome://bluejay/content/pane.xul</songbird:contentUrl>
         <songbird:contentIcon>chrome://bluejay/skin/pane-icon.png</songbird:contentIcon>
         <songbird:defaultWidth>200</songbird:defaultWidth>
@@ -51,7 +51,7 @@
          See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Building_Media_Views -->
     <songbird:mediaPage>
       <Description>
-        <songbird:contentTitle>BlueJay</songbird:contentTitle>
+        <songbird:contentTitle>Bluejay</songbird:contentTitle>
         <songbird:contentUrl>chrome://bluejay/content/media-page.xul</songbird:contentUrl>
       </Description>
     </songbird:mediaPage>

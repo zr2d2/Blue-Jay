@@ -6,11 +6,11 @@
 <!-- Original template by Jed Brown -->
   <groupbox align="center" orient="horizontal">
     <vbox>
-      <text value="BlueJay" style="font-weight: bold; font-size: x-large;"/>
+      <text value="Bluejay" style="font-weight: bold; font-size: x-large;"/>
       <text value="&version; 1.0"/>
       <separator class="thin"/>
       <text value="&createdBy;" style="font-weight: bold;"/>
-      <text value="Kesti Mikta"/>
+      <text value="Me"/>
       <separator class="thin"/>
     </vbox>
   </groupbox>

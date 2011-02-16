@@ -8,4 +8,4 @@ pref("extensions.bluejay.stringpref", "A string");
 pref("extensions.bluejay.firstrun", true);
 
 // See http://kb.mozillazine.org/Localize_extension_descriptions
-// pref("extensions.{15988966-199b-421f-beb5-ddb8f3f565b1}.description", "chrome://bluejay/locale/bluejay.properties");
+// pref("extensions.{0686d43b-1ae0-46cb-8a79-5e190abbba0b}.description", "chrome://bluejay/locale/bluejay.properties");
