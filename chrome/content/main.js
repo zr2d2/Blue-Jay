@@ -41,6 +41,9 @@ Bluejay.Controller = {
     this._helloWorldCmd.addEventListener("command", 
          function() { controller.doHelloWorld(); }, false);
 
+
+
+
   },
   
 
@@ -58,6 +61,24 @@ Bluejay.Controller = {
   doHelloWorld : function() {
     var message = "Bluejay: " + this._strings.getString("helloMessage");
     alert(message);
+    this.chooseSong();
+  },
+
+  /**
+   * A test function to choose a song
+   */
+  chooseSong : function() {
+    var songName = "Come on Eileen";
+    alert("selecting song named" + songName);
+    const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
+    //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
+    properties.appendProperty(SBProperties.trackName, songName);
+    var tracks = LibraryUtils.mainLibrary.getItemsByProperties(properties);
+    //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
+    var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
+    gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
+    alert("done selecting song");
+
   },
 
   
@@ -68,7 +89,7 @@ Bluejay.Controller = {
   
     // Call this.doHelloWorld() after a 3 second timeout
     setTimeout(function(controller) { controller.doHelloWorld(); }, 3000, this); 
-  
+    
   },
   
   
