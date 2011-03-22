@@ -1,0 +1,18 @@
+-<Candidate>
+<Name>Activity</Name>
+</Candidate>
+
+	-<Candidate>
+	<Name>A</Name>
+	<Parent>Activity</Parent>
+	</Candidate>
+
+	-<Candidate>
+	<Name>B</Name>
+	<Parent>Activity</Parent>
+	</Candidate>
+
+	-<Candidate>
+	<Name>C</Name>
+	<Parent>Activity</Parent>
+	</Candidate>
