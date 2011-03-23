@@ -8,16 +8,18 @@
 #include "Distribution.h"
 #include "Datapoint.h"
 
+class RatingMovingAverage;
+
 class MovingAverage
 {
 public:
 	MovingAverage(void);
 	virtual Distribution getValueAt(DateTime when, bool strictlyEarlier);
-	std::vector<Datapoint> getCorrelationsFor(MovingAverage& other, DateTime startTime);
-	DateTime getLatestRatingDate(void);
+	std::vector<Datapoint> getCorrelationsFor(RatingMovingAverage& other, DateTime startTime);
+	//DateTime getLatestRatingDate(void);
 	void setName(Name newName);
 	Name getName(void);
-	int getNumRatings(void);
+	//int getNumRatings(void);
 //protected:
 	//void assignRating(Rating newRating);
 private:

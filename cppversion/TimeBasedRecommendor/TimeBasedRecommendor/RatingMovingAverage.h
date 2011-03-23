@@ -10,9 +10,13 @@ public:
 	RatingMovingAverage();
 	void addRating(Rating rating);
 	//double getLatestValue(void);
-	Distribution getValueAt(DateTime when) override;
+	Distribution getValueAt(DateTime when, bool strictlyEarlier);
+	const std::vector<Rating>& getRatings(void);
+	int getNumRatings(void);
+	DateTime getLatestRatingDate(void);
 private:
 	int getIndexForDate(DateTime when, bool strictlyEarlier);
+	std::vector<Rating> ratings;
 	std::vector<Rating> sumRatings;
 	std::vector<Rating> sumSquaredRatings;
 };

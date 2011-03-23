@@ -63,16 +63,16 @@ void ParticipationMovingAverage::addParticipationInterval(Participation interval
 }
 
 // find the most recent participation that was started before "when"
-int Participation::getIndexForDate(DateTime when, bool strictlyEarlier)
+int ParticipationMovingAverage::getIndexForDate(DateTime when, bool strictlyEarlier)
 {
 	if (this->totalIntensities.size() < 1)
 		return -1;
-	if (strictlyChronologicallyOrdered(when, this->totalIntensities.front()))
+	if (strictlyChronologicallyOrdered(when, this->totalIntensities.front().getStartTime()))
 		return -1;
 	// If there are participations then we binary search for the most recent one
 	int lowerIndex, upperIndex, middleIndex;
 	lowerIndex = 0;
-	upperIndex = this->ratings.size() - 1;
+	upperIndex = this->totalIntensities.size() - 1;
 	if (strictlyEarlier)
 	{
 		// find the most recent participation that was started strictly before "when"
@@ -145,11 +145,11 @@ double ParticipationMovingAverage::getTotalIntensityThroughDate(DateTime when)
 Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	// If there are no ratings then we default to 0
-	if (this->getNumRatings() == 0)
+	if (this->totalIntensities.size() < 1)
 		return Distribution(0, 0, 0);
 	// If the time is before the first one then we default to 0
-	Participation firstParticipation = ratings.front();
-	if (!strictlyChronologicallyOrdered(firstRating.getDate(), when))
+	Participation firstParticipation = this->totalIntensities.front();
+	if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when))
 		return Distribution(0, 0, 0);
 	/*// If the time is after the last one, then compute the exponential decay towards zero
 	Rating lastRating = ratings.back();

@@ -1,9 +1,10 @@
 #include "stdafx.h"
+#include "Math.h"
 #include "RatingMovingAverage.h"
 
 RatingMovingAverage::RatingMovingAverage()
 {
-	this->weightOfOldRatings = 0;
+	//this->weightOfOldRatings = 0;
 }
 void RatingMovingAverage::addRating(Rating rating)
 {
@@ -12,7 +13,7 @@ void RatingMovingAverage::addRating(Rating rating)
 	double totalScore, totalWeight, totalSquaredScore;
 	if (this->sumRatings.size() > 0)
 	{
-		Rating sumRating = this->sumRatings.back();
+		Rating lastRating = this->sumRatings.back();
 		totalScore = lastRating.getScore();
 		totalWeight = lastRating.getWeight();
 		Rating sumSquaredRating = this->sumSquaredRatings.back();
@@ -37,8 +38,10 @@ void RatingMovingAverage::addRating(Rating rating)
 	Rating newSquaredRating;
 	newSquaredRating.setScore(newTotalSquaredScore);
 	newSquaredRating.setWeight(newTotalWeight);
-	newSquaredRating.setdate(rating.getDate());
+	newSquaredRating.setDate(rating.getDate());
 	this->sumSquaredRatings.push_back(newSquaredRating);
+	// also save the rating itself
+	this->ratings.push_back(rating);
 #else
 	// get the current score
 	DateTime date = rating.getDate();
@@ -58,65 +61,31 @@ void RatingMovingAverage::addRating(Rating rating)
 	this->assignRating(newAverage);
 #endif
 }
-int RatingMovingAverage::getIndexForDate(DateTime when, bool strictlyEarlier)
-{
-	if (this->sumRatings.size() < 1)
-		return -1;
-	// binary search for the indicated date
-	int lowerIndex, upperIndex, middleIndex;
-	lowerIndex = 0;
-	upperIndex = this->ratings.size() - 1;
-	while (upperIndex > lowerIndex + 1)
-	{
-		middleIndex = (lowerIndex + upperIndex) / 2;
-		if (strictlyChronologicallyOrdered(ratings[middleIndex].getDate(), when))
-		{
-			lowerIndex = middleIndex;
-		}
-		else
-		{
-			upperIndex = middleIndex;
-		}
-	}
-	//cout << "lowerIndex = " << lowerIndex << endl;
-	//cout << "upperIndex = " << upperIndex << endl;
-	// Once we get here, we've found the next and previous rating
-	// Now we'll do an exponential interpolation
-	Rating previousRating = ratings[lowerIndex];
-	Rating nextRating = ratings[upperIndex];
-	// figure out whether we can use the rating at that time or if we have to use the rating just before it
-	if (!strictlyEarlier)
-	{
-		if (strictlyChronologicallyOrdered(when, nextRating.getDate()))
-			return upperIndex;
-	}
-	return lowerIndex;
-}
 
 Distribution RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	// If there are no ratings then we default to 0
-	if (this->ratings.size() == 0)
+	if (this->sumRatings.size() == 0)
 		return Distribution(0, 0, 0);
 	// If the time is before the first one then default to 0
-	Rating firstRating = ratings.front();
+	Rating firstRating = sumRatings.front();
 	if (strictlyChronologicallyOrdered(when, firstRating.getDate()))
 		return Distribution(0, 0, 0);
 	// find the sum of the ratings up to "when"
 	int latestRatingIndex = this->getIndexForDate(when, strictlyEarlier);
 	DateTime latestRatingDate = this->sumRatings[latestRatingIndex].getDate();
 	// compute the date twice as far in the past as the latest rating date and get its index
-	double duration = latestSumScore.timeUntil(when);
+	double duration = latestRatingDate.timeUntil(when);
 	DateTime oldestRatingDate = latestRatingDate.datePlusDuration(-duration);
 	int earliestRatingIndex = this->getIndexForDate(oldestRatingDate, true);
 	// compure the distribution of ratings from between the two dates
 	Rating latestSumRating = this->sumRatings[latestRatingIndex];
 	Rating latestSumSquaredRating = this->sumSquaredRatings[latestRatingIndex];
-	Rating earliestRating = this->sumRatings[earliestRatingIndex];
-	Rating earliestSquaredRating = this->sumSquaredRatings[earliestRatingIndex];
+	Rating earliestSumRating = this->sumRatings[earliestRatingIndex];
+	Rating earliestSumSquaredRating = this->sumSquaredRatings[earliestRatingIndex];
 	double sumY, sumY2, sumWeight;
 	// check whether to include the first point or not
-	if (strictlyChronologicalyOrdered(oldestRatingDate, this->sumRatings.front()))
+	if (strictlyChronologicallyOrdered(oldestRatingDate, this->sumRatings.front().getDate()))
 	{
 		sumY = latestSumRating.getScore();
 		sumY2 = latestSumSquaredRating.getScore();
@@ -130,7 +99,54 @@ Distribution RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier
 	}
 	// compute average, standard deviation, and number of points
 	double average = sumY / sumWeight;
-	double stdDev = Math::Sqrt((sumY2 - sumY * sumY / sumWeight) / sumWeight);
+	double stdDev = sqrt((sumY2 - sumY * sumY / sumWeight) / sumWeight);
 	Distribution result(average, stdDev, sumWeight);
 	return result;
+}
+const std::vector<Rating>& RatingMovingAverage::getRatings(void)
+{
+	return this->ratings;
+}
+int RatingMovingAverage::getNumRatings(void)
+{
+	return (int)this->sumRatings.size();
+}
+DateTime RatingMovingAverage::getLatestRatingDate(void)
+{
+	return this->sumRatings.back().getDate();
+}
+
+int RatingMovingAverage::getIndexForDate(DateTime when, bool strictlyEarlier)
+{
+	if (this->sumRatings.size() < 1)
+		return -1;
+	// binary search for the indicated date
+	int lowerIndex, upperIndex, middleIndex;
+	lowerIndex = 0;
+	upperIndex = this->sumRatings.size() - 1;
+	while (upperIndex > lowerIndex + 1)
+	{
+		middleIndex = (lowerIndex + upperIndex) / 2;
+		if (strictlyChronologicallyOrdered(this->sumRatings[middleIndex].getDate(), when))
+		{
+			lowerIndex = middleIndex;
+		}
+		else
+		{
+			upperIndex = middleIndex;
+		}
+	}
+	//cout << "lowerIndex = " << lowerIndex << endl;
+	//cout << "upperIndex = " << upperIndex << endl;
+	// Once we get here, we've found the next and previous rating
+	// Now we'll do an exponential interpolation
+	Rating previousRating = this->sumRatings[lowerIndex];
+	Rating nextRating = this->sumRatings[upperIndex];
+	// figure out whether we can use the rating at that time or if we have to use the rating just before it
+	if (!strictlyEarlier)
+	{
+		if (strictlyChronologicallyOrdered(when, nextRating.getDate()))
+			return upperIndex;
+	}
+	return lowerIndex;
 }

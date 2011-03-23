@@ -16,12 +16,11 @@ DateTime::DateTime(string yyyymmddhhmmss)
 }
 DateTime DateTime::datePlusDuration(double numSeconds)
 {
-	DateTime result()
-	result.value = (int)(this.value + numSeconds);
+	DateTime result;
+	result.value = (int)(this->value + numSeconds);
 	if (this->timeUntil(result) != numSeconds)
 		cout << "date addition error" << endl;
-	else
-		return result;
+	return result;
 }
 
 

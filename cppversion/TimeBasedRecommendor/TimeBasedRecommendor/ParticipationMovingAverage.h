@@ -9,7 +9,7 @@ public:
 	ParticipationMovingAverage();
 	void addParticipationInterval(Participation interval);
 	//void setHalfLife(double newHalfLife);
-	Distribution getValueAt(DateTime when, bool strictlyEarlier) override;
+	Distribution getValueAt(DateTime when, bool strictlyEarlier);
 private:
 	int getIndexForDate(DateTime when, bool strictlyEarlier);
 	double getTotalIntensityThroughDate(DateTime when);

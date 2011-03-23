@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MovingAverage.h"
+#include "RatingMovingAverage.h"
 #include "Math.h"
 #include <iostream>
 
@@ -74,15 +75,16 @@ Distribution MovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	this->weightOfOldRatings = weightForOldRatings;
 }*/
-vector<Datapoint> MovingAverage::getCorrelationsFor(MovingAverage& other, DateTime startTime)
+vector<Datapoint> MovingAverage::getCorrelationsFor(RatingMovingAverage& other, DateTime startTime)
 {
 	//cout << "getting correlations" << endl;
 	int i;
+	std::vector<Rating> otherRatings = other.getRatings();
 	// first find the starting index
-	for (i = other.ratings.size() - 1; i >= 0; i--)
+	for (i = otherRatings.size() - 1; i >= 0; i--)
 	{
 		//cout << "i = " << i << endl;
-		if (strictlyChronologicallyOrdered(other.ratings[i].getDate(), startTime))
+		if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
 			break;
 		//cout << "test= " << other.ratings[i].getDate().stringVersion() << " start= " << startTime.stringVersion() << endl;
 	}
@@ -100,14 +102,17 @@ vector<Datapoint> MovingAverage::getCorrelationsFor(MovingAverage& other, DateTi
 
 	cout << "interpolations = " << endl;
 	*/
-	for (i = startingIndex; i < (int)other.ratings.size(); i++)
+	// This should be improved eventually.
+	// We should give the deviation of each point to the scatterplot in some meaningful way
+	for (i = startingIndex; i < (int)otherRatings.size(); i++)
 	{
 		//cout << "i = " << i << endl;
-		x = this->getValueAt(other.ratings[i].getDate(), true);
+		Distribution distribution = this->getValueAt(otherRatings[i].getDate(), true);
+		x = distribution.getMean();
 		//cout << "(x = " << x;
-		y = other.ratings[i].getScore();
+		y = otherRatings[i].getScore();
 		//cout << ", y = " << y << "), ";
-		weight = other.ratings[i].getWeight();
+		weight = otherRatings[i].getWeight();
 		//if (weight != 1)
 		//	cout << "weight is " << weight << endl;
 		results.push_back(Datapoint(x, y, weight));
@@ -117,10 +122,10 @@ vector<Datapoint> MovingAverage::getCorrelationsFor(MovingAverage& other, DateTi
 	return results;
 }
 
-DateTime MovingAverage::getLatestRatingDate(void)
+/*DateTime MovingAverage::getLatestRatingDate(void)
 {
 	return this->ratings.back().getDate();
-}
+}*/
 void MovingAverage::setName(Name newName)
 {
 	name = newName;
@@ -134,11 +139,12 @@ Name MovingAverage::getName(void)
 		return Name("Unknown name - no ratings yet");
 	*/
 }
-int MovingAverage::getNumRatings(void)
+/*int MovingAverage::getNumRatings(void)
 {
 	return ratings.size();
-}
-void MovingAverage::assignRating(Rating newRating)
+}*/
+/*void MovingAverage::assignRating(Rating newRating)
 {
 	this->ratings.push_back(newRating);
 }
+*/

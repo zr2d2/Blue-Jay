@@ -2,6 +2,7 @@
 #include "PredictionLink.h"
 #include <vector>
 #include <iostream>
+#include "Math.h"
 using namespace std;
 
 PredictionLink::PredictionLink(void)
@@ -32,15 +33,22 @@ void PredictionLink::update(void)
 			this->plot.addDataPoint(newPoints[i]);
 		}
 		// update the latest update time
-		this->latestUpdateTime = this->outputData->getLatestRatingDate();		
+		this->latestUpdateTime = this->outputData->getLatestRatingDate();
 	}
 }
 
 Distribution PredictionLink::guess(void)
 {
 	DateTime when = this->outputData->getLatestRatingDate();
-	double x = this->inputData->getValueAt(when, false);
-	return this->plot.predict(x);
+	Distribution input = this->inputData->getValueAt(when, false);
+	Distribution middle = this->plot.predict(input.getMean());
+	Distribution rightOneStdDev = this->plot.predict(input.getMean() + input.getStdDev());
+	Distribution leftOneStdDev = this->plot.predict(input.getMean() - input.getStdDev());
+	double stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2;
+	double stdDevB = middle.getStdDev();
+	double stdDev = sqrt(stdDevA * stdDevA + stdDevB * stdDevB);
+	Distribution result(middle.getMean(), stdDev, this->outputData->getNumRatings());
+	return result;
 }
 /*Distribution PredictionLink::guess(DateTime when)
 {

@@ -46,7 +46,7 @@ void Candidate::giveParticipation(Participation participation)
 {
 	unsigned int i;
 	// update the moving averages of the frequencies
-	if (numRatings > 0)
+	/*if (numRatings > 0)
 	{
 		// keep track of the interval of inactivity between the previous and current rating intervals
 		Participation idleTime;
@@ -63,10 +63,10 @@ void Candidate::giveParticipation(Participation participation)
 	Participation activeTime;
 	activeTime.setStartTime(participation.getStartTime());
 	activeTime.setEndTime(participation.getEndTime());
-	activeTime.setIntensity(1);
+	activeTime.setIntensity(1);*/
 	for (i = 0; i < this->frequencyEstimators.size(); i++)
 	{
-		frequencyEstimators[i].rateInterval(activeTime);
+		frequencyEstimators[i].addParticipationInterval(participation);
 	}
 	numRatings++;
 	latestRatingTime = participation.getEndTime();
@@ -110,17 +110,17 @@ void Candidate::initialize(void)
 	this->frequencyEstimators.resize(numAverages);
 	for (i = 0; i < numAverages; i++)
 	{
-		frequencyEstimators[i].setHalfLife(currentHalfLife);
+		//frequencyEstimators[i].setHalfLife(currentHalfLife);
 		frequencyEstimators[i].setName(Name(this->name.getName() + " (halfLives)"));
 		currentHalfLife *= 4;
 	}
 	for (i = 0; i < numAverages; i++)
 	{
-		ratingEstimators[i].setWeightForOldRatings(weightForOldRatings);
+		//ratingEstimators[i].setWeightForOldRatings(weightForOldRatings);
 		ratingEstimators[i].setName(Name(this->name.getName() + " (ratings)"));
 		//weightForOldRatings *= 2;
 		weightForOldRatings *= 4;
 	}
 	this->actualRatingHistory.setName(Name(this->name.getName() + " actual "));
-	this->actualRatingHistory.setWeightForOldRatings(0);
+	//this->actualRatingHistory.setWeightForOldRatings(0);
 }
