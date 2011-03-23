@@ -471,7 +471,9 @@ double TimeBasedRecommendor::rateCandidateWithName(Name name)
 	message(name.getName());
 	message("\r\n");
 	Candidate* candidate = this->getCandidateWithName(name);
-	return this->rateCandidate(candidate);
+	double rating = this->rateCandidate(candidate);
+	message("done rating candidate\r\n");
+	return rating;
 }
 double TimeBasedRecommendor::rateCandidate(Candidate* candidate)
 {

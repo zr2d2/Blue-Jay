@@ -106,15 +106,15 @@ vector<Datapoint> MovingAverage::getCorrelationsFor(RatingMovingAverage& other, 
 	// We should give the deviation of each point to the scatterplot in some meaningful way
 	for (i = startingIndex; i < (int)otherRatings.size(); i++)
 	{
-		//cout << "i = " << i << endl;
+		cout << "i = " << i << endl;
 		Distribution distribution = this->getValueAt(otherRatings[i].getDate(), true);
 		x = distribution.getMean();
-		//cout << "(x = " << x;
+		cout << "(x = " << x;
 		y = otherRatings[i].getScore();
-		//cout << ", y = " << y << "), ";
+		cout << ", y = " << y << "), ";
 		weight = otherRatings[i].getWeight();
 		//if (weight != 1)
-		//	cout << "weight is " << weight << endl;
+		cout << "weight = " << weight << endl;
 		results.push_back(Datapoint(x, y, weight));
 	}
 	//cout << endl;

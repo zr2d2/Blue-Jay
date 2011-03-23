@@ -69,47 +69,41 @@ int ParticipationMovingAverage::getIndexForDate(DateTime when, bool strictlyEarl
 		return -1;
 	if (strictlyChronologicallyOrdered(when, this->totalIntensities.front().getStartTime()))
 		return -1;
+	if (strictlyChronologicallyOrdered(this->totalIntensities.back().getStartTime(), when))
+		return this->totalIntensities.size() - 1;
 	// If there are participations then we binary search for the most recent one
 	int lowerIndex, upperIndex, middleIndex;
 	lowerIndex = 0;
 	upperIndex = this->totalIntensities.size() - 1;
+	// find the most recent participation that was started strictly before "when"
+	while (upperIndex > lowerIndex + 1)
+	{
+		middleIndex = (lowerIndex + upperIndex) / 2;
+		if (strictlyChronologicallyOrdered(this->totalIntensities[middleIndex].getStartTime(), when))
+		{
+			lowerIndex = middleIndex;
+		}
+		else
+		{
+			upperIndex = middleIndex;
+		}
+	}
 	if (strictlyEarlier)
 	{
-		// find the most recent participation that was started strictly before "when"
-		while (upperIndex > lowerIndex)
-		{
-			middleIndex = (lowerIndex + upperIndex) / 2;
-			if (strictlyChronologicallyOrdered(when, this->totalIntensities[middleIndex].getStartTime()))
-			{
-				upperIndex = middleIndex;
-			}
-			else
-			{
-				lowerIndex = middleIndex;
-			}
-		}
+		return lowerIndex;
 	}
 	else
 	{
-		// find the most recent participation that was started at or before "when"
-		while (upperIndex > lowerIndex)
-		{
-			middleIndex = (lowerIndex + upperIndex) / 2;
-			if (strictlyChronologicallyOrdered(this->totalIntensities[middleIndex].getStartTime(), when))
-			{
-				lowerIndex = middleIndex;
-			}
-			else
-			{
-				upperIndex = middleIndex;
-			}
-		}
+		if (strictlyChronologicallyOrdered(when, totalIntensities[upperIndex].getStartTime()))
+			return lowerIndex;
+		else
+			return upperIndex;
 	}
-	return middleIndex;
 }
 double ParticipationMovingAverage::getTotalIntensityThroughDate(DateTime when)
 {
 	int index = this->getIndexForDate(when, true);
+	cout << "intensity index = " << endl;
 	if (index < 0)
 		return 0;
 	Participation mostRecentParticipation = this->totalIntensities[index];
@@ -167,6 +161,7 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 	double duration = mostRecentDate.timeUntil(when);
 	DateTime startDate = mostRecentDate.datePlusDuration(-duration);
 	double totalIntensity = this->getTotalIntensityThroughDate(mostRecentDate) - this->getTotalIntensityThroughDate(startDate);
+	cout << "total intensity = " << totalIntensity << endl;
 	double totalDuration = mostRecentDate.timeUntil(when);
 	double averageIntensity;
 	if (totalDuration > 0)
@@ -178,6 +173,7 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 		averageIntensity = 1;
 	}
 	Distribution result(averageIntensity, 0, 1);
+	return result;
 	//cout << "lowerIndex = " << lowerIndex << endl;
 	//cout << "upperIndex = " << upperIndex << endl;
 	// Once we get here, we've found the next and previous rating

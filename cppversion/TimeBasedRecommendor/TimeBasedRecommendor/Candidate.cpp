@@ -95,6 +95,7 @@ RatingMovingAverage* Candidate::getActualRatingHistory(void)
 void Candidate::initialize(void)
 {
 	numRatings = 0;
+	/*
 #ifdef LONG_SCALE
 	// Setup a bunch of moving averages with durations from 15 min to about 4 years
 	double currentHalfLife = 900;
@@ -102,24 +103,25 @@ void Candidate::initialize(void)
 	// setup a bunch of moving averages with durations from 1 sec to about a day
 	double currentHalfLife = 1;
 #endif
+	double weightForOldRatings = 1;
+	*/
 	//const int numAverages = 9;
 	const int numAverages = 1;
 	int i;
-	double weightForOldRatings = 1;
 	this->ratingEstimators.resize(numAverages);
 	this->frequencyEstimators.resize(numAverages);
 	for (i = 0; i < numAverages; i++)
 	{
 		//frequencyEstimators[i].setHalfLife(currentHalfLife);
 		frequencyEstimators[i].setName(Name(this->name.getName() + " (halfLives)"));
-		currentHalfLife *= 4;
+		//currentHalfLife *= 4;
 	}
 	for (i = 0; i < numAverages; i++)
 	{
 		//ratingEstimators[i].setWeightForOldRatings(weightForOldRatings);
 		ratingEstimators[i].setName(Name(this->name.getName() + " (ratings)"));
 		//weightForOldRatings *= 2;
-		weightForOldRatings *= 4;
+		//weightForOldRatings *= 4;
 	}
 	this->actualRatingHistory.setName(Name(this->name.getName() + " actual "));
 	//this->actualRatingHistory.setWeightForOldRatings(0);
