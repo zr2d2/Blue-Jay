@@ -140,7 +140,7 @@ double ParticipationMovingAverage::getTotalIntensityThroughDate(DateTime when)
 Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	// stictlyEarlier is ignored in this function at the moment
-	cout << "getting value at " << when.stringVersion() << endl;
+	//cout << "getting value at " << when.stringVersion() << endl;
 	// If there are no ratings then we default to 0
 	if (this->totalIntensities.size() < 1)
 		return Distribution(0, 0, 0);
@@ -160,28 +160,21 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 
 	//int mostRecentIndex = this->getIndexForDate(when, strictlyEarlier);	
 	int mostRecentIndex = this->getIndexForDate(when, true);	
-	cout << "most recent index = " << mostRecentIndex << endl;
 	Participation mostRecentParticipation = totalIntensities[mostRecentIndex];
 	DateTime mostRecentDate = mostRecentParticipation.getStartTime();
 	//if (strictlyChronologicallyOrdered(when, mostRecentDate))
 	//	mostRecentDate = when;
-	cout << "most recent date = " << mostRecentDate.stringVersion() << endl;
 
 	double duration = mostRecentDate.timeUntil(when);
 	DateTime startDate = mostRecentDate.datePlusDuration(-duration);
-	cout << "startDate = " << startDate.stringVersion() << endl;
 
 	double postIntensity = this->getTotalIntensityThroughDate(when);
-	cout << "postIntensity = " << postIntensity << endl;
 
 	double preIntensity = this->getTotalIntensityThroughDate(startDate);
-	cout << "preIntensity = " << preIntensity << endl;
 
 	double totalIntensity = postIntensity - preIntensity;
-	cout << "total intensity = " << totalIntensity << endl;
 
 	double totalDuration = startDate.timeUntil(when);
-	cout << "totalDuration = " << totalDuration << endl;
 
 	double averageIntensity;
 	if (totalDuration > 0)
@@ -193,7 +186,16 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 		// this case should never happen
 		averageIntensity = 1;
 	}
+#if 0
+	cout << "most recent index = " << mostRecentIndex << endl;
+	cout << "most recent date = " << mostRecentDate.stringVersion() << endl;
+	cout << "startDate = " << startDate.stringVersion() << endl;
+	cout << "postIntensity = " << postIntensity << endl;
+	cout << "preIntensity = " << preIntensity << endl;
+	cout << "total intensity = " << totalIntensity << endl;
+	cout << "totalDuration = " << totalDuration << endl;
 	cout << "averageIntensity = " << averageIntensity << endl;
+#endif
 	Distribution result(averageIntensity, 0, 1);
 	return result;
 	//cout << "lowerIndex = " << lowerIndex << endl;

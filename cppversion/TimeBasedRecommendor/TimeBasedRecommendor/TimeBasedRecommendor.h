@@ -42,14 +42,16 @@ private:
 	std::vector<Candidate*> findAllSuperCategoriesOf(Candidate* candidate);
 	Candidate* getCandidateWithName(Name name);
 	PredictionLink* getLinkFromMovingAverages(MovingAverage* predictor, MovingAverage* predictee);
-	double rateCandidateWithName(Name name);
-	double rateCandidate(Candidate* candidate);
+	Distribution rateCandidateWithName(Name name, DateTime when);
+	Distribution rateCandidateByCorrelation(Candidate* candidate, DateTime when);
+	Distribution updateCandidateRatingFromParents(Candidate* candidate);
+	// other calculation functions
+	Distribution combineDistributions(std::vector<Distribution>& distributions);
 	// member variables
 	std::map<Name, std::vector<Name>* > candidatesParents;	// given the name of a candidate, get the names of all its parents
 	std::map<Name, Candidate> candidates;					// given the name of the candidate, return the candidate
 	std::set<Rating, RatingPrecedes> ratings;				// the set of all ratings, sorted chronologically
 	std::set<Participation, ParticipationPrecedes> participations;		// the set of all participations, sorted chronologically
-	//std::map<Name, MovingAverage*> movingAverages;		// given a candidate, get the associated moving averages
 	// given the MovingAverage to predict and then the MovingAverage to predict from, this gives the appropriate PredictionLink
 	std::map<MovingAverage*, std::map<MovingAverage*, PredictionLink> > predictionLinks;
 	int numHalfLives;

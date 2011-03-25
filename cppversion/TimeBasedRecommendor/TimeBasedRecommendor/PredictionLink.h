@@ -12,8 +12,8 @@ public:
 	PredictionLink(void);
 	PredictionLink(MovingAverage* input, RatingMovingAverage* output);
 	void update(void);
-	Distribution guess(void);
-	//Distribution guess(DateTime when);
+	//Distribution guess(void);
+	Distribution guess(DateTime when);
 private:
 	MovingAverage* inputData;
 	RatingMovingAverage* outputData;

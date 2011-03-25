@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "Distribution.h"
+Distribution::Distribution(void)
+{
+	this->mean = this->standardDeviation = this->weight = 0;
+}
 Distribution::Distribution(double average, double stdDev, double relativeWeight)
 {
 	this->mean = average;

@@ -5,6 +5,7 @@
 #include "TimeBasedRecommendor.h"
 #include "Candidate.h"
 #include "Rating.h"
+#include "Math.h"
 
 using namespace std;
 
@@ -37,7 +38,10 @@ void TimeBasedRecommendor::parseArguments(ArgumentList* arguments)
 		{
 			i++;
 			char* candidateName = arguments->getArgument(i);
-			this->rateCandidateWithName(Name(candidateName));
+			i++;
+			char* dateString = arguments->getArgument(i);
+			DateTime when = DateTime(dateString);
+			this->rateCandidateWithName(Name(candidateName), when);
 			continue;
 		}
 	}
@@ -271,7 +275,7 @@ void TimeBasedRecommendor::addParticipationAndCascade(Participation newParticipa
 // gives the rating to the candidate and all its supercategories
 void TimeBasedRecommendor::addRatingAndCascade(Rating newRating)
 {
-	message("cascading rating ");
+	//message("cascading rating ");
 	this->printRating(&newRating);
 	message("\r\n");
 	Candidate* candidate = this->getCandidateWithName(newRating.getActivity());
@@ -465,25 +469,29 @@ PredictionLink* TimeBasedRecommendor::getLinkFromMovingAverages(MovingAverage* p
 	std::map<MovingAverage*, PredictionLink> links = this->predictionLinks[predictor];
 	return &(links[predictee]);
 }
-double TimeBasedRecommendor::rateCandidateWithName(Name name)
+Distribution TimeBasedRecommendor::rateCandidateWithName(Name name, DateTime when)
 {
 	message("rating candidate with name: ");
 	message(name.getName());
 	message("\r\n");
 	Candidate* candidate = this->getCandidateWithName(name);
-	double rating = this->rateCandidate(candidate);
+	Distribution rating = this->rateCandidateByCorrelation(candidate, when);
 	message("done rating candidate\r\n");
 	return rating;
 }
-double TimeBasedRecommendor::rateCandidate(Candidate* candidate)
+// compute the rating for the candidate using all of the relevant prediction links (predicting based on other moving averages)
+Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candidate, DateTime when)
 {
+	// get some pointers to the relevant data and initialize
 	MovingAverage* shortTermAverage = candidate->getActualRatingHistory();
 	map<MovingAverage*, PredictionLink>& links = predictionLinks[shortTermAverage];
 	map<MovingAverage*, PredictionLink>::iterator mapIterator;
 	PredictionLink* currentLink;
-	Distribution* guess;
 	Name predictorName, predicteeName;
 	predicteeName = candidate->getName();
+	vector<Distribution> guesses;
+	Distribution* currentGuess = NULL;
+	// iterate over all relevant prediction links
 	for (mapIterator = links.begin(); mapIterator != links.end(); mapIterator++)
 	{
 		currentLink = &((*mapIterator).second);
@@ -493,12 +501,110 @@ double TimeBasedRecommendor::rateCandidate(Candidate* candidate)
 		message(" from ");
 		message(predictorName.getName());
 		message("\r\n");
-		guess = &(currentLink->guess());
-		this->printDistribution(guess);
+		currentGuess = &(currentLink->guess(when));
+		this->printDistribution(currentGuess);
+		guesses.push_back(*currentGuess);
 	}
-	return 0;
-	//return guess->getMean();
+	Distribution guess = this->combineDistributions(guesses);
+	candidate->setCurrentRating(guess);
+	return guess;
 }
+// Using the current estimated rating for the candidate and the estimates for parents, compute an updated rating for the candidate
+Distribution updateCandidateRatingFromParents(Candidate* candidate)
+{
+	// THIS FUNCTION IS NOT FINISHED YET
+	return candidate->getCurrentRating();
+}
+
+// compute the distribution that is formed by combining the given distributions
+Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution>& distributions)
+{
+	// initialization
+	double sumY = 0;
+	double sumY2 = 0;
+	double sumWeight = 0;	// the sum of the weights that we calculate, which we use to normalize
+	bool stdDevIsZero = false;
+	double sumVariance = 0;	// variance is another name for standard deviation squared
+	double n = 0;			// the sum of the given weights, which we use to assign a weight to our guess
+	double weight;
+	double y;
+	double stdDev;
+	message("Combining distributions");
+	message("\r\n");
+	unsigned int i;
+	Distribution* currentDistribution = NULL;
+	// iterate over each distribution and weight them according to their given weights and standard deviations
+	for (i = 0; i < distributions.size(); i++)
+	{
+		currentDistribution = &(distributions[i]);
+		message("mean = ");
+		message(currentDistribution->getMean());
+		message(" stdDev = ");
+		message(currentDistribution->getStdDev());
+		message(" weight = ");
+		message(currentDistribution->getWeight());
+		message("\r\n");
+		//this->printDistribution(currentDistribution);
+		stdDev = currentDistribution->getStdDev();
+		// only consider nonempty distributions
+		if (currentDistribution->getWeight() > 0)
+		{
+			// If the standard deviation of any distribution is zero, then compute the average of only distributions with zero standard deviation
+			if (stdDev == 0)
+			{
+				if (!stdDevIsZero)
+				{
+					stdDevIsZero = true;
+					sumVariance = 0;
+					sumY = sumY2 = 0;
+					n = sumWeight = 0;
+				}
+			}
+			// Figure out whether we care about this distribution or not
+			if ((stdDev == 0) || (!stdDevIsZero))
+			{
+				// get the values from the distribution
+				y = currentDistribution->getMean();
+				if (stdDev == 0)
+				{
+					// If stddev is zero, then just use the given weight
+					weight = currentDistribution->getWeight();
+				}
+				else
+				{
+					// If stddev is nonzero then weight based on both the stddev and the given weight
+					weight = currentDistribution->getWeight() / stdDev;
+				}
+				// add to the running totals
+				sumY += y * weight;
+				sumY2 += y * y * weight;
+				sumWeight += weight;
+				sumVariance += stdDev * stdDev * weight;
+				n += currentDistribution->getWeight();
+			}
+		}
+	}
+	Distribution result;
+	if (sumWeight == 0)
+	{
+		// If we have no data then just make something up and report that we don't know
+		result = Distribution(0, 0, 0);
+	}
+	else
+	{
+		// If we did have a distribution to predict from then we can calculate the average and standard deviations
+		double average = sumY / sumWeight;
+		double variance1 = (sumY2 - sumY * sumY / sumWeight) / sumWeight;
+		double variance2 = sumVariance / sumWeight;
+		stdDev = sqrt(variance1 + variance2);
+		result = Distribution(average, stdDev, n);
+	}
+	message("resultant distribution = ");
+	this->printDistribution(&result);
+	message("\r\n");
+	return result;
+}
+
 
 // print functions
 void TimeBasedRecommendor::message(string& text) const

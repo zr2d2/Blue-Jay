@@ -91,6 +91,14 @@ RatingMovingAverage* Candidate::getActualRatingHistory(void)
 {
 	return &(this->actualRatingHistory);
 }
+Distribution Candidate::getCurrentRating(void)
+{
+	return this->currentRating;
+}
+void Candidate::setCurrentRating(Distribution value)
+{
+	this->currentRating = value;
+}
 
 void Candidate::initialize(void)
 {

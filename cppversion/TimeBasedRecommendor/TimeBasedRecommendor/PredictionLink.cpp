@@ -37,18 +37,20 @@ void PredictionLink::update(void)
 	}
 }
 
-Distribution PredictionLink::guess(void)
+Distribution PredictionLink::guess(DateTime when)
 {
 	cout << "PredictionLink::guess" << endl;
-	DateTime when = this->outputData->getLatestRatingDate();
-	cout << " latest rating date = " << when.stringVersion() << endl;
+	//DateTime when = this->outputData->getLatestRatingDate();
+	//cout << " latest rating date = " << when.stringVersion() << endl;
 	Distribution input = this->inputData->getValueAt(when, false);
 	Distribution middle = this->plot.predict(input.getMean());
 	cout << endl;
-	return middle;
+	//return middle;
 	cout << "middle=" << middle.getMean();
-	Distribution rightOneStdDev = this->plot.predict(input.getMean() + input.getStdDev());
 	Distribution leftOneStdDev = this->plot.predict(input.getMean() - input.getStdDev());
+	cout << "left = " << leftOneStdDev.getMean();
+	Distribution rightOneStdDev = this->plot.predict(input.getMean() + input.getStdDev());
+	cout << "right = " << rightOneStdDev.getMean();
 	double stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2;
 	double stdDevB = middle.getStdDev();
 	double stdDev = sqrt(stdDevA * stdDevA + stdDevB * stdDevB);

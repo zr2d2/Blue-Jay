@@ -24,6 +24,8 @@ public:
 	int getNumFrequencyEstimators(void);
 	ParticipationMovingAverage* getFrequencyEstimatorAtIndex(int index);
 	RatingMovingAverage* getActualRatingHistory(void);
+	Distribution getCurrentRating(void);
+	void setCurrentRating(Distribution value);
 private:
 	void initialize(void);
 	Name name;
@@ -33,6 +35,7 @@ private:
 	RatingMovingAverage actualRatingHistory;
 	int numRatings;
 	DateTime latestRatingTime;
+	Distribution currentRating;
 };
 
 #endif

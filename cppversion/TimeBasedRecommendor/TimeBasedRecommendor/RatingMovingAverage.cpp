@@ -81,10 +81,12 @@ Distribution RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier
 	double duration = latestRatingDate.timeUntil(when);
 	DateTime oldestRatingDate = latestRatingDate.datePlusDuration(-duration);
 	int earliestRatingIndex = this->getIndexForDate(oldestRatingDate, true);
+#if 0
 	cout << "earliestRatingIndex = " << earliestRatingIndex;
 	cout << "actual early rating date = " << this->sumRatings[earliestRatingIndex].getDate().stringVersion() << endl;
 	cout << "latestRatingIndex = " << latestRatingIndex;
 	cout << "actual late rating date = " << this->sumRatings[latestRatingIndex].getDate().stringVersion() << endl;
+#endif
 	// compure the distribution of ratings from between the two dates
 	Rating latestSumRating = this->sumRatings[latestRatingIndex];
 	Rating latestSumSquaredRating = this->sumSquaredRatings[latestRatingIndex];
@@ -94,19 +96,19 @@ Distribution RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier
 	// check whether to include the first point or not
 	if (strictlyChronologicallyOrdered(oldestRatingDate, this->sumRatings.front().getDate()))
 	{
-		cout << "oldest rating used is before the oldest rating ";
+		//cout << "oldest rating used is before the oldest rating ";
 		sumY = latestSumRating.getScore();
 		sumY2 = latestSumSquaredRating.getScore();
 		sumWeight = latestSumRating.getWeight();
 	}
 	else
 	{
-		cout << "oldest rating used is after the oldest rating ";
+		//cout << "oldest rating used is after the oldest rating ";
 		sumY = latestSumRating.getScore() - earliestSumRating.getScore();
 		sumY2 = latestSumSquaredRating.getScore() - earliestSumSquaredRating.getScore();
 		sumWeight = latestSumSquaredRating.getWeight() - earliestSumSquaredRating.getWeight();
 	}
-	cout << "sumWeight = " << sumWeight;
+	//cout << "sumWeight = " << sumWeight;
 	// compute average, standard deviation, and number of points
 	double average = sumY / sumWeight;
 	double stdDev = sqrt((sumY2 - sumY * sumY / sumWeight) / sumWeight);

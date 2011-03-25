@@ -4,6 +4,7 @@
 class Distribution
 {
 public:
+	Distribution(void);
 	Distribution(double average, double stdDev, double relativeWeight);
 	double getMean(void);
 	double getStdDev(void);

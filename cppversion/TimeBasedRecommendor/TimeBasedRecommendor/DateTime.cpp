@@ -8,6 +8,7 @@
 using namespace std;
 DateTime::DateTime(void)
 {
+	//this->setComponents("1970-01-00T00:00:00");
 	time(&(this->value));
 }
 DateTime::DateTime(string yyyymmddhhmmss)

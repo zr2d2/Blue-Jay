@@ -24,6 +24,7 @@ void ScatterPlot::addDataPoint(Datapoint& datapoint)
 	this->datapoints[i] = datapoint;
 	//cout << "ScatterPlot done adding a datapoint" << endl;
 }
+// Find the N closest points to x, where N is the square root of the number of points in the plot
 Distribution ScatterPlot::predict(double x)
 {
 	cout << "ScatterPlot predicting with " << this->datapoints.size() << " datapoints and x= " << x << endl;
@@ -43,16 +44,39 @@ Distribution ScatterPlot::predict(double x)
 		if (datapoints[i].getX() >= x)
 			break;
 	}
+	// now search for a bunch more nearby points
 	int middleIndex = i;
-	int minIndex = middleIndex - int(sqrt((float)this->datapoints.size()) / 2);
-	if (minIndex < 0)
-		minIndex = 0;
-	int maxIndex = minIndex + int(sqrt((float)this->datapoints.size()));
-	int overshoot = maxIndex - (this->datapoints.size() - 1);
-	if (overshoot > 0)
+	int lowerIndex = middleIndex;
+	int upperIndex = middleIndex;
+	int targetLength = int(ceil(sqrt((float)this->datapoints.size()))) - 1;
+	while ((upperIndex - lowerIndex) < targetLength)
 	{
-		maxIndex -= overshoot;
-		minIndex -= overshoot;
+		if (lowerIndex > 0)
+		{
+			if (upperIndex < (int)this->datapoints.size() - 1)
+			{
+				// if we get here then both the next and previous points exist
+				// choose the next closest point to include
+				if (abs(datapoints[upperIndex + 1].getX() - x) < abs(datapoints[lowerIndex - 1].getX() - x))
+				{
+					upperIndex++;
+				}
+				else
+				{
+					lowerIndex--;
+				}
+			}
+			else
+			{
+				// if we get here then there is no next point. So choose the remaining lower points
+				lowerIndex = upperIndex - targetLength;
+			}
+		}
+		else
+		{
+			// if we get here then there is no previous point. So choose the remaining upper points
+			upperIndex = lowerIndex + targetLength;
+		}
 	}
 	// Now compute the average and standard deviation of the points in this interval
 	double sumY = 0;
@@ -60,7 +84,7 @@ Distribution ScatterPlot::predict(double x)
 	double n = 0;
 	double weight, y;
 	cout << "selecting relevant points" << endl;
-	for (i = minIndex; i <= maxIndex; i++)
+	for (i = lowerIndex; i <= upperIndex; i++)
 	{
 		weight = this->datapoints[i].getWeight();
 		y = this->datapoints[i].getY();
