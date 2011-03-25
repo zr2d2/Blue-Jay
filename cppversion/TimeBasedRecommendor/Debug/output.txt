@@ -14,13 +14,17 @@ adding candidate named C
 parent names:
 Activity
 
+adding candidate named D
+parent names:
+Activity
+
 done reading file testInheritances.txt
 adding some test links
 updating predictions
 giving ratings to activities
 num ratings given = 0
 giving participations to activities
-creating PredictionLinksnum PredictionLinks updated = 32
+creating PredictionLinksnum PredictionLinks updated = 50
 opening file testRatings.txt
 adding rating activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
@@ -157,131 +161,99 @@ giving ratings to activities
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
 score:1.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
 score:0.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 2
 score:1.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
 score:0.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
 score:0.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 4
 score:1.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
 score:0.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
 score:1.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 6
 score:0.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
 score:1.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
 score:1.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 8
 score:0.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
 score:1.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
 score:0.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 10
 score:1.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
 score:0.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
 score:0.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 12
 score:1.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
 score:0.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
 score:1.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 14
 score:0.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
 score:1.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
 score:1.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 16
 score:0.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
 score:1.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
 score:0.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 18
 score:1.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
 score:0.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
 score:0.000000
-
 activity name:A
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 20
 score:1.000000
-
 activity name:B
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
 score:0.000000
-
 activity name:C
 date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
 score:1.000000
-
 num ratings given = 32
 giving participations to activities
 creating PredictionLinks
@@ -522,469 +494,151 @@ creating PredictionLinks
 
 
 
-num PredictionLinks updated = 32
-rating candidate with name: A
-Predicting A from A (ratings)
+num PredictionLinks updated = 50
+rating candidate with name: B
+rating candidate ActivityPredicting Activity from B (ratings)
 PredictionLink::guess
 
-ScatterPlot predicting with 10 datapoints and x= 1
-x = 0 y = 1 weight = 1
-x = 1 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 0.5 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0.5 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 0.5 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0.5 y = 1 weight = 1
-selecting relevant points
-x = 0.5 y = 1
-x = 1 y = 1
-x = 1 y = 0
-x = 1 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0.5ScatterPlot predicting with 10 datapoints and x= 1
-x = 0 y = 1 weight = 1
-x = 1 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 0.5 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0.5 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 0.5 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0.5 y = 1 weight = 1
-selecting relevant points
-x = 0.5 y = 1
-x = 1 y = 1
-x = 1 y = 0
-x = 1 y = 0
-ScatterPlot using 4 datapoints
-left = 0.5ScatterPlot predicting with 10 datapoints and x= 1
-x = 0 y = 1 weight = 1
-x = 1 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 0.5 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0.5 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 0.5 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0.5 y = 1 weight = 1
-selecting relevant points
-x = 0.5 y = 1
-x = 1 y = 1
-x = 1 y = 0
-x = 1 y = 0
-ScatterPlot using 4 datapoints
-right = 0.5
-mean:0.500000 stdDev:0.577350 weight:10.000000
-Predicting A from Activity (ratings)
-PredictionLink::guess
-
-ScatterPlot predicting with 10 datapoints and x= 0.666667
-x = 0.5 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-selecting relevant points
-x = 0.666667 y = 0
-x = 0.666667 y = 0
-x = 0.666667 y = 0
-x = 0.666667 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0ScatterPlot predicting with 10 datapoints and x= 0.195262
-x = 0.5 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-selecting relevant points
-x = 0.333333 y = 1
-x = 0.333333 y = 1
-x = 0.333333 y = 1
-x = 0.333333 y = 1
-ScatterPlot using 4 datapoints
-left = 1ScatterPlot predicting with 10 datapoints and x= 1.13807
-x = 0.5 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.666667 y = 0 weight = 1
-x = 0.333333 y = 1 weight = 1
-x = 0.333333 y = 1 weight = 1
-selecting relevant points
-x = 0.666667 y = 0
-x = 0.666667 y = 0
-x = 0.666667 y = 0
-x = 0.666667 y = 0
-ScatterPlot using 4 datapoints
-right = 0
-mean:0.000000 stdDev:0.500000 weight:10.000000
-Predicting A from Activity (halfLives)
-PredictionLink::guess
-ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-right = 0.5
-mean:0.500000 stdDev:0.577350 weight:10.000000
-Predicting A from A (halfLives)
-PredictionLink::guess
-ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-right = 0.5
-mean:0.500000 stdDev:0.577350 weight:10.000000
-Predicting A from B (ratings)
-PredictionLink::guess
-
-ScatterPlot predicting with 10 datapoints and x= 0
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 1
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 1
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 1
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-right = 0.5
-mean:0.500000 stdDev:0.577350 weight:10.000000
-Predicting A from B (halfLives)
-PredictionLink::guess
-ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-right = 0.5
-mean:0.500000 stdDev:0.577350 weight:10.000000
-Predicting A from C (ratings)
-PredictionLink::guess
-
-ScatterPlot predicting with 10 datapoints and x= 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 1 y = 0
-x = 1 y = 0
-x = 1 y = 0
-x = 1 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0ScatterPlot predicting with 10 datapoints and x= 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 1 y = 0
-x = 1 y = 0
-x = 1 y = 0
-x = 1 y = 0
-ScatterPlot using 4 datapoints
-left = 0ScatterPlot predicting with 10 datapoints and x= 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 1 y = 0 weight = 1
-x = 1 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 1 y = 0
-x = 1 y = 0
-x = 1 y = 0
-x = 1 y = 0
-ScatterPlot using 4 datapoints
-right = 0
-mean:0.000000 stdDev:0.000000 weight:10.000000
-Predicting A from C (halfLives)
-PredictionLink::guess
-ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-
-middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
-x = 0 y = 1 weight = 1
-selecting relevant points
-x = 0 y = 1
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 0
-ScatterPlot using 4 datapoints
-right = 0.5
-mean:0.500000 stdDev:0.577350 weight:10.000000
-Combining distributions
-mean = 0.500000 stdDev = 0.577350 weight = 10.000000
-mean = 0.000000 stdDev = 0.500000 weight = 10.000000
-mean = 0.500000 stdDev = 0.577350 weight = 10.000000
-mean = 0.500000 stdDev = 0.577350 weight = 10.000000
-mean = 0.500000 stdDev = 0.577350 weight = 10.000000
-mean = 0.500000 stdDev = 0.577350 weight = 10.000000
-mean = 0.000000 stdDev = 0.000000 weight = 10.000000
-mean = 0.500000 stdDev = 0.577350 weight = 10.000000
-resultant distribution = mean:0.000000 stdDev:0.000000 weight:10.000000
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.547723 weight:32.000000
 
-done rating candidate
+Predicting Activity from Activity (ratings)
+PredictionLink::guess
+
+middle=0.166667 left = 0.833333 right = 0.166667
+mean:0.166667 stdDev:0.527046 weight:32.000000
+
+Predicting Activity from Activity (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.547723 weight:32.000000
+
+Predicting Activity from A (ratings)
+PredictionLink::guess
+
+middle=0.333333 left = 0.333333 right = 0.333333
+mean:0.333333 stdDev:0.516398 weight:32.000000
+
+Predicting Activity from A (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.547723 weight:32.000000
+
+Predicting Activity from B (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.547723 weight:32.000000
+
+Predicting Activity from C (ratings)
+PredictionLink::guess
+
+middle=0.166667 left = 0.166667 right = 0.166667
+mean:0.166667 stdDev:0.408248 weight:32.000000
+
+Predicting Activity from C (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.547723 weight:32.000000
+
+Predicting Activity from D (ratings)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.547723 weight:32.000000
+
+Predicting Activity from D (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.547723 weight:32.000000
+
+Combining distributions
+mean = 0.500000 stdDev = 0.547723 weight = 32.000000
+mean = 0.166667 stdDev = 0.527046 weight = 32.000000
+mean = 0.500000 stdDev = 0.547723 weight = 32.000000
+mean = 0.333333 stdDev = 0.516398 weight = 32.000000
+mean = 0.500000 stdDev = 0.547723 weight = 32.000000
+mean = 0.500000 stdDev = 0.547723 weight = 32.000000
+mean = 0.166667 stdDev = 0.408248 weight = 32.000000
+mean = 0.500000 stdDev = 0.547723 weight = 32.000000
+mean = 0.500000 stdDev = 0.547723 weight = 32.000000
+mean = 0.500000 stdDev = 0.547723 weight = 32.000000
+resultant distribution = mean:0.407063 stdDev:0.544784 weight:320.000000
+
+rating = mean:0.407063 stdDev:0.544784 weight:320.000000
+Combining distributions
+mean = 0.407063 stdDev = 0.544784 weight = 320.000000
+resultant distribution = mean:0.407063 stdDev:0.544784 weight:320.000000
+
+rating candidate BPredicting B from B (ratings)
+PredictionLink::guess
+
+middle=0.75 left = 0.75 right = 0.75
+mean:0.750000 stdDev:0.500000 weight:11.000000
+
+Predicting B from Activity (ratings)
+PredictionLink::guess
+
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.577350 weight:11.000000
+
+Predicting B from Activity (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.577350 weight:11.000000
+
+Predicting B from A (ratings)
+PredictionLink::guess
+
+middle=0 left = 0 right = 0
+mean:0.000000 stdDev:0.000000 weight:11.000000
+
+Predicting B from A (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.577350 weight:11.000000
+
+Predicting B from B (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.577350 weight:11.000000
+
+Predicting B from C (ratings)
+PredictionLink::guess
+
+middle=0.75 left = 0.75 right = 0.75
+mean:0.750000 stdDev:0.500000 weight:11.000000
+
+Predicting B from C (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.577350 weight:11.000000
+
+Predicting B from D (ratings)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.577350 weight:11.000000
+
+Predicting B from D (participations)
+PredictionLink::guess
+middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.577350 weight:11.000000
+
+Combining distributions
+mean = 0.750000 stdDev = 0.500000 weight = 11.000000
+mean = 0.500000 stdDev = 0.577350 weight = 11.000000
+mean = 0.500000 stdDev = 0.577350 weight = 11.000000
+mean = 0.000000 stdDev = 0.000000 weight = 11.000000
+mean = 0.500000 stdDev = 0.577350 weight = 11.000000
+mean = 0.500000 stdDev = 0.577350 weight = 11.000000
+mean = 0.750000 stdDev = 0.500000 weight = 11.000000
+mean = 0.500000 stdDev = 0.577350 weight = 11.000000
+mean = 0.500000 stdDev = 0.577350 weight = 11.000000
+mean = 0.500000 stdDev = 0.577350 weight = 11.000000
+resultant distribution = mean:0.000000 stdDev:0.000000 weight:11.000000
+
+rating = mean:0.000000 stdDev:0.000000 weight:11.000000
+Combining distributions
+mean = 0.407063 stdDev = 0.544784 weight = 320.000000
+mean = 0.000000 stdDev = 0.000000 weight = 11.000000
+resultant distribution = mean:0.000000 stdDev:0.000000 weight:11.000000
+
+done rating candidate with name B

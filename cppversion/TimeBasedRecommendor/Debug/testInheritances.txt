@@ -16,3 +16,8 @@
 	<Name>C</Name>
 	<Parent>Activity</Parent>
 	</Candidate>
+
+	-<Candidate>
+	<Name>D</Name>
+	<Parent>Activity</Parent>
+	</Candidate>
