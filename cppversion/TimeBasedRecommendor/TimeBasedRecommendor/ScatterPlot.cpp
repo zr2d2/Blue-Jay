@@ -27,7 +27,9 @@ void ScatterPlot::addDataPoint(Datapoint& datapoint)
 // Find the N closest points to x, where N is the square root of the number of points in the plot
 Distribution ScatterPlot::predict(double x)
 {
+#ifdef DEBUG
 	cout << "ScatterPlot predicting with " << this->datapoints.size() << " datapoints and x= " << x << endl;
+#endif
 	// Make sure there are enough datapoints for a prediction
 	if (this->datapoints.size() < 1)
 	{
@@ -35,10 +37,12 @@ Distribution ScatterPlot::predict(double x)
 	}
 	// find the location where x belongs
 	int i;
+#ifdef DEBUG
 	for (i = 0; i < (int)this->debugHistory.size(); i++)
 	{
 		cout << "x = " << debugHistory[i].getX() << " y = " << debugHistory[i].getY() << " weight = " << debugHistory[i].getWeight() << endl;
 	}
+#endif
 	for (i = 0; i < (int)this->datapoints.size() - 1; i++)
 	{
 		if (datapoints[i].getX() >= x)
@@ -83,17 +87,23 @@ Distribution ScatterPlot::predict(double x)
 	double sumY2 = 0;
 	double n = 0;
 	double weight, y;
+#ifdef DEBUG
 	cout << "selecting relevant points" << endl;
+#endif
 	for (i = lowerIndex; i <= upperIndex; i++)
 	{
 		weight = this->datapoints[i].getWeight();
 		y = this->datapoints[i].getY();
+#ifdef DEBUG
 		cout << "x = " << datapoints[i].getX() << " y = " << y << endl;
+#endif
 		n += weight;
 		sumY += y * weight;
 		sumY2 += y * y * weight;
 	}
+#ifdef DEBUG
 	cout << "ScatterPlot using " << n << " datapoints" << endl;
+#endif
 	// Now we can compute the average and standard deviation
 	double average = sumY / n;
 	double stddev;

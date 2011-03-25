@@ -26,8 +26,10 @@ private:
 	void addParticipationAndCascade(Participation newParticipation);	// gives the participation to the candidate and all its supercategories
 	void linkCandidates(Candidate* candidateOne, Candidate* candidateTwo);
 	void linkAverages(MovingAverage* predictor, RatingMovingAverage* predictee);
+	void updateChildPointers(void);
 	void addSomeTestLinks(void);
 	void updatePredictions(void);
+	
 	// functions to print data
 	void message(std::string& text) const;
 	void message(char* text) const;
@@ -38,6 +40,7 @@ private:
 	void printRating(Rating* rating) const;
 	void printDistribution(Distribution* distribution) const;
 	void printParticipation(Participation* participation) const;
+	
 	// search functions
 	std::vector<Candidate*> findAllSuperCategoriesOf(Candidate* candidate);
 	Candidate* getCandidateWithName(Name name);
@@ -45,10 +48,12 @@ private:
 	Distribution rateCandidateWithName(Name name, DateTime when);
 	Distribution rateCandidateByCorrelation(Candidate* candidate, DateTime when);
 	Distribution updateCandidateRatingFromParents(Candidate* candidate);
+
 	// other calculation functions
 	Distribution combineDistributions(std::vector<Distribution>& distributions);
+
 	// member variables
-	std::map<Name, std::vector<Name>* > candidatesParents;	// given the name of a candidate, get the names of all its parents
+	//std::map<Name, std::vector<Name>* > candidatesParents;	// given the name of a candidate, get the names of all its parents
 	std::map<Name, Candidate> candidates;					// given the name of the candidate, return the candidate
 	std::set<Rating, RatingPrecedes> ratings;				// the set of all ratings, sorted chronologically
 	std::set<Participation, ParticipationPrecedes> participations;		// the set of all participations, sorted chronologically

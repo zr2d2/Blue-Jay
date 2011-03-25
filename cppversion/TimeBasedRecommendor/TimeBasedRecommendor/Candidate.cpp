@@ -28,10 +28,26 @@ void Candidate::addParent(Name newName)
 	this->parentNames.push_back(newName);
 	//this->parentName = newName;
 }
+void Candidate::addParent(Candidate* newCandidate)
+{
+	//printf("adding parent name %s \r\n", newName.getName().c_str());
+	this->parents.push_back(newCandidate);
+	//this->parentName = newName;
+}
+void Candidate::addChild(Candidate* newChild)
+{
+	this->children.push_back(newChild);
+}
+
 std::vector<Name>* Candidate::getParentNames(void)
 {
 	return &(this->parentNames);
 }
+std::vector<Candidate*>* Candidate::getParents(void)
+{
+	return &(this->parents);
+}
+
 void Candidate::giveRating(Rating rating)
 {
 	unsigned int i;
@@ -99,6 +115,24 @@ void Candidate::setCurrentRating(Distribution value)
 {
 	this->currentRating = value;
 }
+Distribution Candidate::getCurrentRefinedRating(void)
+{
+	return this->currentRefinedRating;
+}
+void Candidate::setCurrentRefinedRating(Distribution value)
+{
+	this->currentRefinedRating = value;
+}
+bool Candidate::needToUpdateParentPointers(void)
+{
+	if (this->parentLinksNeeedUpdating)
+	{
+		parentLinksNeeedUpdating = false;
+		return true;
+	}
+	return false;
+}
+
 
 void Candidate::initialize(void)
 {
@@ -121,7 +155,7 @@ void Candidate::initialize(void)
 	for (i = 0; i < numAverages; i++)
 	{
 		//frequencyEstimators[i].setHalfLife(currentHalfLife);
-		frequencyEstimators[i].setName(Name(this->name.getName() + " (halfLives)"));
+		frequencyEstimators[i].setName(Name(this->name.getName() + " (participations)"));
 		//currentHalfLife *= 4;
 	}
 	for (i = 0; i < numAverages; i++)

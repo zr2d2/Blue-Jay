@@ -30,6 +30,7 @@ void TimeBasedRecommendor::parseArguments(ArgumentList* arguments)
 			i++;
 			char* fileName = arguments->getArgument(i);
 			this->readFile(fileName);
+			this->updateChildPointers();
 			this->addSomeTestLinks();
 			this->updatePredictions();
 			continue;
@@ -224,7 +225,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 void TimeBasedRecommendor::addCandidate(Candidate candidate)
 {
 
-	vector<Name>* parentNames = candidate.getParentNames();
+	//vector<Name>* parentNames = candidate.getParentNames();
 	Name childName = candidate.getName();
 
 	message("adding candidate named ");
@@ -235,10 +236,10 @@ void TimeBasedRecommendor::addCandidate(Candidate candidate)
 	this->candidates[childName] = candidate;
 
 	// keep track of the candidate's parents
-	this->candidatesParents[childName] = parentNames;
+	//this->candidatesParents[childName] = parentNames;
 
 	// keep track of the candidate's moving averages
-	MovingAverage* averages = new MovingAverage[this->numHalfLives];
+	//MovingAverage* averages = new MovingAverage[this->numHalfLives];
 }
 // adds it to the set of ratings without updating
 void TimeBasedRecommendor::addRating(Rating newRating)
@@ -277,7 +278,7 @@ void TimeBasedRecommendor::addRatingAndCascade(Rating newRating)
 {
 	//message("cascading rating ");
 	this->printRating(&newRating);
-	message("\r\n");
+	//message("\r\n");
 	Candidate* candidate = this->getCandidateWithName(newRating.getActivity());
 	vector<Candidate*> candidatesToUpdate = this->findAllSuperCategoriesOf(candidate);
 	unsigned int i;
@@ -339,6 +340,31 @@ void TimeBasedRecommendor::linkAverages(MovingAverage* predictor, RatingMovingAv
 	PredictionLink link = PredictionLink(predictor, predictee);
 	links[predictor] = link;
 }
+void TimeBasedRecommendor::updateChildPointers(void)
+{
+	// iterate over each candidate
+	std::map<Name, Candidate>::iterator candidateIterator;
+	Candidate* currentCandidate;
+	Candidate* parent;
+	unsigned int i;
+	for (candidateIterator = this->candidates.begin(); candidateIterator != this->candidates.end(); candidateIterator++)
+	{
+		currentCandidate = &((*candidateIterator).second);
+		if (currentCandidate->needToUpdateParentPointers())
+		{
+			// if we get here then this candidate was added recently and its parents need their child pointers updated
+			vector<Name>* parentNames = currentCandidate->getParentNames();
+			for (i = 0; i < parentNames->size(); i++)
+			{
+				parent = this->getCandidateWithName((*parentNames)[i]);
+				currentCandidate->addParent(parent);
+				parent->addChild(currentCandidate);
+			}
+		}
+	}
+
+}
+
 void TimeBasedRecommendor::addSomeTestLinks(void)
 {
 	message("adding some test links\r\n");
@@ -405,7 +431,6 @@ void TimeBasedRecommendor::updatePredictions(void)
 	for (mapIterator = this->predictionLinks.begin(); mapIterator != this->predictionLinks.end(); mapIterator++)
 	{
 		currentMap = &((*mapIterator).second);	// get the map within the map
-		//currentMap = currentPair->second;
 		for (predictionIterator = currentMap->begin(); predictionIterator != currentMap->end(); predictionIterator++)
 		{
 			numUpdates++;
@@ -434,20 +459,23 @@ vector<Candidate*> TimeBasedRecommendor::findAllSuperCategoriesOf(Candidate* can
 	vectorToUpdate.push_back(currentCandidate);
 	// compute the set of all supercategories of this activity
 	bool busy = true;
-	Candidate* currentParent;
+	Candidate* currentParent = NULL;
 	set<Name>::iterator setIterator;
-	vector<Name>* currentParentNames;
+	//vector<Name>* currentParentNames;
+	vector<Candidate*>* parents = NULL;
 	unsigned int i;
 	unsigned int j;
 	// iterate over each newly found candidate
 	for (i = 0; i < vectorToUpdate.size(); i++)
 	{
 		currentCandidate = vectorToUpdate[i];
-		currentParentNames = currentCandidate->getParentNames();
+		//currentParentNames = currentCandidate->getParentNames();
+		parents = currentCandidate->getParents();
 		// add all parents of the newly found candidate
-		for (j = 0; j < currentParentNames->size(); j++)
+		for (j = 0; j < parents->size(); j++)
 		{
-			currentParent = this->getCandidateWithName((*currentParentNames)[j]);
+			//currentParent = this->getCandidateWithName((*currentParentNames)[j]);
+			currentParent = (*parents)[i];
 			if (setToUpdate.find(currentParent) == setToUpdate.end())
 			{
 				//message("cascading to a parent\r\n");
@@ -475,9 +503,26 @@ Distribution TimeBasedRecommendor::rateCandidateWithName(Name name, DateTime whe
 	message(name.getName());
 	message("\r\n");
 	Candidate* candidate = this->getCandidateWithName(name);
-	Distribution rating = this->rateCandidateByCorrelation(candidate, when);
-	message("done rating candidate\r\n");
-	return rating;
+	vector<Candidate*> parents = this->findAllSuperCategoriesOf(candidate);
+	int i;
+	Candidate* currentCandidate = NULL;
+	for (i = parents.size() - 1; i >= 0; i--)
+	{
+		currentCandidate = parents[i];
+		message("rating candidate ");
+		message(currentCandidate->getName().getName());
+		// Calculate a rating based on PredictionLinks. If there isn't much data it won't be very good
+		currentCandidate->setCurrentRating(this->rateCandidateByCorrelation(currentCandidate, when));
+		message("rating = ");
+		this->printDistribution(&(currentCandidate->getCurrentRating()));
+		// Update the rating using parental information. This is to improve guesses for items that have little data but whose parents have data
+		this->updateCandidateRatingFromParents(currentCandidate);
+	}
+	//Distribution rating = this->rateCandidateByCorrelation(candidate, when);
+	message("done rating candidate with name ");
+	message(name.getName());
+	message("\r\n");
+	return currentCandidate->getCurrentRefinedRating();
 }
 // compute the rating for the candidate using all of the relevant prediction links (predicting based on other moving averages)
 Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candidate, DateTime when)
@@ -503,6 +548,7 @@ Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candida
 		message("\r\n");
 		currentGuess = &(currentLink->guess(when));
 		this->printDistribution(currentGuess);
+		message("\r\n");
 		guesses.push_back(*currentGuess);
 	}
 	Distribution guess = this->combineDistributions(guesses);
@@ -510,10 +556,38 @@ Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candida
 	return guess;
 }
 // Using the current estimated rating for the candidate and the estimates for parents, compute an updated rating for the candidate
-Distribution updateCandidateRatingFromParents(Candidate* candidate)
+// It assumes that all parents are already correct
+Distribution TimeBasedRecommendor::updateCandidateRatingFromParents(Candidate* candidate)
 {
-	// THIS FUNCTION IS NOT FINISHED YET
-	return candidate->getCurrentRating();
+	// get the candidate's rating without parental information
+	Distribution currentChildDistribution = candidate->getCurrentRating();
+	// now get the ratings for each parent
+	vector<Candidate*>* parents = candidate->getParents();
+	unsigned int i;
+	Candidate* currentParent = NULL;
+	vector<Distribution> distributions;
+	Distribution parentDistribution;
+	Distribution currentDistribution;
+	double scale;
+	// figure out by what factor to decrease the importance of the parent distributions
+	// The child distribution is a better predictor than the parent distribution, so weight the child distribution by another factor of sqrt(n)
+	// THIS ISN'T THE BEST APPROXIMATION BUT IT WILL DO FOR NOW. IT WOULD BE PREFERABLE TO COMPUTE THE STDDEV BETWEEN CHILDREN AND WITHIN CHILDREN AND WEIGHT ACCORDINGLY
+	if (currentChildDistribution.getWeight() == 0)
+		scale = 1;
+	else
+		scale = 1 / sqrt(currentChildDistribution.getWeight());
+	for (i = 0; i < parents->size(); i++)
+	{
+		currentParent = (*parents)[i];
+		parentDistribution = currentParent->getCurrentRefinedRating();
+		currentDistribution = Distribution(parentDistribution.getMean(), parentDistribution.getStdDev(), parentDistribution.getWeight() * scale);
+		distributions.push_back(currentParent->getCurrentRefinedRating());
+	}
+	distributions.push_back(currentChildDistribution);
+	// Now combine the ratings of each parent with the child's
+	Distribution result = this->combineDistributions(distributions);
+	candidate->setCurrentRefinedRating(result);
+	return result;
 }
 
 // compute the distribution that is formed by combining the given distributions
