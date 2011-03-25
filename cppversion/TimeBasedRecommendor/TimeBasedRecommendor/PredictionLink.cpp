@@ -39,8 +39,9 @@ void PredictionLink::update(void)
 
 Distribution PredictionLink::guess(void)
 {
-	cout << "PredictionLink::guess";
+	cout << "PredictionLink::guess" << endl;
 	DateTime when = this->outputData->getLatestRatingDate();
+	cout << " latest rating date = " << when.stringVersion() << endl;
 	Distribution input = this->inputData->getValueAt(when, false);
 	Distribution middle = this->plot.predict(input.getMean());
 	cout << endl;
