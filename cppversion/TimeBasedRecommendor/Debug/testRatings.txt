@@ -27,7 +27,7 @@ Time #2, A = 1
 <Rating>
 <Activity>A</Activity>
 <Score>1</Score>
-<Date>2011-3-14T00:00:01</Date>
+<Date>2011-3-14T00:00:02</Date>
 </Rating>
 
 
@@ -301,4 +301,22 @@ Time #20, A = 1
 <Activity>A</Activity>
 <Score>1</Score>
 <Date>2011-3-14T00:00:20</Date>
+</Rating>
+
+
+
+<Comment>
+Time #21, BC = 01
+</Comment>
+
+<Rating>
+<Activity>B</Activity>
+<Score>0</Score>
+<Date>2011-3-14T00:00:21</Date>
+</Rating>
+
+<Rating>
+<Activity>C</Activity>
+<Score>1</Score>
+<Date>2011-3-14T00:00:21</Date>
 </Rating>

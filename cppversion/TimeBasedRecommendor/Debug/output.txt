@@ -1,4 +1,4 @@
-opening file testInheritances2.txt
+opening file testInheritances.txt
 adding candidate named Activity
 parent names:
 
@@ -14,385 +14,977 @@ adding candidate named C
 parent names:
 Activity
 
-done reading file testInheritances2.txt
+done reading file testInheritances.txt
 adding some test links
 updating predictions
 giving ratings to activities
 num ratings given = 0
 giving participations to activities
 creating PredictionLinksnum PredictionLinks updated = 32
-opening file testRatings2.txt
-adding participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 0end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1activity = 1.000000
-
-adding rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1
+opening file testRatings.txt
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
 score:1.000000
 
-adding participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2activity = 1.000000
-
-adding rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
 score:0.000000
 
 adding rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 2
 score:1.000000
 
-adding participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6activity = 1.000000
-
-adding rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6
-score:1.000000
-
-adding participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 7activity = 1.000000
-
-adding rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 7
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
 score:0.000000
 
-done reading file testRatings2.txt
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 4
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 6
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 8
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 10
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 12
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 14
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 16
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 18
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 20
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:1.000000
+
+done reading file testRatings.txt
 adding some test links
 updating predictions
 giving ratings to activities
-cascading rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
 score:1.000000
 
-cascading rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
 score:0.000000
 
-cascading rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 2
 score:1.000000
 
-cascading rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6
-score:1.000000
-
-cascading rating activity name:A
-date:year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 7
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
 score:0.000000
 
-num ratings given = 5
-giving participations to activitiescascading participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 0end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1activity = 1.000000
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
+score:0.000000
 
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 0 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1
-intensity = 1
-current score = 0
-num halflives = 1
-rated interval with ending score 0.5
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 0 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1
-intensity = 1
-current score = 0
-num halflives = 1
-rated interval with ending score 0.5
-cascading participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2activity = 1.000000
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 4
+score:1.000000
 
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1
-num half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-intensity = 0
-current score = 0.5
-num halflives = 0
-rated interval with ending score 0.5
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2
-num half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-intensity = 1
-current score = 0.5
-num halflives = 1
-rated interval with ending score 0.75
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1
-num half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-intensity = 0
-current score = 0.5
-num halflives = 0
-rated interval with ending score 0.5
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 1 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2
-num half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-intensity = 1
-current score = 0.5
-num halflives = 1
-rated interval with ending score 0.75
-cascading participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6activity = 1.000000
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:0.000000
 
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5
-num half lives = 1
-max delta score = 0.5
-current num half lives = 1
-score = 0.75
-intensity = 0
-current score = 0.75
-num halflives = 3
-rated interval with ending score 0.09375
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6
-num half lives = 3
-max delta score = -0.75
-current num half lives = 3
-score = 0.09375
-intensity = 1
-current score = 0.09375
-num halflives = 1
-rated interval with ending score 0.546875
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 2 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5
-num half lives = 1
-max delta score = 0.5
-current num half lives = 1
-score = 0.75
-intensity = 0
-current score = 0.75
-num halflives = 3
-rated interval with ending score 0.09375
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 5 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6
-num half lives = 3
-max delta score = -0.75
-current num half lives = 3
-score = 0.09375
-intensity = 1
-current score = 0.09375
-num halflives = 1
-rated interval with ending score 0.546875
-cascading participation start time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6end time = year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 7activity = 1.000000
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:1.000000
 
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-intensity = 0
-current score = 0.546875
-num halflives = 0
-rated interval with ending score 0.546875
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 7
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-intensity = 1
-current score = 0.546875
-num halflives = 1
-rated interval with ending score 0.773438
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-intensity = 0
-current score = 0.546875
-num halflives = 0
-rated interval with ending score 0.546875
-rating interval with starting date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 6 ending date year = 2011, month = 2, day = 21, hour = 0, minute = 0, second = 7
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-intensity = 1
-current score = 0.546875
-num halflives = 1
-rated interval with ending score 0.773438
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 6
+score:0.000000
 
-creating PredictionLinksnum half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-num half lives = 1
-max delta score = 0.5
-current num half lives = 1
-score = 0.75
-num half lives = 3
-max delta score = -0.75
-current num half lives = 3
-score = 0.09375
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-num half lives = 1
-max delta score = 0.453125
-current num half lives = 1
-score = 0.773438
-num half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-num half lives = 1
-max delta score = 0.5
-current num half lives = 1
-score = 0.75
-num half lives = 3
-max delta score = -0.75
-current num half lives = 3
-score = 0.09375
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-num half lives = 1
-max delta score = 0.453125
-current num half lives = 1
-score = 0.773438
-num half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-num half lives = 1
-max delta score = 0.5
-current num half lives = 1
-score = 0.75
-num half lives = 3
-max delta score = -0.75
-current num half lives = 3
-score = 0.09375
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-num half lives = 1
-max delta score = 0.453125
-current num half lives = 1
-score = 0.773438
-num half lives = 1
-max delta score = 1
-current num half lives = 1
-score = 0.5
-num half lives = 1
-max delta score = 0.5
-current num half lives = 1
-score = 0.75
-num half lives = 3
-max delta score = -0.75
-current num half lives = 3
-score = 0.09375
-num half lives = 1
-max delta score = 0.90625
-current num half lives = 1
-score = 0.546875
-num half lives = 1
-max delta score = 0.453125
-current num half lives = 1
-score = 0.773438
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 8
+score:0.000000
+
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:1.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:0.000000
+
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 10
+score:1.000000
+
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 12
+score:1.000000
+
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:0.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:1.000000
+
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 14
+score:0.000000
+
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 16
+score:0.000000
+
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:1.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:0.000000
+
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 18
+score:1.000000
+
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 20
+score:1.000000
+
+activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:0.000000
+
+activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:1.000000
+
+num ratings given = 32
+giving participations to activities
+creating PredictionLinks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 num PredictionLinks updated = 32
 rating candidate with name: A
 Predicting A from A (ratings)
-ScatterPlot predicting with 5 datapoints and x= 0.875
+PredictionLink::guess
+
+ScatterPlot predicting with 10 datapoints and x= 1
+x = 0 y = 1 weight = 1
 x = 1 y = 1 weight = 1
 x = 1 y = 0 weight = 1
+x = 0.5 y = 0 weight = 1
+x = 0 y = 1 weight = 1
 x = 0.5 y = 1 weight = 1
-x = 0.75 y = 1 weight = 1
-x = 0.875 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 0.5 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0.5 y = 1 weight = 1
 selecting relevant points
-x = 0.75 y = 1
-x = 0.875 y = 0
+x = 0.5 y = 1
 x = 1 y = 1
-ScatterPlot using 3 datapoints
-mean:0.666667 stdDev:0.577350 weight:3.000000
+x = 1 y = 0
+x = 1 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0.5ScatterPlot predicting with 10 datapoints and x= 1
+x = 0 y = 1 weight = 1
+x = 1 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 0.5 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0.5 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 0.5 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0.5 y = 1 weight = 1
+selecting relevant points
+x = 0.5 y = 1
+x = 1 y = 1
+x = 1 y = 0
+x = 1 y = 0
+ScatterPlot using 4 datapoints
+left = 0.5ScatterPlot predicting with 10 datapoints and x= 1
+x = 0 y = 1 weight = 1
+x = 1 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 0.5 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0.5 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 0.5 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0.5 y = 1 weight = 1
+selecting relevant points
+x = 0.5 y = 1
+x = 1 y = 1
+x = 1 y = 0
+x = 1 y = 0
+ScatterPlot using 4 datapoints
+right = 0.5
+mean:0.500000 stdDev:0.577350 weight:10.000000
 Predicting A from Activity (ratings)
-ScatterPlot predicting with 5 datapoints and x= 0.875
-x = 1 y = 1 weight = 1
-x = 1 y = 0 weight = 1
+PredictionLink::guess
+
+ScatterPlot predicting with 10 datapoints and x= 0.666667
 x = 0.5 y = 1 weight = 1
-x = 0.75 y = 1 weight = 1
-x = 0.875 y = 0 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
 selecting relevant points
-x = 0.75 y = 1
-x = 0.875 y = 0
-x = 1 y = 1
-ScatterPlot using 3 datapoints
-mean:0.666667 stdDev:0.577350 weight:3.000000
+x = 0.666667 y = 0
+x = 0.666667 y = 0
+x = 0.666667 y = 0
+x = 0.666667 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0ScatterPlot predicting with 10 datapoints and x= 0.195262
+x = 0.5 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
+selecting relevant points
+x = 0.333333 y = 1
+x = 0.333333 y = 1
+x = 0.333333 y = 1
+x = 0.333333 y = 1
+ScatterPlot using 4 datapoints
+left = 1ScatterPlot predicting with 10 datapoints and x= 1.13807
+x = 0.5 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.666667 y = 0 weight = 1
+x = 0.333333 y = 1 weight = 1
+x = 0.333333 y = 1 weight = 1
+selecting relevant points
+x = 0.666667 y = 0
+x = 0.666667 y = 0
+x = 0.666667 y = 0
+x = 0.666667 y = 0
+ScatterPlot using 4 datapoints
+right = 0
+mean:0.000000 stdDev:0.500000 weight:10.000000
 Predicting A from Activity (halfLives)
-num half lives = 1
-max delta score = 0.453125
-current num half lives = 1
-score = 0.773438
-ScatterPlot predicting with 5 datapoints and x= 0.773438
-x = 0.5 y = 1 weight = 1
-x = 0.75 y = 0 weight = 1
-x = 0.09375 y = 1 weight = 1
-x = 0.546875 y = 1 weight = 1
-x = 0.773438 y = 0 weight = 1
+PredictionLink::guess
+ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
 selecting relevant points
-x = 0.546875 y = 1
-x = 0.75 y = 0
-x = 0.773438 y = 0
-ScatterPlot using 3 datapoints
-mean:0.333333 stdDev:0.577350 weight:3.000000
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+right = 0.5
+mean:0.500000 stdDev:0.577350 weight:10.000000
 Predicting A from A (halfLives)
-num half lives = 1
-max delta score = 0.453125
-current num half lives = 1
-score = 0.773438
-ScatterPlot predicting with 5 datapoints and x= 0.773438
-x = 0.5 y = 1 weight = 1
-x = 0.75 y = 0 weight = 1
-x = 0.09375 y = 1 weight = 1
-x = 0.546875 y = 1 weight = 1
-x = 0.773438 y = 0 weight = 1
+PredictionLink::guess
+ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
 selecting relevant points
-x = 0.546875 y = 1
-x = 0.75 y = 0
-x = 0.773438 y = 0
-ScatterPlot using 3 datapoints
-mean:0.333333 stdDev:0.577350 weight:3.000000
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+right = 0.5
+mean:0.500000 stdDev:0.577350 weight:10.000000
 Predicting A from B (ratings)
-ScatterPlot predicting with 5 datapoints and x= 0
+PredictionLink::guess
+
+ScatterPlot predicting with 10 datapoints and x= 0
+x = 1 y = 1 weight = 1
 x = 0 y = 1 weight = 1
 x = 0 y = 0 weight = 1
-x = 0 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 1 weight = 1
 x = 0 y = 1 weight = 1
 x = 0 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 1 weight = 1
+x = 0 y = 1 weight = 1
 selecting relevant points
 x = 0 y = 1
 x = 0 y = 0
 x = 0 y = 1
-ScatterPlot using 3 datapoints
-mean:0.666667 stdDev:0.577350 weight:3.000000
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 1 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 1
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 1 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 1
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+right = 0.5
+mean:0.500000 stdDev:0.577350 weight:10.000000
 Predicting A from B (halfLives)
-ScatterPlot predicting with 5 datapoints and x= 0
+PredictionLink::guess
+ScatterPlot predicting with 10 datapoints and x= 0
 x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
 x = 0 y = 0 weight = 1
 x = 0 y = 1 weight = 1
 x = 0 y = 1 weight = 1
 x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
 selecting relevant points
 x = 0 y = 1
-x = 0 y = 0
 x = 0 y = 1
-ScatterPlot using 3 datapoints
-mean:0.666667 stdDev:0.577350 weight:3.000000
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+right = 0.5
+mean:0.500000 stdDev:0.577350 weight:10.000000
 Predicting A from C (ratings)
-ScatterPlot predicting with 5 datapoints and x= 0
+PredictionLink::guess
+
+ScatterPlot predicting with 10 datapoints and x= 1
 x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 0 weight = 1
 x = 0 y = 1 weight = 1
 x = 0 y = 1 weight = 1
-x = 0 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
 selecting relevant points
-x = 0 y = 1
-x = 0 y = 0
-x = 0 y = 1
-ScatterPlot using 3 datapoints
-mean:0.666667 stdDev:0.577350 weight:3.000000
+x = 1 y = 0
+x = 1 y = 0
+x = 1 y = 0
+x = 1 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0ScatterPlot predicting with 10 datapoints and x= 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 1 y = 0
+x = 1 y = 0
+x = 1 y = 0
+x = 1 y = 0
+ScatterPlot using 4 datapoints
+left = 0ScatterPlot predicting with 10 datapoints and x= 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 1 y = 0 weight = 1
+x = 1 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 1 y = 0
+x = 1 y = 0
+x = 1 y = 0
+x = 1 y = 0
+ScatterPlot using 4 datapoints
+right = 0
+mean:0.000000 stdDev:0.000000 weight:10.000000
 Predicting A from C (halfLives)
-ScatterPlot predicting with 5 datapoints and x= 0
+PredictionLink::guess
+ScatterPlot predicting with 10 datapoints and x= 0
 x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
 x = 0 y = 0 weight = 1
 x = 0 y = 1 weight = 1
 x = 0 y = 1 weight = 1
 x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
 selecting relevant points
 x = 0 y = 1
-x = 0 y = 0
 x = 0 y = 1
-ScatterPlot using 3 datapoints
-mean:0.666667 stdDev:0.577350 weight:3.000000
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+
+middle=0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+left = 0.5ScatterPlot predicting with 10 datapoints and x= 0
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 0 weight = 1
+x = 0 y = 1 weight = 1
+x = 0 y = 1 weight = 1
+selecting relevant points
+x = 0 y = 1
+x = 0 y = 1
+x = 0 y = 0
+x = 0 y = 0
+ScatterPlot using 4 datapoints
+right = 0.5
+mean:0.500000 stdDev:0.577350 weight:10.000000
+Combining distributions
+mean = 0.500000 stdDev = 0.577350 weight = 10.000000
+mean = 0.000000 stdDev = 0.500000 weight = 10.000000
+mean = 0.500000 stdDev = 0.577350 weight = 10.000000
+mean = 0.500000 stdDev = 0.577350 weight = 10.000000
+mean = 0.500000 stdDev = 0.577350 weight = 10.000000
+mean = 0.500000 stdDev = 0.577350 weight = 10.000000
+mean = 0.000000 stdDev = 0.000000 weight = 10.000000
+mean = 0.500000 stdDev = 0.577350 weight = 10.000000
+resultant distribution = mean:0.000000 stdDev:0.000000 weight:10.000000
+
+done rating candidate
