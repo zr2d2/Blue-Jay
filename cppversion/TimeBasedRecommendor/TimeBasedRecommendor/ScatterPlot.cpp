@@ -82,6 +82,18 @@ Distribution ScatterPlot::predict(double x)
 			upperIndex = lowerIndex + targetLength;
 		}
 	}
+	// If all these points have the same input then count all datapoints with this input
+	if (datapoints[lowerIndex].getX() == datapoints[upperIndex].getX())
+	{
+		while ((lowerIndex > 0) && (datapoints[lowerIndex - 1].getX() == datapoints[upperIndex].getX()))
+		{
+			lowerIndex--;
+		}
+		while ((upperIndex < (int)datapoints.size() - 1) && (datapoints[upperIndex + 1].getX() == datapoints[lowerIndex].getX()))
+		{
+			upperIndex++;
+		}
+	}
 	// Now compute the average and standard deviation of the points in this interval
 	double sumY = 0;
 	double sumY2 = 0;

@@ -48,6 +48,12 @@ std::vector<Candidate*>* Candidate::getParents(void)
 	return &(this->parents);
 }
 
+std::vector<Candidate*>* Candidate::getChildren(void)
+{
+	return &(this->children);
+}
+
+
 void Candidate::giveRating(Rating rating)
 {
 	unsigned int i;

@@ -113,7 +113,7 @@ Distribution RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier
 	double average = sumY / sumWeight;
 	double stdDev = sqrt((sumY2 - sumY * sumY / sumWeight) / sumWeight);
 	Distribution result(average, stdDev, sumWeight);
-	cout << endl;
+	//cout << endl;
 	return result;
 }
 const std::vector<Rating>& RatingMovingAverage::getRatings(void)

@@ -45,9 +45,12 @@ private:
 	std::vector<Candidate*> findAllSuperCategoriesOf(Candidate* candidate);
 	Candidate* getCandidateWithName(Name name);
 	PredictionLink* getLinkFromMovingAverages(MovingAverage* predictor, MovingAverage* predictee);
+	Distribution rateCandidate(Candidate* candidate, DateTime when);
 	Distribution rateCandidateWithName(Name name, DateTime when);
 	Distribution rateCandidateByCorrelation(Candidate* candidate, DateTime when);
 	Distribution updateCandidateRatingFromParents(Candidate* candidate);
+	Name makeRecommendation(void);
+	Name makeRecommendation(DateTime when);
 
 	// other calculation functions
 	Distribution combineDistributions(std::vector<Distribution>& distributions);
@@ -60,6 +63,7 @@ private:
 	// given the MovingAverage to predict and then the MovingAverage to predict from, this gives the appropriate PredictionLink
 	std::map<MovingAverage*, std::map<MovingAverage*, PredictionLink> > predictionLinks;
 	int numHalfLives;
+	DateTime latestDate;
 };
 
 #endif

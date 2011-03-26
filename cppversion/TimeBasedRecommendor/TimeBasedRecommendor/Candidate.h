@@ -21,6 +21,7 @@ public:
 	Name getName(void);
 	std::vector<Name>* getParentNames(void);
 	std::vector<Candidate*>* getParents(void);
+	std::vector<Candidate*>* getChildren(void);
 	void giveRating(Rating rating);
 	void giveParticipation(Participation participation);
 	int getNumRatingEstimators(void);

@@ -45,6 +45,7 @@ Distribution PredictionLink::guess(DateTime when)
 	Distribution input = this->inputData->getValueAt(when, false);
 	Distribution middle = this->plot.predict(input.getMean());
 	//return middle;
+	cout << "x = " << input.getMean();
 	cout << "middle=" << middle.getMean();
 	Distribution leftOneStdDev = this->plot.predict(input.getMean() - input.getStdDev());
 	cout << " left = " << leftOneStdDev.getMean();

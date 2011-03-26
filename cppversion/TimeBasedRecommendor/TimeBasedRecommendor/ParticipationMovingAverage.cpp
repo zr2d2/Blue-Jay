@@ -69,7 +69,7 @@ int ParticipationMovingAverage::getIndexForDate(DateTime when, bool strictlyEarl
 		return -1;
 	if (strictlyChronologicallyOrdered(when, this->totalIntensities.front().getStartTime()))
 		return -1;
-	cout << "getting index for " << when.stringVersion() << endl;
+	//cout << "getting index for " << when.stringVersion() << endl;
 	if (strictlyChronologicallyOrdered(this->totalIntensities.back().getStartTime(), when))
 		return this->totalIntensities.size() - 1;
 	// If there are participations then we binary search for the most recent one

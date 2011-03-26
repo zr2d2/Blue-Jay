@@ -45,6 +45,13 @@ void TimeBasedRecommendor::parseArguments(ArgumentList* arguments)
 			this->rateCandidateWithName(Name(candidateName), when);
 			continue;
 		}
+		if (strcmp(argument, "recommend") == 0)
+		{
+			i++;
+			char* dateString = arguments->getArgument(i);
+			DateTime when = DateTime(dateString);
+			this->makeRecommendation(when);
+		}
 	}
 }
 void TimeBasedRecommendor::readFile(char* fileName)
@@ -86,6 +93,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 	const Name participationStartDateIndicator = Name("StartDate");
 	const Name participationEndDateIndicator = Name("EndDate");
 
+	DateTime currentDate;
 	// read until the file is finished
 	while (!inputStream.eof())
 	{
@@ -142,7 +150,13 @@ void TimeBasedRecommendor::readFile(char* fileName)
 					if (endTag == ratingActivityIndicator)
 						rating.setActivity(value);
 					if (endTag == ratingDateIndicator)
-						rating.setDate(DateTime(value.getName()));
+					{
+						// keep track of the latest date ever encountered
+						currentDate = DateTime(value.getName());
+						if (strictlyChronologicallyOrdered(this->latestDate, currentDate))
+							this->latestDate = currentDate;
+						rating.setDate(currentDate);
+					}
 					/*if (endTag == startDateIndicator)
 						rating.setStartTime(DateTime(value.getName()));
 						*/
@@ -161,9 +175,21 @@ void TimeBasedRecommendor::readFile(char* fileName)
 
 					// tags associated with participations
 					if (endTag == participationStartDateIndicator)
-						participation.setStartTime(DateTime(value.getName()));
+					{
+						// keep track of the latest date ever encountered
+						currentDate = DateTime(value.getName());
+						if (strictlyChronologicallyOrdered(this->latestDate, currentDate))
+							this->latestDate = currentDate;
+						participation.setStartTime(currentDate);
+					}
 					if (endTag == participationEndDateIndicator)
-						participation.setEndTime(DateTime(value.getName()));
+					{
+						// keep track of the latest date ever encountered
+						currentDate = DateTime(value.getName());
+						if (strictlyChronologicallyOrdered(this->latestDate, currentDate))
+							this->latestDate = currentDate;
+						participation.setEndTime(currentDate);
+					}
 					if (endTag == participationActivityIndicator)
 						participation.setActivityName(value.getName());
 				}
@@ -475,7 +501,7 @@ vector<Candidate*> TimeBasedRecommendor::findAllSuperCategoriesOf(Candidate* can
 		for (j = 0; j < parents->size(); j++)
 		{
 			//currentParent = this->getCandidateWithName((*currentParentNames)[j]);
-			currentParent = (*parents)[i];
+			currentParent = (*parents)[j];
 			if (setToUpdate.find(currentParent) == setToUpdate.end())
 			{
 				//message("cascading to a parent\r\n");
@@ -497,12 +523,11 @@ PredictionLink* TimeBasedRecommendor::getLinkFromMovingAverages(MovingAverage* p
 	std::map<MovingAverage*, PredictionLink> links = this->predictionLinks[predictor];
 	return &(links[predictee]);
 }
-Distribution TimeBasedRecommendor::rateCandidateWithName(Name name, DateTime when)
+Distribution TimeBasedRecommendor::rateCandidate(Candidate* candidate, DateTime when)
 {
 	message("rating candidate with name: ");
-	message(name.getName());
+	message(candidate->getName().getName());
 	message("\r\n");
-	Candidate* candidate = this->getCandidateWithName(name);
 	vector<Candidate*> parents = this->findAllSuperCategoriesOf(candidate);
 	int i;
 	Candidate* currentCandidate = NULL;
@@ -520,9 +545,14 @@ Distribution TimeBasedRecommendor::rateCandidateWithName(Name name, DateTime whe
 	}
 	//Distribution rating = this->rateCandidateByCorrelation(candidate, when);
 	message("done rating candidate with name ");
-	message(name.getName());
+	message(candidate->getName().getName());
 	message("\r\n");
+	message("rating = ");
 	return currentCandidate->getCurrentRefinedRating();
+}
+Distribution TimeBasedRecommendor::rateCandidateWithName(Name name, DateTime when)
+{
+	return this->rateCandidate(this->getCandidateWithName(name), when);
 }
 // compute the rating for the candidate using all of the relevant prediction links (predicting based on other moving averages)
 Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candidate, DateTime when)
@@ -590,6 +620,57 @@ Distribution TimeBasedRecommendor::updateCandidateRatingFromParents(Candidate* c
 	return result;
 }
 
+// determines which candidate has the best expected score and returns its name
+Name TimeBasedRecommendor::makeRecommendation(void)
+{
+	DateTime when = this->latestDate;
+	return this->makeRecommendation(when);
+}
+// determines which candidate has the best expected score at the given time
+Name TimeBasedRecommendor::makeRecommendation(DateTime when)
+{
+	message("making recommendation for date:");
+	message(when.stringVersion());
+	message("\r\n");
+	std::map<Name, Candidate>::iterator candidateIterator;
+	// make sure that there is at least one candidate to choose from
+	if (this->candidates.size() < 1)
+	{
+		return Name("[no data]");
+	}
+	bool scoreValid = false;
+	Candidate* currentCandidate = NULL;
+	double bestScore = -1;
+	double currentScore = -1;
+	Name bestName;
+	for (candidateIterator = this->candidates.begin(); candidateIterator != this->candidates.end(); candidateIterator++)
+	{
+		currentCandidate = &((*candidateIterator).second);
+		if (currentCandidate->getChildren()->size() == 0)
+		{
+			this->rateCandidate(currentCandidate, when);
+			currentScore = currentCandidate->getCurrentRefinedRating().getMean();
+			message("candidate name = ");
+			message(currentCandidate->getName().getName());
+			message(" expected rating = ");
+			message(currentScore);
+			message("\r\n");
+			if ((currentScore > bestScore) || !scoreValid)
+			{
+				bestScore = currentScore;
+				bestName = currentCandidate->getName();
+				scoreValid = true;
+			}
+		}
+	}
+	message("best candidate name = ");
+	message(bestName.getName());
+	message(" expected rating = ");
+	message(bestScore);
+	message("\r\n");
+	return bestName;
+}
+
 // compute the distribution that is formed by combining the given distributions
 Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution>& distributions)
 {
@@ -603,14 +684,17 @@ Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution
 	double weight;
 	double y;
 	double stdDev;
+#ifdef DEBUG
 	message("Combining distributions");
 	message("\r\n");
+#endif
 	unsigned int i;
 	Distribution* currentDistribution = NULL;
 	// iterate over each distribution and weight them according to their given weights and standard deviations
 	for (i = 0; i < distributions.size(); i++)
 	{
 		currentDistribution = &(distributions[i]);
+#ifdef DEBUG
 		message("mean = ");
 		message(currentDistribution->getMean());
 		message(" stdDev = ");
@@ -618,6 +702,7 @@ Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution
 		message(" weight = ");
 		message(currentDistribution->getWeight());
 		message("\r\n");
+#endif
 		//this->printDistribution(currentDistribution);
 		stdDev = currentDistribution->getStdDev();
 		// only consider nonempty distributions
@@ -673,9 +758,11 @@ Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution
 		stdDev = sqrt(variance1 + variance2);
 		result = Distribution(average, stdDev, n);
 	}
+#ifdef DEBUG
 	message("resultant distribution = ");
 	this->printDistribution(&result);
 	message("\r\n");
+#endif
 	return result;
 }
 
