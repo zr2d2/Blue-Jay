@@ -1,289 +1,176 @@
 -<Candidate>
-<Name>Activity</Name>
+<Name>Song</Name>
 </Candidate>
 
-	-<Candidate>
-	<Name>Work</Name>
-	<Parent>Activity</Parent>
-	</Candidate>
+    -<Candidate>
+    <Name>Plain</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-		-<Candidate>
-		<Name>Schoolwork</Name>
-		<Parent>Work</Parent>
-		</Candidate>
+        -<Candidate>
+        <Name>Gypsy</Name>
+        <Parent>Plain</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Paperwork</Name>
-			<Parent>Schoolwork</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>Layla (unplugged)</Name>
+        <Parent>Plain</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Homework</Name>
-			<Parent>Schoolwork</Parent>
-			</Candidate>
+    -<Candidate>
+    <Name>Disney Song</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-				-<Candidate>
-				<Name>Analysis2</Name>
-				<Parent>Homework</Parent>
-				</Candidate>
-
-				-<Candidate>
-				<Name>NumComp</Name>
-				<Parent>Homework</Parent>
-				</Candidate>
-
-				-<Candidate>
-				<Name>SD&D</Name>
-				<Parent>Homework</Parent>
-				</Candidate>
-
-				-<Candidate>
-				<Name>CogPsych</Name>
-				<Parent>Homework</Parent>
-				</Candidate>
-
-			-<Candidate>
-			<Name>Research</Name>
-			<Parent>Schoolwork</Parent>
-			</Candidate>
-
-			-<Candidate>
-			<Name>Studying</Name>
-			<Parent>Schoolwork</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>Mine Mine Mine</Name>
+        <Parent>Disney Song</Parent>
+        <Parent>Plain</Parent>
+        </Candidate>
 
 
-		-<Candidate>
-		<Name>Chores</Name>
-		<Parent>Work</Parent>
-		</Candidate>
+    -<Candidate>
+    <Name>Oldies</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-			-<Candidate>
-			<Name>Laundry</Name>
-			<Parent>Chores</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>Piano Man</Name>
+        <Parent>Oldies</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Sleeping</Name>
-			<Parent>Chores</Parent>
-			</Candidate>
+    -<Candidate>
+    <Name>Slow</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-			-<Candidate>
-			<Name>Eating</Name>
-			<Parent>Chores</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>When You're Gone</Name>
+        <Parent>Slow</Parent>
+        <Parent>80s-like</Parent>
+        <Parent>Pop</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Cleaning</Name>
-			<Parent>Chores</Parent>
-			</Candidate>
+    -<Candidate>
+    <Name>80s-like</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-	-<Candidate>
-	<Name>Fun</Name>
-	<Parent>Activity</Parent>
-	</Candidate>
+        -<Candidate>
+        <Name>Little Star</Name>
+        <Parent>80s-like</Parent>
+        </Candidate>
 
-		-<Candidate>
-		<Name>Game</Name>
-		<Parent>Fun</Parent>
-		</Candidate>
+        -<Candidate>
+        <Name>It Is You (I Have Loved)</Name>
+        <Parent>80s-like</Parent>
+        <Parent>Slow</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Age of Mythology</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>One In A Million</Name>
+        <Parent>80s-like</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Catan</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>Different Kind of Wonderful</Name>
+        <Parent>80s-like</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Civ</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>80s</Name>
+        <Parent>80s-like</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Dominion</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+            -<Candidate>
+            <Name>Almost Paradise</Name>
+            <Parent>80s</Parent>
+            <Parent>Slow</Parent>
+            </Candidate>
 
-			-<Candidate>
-			<Name>Magic</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+            -<Candidate>
+            <Name>Every Breath You Take</Name>
+            <Parent>80s</Parent>
+            </Candidate>
 
-			-<Candidate>
-			<Name>Master of Orion</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+            -<Candidate>
+            <Name>You Better Run</Name>
+            <Parent>80s</Parent>
+            </Candidate>
 
-			-<Candidate>
-			<Name>Roborally</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+            -<Candidate>
+            <Name>The Heat of the Moment</Name>
+            <Parent>80s</Parent>
+            </Candidate>
 
-			-<Candidate>
-			<Name>SmallWorld</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+    -<Candidate>
+    <Name>Pop</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-			-<Candidate>
-			<Name>SSBB</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>I'm Still Here</Name>
+        <Parent>Pop</Parent>
+        <Parent>80s-like</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>WarBytes</Name>
-			<Parent>Game</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>I'm a Believer (Reprise)</Name>
+        <Parent>Pop</Parent>
+        </Candidate>
 
-		-<Candidate>
-		<Name>Observing</Name>
-		<Parent>Fun</Parent>
-		</Candidate>
+        -<Candidate>
+        <Name>Radar Love</Name>
+        <Parent>Pop</Parent>
+        </Candidate>
 
-			-<Candidate>
-			<Name>Reading</Name>
-			<Parent>Observing</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>I'm Free</Name>
+        <Parent>Pop</Parent>
+        </Candidate>
 
-				-<Candidate>
-				<Name>Reading Dr. Who</Name>
-				<Parent>Reading</Parent>
-				</Candidate>
+    -<Candidate>
+    <Name>Metal</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-				-<Candidate>
-				<Name>Reading Star Wars</Name>
-				<Parent>Reading</Parent>
-				</Candidate>
+        -<Candidate>
+        <Name>Geek Stink Breath</Name>
+        <Parent>Metal</Parent>
+        </Candidate>
 
+    -<Candidate>
+    <Name>Celtic Woman Song</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-			-<Candidate>
-			<Name>Watching</Name>
-			<Parent>Observing</Parent>
-			</Candidate>
+        -<Candidate>
+        <Name>Mo Ghile Mear</Name>
+        <Parent>Celtic Woman Song</Parent>
+        </Candidate>
 
+        -<Candidate>
+        <Name>Pie Jesu</Name>
+        <Parent>Celtic Woman Song</Parent>
+        </Candidate>
 
-				-<Candidate>
-				<Name>Movie</Name>
-				<Parent>Watching</Parent>
-				</Candidate>
+    -<Candidate>
+    <Name>High-Energy Song</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-				-<Candidate>
-				<Name>Watching TV</Name>
-				<Parent>Watching</Parent>
-				</Candidate>
-
-					-<Candidate>
-					<Name>Watching Dr. Who</Name>
-					<Parent>Watching TV</Parent>
-					</Candidate>
-
-					-<Candidate>
-					<Name>Watching The Big Bang Theory</Name>
-					<Parent>Watching TV</Parent>
-					</Candidate>
-
-					-<Candidate>
-					<Name>Watching The Twilight Zone</Name>
-					<Parent>Watching TV</Parent>
-					</Candidate>
-
-					-<Candidate>
-					<Name>Watching How I Met Your Mother</Name>
-					<Parent>Watching TV</Parent>
-					</Candidate>
-
-				-<Candidate>
-				<Name>Watching Starcraft</Name>
-				<Parent>Watching</Parent>
-				</Candidate>
-
-			-<Candidate>
-			<Name>Listening</Name>
-			<Parent>Observing</Parent>
-			</Candidate>
-
-				-<Candidate>
-				<Name>Listening to Music</Name>
-				<Parent>Listening</Parent>
-				</Candidate>
-
-	-<Candidate>
-	<Name>Physical Activity</Name>
-	<Parent>Activity</Parent>
-	</Candidate>
-
-		-<Candidate>
-		<Name>Throwing Frisbees</Name>
-		<Parent>Physical Activity</Parent>
-		</Candidate>
-
-		-<Candidate>
-		<Name>Running</Name>
-		<Parent>Physical Activity</Parent>
-		</Candidate>
-
-		-<Candidate>
-		<Name>Stretching</Name>
-		<Parent>Physical Activity</Parent>
-		</Candidate>
+        -<Candidate>
+        <Name>Up, Up, Up</Name>
+        <Parent>High-Energy Song</Parent>
+        </Candidate>
 
 
-	-<Candidate>
-	<Name>Communication</Name>
-	<Parent>Activity</Parent>
-	</Candidate>
+    -<Candidate>
+    <Name>Jazz</Name>
+    <Parent>Song</Parent>
+    </Candidate>
 
-		-<Candidate>
-		<Name>Facebook</Name>
-		<Parent>Communication</Parent>
-		</Candidate>
-
-			-<Candidate>
-			<Name>Status Update</Name>
-			<Parent>Facebook</Parent>
-			</Candidate>
-
-			-<Candidate>
-			<Name>Read News Feed</Name>
-			<Parent>Facebook</Parent>
-			</Candidate>
-
-		-<Candidate>
-		<Name>Conversation</Name>
-		<Parent>Communication</Parent>
-		</Candidate>
-
-
--<Candidate>
-<Name>Programming</Name>
-<Parent>Work</Parent>
-<Parent>Fun</Parent>
-</Candidate>
-
-	-<Candidate>
-	<Name>Making a Game</Name>
-	<Parent>Programming</Parent>
-	</Candidate>
-
-		-<Candidate>
-		<Name>Making JeffsRoboticCastle</Name>
-		<Parent>Programming</Parent>
-		</Candidate>
-
-	-<Candidate>
-	<Name>AI Programming</Name>
-	<Parent>Programming</Parent>
-	</Candidate>
-
-		-<Candidate>
-		<Name>Improving This Program</Name>
-		<Parent>AI Programming</Parent>
-		</Candidate>
-
-		-<Candidate>
-		<Name>Working on the InOutScore solvers</Name>
-		<Parent>AI Programming</Parent>
-		</Candidate>
+        -<Candidate>
+        <Name>Evil Ways</Name>
+        <Parent>Jazz</Parent>
+        </Candidate>
