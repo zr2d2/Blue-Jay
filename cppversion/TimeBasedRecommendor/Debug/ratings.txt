@@ -1,6 +1,7 @@
 <Comment>
 This is a real-life test
 Some songs were chosen randomly by Songbird and some were chosen by the engine
+There have been code changes during the test
 </Comment>
 
 
@@ -117,7 +118,7 @@ After hearing some of the song a second time I decided to listen to the whole th
 <Date>2011-3-25T16:31:00</Date>
 </Rating>
 
-<Comment>I'm A Believer chosen by Songbird</Comment>
+<Comment>I'm A Believer (Reprise) chosen by Songbird</Comment>
 
 -<Participation>
 <Activity>I'm a Believer(Reprise)</Activity>
@@ -1000,4 +1001,70 @@ After hearing some of the song a second time I decided to listen to the whole th
 <Activity>Different Kind of Wonderful</Activity>
 <Score>0</Score>
 <Date>2011-3-26T01:02:00</Date>
+</Rating>
+
+
+<Comment>
+This place is where the initial suspicion was added that repeated songs are bad
+</Comment>
+
+<Comment>Evil Ways chosen by Engine</Comment>
+
+<Rating>
+<Activity>Evil Ways</Activity>
+<Score>0.85</Score>
+<Date>2011-3-26T15:12:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Evil Ways</Activity>
+<StartDate>2011-3-26T15:12:00</StartDate>
+<EndDate>2011-3-26T15:15:00</EndDate>
+</Participation>
+
+<Comment>
+This place is where distributions began to add better
+</Comment>
+
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm a Believer (Reprise)</Activity>
+<Score>0.85</Score>
+<Date>2011-3-26T17:49:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm a Believer (Reprise)</Activity>
+<StartDate>2011-3-26T17:49:00</StartDate>
+<EndDate>2011-3-26T17:50:00</EndDate>
+</Participation>
+
+<Comment>Piano Man chosen by Engine</Comment>
+
+<Rating>
+<Activity>Piano Man</Activity>
+<Score>0.9</Score>
+<Date>2011-3-26T17:52:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Piano Man</Activity>
+<StartDate>2011-3-26T17:52:00</StartDate>
+<EndDate>2011-3-26T17:57:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Piano Man</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T17:53:00</Date>
+</Rating>
+
+<Comment>Piano Man chosen by Engine</Comment>
+<Comment>Piano Man was vetoed</Comment>
+
+<Rating>
+<Activity>Piano Man</Activity>
+<Score>0</Score>
+<Date>2011-3-26T17:59:00</Date>
 </Rating>

@@ -6,6 +6,7 @@ using namespace std;
 
 ScatterPlot::ScatterPlot(void)
 {
+	this->totalWeight = 0;
 }
 void ScatterPlot::addDataPoint(Datapoint& datapoint)
 {
@@ -22,6 +23,7 @@ void ScatterPlot::addDataPoint(Datapoint& datapoint)
 			break;
 	}
 	this->datapoints[i] = datapoint;
+	this->totalWeight += datapoint.getWeight();
 	//cout << "ScatterPlot done adding a datapoint" << endl;
 }
 // Find the N closest points to x, where N is the square root of the number of points in the plot
@@ -120,9 +122,23 @@ Distribution ScatterPlot::predict(double x)
 	double average = sumY / n;
 	double stddev;
 	if (n >= 2)
-		stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1));
+	{
+		// The typical formula for standard deviation is this:
+		// stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1));
+		// However, if we assume that the output is between 0 and 1 then we can estimate standard deviation better
+		stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1)) + (1 / (n + 1));
+		// The additional (+1/n) is to account for the fact that humans like to give repeated ratings a lot
+		// The user interface might even require it.
+		// We cannot claim that the standard deviation is low until we have a lot of data
+	}
 	else
-		stddev = 0;
+	{
+		stddev = 0.5;
+	}
+	// decrease the weight based on fraction of unused points, to punish anything that doesn't use much data from its input
+	//double fractionUsed = n / totalWeight;
+	//cout << "fraction used = " << fractionUsed << endl;
+	//Distribution result = Distribution(average, stddev, totalWeight - n);
 	Distribution result = Distribution(average, stddev, n);
 	return result;
 #if 0
@@ -144,4 +160,9 @@ Distribution ScatterPlot::predict(double x)
 	Distribution result = Distribution(guess, sumErr2 / numDataPoints, numDataPoints);
 	return result;
 #endif
+}
+
+int ScatterPlot::getNumPoints(void)
+{
+	return this->datapoints.size();
 }

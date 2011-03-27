@@ -82,6 +82,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 	const Name candidateIndicator = Name("Candidate");
 	const Name nameIndicator = Name("Name");
 	const Name parentIndicator = Name("Parent");
+	const Name discoveryDateIndicator = Name("DiscoveryDate");
 
 	const Name ratingIndicator = Name("Rating");
 	const Name ratingActivityIndicator = Name("Activity");
@@ -145,6 +146,9 @@ void TimeBasedRecommendor::readFile(char* fileName)
 						candidate.setName(value);
 					if (endTag == parentIndicator)
 						candidate.addParent(value);
+					if (endTag == discoveryDateIndicator)
+						candidate.setDiscoveryDate(DateTime(value.getName()));
+
 
 					// Tags associated with ratings
 					if (endTag == ratingActivityIndicator)
@@ -248,7 +252,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 
 
 // functions to add data
-void TimeBasedRecommendor::addCandidate(Candidate candidate)
+void TimeBasedRecommendor::addCandidate(Candidate& candidate)
 {
 
 	//vector<Name>* parentNames = candidate.getParentNames();
@@ -270,25 +274,27 @@ void TimeBasedRecommendor::addCandidate(Candidate candidate)
 // adds it to the set of ratings without updating
 void TimeBasedRecommendor::addRating(Rating newRating)
 {
-	message("adding rating ");
-	this->printRating(&newRating);
+	//message("adding rating ");
+	//this->printRating(&newRating);
 	this->ratings.insert(newRating);
-	message("\r\n");
+	//message("\r\n");
 }
 // adds it to the set of participations without updating
 void TimeBasedRecommendor::addParticipation(Participation newParticipation)
 {
-	message("adding participation ");
-	this->printParticipation(&newParticipation);
+	//message("adding participation ");
+	//this->printParticipation(&newParticipation);
 	this->participations.insert(newParticipation);
-	message("\r\n");
+	//message("\r\n");
 }
 // gives the participation to the candidate and all its supercategories
 void TimeBasedRecommendor::addParticipationAndCascade(Participation newParticipation)
 {
+	/*
 	message("cascading participation ");
 	this->printParticipation(&newParticipation);
 	message("\r\n");
+	*/
 	Candidate* candidate = this->getCandidateWithName(newParticipation.getActivityName());
 	vector<Candidate*> candidatesToUpdate = this->findAllSuperCategoriesOf(candidate);
 	unsigned int i;
@@ -303,7 +309,7 @@ void TimeBasedRecommendor::addParticipationAndCascade(Participation newParticipa
 void TimeBasedRecommendor::addRatingAndCascade(Rating newRating)
 {
 	//message("cascading rating ");
-	this->printRating(&newRating);
+	//this->printRating(&newRating);
 	//message("\r\n");
 	Candidate* candidate = this->getCandidateWithName(newRating.getActivity());
 	vector<Candidate*> candidatesToUpdate = this->findAllSuperCategoriesOf(candidate);
@@ -515,7 +521,13 @@ vector<Candidate*> TimeBasedRecommendor::findAllSuperCategoriesOf(Candidate* can
 
 Candidate* TimeBasedRecommendor::getCandidateWithName(Name name)
 {
-	return &(this->candidates[name]);
+	Candidate* candidate = &(this->candidates[name]);
+	if (candidate->getName() == Name(""))
+	{
+		message("error finding candidate named");
+		message(name.getName());
+	}
+	return candidate;
 }
 
 PredictionLink* TimeBasedRecommendor::getLinkFromMovingAverages(MovingAverage* predictor, MovingAverage* predictee)
@@ -548,7 +560,19 @@ Distribution TimeBasedRecommendor::rateCandidate(Candidate* candidate, DateTime 
 	message(candidate->getName().getName());
 	message("\r\n");
 	message("rating = ");
-	return currentCandidate->getCurrentRefinedRating();
+	this->printDistribution(&(candidate->getCurrentRefinedRating()));
+	for (i = 0; i < (int)parents.size(); i++)
+	{
+		currentCandidate = parents[i];
+		message("name = ");
+		message(currentCandidate->getName().getName());
+		message(" rating = ");
+		message(currentCandidate->getCurrentRefinedRating().getMean());
+		message("\r\n");
+	}
+	//Distribution expectedRating = candidate->getCurrentRefinedRating();
+	//double duration = candidate
+	return candidate->getCurrentRefinedRating();
 }
 Distribution TimeBasedRecommendor::rateCandidateWithName(Name name, DateTime when)
 {
@@ -581,7 +605,12 @@ Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candida
 		message("\r\n");
 		guesses.push_back(*currentGuess);
 	}
-	Distribution guess = this->combineDistributions(guesses);
+	//double average = candidate->getAverageRating();
+	// We don't want to ever completely forget about a song. So, move it logarithmically closer to perfection
+	//Distribution rememberer = Distribution(1, 1, log(candidate->getIdleDuration(when) + 1));
+	Distribution rememberer = Distribution(1, 1.0/3.0, sqrt(candidate->getIdleDuration(when)));
+	guesses.push_back(rememberer);
+	Distribution guess = this->averageDistributions(guesses);
 	candidate->setCurrentRating(guess);
 	return guess;
 }
@@ -614,8 +643,9 @@ Distribution TimeBasedRecommendor::updateCandidateRatingFromParents(Candidate* c
 		distributions.push_back(currentParent->getCurrentRefinedRating());
 	}
 	distributions.push_back(currentChildDistribution);
+	double average = candidate->getAverageRating();
 	// Now combine the ratings of each parent with the child's
-	Distribution result = this->combineDistributions(distributions);
+	Distribution result = this->averageDistributions(distributions);
 	candidate->setCurrentRefinedRating(result);
 	return result;
 }
@@ -672,7 +702,15 @@ Name TimeBasedRecommendor::makeRecommendation(DateTime when)
 }
 
 // compute the distribution that is formed by combining the given distributions
-Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution>& distributions)
+// Each distribution is the offset from zero and the result is the expected total offset from zero
+Distribution TimeBasedRecommendor::addDistributions(std::vector<Distribution>& distributions, double average)
+{
+	return this->averageDistributions(distributions);
+}
+
+// compute the distribution that is formed by combining the given distributions
+// Each distribution is the offset from zero and the result is the expected total offset from zero
+Distribution TimeBasedRecommendor::averageDistributions(std::vector<Distribution>& distributions)
 {
 	// initialization
 	double sumY = 0;
@@ -680,12 +718,14 @@ Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution
 	double sumWeight = 0;	// the sum of the weights that we calculate, which we use to normalize
 	bool stdDevIsZero = false;
 	double sumVariance = 0;	// variance is another name for standard deviation squared
-	double n = 0;			// the sum of the given weights, which we use to assign a weight to our guess
+	double outputWeight = 0;// the sum of the given weights, which we use to assign a weight to our guess
+	double count = 0;	// the number of distributions being used
 	double weight;
 	double y;
 	double stdDev;
+#define DEBUG
 #ifdef DEBUG
-	message("Combining distributions");
+	message("averaging distributions");
 	message("\r\n");
 #endif
 	unsigned int i;
@@ -716,7 +756,7 @@ Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution
 					stdDevIsZero = true;
 					sumVariance = 0;
 					sumY = sumY2 = 0;
-					n = sumWeight = 0;
+					outputWeight = count = sumWeight = 0;
 				}
 			}
 			// Figure out whether we care about this distribution or not
@@ -739,7 +779,8 @@ Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution
 				sumY2 += y * y * weight;
 				sumWeight += weight;
 				sumVariance += stdDev * stdDev * weight;
-				n += currentDistribution->getWeight();
+				outputWeight += currentDistribution->getWeight();
+				count += 1;
 			}
 		}
 	}
@@ -752,15 +793,18 @@ Distribution TimeBasedRecommendor::combineDistributions(std::vector<Distribution
 	else
 	{
 		// If we did have a distribution to predict from then we can calculate the average and standard deviations
-		double average = sumY / sumWeight;
+		double newAverage = sumY / sumWeight;
 		double variance1 = (sumY2 - sumY * sumY / sumWeight) / sumWeight;
 		double variance2 = sumVariance / sumWeight;
 		stdDev = sqrt(variance1 + variance2);
-		result = Distribution(average, stdDev, n);
+		result = Distribution(newAverage, stdDev, outputWeight);
 	}
 #ifdef DEBUG
 	message("resultant distribution = ");
 	this->printDistribution(&result);
+	message("\r\n");
+	message("average of all distributions");
+	message(sumY / sumWeight);
 	message("\r\n");
 #endif
 	return result;

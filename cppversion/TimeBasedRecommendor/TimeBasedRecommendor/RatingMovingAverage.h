@@ -14,6 +14,7 @@ public:
 	const std::vector<Rating>& getRatings(void);
 	int getNumRatings(void);
 	DateTime getLatestRatingDate(void);
+	double getAverageValue(void);
 private:
 	int getIndexForDate(DateTime when, bool strictlyEarlier);
 	std::vector<Rating> ratings;

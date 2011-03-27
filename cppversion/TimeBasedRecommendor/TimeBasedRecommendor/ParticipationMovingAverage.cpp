@@ -134,6 +134,13 @@ double ParticipationMovingAverage::getTotalIntensityThroughDate(DateTime when)
 		currentComponent = (mostRecentParticipation.getIntensity() - previousTotal) * currentDuration / totalDuration;
 	}
 	double result = previousTotal + currentComponent;
+	if (result < 0)
+	{
+		cout << "negative total intensity" << endl;
+		cout << "index = " << index;
+		cout << "previousTotal = " << previousTotal << endl;
+		cout << "nextTotal = " << mostRecentParticipation.getIntensity() << endl;
+	}
 	return result;
 }
 
@@ -159,22 +166,62 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 	}*/
 
 	//int mostRecentIndex = this->getIndexForDate(when, strictlyEarlier);	
-	int mostRecentIndex = this->getIndexForDate(when, true);	
+	int mostRecentIndex = this->getIndexForDate(when, true);
+	double averageIntensity;
+	if (mostRecentIndex > 0)
+	{
+		int previousIndex = mostRecentIndex - 1;
+		Participation previousParticipation = totalIntensities[previousIndex];
+		double previousDuration = previousParticipation.getEndTime().timeUntil(when);
+		if (previousDuration < 1)
+			previousDuration = 1;
+		averageIntensity = 2 / previousDuration;
+	}
+	else
+	{
+		Participation mostRecentParticipation = totalIntensities[mostRecentIndex];
+		double mostRecentDuration = mostRecentParticipation.getEndTime().timeUntil(when);
+		if (mostRecentDuration < 1)
+			mostRecentDuration = 1;
+		averageIntensity = 1 / mostRecentDuration;
+	}
+	//double averageIntensity = 1 / previousDuration + .5 / mostRecentDuration;
+	Distribution result(averageIntensity, 0, 1);
+	return result;
+#if 0
+	double totalIntensity;
+	double totalIntensity;
+	// choose the one preceding the most recent participation if possible
+	if (mostRecentIndex > 0)
+	{
+		mostRecentIndex--;
+		totalIntensity = 2;
+	}
+	else
+	{
+		totalIntensity = 1;
+	}
 	Participation mostRecentParticipation = totalIntensities[mostRecentIndex];
 	DateTime mostRecentDate = mostRecentParticipation.getStartTime();
-	//if (strictlyChronologicallyOrdered(when, mostRecentDate))
-	//	mostRecentDate = when;
 
 	double duration = mostRecentDate.timeUntil(when);
-	DateTime startDate = mostRecentDate.datePlusDuration(-duration);
+	//DateTime startDate = mostRecentDate.datePlusDuration(-duration);
+	DateTime startDate = mostRecentDate;
 
 	double postIntensity = this->getTotalIntensityThroughDate(when);
 
 	double preIntensity = this->getTotalIntensityThroughDate(startDate);
 
-	double totalIntensity = postIntensity - preIntensity;
+	/*totalIntensity = postIntensity - preIntensity;
+	if (totalIntensity > 0)
+	{
+		// Currently we don't care how long the song is. Hearing a short song twice in a row may be as annoying as hearing a long song twice in a row
+		totalIntensity = 1;
+	}*/
 
 	double totalDuration = startDate.timeUntil(when);
+	//cout << "preIntensity = " << preIntensity << endl;
+	//cout << "postIntensity = " << postIntensity << endl;
 
 	double averageIntensity;
 	if (totalDuration > 0)
@@ -198,8 +245,6 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 #endif
 	Distribution result(averageIntensity, 0, 1);
 	return result;
-	//cout << "lowerIndex = " << lowerIndex << endl;
-	//cout << "upperIndex = " << upperIndex << endl;
 	// Once we get here, we've found the next and previous rating
 	/* // Now we'll do an exponential interpolation
 	Rating previousRating = ratings[lowerIndex];
@@ -230,6 +275,11 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 	cout << "score = " << score << endl;
 	return score;
 	*/
+#endif
+}
+bool ParticipationMovingAverage::isAParticipationMovingAverage(void)		// for determining if its type is ParticipationMovingAverage or not
+{
+	return true;
 }
 /*void ParticipationMovingAverage::setHalfLife(double newHalfLife)
 {

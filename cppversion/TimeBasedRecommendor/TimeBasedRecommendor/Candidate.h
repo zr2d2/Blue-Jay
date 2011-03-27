@@ -14,6 +14,7 @@ class Candidate
 public:
 	Candidate(Name title);
 	Candidate(void);
+	//Candidate(const Candidate& original);
 	void addParent(Name newName);
 	void addParent(Candidate* newCandidate);
 	void addChild(Candidate* newChild);
@@ -34,6 +35,9 @@ public:
 	Distribution getCurrentRefinedRating(void);
 	void setCurrentRefinedRating(Distribution value);
 	bool needToUpdateParentPointers(void);
+	void setDiscoveryDate(DateTime when);
+	double getIdleDuration(DateTime when);
+	double getAverageRating(void);
 private:
 	void initialize(void);
 	Name name;
@@ -48,6 +52,7 @@ private:
 	Distribution currentRating;			// the rating based on PredictionLinks before incorporating information about the parents
 	Distribution currentRefinedRating;	// the rating after moving slightly closer to the parent rating
 	bool parentLinksNeeedUpdating;
+	DateTime discoveryDate;
 };
 
 #endif

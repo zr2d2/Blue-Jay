@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Candidate.h"
 #include "MovingAverage.h"
 #include "RatingMovingAverage.h"
 #include "Math.h"
@@ -140,6 +141,18 @@ Name MovingAverage::getName(void)
 	else
 		return Name("Unknown name - no ratings yet");
 	*/
+}
+void MovingAverage::setOwnerName(Name newName)
+{
+	this->ownerName = newName;
+}
+Name MovingAverage::getOwnerName(void)
+{
+	return this->ownerName;
+}
+bool MovingAverage::isAParticipationMovingAverage(void)		// for determining if its type is ParticipationMovingAverage or not
+{
+	return false;
 }
 /*int MovingAverage::getNumRatings(void)
 {

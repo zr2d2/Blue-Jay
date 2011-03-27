@@ -12,6 +12,12 @@ Candidate::Candidate(void)
 {
 	//initialize();
 }
+// currently the copy constructor does not copy ratings because a candidate with ratings should never be copied
+/*Candidate::Candidate(const Candidate& original)
+{
+	this->name = original.name;
+	initialize();
+}*/
 void Candidate::setName(Name newName)
 {
 	//printf("setting candidate name %s \r\n", newName.getName().c_str());
@@ -140,6 +146,25 @@ bool Candidate::needToUpdateParentPointers(void)
 }
 
 
+void Candidate::setDiscoveryDate(DateTime when)
+{
+	this->discoveryDate = when;
+}
+// Tells how long it has been since the song was heard. If it's never been heard then it tells how longs it's been since the song was discovered
+double Candidate::getIdleDuration(DateTime when)
+{
+	DateTime latestDate;
+	if (this->actualRatingHistory.getNumRatings() > 0)
+		latestDate = this->actualRatingHistory.getLatestRatingDate();
+	else
+		latestDate = this->discoveryDate;
+	return latestDate.timeUntil(when);
+}
+double Candidate::getAverageRating(void)
+{
+	return this->actualRatingHistory.getAverageValue();
+}
+
 void Candidate::initialize(void)
 {
 	numRatings = 0;
@@ -162,15 +187,21 @@ void Candidate::initialize(void)
 	{
 		//frequencyEstimators[i].setHalfLife(currentHalfLife);
 		frequencyEstimators[i].setName(Name(this->name.getName() + " (participations)"));
+		frequencyEstimators[i].setOwnerName(this->name);
+		//frequencyEstimators[i].setOwner(this);
 		//currentHalfLife *= 4;
 	}
 	for (i = 0; i < numAverages; i++)
 	{
 		//ratingEstimators[i].setWeightForOldRatings(weightForOldRatings);
 		ratingEstimators[i].setName(Name(this->name.getName() + " (ratings)"));
+		ratingEstimators[i].setOwnerName(this->name);
+		//ratingEstimators[i].setOwner(this);
 		//weightForOldRatings *= 2;
 		//weightForOldRatings *= 4;
 	}
 	this->actualRatingHistory.setName(Name(this->name.getName() + " actual "));
+	this->actualRatingHistory.setOwnerName(this->name);
+	//this->actualRatingHistory.setOwner(this);
 	//this->actualRatingHistory.setWeightForOldRatings(0);
 }

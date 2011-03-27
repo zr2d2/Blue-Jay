@@ -170,3 +170,9 @@ int RatingMovingAverage::getIndexForDate(DateTime when, bool strictlyEarlier)
 			return upperIndex;
 	}
 }
+double RatingMovingAverage::getAverageValue(void)
+{
+	if (this->sumRatings.size() < 1)
+		return 0;
+	return (double)sumRatings.back().getScore() / (double)this->sumRatings.size();
+}

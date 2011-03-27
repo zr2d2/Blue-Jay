@@ -19,7 +19,7 @@ public:
 	void readFile(char* fileName);
 private:
 	// functions to add data
-	void addCandidate(Candidate newCandidate);
+	void addCandidate(Candidate& newCandidate);
 	void addRating(Rating newRating);	// adds it to the set of ratings without updating
 	void addParticipation(Participation newParticipation);	// adds it to the set of participations without updating
 	void addRatingAndCascade(Rating newRating);	// gives the rating to the candidate and all its supercategories
@@ -53,7 +53,8 @@ private:
 	Name makeRecommendation(DateTime when);
 
 	// other calculation functions
-	Distribution combineDistributions(std::vector<Distribution>& distributions);
+	Distribution addDistributions(std::vector<Distribution>& distributions, double average);
+	Distribution averageDistributions(std::vector<Distribution>& distributions);
 
 	// member variables
 	//std::map<Name, std::vector<Name>* > candidatesParents;	// given the name of a candidate, get the names of all its parents

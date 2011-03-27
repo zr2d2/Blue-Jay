@@ -8,6 +8,7 @@
 #include "Distribution.h"
 #include "Datapoint.h"
 
+class Candidate;
 class RatingMovingAverage;
 
 class MovingAverage
@@ -19,10 +20,14 @@ public:
 	//DateTime getLatestRatingDate(void);
 	void setName(Name newName);
 	Name getName(void);
+	void setOwnerName(Name newName);
+	Name getOwnerName(void);
+	virtual bool isAParticipationMovingAverage(void);		// for determining if its type is ParticipationMovingAverage or not
 	//int getNumRatings(void);
 //protected:
 	//void assignRating(Rating newRating);
 private:
 	Name name;
+	Name ownerName;
 };
 #endif
