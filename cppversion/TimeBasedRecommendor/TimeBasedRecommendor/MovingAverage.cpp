@@ -56,11 +56,16 @@ MovingAverage::MovingAverage(void)
 	newAverage.setWeight(rating.getWeight());
 	this->ratings.push_back(newAverage);
 }*/
-Distribution MovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
+pair<Distribution, int> MovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	Distribution result(0, 0, 0);
-	return result;
+	return make_pair(result, -1);
 }
+Distribution MovingAverage::getCurrentValue(DateTime when, bool strictlyEarlier)
+{
+	return (this->getValueAt(when, strictlyEarlier)).first;
+}
+
 /*double MovingAverage::getLatestValue(void)
 {
 	if (this->ratings.size() > 0)
@@ -76,7 +81,7 @@ Distribution MovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	this->weightOfOldRatings = weightForOldRatings;
 }*/
-vector<Datapoint> MovingAverage::getCorrelationsFor(RatingMovingAverage& other, DateTime startTime)
+pair<vector<Datapoint>, double> MovingAverage::getCorrelationsFor(RatingMovingAverage& other, DateTime startTime)
 {
 	//cout << "getting correlations" << endl;
 	int i;
@@ -103,14 +108,21 @@ vector<Datapoint> MovingAverage::getCorrelationsFor(RatingMovingAverage& other, 
 
 	cout << "interpolations = " << endl;
 	*/
+	int previousIndex = this->getValueAt(startTime, true).second;
+	double numChanges = 0;	// count how many individual x-values will be used to create the prediction
 	// This should be improved eventually.
 	// We should give the deviation of each point to the scatterplot in some meaningful way
 	for (i = startingIndex; i < (int)otherRatings.size(); i++)
 	{
-		Distribution distribution = this->getValueAt(otherRatings[i].getDate(), true);
-		x = distribution.getMean();
+		pair<Distribution, int> value = this->getValueAt(otherRatings[i].getDate(), true);
+		x = value.first.getMean();
 		y = otherRatings[i].getScore();
 		weight = otherRatings[i].getWeight();
+		if (value.second != previousIndex)
+		{
+			previousIndex = value.second;
+			numChanges++;
+		}
 		//if (weight != 1)
 #if 0
 		cout << "i = " << i << endl;
@@ -122,7 +134,7 @@ vector<Datapoint> MovingAverage::getCorrelationsFor(RatingMovingAverage& other, 
 	}
 	//cout << endl;
 	//cout << "done getting correlations" << endl;
-	return results;
+	return make_pair(results, (double)numChanges);
 }
 
 /*DateTime MovingAverage::getLatestRatingDate(void)
@@ -163,3 +175,7 @@ bool MovingAverage::isAParticipationMovingAverage(void)		// for determining if i
 	this->ratings.push_back(newRating);
 }
 */
+DateTime MovingAverage::getLatestDate(void)
+{
+	return DateTime();
+}

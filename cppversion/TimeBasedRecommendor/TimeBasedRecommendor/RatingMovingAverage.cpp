@@ -65,15 +65,15 @@ void RatingMovingAverage::addRating(Rating rating)
 #endif
 }
 
-Distribution RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
+pair<Distribution, int> RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	// If there are no ratings then we default to 0
 	if (this->sumRatings.size() == 0)
-		return Distribution(0, 0, 0);
+		return make_pair(Distribution(0, 0, 0), -1);
 	// If the time is before the first one then default to 0
 	Rating firstRating = sumRatings.front();
 	if (!strictlyChronologicallyOrdered(firstRating.getDate(), when))
-		return Distribution(0, 0, 0);
+		return make_pair(Distribution(0, 0, 0), -1);
 	// find the sum of the ratings up to "when"
 	int latestRatingIndex = this->getIndexForDate(when, strictlyEarlier);
 	DateTime latestRatingDate = this->sumRatings[latestRatingIndex].getDate();
@@ -114,7 +114,7 @@ Distribution RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier
 	double stdDev = sqrt((sumY2 - sumY * sumY / sumWeight) / sumWeight);
 	Distribution result(average, stdDev, sumWeight);
 	//cout << endl;
-	return result;
+	return make_pair(result, latestRatingIndex);
 }
 const std::vector<Rating>& RatingMovingAverage::getRatings(void)
 {
@@ -123,10 +123,6 @@ const std::vector<Rating>& RatingMovingAverage::getRatings(void)
 int RatingMovingAverage::getNumRatings(void)
 {
 	return (int)this->sumRatings.size();
-}
-DateTime RatingMovingAverage::getLatestRatingDate(void)
-{
-	return this->sumRatings.back().getDate();
 }
 
 int RatingMovingAverage::getIndexForDate(DateTime when, bool strictlyEarlier)
@@ -175,4 +171,12 @@ double RatingMovingAverage::getAverageValue(void)
 	if (this->sumRatings.size() < 1)
 		return 0;
 	return (double)sumRatings.back().getScore() / (double)this->sumRatings.size();
+}
+DateTime RatingMovingAverage::getLatestDate(void)
+{
+	if (this->sumRatings.size() < 1)
+		return DateTime();
+	else
+		return this->sumRatings.back().getDate();
+
 }

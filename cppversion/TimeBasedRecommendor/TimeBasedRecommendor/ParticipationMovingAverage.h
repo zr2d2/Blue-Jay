@@ -9,8 +9,11 @@ public:
 	ParticipationMovingAverage();
 	void addParticipationInterval(Participation interval);
 	//void setHalfLife(double newHalfLife);
-	Distribution getValueAt(DateTime when, bool strictlyEarlier);
+	std::pair<Distribution, int> getValueAt(DateTime when, bool strictlyEarlier);
+	Distribution getCurrentValue(DateTime when, bool strictlyEarlier) override;
 	bool isAParticipationMovingAverage(void) override;		// for determining if its type is ParticipationMovingAverage or not
+	DateTime getLatestDate(void) override;
+	int getNumParticipations(void);
 private:
 	int getIndexForDate(DateTime when, bool strictlyEarlier);
 	double getTotalIntensityThroughDate(DateTime when);

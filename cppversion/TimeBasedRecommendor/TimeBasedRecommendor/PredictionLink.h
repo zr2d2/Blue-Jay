@@ -6,6 +6,7 @@
 #include "Distribution.h"
 #include "ScatterPlot.h"
 
+// The PredictionLink class is used to estimate the rating that will be given to another song (or category) based on an attribute of another song (or category)
 class PredictionLink
 {
 public:
@@ -20,6 +21,7 @@ private:
 	RatingMovingAverage* outputData;
 	ScatterPlot plot;
 	DateTime latestUpdateTime;
+	double numChanges;	// keep track of how many times the input changes so we know how much weight to attribute to this PredictionLink
 };
 
 #endif

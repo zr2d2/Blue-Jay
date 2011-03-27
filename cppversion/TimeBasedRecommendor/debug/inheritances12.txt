@@ -142,6 +142,11 @@
 	    <Parent>Pop</Parent>
 	    </Candidate>
 
+            -<Candidate>
+            <Name>Lets Hear It For the Boy</Name>
+            <Parent>80s</Parent>
+            <DiscoveryDate>2011-3-27T15:56:00</DiscoveryDate>
+            </Candidate>
 
     -<Candidate>
     <Name>Pop</Name>
@@ -157,7 +162,7 @@
         </Candidate>
 
         -<Candidate>
-        <Name>I'm A Believer (Reprise)</Name>
+        <Name>I'm a Believer (Reprise)</Name>
         <Parent>Pop</Parent>
         <DiscoveryDate>2011-3-25T16:33:00</DiscoveryDate>
         </Candidate>

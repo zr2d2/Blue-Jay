@@ -126,7 +126,9 @@ Distribution ScatterPlot::predict(double x)
 		// The typical formula for standard deviation is this:
 		// stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1));
 		// However, if we assume that the output is between 0 and 1 then we can estimate standard deviation better
-		stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1)) + (1 / (n + 1));
+		//stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1)) + (1 / (n + 1));
+		// currently the +1/(n+1) is taken care of elsewhere
+		stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1));
 		// The additional (+1/n) is to account for the fact that humans like to give repeated ratings a lot
 		// The user interface might even require it.
 		// We cannot claim that the standard deviation is low until we have a lot of data

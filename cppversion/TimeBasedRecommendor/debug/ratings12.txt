@@ -121,16 +121,16 @@ After hearing some of the song a second time I decided to listen to the whole th
 <Date>2011-3-25T16:31:00</Date>
 </Rating>
 
-<Comment>I'm A Believer (Reprise) chosen by Songbird</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Songbird</Comment>
 
 -<Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-25T16:33:00</StartDate>
 <EndDate>2011-3-25T16:34:00</EndDate>
 </Participation>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.7</Score>
 <Date>2011-3-25T16:33:00</Date>
 </Rating>
@@ -795,30 +795,30 @@ After hearing some of the song a second time I decided to listen to the whole th
 <Date>2011-3-25T23:24:00</Date>
 </Rating>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.85</Score>
 <Date>2011-3-25T23:26:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-25T23:26:00</StartDate>
 <EndDate>2011-3-25T23:27:00</EndDate>
 </Participation>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.85</Score>
 <Date>2011-3-25T23:29:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-25T23:29:00</StartDate>
 <EndDate>2011-3-25T23:31:00</EndDate>
 </Participation>
@@ -864,16 +864,16 @@ After hearing some of the song a second time I decided to listen to the whole th
 <Date>2011-3-25T23:38:00</Date>
 </Rating>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.8</Score>
 <Date>2011-3-25T23:40:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-25T23:39:00</StartDate>
 <EndDate>2011-3-25T23:40:00</EndDate>
 </Participation>
@@ -892,16 +892,16 @@ After hearing some of the song a second time I decided to listen to the whole th
 <EndDate>2011-3-25T23:44:00</EndDate>
 </Participation>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.7</Score>
 <Date>2011-3-25T23:44:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-25T23:44:00</StartDate>
 <EndDate>2011-3-25T23:45:00</EndDate>
 </Participation>
@@ -934,24 +934,24 @@ After hearing some of the song a second time I decided to listen to the whole th
 <EndDate>2011-3-25T23:53:00</EndDate>
 </Participation>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.7</Score>
 <Date>2011-3-25T23:57:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-25T23:57:00</StartDate>
 <EndDate>2011-3-25T23:58:00</EndDate>
 </Participation>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
-<Comment>I'm A Believer (Reprise) was vetoed</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) was vetoed</Comment>
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0</Score>
 <Date>2011-3-26T00:03:00</Date>
 </Rating>
@@ -1029,16 +1029,16 @@ This place is where the initial suspicion was added that repeated songs are bad
 This place is where distributions began to add better
 </Comment>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.85</Score>
 <Date>2011-3-26T17:49:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-26T17:49:00</StartDate>
 <EndDate>2011-3-26T17:50:00</EndDate>
 </Participation>
@@ -1520,16 +1520,16 @@ This marks the time when the two lists were merged
 </Rating>
 
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.8</Score>
 <Date>2011-3-27T00:41:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-27T00:41:00</StartDate>
 <EndDate>2011-3-27T00:42:00</EndDate>
 </Participation>
@@ -1575,24 +1575,24 @@ This marks the time when the two lists were merged
 </Participation>
 
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
 
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0.8</Score>
 <Date>2011-3-27T01:01:00</Date>
 </Rating>
 
 <Participation>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <StartDate>2011-3-27T01:01:00</StartDate>
 <EndDate>2011-3-27T01:03:00</EndDate>
 </Participation>
 
-<Comment>I'm A Believer (Reprise) chosen by Engine</Comment>
-<Comment>I'm A Believer (Reprise) was vetoed</Comment>
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
+<Comment>I'm a Believer (Reprise) was vetoed</Comment>
 <Rating>
-<Activity>I'm A Believer (Reprise)</Activity>
+<Activity>I'm a Believer (Reprise)</Activity>
 <Score>0</Score>
 <Date>2011-3-27T01:04:00</Date>
 </Rating>
@@ -2053,7 +2053,7 @@ weight sqrt(duration) was added to each candidate
 <Rating>
 <Activity>The Heat of the Moment</Activity>
 <Score>0.8</Score>
-<Date>2011-3-27T3:37:00</Date>
+<Date>2011-3-27T03:37:00</Date>
 </Rating>
 
 <Participation>
@@ -2079,3 +2079,972 @@ weight sqrt(duration) was added to each candidate
 
 
 <Comment>One In A Million chosen by Engine</Comment>
+
+<Rating>
+<Activity>One In A Million</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T3:49:00</Date>
+</Rating>
+
+<Participation>
+<Activity>One In A Million</Activity>
+<StartDate>2011-3-27T03:45:00</StartDate>
+<EndDate>2011-3-27T03:49:00</EndDate>
+</Participation>
+
+<Comment>
+This place marks when the weight of each PredictionLink was decreased down to
+the number of times that the input and output changed together
+</Comment>
+
+
+<Comment>Different Kind of Wonderful chosen by Engine</Comment>
+
+<Rating>
+<Activity>Different Kind of Wonderful</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T14:22:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Different Kind of Wonderful</Activity>
+<StartDate>2011-3-27T14:22:00</StartDate>
+<EndDate>2011-3-27T14:26:00</EndDate>
+</Participation>
+
+
+<Comment>Geek Stink Breath chosen by Engine</Comment>
+
+<Rating>
+<Activity>Geek Stink Breath</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T14:26:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Geek Stink Breath</Activity>
+<StartDate>2011-3-27T14:26:00</StartDate>
+<EndDate>2011-3-27T14:28:00</EndDate>
+</Participation>
+
+
+<Comment>Evil Ways chosen by Engine</Comment>
+
+<Rating>
+<Activity>Evil Ways</Activity>
+<Score>0.7</Score>
+<Date>2011-3-27T14:28:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Evil Ways</Activity>
+<StartDate>2011-3-27T14:29:00</StartDate>
+<EndDate>2011-3-27T14:33:00</EndDate>
+</Participation>
+
+
+<Comment>One In A Million chosen by Engine</Comment>
+
+<Rating>
+<Activity>One In A Million</Activity>
+<Score>0.95</Score>
+<Date>2011-3-27T14:33:00</Date>
+</Rating>
+
+<Participation>
+<Activity>One In A Million</Activity>
+<StartDate>2011-3-27T14:33:00</StartDate>
+<EndDate>2011-3-27T14:37:00</EndDate>
+</Participation>
+
+
+<Comment>Stuart And The Ave. chosen by Engine</Comment>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T14:37:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-27T14:37:00</StartDate>
+<EndDate>2011-3-27T14:38:00</EndDate>
+</Participation>
+
+
+<Comment>Geek Stink Breath chosen by Engine</Comment>
+
+<Rating>
+<Activity>Geek Stink Breath</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T14:39:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Geek Stink Breath</Activity>
+<StartDate>2011-3-27T14:39:00</StartDate>
+<EndDate>2011-3-27T14:41:00</EndDate>
+</Participation>
+
+
+<Comment>Geek Stink Breath chosen by Engine</Comment>
+
+<Rating>
+<Activity>Geek Stink Breath</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T14:41:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Geek Stink Breath</Activity>
+<StartDate>2011-3-27T14:41:00</StartDate>
+<EndDate>2011-3-27T14:43:00</EndDate>
+</Participation>
+
+
+<Comment>Up, Up, Up chosen by Engine</Comment>
+
+<Rating>
+<Activity>Up, Up, Up</Activity>
+<Score>0.95</Score>
+<Date>2011-3-27T14:43:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Up, Up, Up</Activity>
+<StartDate>2011-3-27T14:43:00</StartDate>
+<EndDate>2011-3-27T14:46:00</EndDate>
+</Participation>
+
+
+<Comment>Little Lies chosen by Engine</Comment>
+
+<Rating>
+<Activity>Little Lies</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T14:46:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Little Lies</Activity>
+<StartDate>2011-3-27T14:46:00</StartDate>
+<EndDate>2011-3-27T14:49:00</EndDate>
+</Participation>
+
+
+<Comment>Mo Ghile Mear chosen by Engine</Comment>
+
+<Rating>
+<Activity>Mo Ghile Mear</Activity>
+<Score>0.87</Score>
+<Date>2011-3-27T14:50:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Mo Ghile Mear</Activity>
+<StartDate>2011-3-27T14:50:00</StartDate>
+<EndDate>2011-3-27T14:55:00</EndDate>
+</Participation>
+
+
+<Comment>Pump Up the Jam chosen by Engine</Comment>
+
+<Rating>
+<Activity>Pump Up the Jam</Activity>
+<Score>0.77</Score>
+<Date>2011-3-27T14:55:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Pump Up the Jam</Activity>
+<StartDate>2011-3-27T14:55:00</StartDate>
+<EndDate>2011-3-27T15:00:00</EndDate>
+</Participation>
+
+<Comment>
+Here was a bug fix where the parent distribution's weight
+previously wasn't scaled down properly
+</Comment>
+
+
+<Comment>Feed the Birds chosen by Engine</Comment>
+
+<Rating>
+<Activity>Feed the Birds</Activity>
+<Score>0.6</Score>
+<Date>2011-3-27T15:00:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Feed the Birds</Activity>
+<StartDate>2011-3-27T15:00:00</StartDate>
+<EndDate>2011-3-27T15:04:00</EndDate>
+</Participation>
+
+
+<Comment>Easy Lover chosen by Engine</Comment>
+
+<Rating>
+<Activity>Easy Lover</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T15:04:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Easy Lover</Activity>
+<StartDate>2011-3-27T15:04:00</StartDate>
+<EndDate>2011-3-27T15:09:00</EndDate>
+</Participation>
+
+
+<Comment>The Heat of the Moment chosen by Engine</Comment>
+
+<Rating>
+<Activity>The Heat of the Moment</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T15:09:00</Date>
+</Rating>
+
+<Participation>
+<Activity>The Heat of the Moment</Activity>
+<StartDate>2011-3-27T15:09:00</StartDate>
+<EndDate>2011-3-27T15:13:00</EndDate>
+</Participation>
+
+
+<Comment>One In A Million chosen by Engine</Comment>
+
+<Rating>
+<Activity>One In A Million</Activity>
+<Score>0.95</Score>
+<Date>2011-3-27T15:14:00</Date>
+</Rating>
+
+<Participation>
+<Activity>One In A Million</Activity>
+<StartDate>2011-3-27T15:14:00</StartDate>
+<EndDate>2011-3-27T15:18:00</EndDate>
+</Participation>
+
+
+<Comment>One In A Million chosen by Engine</Comment>
+
+<Rating>
+<Activity>One In A Million</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T15:18:00</Date>
+</Rating>
+
+<Participation>
+<Activity>One In A Million</Activity>
+<StartDate>2011-3-27T15:18:00</StartDate>
+<EndDate>2011-3-27T15:22:00</EndDate>
+</Participation>
+
+
+<Comment>One In A Million chosen by Engine</Comment>
+
+<Rating>
+<Activity>One In A Million</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T15:23:00</Date>
+</Rating>
+
+<Participation>
+<Activity>One In A Million</Activity>
+<StartDate>2011-3-27T15:23:00</StartDate>
+<EndDate>2011-3-27T15:27:00</EndDate>
+</Participation>
+
+
+<Comment>One In A Million chosen by Engine</Comment>
+
+<Rating>
+<Activity>One In A Million</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T15:36:00</Date>
+</Rating>
+
+<Participation>
+<Activity>One In A Million</Activity>
+<StartDate>2011-3-27T15:36:00</StartDate>
+<EndDate>2011-3-27T15:40:00</EndDate>
+</Participation>
+
+<Comment>One In A Million chosen by Engine</Comment>
+<Comment>One In A Million was vetoed</Comment>
+
+<Rating>
+<Activity>One In A Million</Activity>
+<Score>0</Score>
+<Date>2011-3-27T15:40:00</Date>
+</Rating>
+
+
+<Comment>Different Kind of Wonderful chosen by Engine</Comment>
+
+<Rating>
+<Activity>Different Kind of Wonderful</Activity>
+<Score>0.92</Score>
+<Date>2011-3-27T15:41:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Different Kind of Wonderful</Activity>
+<StartDate>2011-3-27T15:41:00</StartDate>
+<EndDate>2011-3-27T15:44:00</EndDate>
+</Participation>
+
+
+<Comment>Little Star chosen by Engine</Comment>
+
+<Rating>
+<Activity>Little Star</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T15:47:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Little Star</Activity>
+<StartDate>2011-3-27T15:45:00</StartDate>
+<EndDate>2011-3-27T15:50:00</EndDate>
+</Participation>
+
+
+<Comment>Piano Man chosen by Engine</Comment>
+
+<Rating>
+<Activity>Piano Man</Activity>
+<Score>0.6</Score>
+<Date>2011-3-27T15:50:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Piano Man</Activity>
+<StartDate>2011-3-27T15:50:00</StartDate>
+<EndDate>2011-3-27T15:56:00</EndDate>
+</Participation>
+
+
+<Comment>Lets Hear It For the Boy chosen randomly by Songbird</Comment>
+
+<Rating>
+<Activity>Lets Hear It For the Boy</Activity>
+<Score>0.7</Score>
+<Date>2011-3-27T15:56:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Lets Hear It For the Boy</Activity>
+<StartDate>2011-3-27T15:56:00</StartDate>
+<EndDate>2011-3-27T16:00:00</EndDate>
+</Participation>
+
+
+<Comment>It Is You (I Have Loved) chosen by Engine</Comment>
+
+<Rating>
+<Activity>It Is You (I Have Loved)</Activity>
+<Score>0.98</Score>
+<Date>2011-3-27T16:01:00</Date>
+</Rating>
+
+<Participation>
+<Activity>It Is You (I Have Loved)</Activity>
+<StartDate>2011-3-27T16:00:00</StartDate>
+<EndDate>2011-3-27T16:04:00</EndDate>
+</Participation>
+
+
+<Comment>It Is You (I Have Loved) chosen by Engine</Comment>
+
+<Rating>
+<Activity>It Is You (I Have Loved)</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T16:05:00</Date>
+</Rating>
+
+<Participation>
+<Activity>It Is You (I Have Loved)</Activity>
+<StartDate>2011-3-27T16:05:00</StartDate>
+<EndDate>2011-3-27T16:09:00</EndDate>
+</Participation>
+
+
+<Comment>Almost Paradise chosen by Engine</Comment>
+
+<Rating>
+<Activity>Almost Paradise</Activity>
+<Score>0.88</Score>
+<Date>2011-3-27T16:09:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Almost Paradise</Activity>
+<StartDate>2011-3-27T16:09:00</StartDate>
+<EndDate>2011-3-27T16:13:00</EndDate>
+</Participation>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.94</Score>
+<Date>2011-3-27T16:19:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Still Here</Activity>
+<StartDate>2011-3-27T16:19:00</StartDate>
+<EndDate>2011-3-27T16:21:00</EndDate>
+</Participation>
+
+
+<Comment>Radar Love chosen by Engine</Comment>
+
+<Rating>
+<Activity>Radar Love</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T16:22:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Radar Love</Activity>
+<StartDate>2011-3-27T16:21:00</StartDate>
+<EndDate>2011-3-27T16:26:00</EndDate>
+</Participation>
+
+
+<Comment>You Better Run chosen by Engine</Comment>
+
+<Rating>
+<Activity>You Better Run</Activity>
+<Score>0.75</Score>
+<Date>2011-3-27T16:31:00</Date>
+</Rating>
+
+<Participation>
+<Activity>You Better Run</Activity>
+<StartDate>2011-3-27T16:26:00</StartDate>
+<EndDate>2011-3-27T16:31:00</EndDate>
+</Participation>
+
+
+<Comment>Different Kind of Wonderful chosen by Engine</Comment>
+
+<Rating>
+<Activity>Different Kind of Wonderful</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T16:32:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Different Kind of Wonderful</Activity>
+<StartDate>2011-3-27T16:32:00</StartDate>
+<EndDate>2011-3-27T16:35:00</EndDate>
+</Participation>
+
+
+<Comment>Gypsy chosen by Engine</Comment>
+
+<Rating>
+<Activity>Gypsy</Activity>
+<Score>0.75</Score>
+<Date>2011-3-27T16:36:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Gypsy</Activity>
+<StartDate>2011-3-27T16:36:00</StartDate>
+<EndDate>2011-3-27T16:40:00</EndDate>
+</Participation>
+
+
+<Comment>Every Breath You Take chosen by Engine</Comment>
+
+<Rating>
+<Activity>Every Breath You Take</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T16:40:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Every Breath You Take</Activity>
+<StartDate>2011-3-27T16:40:00</StartDate>
+<EndDate>2011-3-27T16:44:00</EndDate>
+</Participation>
+
+
+<Comment>Different Kind of Wonderful chosen by Engine</Comment>
+
+<Rating>
+<Activity>Different Kind of Wonderful</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T16:44:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Different Kind of Wonderful</Activity>
+<StartDate>2011-3-27T16:44:00</StartDate>
+<EndDate>2011-3-27T16:47:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Different Kind of Wonderful</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T16:47:00</Date>
+</Rating>
+
+<Comment>
+This is when the additional rating boost caused by not being heard recently
+was changed from:
+{weight=sqrt(duration),stddev=1}
+to
+{weight=duration^0.25,stddev=1/weight}
+</Comment>
+
+
+<Comment>When You're Gone chosen by Engine</Comment>
+
+<Rating>
+<Activity>When You're Gone</Activity>
+<Score>0.97</Score>
+<Date>2011-3-27T16:48:00</Date>
+</Rating>
+
+<Participation>
+<Activity>When You're Gone</Activity>
+<StartDate>2011-3-27T16:48:00</StartDate>
+<EndDate>2011-3-27T16:52:00</EndDate>
+</Participation>
+
+
+<Comment>Mine Mine Mine chosen by Engine</Comment>
+
+<Rating>
+<Activity>Mine Mine Mine</Activity>
+<Score>0.65</Score>
+<Date>2011-3-27T16:52:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Mine Mine Mine</Activity>
+<StartDate>2011-3-27T16:52:00</StartDate>
+<EndDate>2011-3-27T16:55:00</EndDate>
+</Participation>
+
+
+<Comment>Layla (unplugged) chosen by Engine</Comment>
+
+<Rating>
+<Activity>Layla (unplugged)</Activity>
+<Score>0.6</Score>
+<Date>2011-3-27T16:56:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Layla (unplugged)</Activity>
+<StartDate>2011-3-27T16:56:00</StartDate>
+<EndDate>2011-3-27T17:00:00</EndDate>
+</Participation>
+
+
+<Comment>Easy Lover chosen by Engine</Comment>
+
+<Rating>
+<Activity>Easy Lover</Activity>
+<Score>0.84</Score>
+<Date>2011-3-27T17:00:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Easy Lover</Activity>
+<StartDate>2011-3-27T17:00:00</StartDate>
+<EndDate>2011-3-27T17:05:00</EndDate>
+</Participation>
+
+
+<Comment>Pie Jesu chosen by Engine</Comment>
+
+<Rating>
+<Activity>Pie Jesu</Activity>
+<Score>0.55</Score>
+<Date>2011-3-27T17:06:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Pie Jesu</Activity>
+<StartDate>2011-3-27T17:06:00</StartDate>
+<EndDate>2011-3-27T17:09:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Pie Jesu</Activity>
+<Score>0.3</Score>
+<Date>2011-3-27T17:08:00</Date>
+</Rating>
+
+
+<Comment>Different Kind of Wonderful chosen by Engine</Comment>
+
+<Rating>
+<Activity>Different Kind of Wonderful</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T17:09:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Different Kind of Wonderful</Activity>
+<StartDate>2011-3-27T17:09:00</StartDate>
+<EndDate>2011-3-27T17:13:00</EndDate>
+</Participation>
+
+
+<Comment>Different Kind of Wonderful chosen by Engine</Comment>
+<Comment>Different Kind of Wonderful was vetoed</Comment>
+<Rating>
+<Activity>Different Kind of Wonderful</Activity>
+<Score>0</Score>
+<Date>2011-3-27T17:13:00</Date>
+</Rating>
+
+
+<Comment>I'm Free chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Free</Activity>
+<Score>0.78</Score>
+<Date>2011-3-27T17:15:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Free</Activity>
+<StartDate>2011-3-27T17:15:00</StartDate>
+<EndDate>2011-3-27T17:18:00</EndDate>
+</Participation>
+
+
+<Comment>I'm a Believer (Reprise) chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm a Believer (Reprise)</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T17:18:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm a Believer (Reprise)</Activity>
+<StartDate>2011-3-27T17:18:00</StartDate>
+<EndDate>2011-3-27T17:20:00</EndDate>
+</Participation>
+
+
+<Comment>Poker Face chosen by Engine</Comment>
+
+<Rating>
+<Activity>Poker Face</Activity>
+<Score>0.95</Score>
+<Date>2011-3-27T17:20:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Poker Face</Activity>
+<StartDate>2011-3-27T17:20:00</StartDate>
+<EndDate>2011-3-27T17:24:00</EndDate>
+</Participation>
+
+
+<Comment>The Heat of the Moment chosen by Engine</Comment>
+
+<Rating>
+<Activity>The Heat of the Moment</Activity>
+<Score>0.6</Score>
+<Date>2011-3-27T17:24:00</Date>
+</Rating>
+
+<Participation>
+<Activity>The Heat of the Moment</Activity>
+<StartDate>2011-3-27T17:24:00</StartDate>
+<EndDate>2011-3-27T17:28:00</EndDate>
+</Participation>
+
+
+<Comment>Evil Ways chosen by Engine</Comment>
+
+<Rating>
+<Activity>Evil Ways</Activity>
+<Score>0.78</Score>
+<Date>2011-3-27T17:29:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Evil Ways</Activity>
+<StartDate>2011-3-27T17:29:00</StartDate>
+<EndDate>2011-3-27T17:32:00</EndDate>
+</Participation>
+
+
+<Comment>Little Lies chosen by Engine</Comment>
+
+<Rating>
+<Activity>Little Lies</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T17:32:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Little Lies</Activity>
+<StartDate>2011-3-27T17:32:00</StartDate>
+<EndDate>2011-3-27T17:35:00</EndDate>
+</Participation>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T17:35:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Still Here</Activity>
+<StartDate>2011-3-27T17:35:00</StartDate>
+<EndDate>2011-3-27T17:37:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T17:37:00</Date>
+</Rating>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T17:38:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Still Here</Activity>
+<StartDate>2011-3-27T17:38:00</StartDate>
+<EndDate>2011-3-27T17:40:00</EndDate>
+</Participation>
+
+
+<Comment>Geek Stink Breath chosen by Engine</Comment>
+
+<Rating>
+<Activity>Geek Stink Breath</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T17:41:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Geek Stink Breath</Activity>
+<StartDate>2011-3-27T17:41:00</StartDate>
+<EndDate>2011-3-27T17:43:00</EndDate>
+</Participation>
+
+
+<Comment>Geek Stink Breath chosen by Engine</Comment>
+
+<Rating>
+<Activity>Geek Stink Breath</Activity>
+<Score>0.7</Score>
+<Date>2011-3-27T17:43:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Geek Stink Breath</Activity>
+<StartDate>2011-3-27T17:43:00</StartDate>
+<EndDate>2011-3-27T17:45:00</EndDate>
+</Participation>
+
+
+<Comment>Geek Stink Breath chosen by Engine</Comment>
+<Comment>Geek Stink Breath was vetoed</Comment>
+
+<Rating>
+<Activity>Geek Stink Breath</Activity>
+<Score>0</Score>
+<Date>2011-3-27T17:46:00</Date>
+</Rating>
+
+
+<Comment>When You're Gone chosen by Engine</Comment>
+
+<Rating>
+<Activity>When You're Gone</Activity>
+<Score>0.9</Score>
+<Date>2011-3-27T17:46:00</Date>
+</Rating>
+
+<Participation>
+<Activity>When You're Gone</Activity>
+<StartDate>2011-3-27T17:46:00</StartDate>
+<EndDate>2011-3-27T17:50:00</EndDate>
+</Participation>
+
+
+<Comment>When You're Gone chosen by Engine</Comment>
+
+<Rating>
+<Activity>When You're Gone</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T17:52:00</Date>
+</Rating>
+
+<Participation>
+<Activity>When You're Gone</Activity>
+<StartDate>2011-3-27T17:52:00</StartDate>
+<EndDate>2011-3-27T17:56:00</EndDate>
+</Participation>
+
+
+<Comment>When You're Gone chosen by Engine</Comment>
+
+<Rating>
+<Activity>When You're Gone</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T17:56:00</Date>
+</Rating>
+
+<Participation>
+<Activity>When You're Gone</Activity>
+<StartDate>2011-3-27T17:56:00</StartDate>
+<EndDate>2011-3-27T18:00:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>When You're Gone</Activity>
+<Score>0.75</Score>
+<Date>2011-3-27T17:58:00</Date>
+</Rating>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T18:00:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Still Here</Activity>
+<StartDate>2011-3-27T18:00:00</StartDate>
+<EndDate>2011-3-27T18:02:00</EndDate>
+</Participation>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.8</Score>
+<Date>2011-3-27T18:10:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Still Here</Activity>
+<StartDate>2011-3-27T18:10:00</StartDate>
+<EndDate>2011-3-27T18:12:00</EndDate>
+</Participation>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.75</Score>
+<Date>2011-3-27T18:13:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Still Here</Activity>
+<StartDate>2011-3-27T18:13:00</StartDate>
+<EndDate>2011-3-27T18:15:00</EndDate>
+</Participation>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0.7</Score>
+<Date>2011-3-27T18:15:00</Date>
+</Rating>
+
+<Participation>
+<Activity>I'm Still Here</Activity>
+<StartDate>2011-3-27T18:15:00</StartDate>
+<EndDate>2011-3-27T18:17:00</EndDate>
+</Participation>
+
+
+<Comment>I'm Still Here chosen by Engine</Comment>
+<Comment>I'm Still Here was vetoed</Comment>
+
+<Rating>
+<Activity>I'm Still Here</Activity>
+<Score>0</Score>
+<Date>2011-3-27T18:17:00</Date>
+</Rating>
+
+
+<Comment>Stuart And The Ave. chosen by Engine</Comment>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.85</Score>
+<Date>2011-3-27T18:46:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-27T18:46:00</StartDate>
+<EndDate>2011-3-27T18:48:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.75</Score>
+<Date>2011-3-27T18:48:00</Date>
+</Rating>
+
+
+<Comment>It Is You (I Have Loved) chosen by Engine</Comment>
+
+<Rating>
+<Activity>It Is You (I Have Loved)</Activity>
+<Score>0.83</Score>
+<Date>2011-3-27T18:50:00</Date>
+</Rating>
+
+<Participation>
+<Activity>It Is You (I Have Loved)</Activity>
+<StartDate>2011-3-27T18:50:00</StartDate>
+<EndDate>2011-3-27T18:53:00</EndDate>
+</Participation>
+
+
+<Comment>It Is You (I Have Loved) chosen by Engine</Comment>
+
+<Rating>
+<Activity>It Is You (I Have Loved)</Activity>
+<Score>0.75</Score>
+<Date>2011-3-27T18:53:00</Date>
+</Rating>
+
+<Participation>
+<Activity>It Is You (I Have Loved)</Activity>
+<StartDate>2011-3-27T18:53:00</StartDate>
+<EndDate>2011-3-27T18:57:00</EndDate>
+</Participation>
+

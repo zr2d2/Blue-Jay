@@ -14,6 +14,7 @@ TimeBasedRecommendor::TimeBasedRecommendor()
 {
 	numHalfLives = 10;
 }
+// read the given arguments and do what they request
 void TimeBasedRecommendor::parseArguments(ArgumentList* arguments)
 {
 	Rating();
@@ -54,6 +55,7 @@ void TimeBasedRecommendor::parseArguments(ArgumentList* arguments)
 		}
 	}
 }
+// read the file and add any data in it
 void TimeBasedRecommendor::readFile(char* fileName)
 {
 	message("opening file ");
@@ -79,6 +81,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 		message("error opening file");
 		return;
 	}
+	// setup some strings to search for in the file
 	const Name candidateIndicator = Name("Candidate");
 	const Name nameIndicator = Name("Name");
 	const Name parentIndicator = Name("Parent");
@@ -128,6 +131,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 			{
 				if (stackCount == 1)
 				{
+					// If we get here, then we just read the type of the object that is about to follow
 					objectName = startTag;
 				}
 				//message("start tag = ");
@@ -141,7 +145,9 @@ void TimeBasedRecommendor::readFile(char* fileName)
 				//message(endTag.getName());
 				if (stackCount == 2)
 				{
-					// Tags associated with candidate activities
+					// If we get here, then we just read an attribute of the object
+
+					// If any of these trigger, then we just read an attribute of a candidate (which is a song, artist, genre or whatever)
 					if (endTag == nameIndicator)
 						candidate.setName(value);
 					if (endTag == parentIndicator)
@@ -150,6 +156,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 						candidate.setDiscoveryDate(DateTime(value.getName()));
 
 
+					// If any of these trigger, then we just read an attribute of a rating
 					// Tags associated with ratings
 					if (endTag == ratingActivityIndicator)
 						rating.setActivity(value);
@@ -177,7 +184,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 						rating.setDuration((double)duration);
 					}*/
 
-					// tags associated with participations
+					// If any of these trigger, then we just read an attribute of a participation (an instance of listening)
 					if (endTag == participationStartDateIndicator)
 					{
 						// keep track of the latest date ever encountered
@@ -199,14 +206,17 @@ void TimeBasedRecommendor::readFile(char* fileName)
 				}
 				if (stackCount == 1)
 				{
+					// If we get here then we just finished reading an object
 					if (objectName == candidateIndicator)
 					{
+						// If we get here then we just finished reading a candidate (which is a song, artist, genre or whatever)
 						// add the candidate to the inheritance hierarchy
 						this->addCandidate(candidate);
 						candidate = Candidate();
 					}
 					if (objectName == ratingIndicator)
 					{
+						// If we get here then we just finished reading a rating
 						// add the rating to the rating set
 						this->addRating(rating);
 						/*if (rating.getWeight() < -1)
@@ -219,6 +229,7 @@ void TimeBasedRecommendor::readFile(char* fileName)
 					}
 					if (objectName == participationIndicator)
 					{
+						// If we get here then we just finished reading a rating
 						this->addParticipation(participation);
 						participation = Participation();
 					}
@@ -608,11 +619,24 @@ Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candida
 	//double average = candidate->getAverageRating();
 	// We don't want to ever completely forget about a song. So, move it logarithmically closer to perfection
 	//Distribution rememberer = Distribution(1, 1, log(candidate->getIdleDuration(when) + 1));
-	Distribution rememberer = Distribution(1, 1.0/3.0, sqrt(candidate->getIdleDuration(when)));
+	//Distribution rememberer = Distribution(1, 1.0/3.0, sqrt(candidate->getIdleDuration(when)));
+	double remembererDuration = candidate->getIdleDuration(when);
+	if (remembererDuration < 1)
+		remembererDuration = 1;
+	double remembererWeight = sqrt(sqrt(remembererDuration));
+	Distribution rememberer = Distribution(1, 1 / remembererWeight, remembererWeight);
 	guesses.push_back(rememberer);
 	Distribution guess = this->averageDistributions(guesses);
+#if 0
+	// remove the rememberer from the total weight though because it doesn't increase our certainty
+	double weight = guess.getWeight() - rememberer.getWeight();
+	Distribution result = Distribution(guess.getMean(), guess.getStdDev(), guess.getWeight() - rememberer.getWeight());
+	candidate->setCurrentRating(result);
+	return result;
+#else
 	candidate->setCurrentRating(guess);
 	return guess;
+#endif
 }
 // Using the current estimated rating for the candidate and the estimates for parents, compute an updated rating for the candidate
 // It assumes that all parents are already correct
@@ -640,7 +664,7 @@ Distribution TimeBasedRecommendor::updateCandidateRatingFromParents(Candidate* c
 		currentParent = (*parents)[i];
 		parentDistribution = currentParent->getCurrentRefinedRating();
 		currentDistribution = Distribution(parentDistribution.getMean(), parentDistribution.getStdDev(), parentDistribution.getWeight() * scale);
-		distributions.push_back(currentParent->getCurrentRefinedRating());
+		distributions.push_back(currentDistribution);
 	}
 	distributions.push_back(currentChildDistribution);
 	double average = candidate->getAverageRating();
@@ -668,6 +692,7 @@ Name TimeBasedRecommendor::makeRecommendation(DateTime when)
 	{
 		return Name("[no data]");
 	}
+	map<double, Name> guesses;
 	bool scoreValid = false;
 	Candidate* currentCandidate = NULL;
 	double bestScore = -1;
@@ -685,6 +710,7 @@ Name TimeBasedRecommendor::makeRecommendation(DateTime when)
 			message(" expected rating = ");
 			message(currentScore);
 			message("\r\n");
+			guesses[currentScore] = currentCandidate->getName();
 			if ((currentScore > bestScore) || !scoreValid)
 			{
 				bestScore = currentScore;
@@ -692,6 +718,15 @@ Name TimeBasedRecommendor::makeRecommendation(DateTime when)
 				scoreValid = true;
 			}
 		}
+	}
+	map<double, Name>::iterator distributionIterator;
+	for (distributionIterator = guesses.begin(); distributionIterator != guesses.end(); distributionIterator++)
+	{
+		message("candidate name = ");
+		message((*distributionIterator).second.getName());
+		message(" expected rating = ");
+		message((*distributionIterator).first);
+		message("\r\n");
 	}
 	message("best candidate name = ");
 	message(bestName.getName());
@@ -795,7 +830,13 @@ Distribution TimeBasedRecommendor::averageDistributions(std::vector<Distribution
 		// If we did have a distribution to predict from then we can calculate the average and standard deviations
 		double newAverage = sumY / sumWeight;
 		double variance1 = (sumY2 - sumY * sumY / sumWeight) / sumWeight;
+		message("variance1 = ");
+		message(variance1);
+		message("\r\n");
 		double variance2 = sumVariance / sumWeight;
+		message("variance2 = ");
+		message(variance2);
+		message("\r\n");
 		stdDev = sqrt(variance1 + variance2);
 		result = Distribution(newAverage, stdDev, outputWeight);
 	}

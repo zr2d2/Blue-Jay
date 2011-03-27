@@ -70,6 +70,7 @@ void Candidate::giveRating(Rating rating)
 	}
 	this->actualRatingHistory.addRating(rating);
 }
+// inform the Candidate that it was listened to during a certain interval
 void Candidate::giveParticipation(Participation participation)
 {
 	unsigned int i;
@@ -99,22 +100,27 @@ void Candidate::giveParticipation(Participation participation)
 	numRatings++;
 	latestRatingTime = participation.getEndTime();
 }
+// returns the number of MovingAverages that try to estimate the current rating
 int Candidate::getNumRatingEstimators(void)
 {
 	return this->ratingEstimators.size();
 }
+// returns a particular rating estimator
 MovingAverage* Candidate::getRatingEstimatorAtIndex(int index)
 {
 	return &(this->ratingEstimators[index]);
 }
+// returns the number of MovingAverages that try to estimate how often this song has been listened to recently
 int Candidate::getNumFrequencyEstimators(void)
 {
 	return this->frequencyEstimators.size();
 }
+// returns a particular frequency estimator
 ParticipationMovingAverage* Candidate::getFrequencyEstimatorAtIndex(int index)
 {
 	return &(this->frequencyEstimators[index]);
 }
+// returns the moving average that records the exact ratings
 RatingMovingAverage* Candidate::getActualRatingHistory(void)
 {
 	return &(this->actualRatingHistory);
@@ -154,8 +160,10 @@ void Candidate::setDiscoveryDate(DateTime when)
 double Candidate::getIdleDuration(DateTime when)
 {
 	DateTime latestDate;
-	if (this->actualRatingHistory.getNumRatings() > 0)
-		latestDate = this->actualRatingHistory.getLatestRatingDate();
+	//latestDate = this->actualRatingHistory.getLatestRatingDate();
+	ParticipationMovingAverage* frequencies = this->getFrequencyEstimatorAtIndex(0);
+	if (frequencies->getNumParticipations() > 0)
+		latestDate = frequencies->getLatestDate();
 	else
 		latestDate = this->discoveryDate;
 	return latestDate.timeUntil(when);

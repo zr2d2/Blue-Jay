@@ -143,18 +143,18 @@ double ParticipationMovingAverage::getTotalIntensityThroughDate(DateTime when)
 	}
 	return result;
 }
-
-Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
+// returns a pair with the distribution of expected values and an index telling which participation mattered the most in its calculation
+pair<Distribution, int> ParticipationMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	// stictlyEarlier is ignored in this function at the moment
 	//cout << "getting value at " << when.stringVersion() << endl;
 	// If there are no ratings then we default to 0
 	if (this->totalIntensities.size() < 1)
-		return Distribution(0, 0, 0);
+		return make_pair(Distribution(0, 0, 0), -1);
 	// If the time is before the first one then we default to 0
 	Participation firstParticipation = this->totalIntensities.front();
 	if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when))
-		return Distribution(0, 0, 0);
+		return make_pair(Distribution(0, 0, 0), -1);
 	/*// If the time is after the last one, then compute the exponential decay towards zero
 	Rating lastRating = ratings.back();
 	if (strictlyChronologicallyOrdered(lastRating.getDate(), when))
@@ -187,7 +187,7 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 	}
 	//double averageIntensity = 1 / previousDuration + .5 / mostRecentDuration;
 	Distribution result(averageIntensity, 0, 1);
-	return result;
+	return make_pair(result, mostRecentIndex);
 #if 0
 	double totalIntensity;
 	double totalIntensity;
@@ -277,6 +277,33 @@ Distribution ParticipationMovingAverage::getValueAt(DateTime when, bool strictly
 	*/
 #endif
 }
+// compute the current value, including the most recent participation
+Distribution ParticipationMovingAverage::getCurrentValue(DateTime when, bool strictlyEarlier)
+{
+	// default when there's no data
+	if (this->totalIntensities.size() < 1)
+		return Distribution(0, 0, 0);
+	// If the time is before the first one then we default to 0
+	Participation firstParticipation = this->totalIntensities.front();
+	if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when))
+		return Distribution(0, 0, 0);
+	// find the most recent participation
+	int mostRecentIndex = this->getIndexForDate(when, true);
+	double averageIntensity;
+	Participation mostRecentParticipation = totalIntensities[mostRecentIndex];
+	double mostRecentDuration = mostRecentParticipation.getEndTime().timeUntil(when);
+	// compute the date twice as far in the past
+	DateTime startDate = mostRecentParticipation.getStartTime().datePlusDuration(-mostRecentDuration);
+	// count the average number of times per second that this song is heard (it will be a pretty small number)
+	double totalDuration = startDate.timeUntil(when);
+	if (totalDuration < 0)
+		totalDuration = 1;
+	int startIndex = this->getIndexForDate(startDate, true);
+	averageIntensity = (mostRecentIndex - startIndex) / totalDuration;
+	Distribution result(averageIntensity, 0, 1);
+	return result;
+}
+
 bool ParticipationMovingAverage::isAParticipationMovingAverage(void)		// for determining if its type is ParticipationMovingAverage or not
 {
 	return true;
@@ -285,3 +312,14 @@ bool ParticipationMovingAverage::isAParticipationMovingAverage(void)		// for det
 {
 	this->halfLife = newHalfLife;
 }*/
+DateTime ParticipationMovingAverage::getLatestDate(void)
+{
+	if (this->totalIntensities.size() < 1)
+		return DateTime();
+	else
+		return this->totalIntensities.back().getEndTime();
+}
+int ParticipationMovingAverage::getNumParticipations(void)
+{
+	return this->totalIntensities.size();
+}
