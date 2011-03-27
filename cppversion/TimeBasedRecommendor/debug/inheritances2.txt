@@ -1,0 +1,83 @@
+-<Candidate>
+<Name>Song</Name>
+<DiscoveryDate>2011-3-26T19:39:00</DiscoveryDate>
+</Candidate>
+
+	-<Candidate>
+	<Name>Pop</Name>
+	<DiscoveryDate>2011-3-26T19:39:00</DiscoveryDate>
+	<Parent>Song</Parent>
+	</Candidate>
+
+		-<Candidate>
+		<Name>Poker Face</Name>
+		<DiscoveryDate>2011-3-26T19:39:00</DiscoveryDate>
+		<Parent>Pop</Parent>
+		</Candidate>
+
+		-<Candidate>
+		<Name>Little Lies</Name>
+		<DiscoveryDate>2011-3-26T19:56:00</DiscoveryDate>
+		<Parent>Pop</Parent>
+		</Candidate>
+
+	-<Candidate>
+	<Name>Dance</Name>
+	<DiscoveryDate>2011-3-26T19:43:00</DiscoveryDate>
+	<Parent>Song</Parent>
+	</Candidate>
+
+		-<Candidate>
+		<Name>Pump Up the Jam</Name>
+		<DiscoveryDate>2011-3-26T19:43:00</DiscoveryDate>
+		<Parent>Dance</Parent>
+		</Candidate>
+
+	-<Candidate>
+	<Name>Plain</Name>
+	<DiscoveryDate>2011-3-26T21:22:00</DiscoveryDate>
+	<Parent>Song</Parent>
+	</Candidate>
+
+		-<Candidate>
+		<Name>Feed the Birds</Name>
+		<DiscoveryDate>2011-3-26T21:22:00</DiscoveryDate>
+		<Parent>Plain</Parent>
+		</Candidate>
+
+	-<Candidate>
+	<Name>Metal</Name>
+	<DiscoveryDate>2011-3-26T21:30:00</DiscoveryDate>
+	<Parent>Song</Parent>
+	</Candidate>
+
+		-<Candidate>
+		<Name>Stuart And The Ave.</Name>
+		<DiscoveryDate>2011-3-26T21:30:00</DiscoveryDate>
+		<Parent>Metal</Parent>
+		</Candidate>
+
+	-<Candidate>
+	<Name>Slow</Name>
+	<DiscoveryDate>2011-3-26T21:37:00</DiscoveryDate>
+	<Parent>Song</Parent>
+	</Candidate>
+
+		-<Candidate>
+		<Name>Forever</Name>
+		<DiscoveryDate>2011-3-26T21:37:00</DiscoveryDate>
+		<Parent>Slow</Parent>
+		</Candidate>
+
+	-<Candidate>
+	<Name>80s</Name>
+	<DiscoveryDate>2011-3-26T22:57:00</DiscoveryDate>
+	<Parent>Song</Parent>
+	</Candidate>
+
+		-<Candidate>
+		<Name>Easy Lover</Name>
+		<DiscoveryDate>2011-3-26T22:57:00</DiscoveryDate>
+		<Parent>Pop</Parent>
+		</Candidate>
+

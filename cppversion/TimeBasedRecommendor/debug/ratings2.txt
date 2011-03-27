@@ -1,0 +1,319 @@
+<Comment>
+This is a real-life test
+Some songs were chosen randomly by Songbird and some were chosen by the engine
+</Comment>
+
+
+<Comment>Poker Face chosen randomly by Songbird</Comment>
+
+<Participation>
+<Activity>Poker Face</Activity>
+<StartDate>2011-3-26T19:39:00</StartDate>
+<EndDate>2011-3-26T19:43:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Poker Face</Activity>
+<Score>0.85</Score>
+<Date>2011-3-26T19:42:00</Date>
+</Rating>
+
+
+<Comment>Pump Up the Jam chosen randomly by Songbird</Comment>
+
+<Participation>
+<Activity>Pump Up the Jam</Activity>
+<StartDate>2011-3-26T19:43:00</StartDate>
+<EndDate>2011-3-26T19:49:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Pump Up the Jam</Activity>
+<Score>0.65</Score>
+<Date>2011-3-26T19:49:00</Date>
+</Rating>
+
+
+<Comment>Poker Face chosen by Engine</Comment>
+
+<Participation>
+<Activity>Poker Face</Activity>
+<StartDate>2011-3-26T21:17:00</StartDate>
+<EndDate>2011-3-26T21:22:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Poker Face</Activity>
+<Score>0.85</Score>
+<Date>2011-3-26T21:19:00</Date>
+</Rating>
+
+
+<Comment>Feed the Birds chosen randomly by Engine</Comment>
+
+<Participation>
+<Activity>Feed the Birds</Activity>
+<StartDate>2011-3-26T21:22:00</StartDate>
+<EndDate>2011-3-26T21:25:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Feed the Birds</Activity>
+<Score>0.2</Score>
+<Date>2011-3-26T21:23:00</Date>
+</Rating>
+
+
+<Comment>Poker Face chosen by Engine</Comment>
+
+<Participation>
+<Activity>Poker Face</Activity>
+<StartDate>2011-3-26T21:26:00</StartDate>
+<EndDate>2011-3-26T21:30:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Poker Face</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T21:26:00</Date>
+</Rating>
+
+
+<Comment>Stuart And The Ave. chosen randomly by Songbird</Comment>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-26T21:30:00</StartDate>
+<EndDate>2011-3-26T21:32:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.95</Score>
+<Date>2011-3-26T21:30:00</Date>
+</Rating>
+
+
+<Comment>Poker Face chosen by Engine</Comment>
+
+<Participation>
+<Activity>Poker Face</Activity>
+<StartDate>2011-3-26T21:33:00</StartDate>
+<EndDate>2011-3-26T21:37:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Poker Face</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T21:34:00</Date>
+</Rating>
+
+
+<Comment>Forever chosen randomly by Songbird</Comment>
+
+<Participation>
+<Activity>Forever</Activity>
+<StartDate>2011-3-26T21:37:00</StartDate>
+<EndDate>2011-3-26T21:41:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Forever</Activity>
+<Score>0.85</Score>
+<Date>2011-3-26T21:38:00</Date>
+</Rating>
+
+<Rating>
+<Activity>Forever</Activity>
+<Score>0.9</Score>
+<Date>2011-3-26T21:40:00</Date>
+</Rating>
+
+
+<Comment>Poker Face chosen by Engine</Comment>
+
+<Participation>
+<Activity>Poker Face</Activity>
+<StartDate>2011-3-26T21:43:00</StartDate>
+<EndDate>2011-3-26T21:47:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Poker Face</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T21:44:00</Date>
+</Rating>
+
+
+<Comment>Poker Face chosen by Engine</Comment>
+<Comment>Poker Face was vetoed</Comment>
+<Rating>
+<Activity>Poker Face</Activity>
+<Score>0</Score>
+<Date>2011-3-26T21:48:00</Date>
+</Rating>
+
+
+<Comment>Pump Up the Jam chosen by Engine</Comment>
+
+<Participation>
+<Activity>Pump Up the Jam</Activity>
+<StartDate>2011-3-26T21:48:00</StartDate>
+<EndDate>2011-3-26T21:53:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Pump Up the Jam</Activity>
+<Score>0.65</Score>
+<Date>2011-3-26T21:44:00</Date>
+</Rating>
+
+
+<Comment>Stuart And The Ave. chosen by Engine</Comment>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-26T21:54:00</StartDate>
+<EndDate>2011-3-26T21:56:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.9</Score>
+<Date>2011-3-26T21:54:00</Date>
+</Rating>
+
+
+<Comment>Little Lies chosen randomly by Songbird</Comment>
+
+<Participation>
+<Activity>Little Lies</Activity>
+<StartDate>2011-3-26T21:56:00</StartDate>
+<EndDate>2011-3-26T21:59:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Little Lies</Activity>
+<Score>0.85</Score>
+<Date>2011-3-26T21:56:00</Date>
+</Rating>
+
+
+<Comment>Forever chosen by Engine</Comment>
+
+<Participation>
+<Activity>Forever</Activity>
+<StartDate>2011-3-26T22:00:00</StartDate>
+<EndDate>2011-3-26T22:04:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Forever</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T22:00:00</Date>
+</Rating>
+
+
+<Comment>Stuart And The Ave. chosen by Engine</Comment>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-26T22:04:00</StartDate>
+<EndDate>2011-3-26T22:06:00</EndDate>
+</Participation>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T22:04:00</Date>
+</Rating>
+
+
+<Comment>Stuart And The Ave. chosen by Engine</Comment>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T22:21:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-26T22:21:00</StartDate>
+<EndDate>2011-3-26T22:23:00</EndDate>
+</Participation>
+
+
+<Comment>Stuart And The Ave. chosen by Engine</Comment>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.7</Score>
+<Date>2011-3-26T22:41:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-26T22:41:00</StartDate>
+<EndDate>2011-3-26T22:43:00</EndDate>
+</Participation>
+
+
+<Comment>Forever chosen by Engine</Comment>
+
+<Rating>
+<Activity>Forever</Activity>
+<Score>0.86</Score>
+<Date>2011-3-26T22:52:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Forever</Activity>
+<StartDate>2011-3-26T22:52:00</StartDate>
+<EndDate>2011-3-26T22:56:00</EndDate>
+</Participation>
+
+
+<Comment>Easy Lover chosen randomly by Songbird</Comment>
+
+<Rating>
+<Activity>Easy Lover</Activity>
+<Score>0.9</Score>
+<Date>2011-3-26T22:57:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Easy Lover</Activity>
+<StartDate>2011-3-26T22:57:00</StartDate>
+<EndDate>2011-3-26T23:02:00</EndDate>
+</Participation>
+
+
+<Comment>Stuart And The Ave. chosen by Engine</Comment>
+
+<Rating>
+<Activity>Stuart And The Ave.</Activity>
+<Score>0.7</Score>
+<Date>2011-3-26T22:26:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Stuart And The Ave.</Activity>
+<StartDate>2011-3-26T23:26:00</StartDate>
+<EndDate>2011-3-26T23:28:00</EndDate>
+</Participation>
+
+
+<Comment>Forever chosen by Engine</Comment>
+
+<Rating>
+<Activity>Forever</Activity>
+<Score>0.8</Score>
+<Date>2011-3-26T23:50:00</Date>
+</Rating>
+
+<Participation>
+<Activity>Forever</Activity>
+<StartDate>2011-3-26T22:50:00</StartDate>
+<EndDate>2011-3-26T22:54:00</EndDate>
+</Participation>
