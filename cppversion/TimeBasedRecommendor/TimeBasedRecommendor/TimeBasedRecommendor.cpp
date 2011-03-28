@@ -285,18 +285,18 @@ void TimeBasedRecommendor::addCandidate(Candidate& candidate)
 // adds it to the set of ratings without updating
 void TimeBasedRecommendor::addRating(Rating newRating)
 {
-	//message("adding rating ");
-	//this->printRating(&newRating);
+	message("adding rating ");
+	this->printRating(&newRating);
 	this->ratings.insert(newRating);
-	//message("\r\n");
+	message("\r\n");
 }
 // adds it to the set of participations without updating
 void TimeBasedRecommendor::addParticipation(Participation newParticipation)
 {
-	//message("adding participation ");
-	//this->printParticipation(&newParticipation);
+	message("adding participation ");
+	this->printParticipation(&newParticipation);
 	this->participations.insert(newParticipation);
-	//message("\r\n");
+	message("\r\n");
 }
 // gives the participation to the candidate and all its supercategories
 void TimeBasedRecommendor::addParticipationAndCascade(Participation newParticipation)
@@ -623,8 +623,17 @@ Distribution TimeBasedRecommendor::rateCandidateByCorrelation(Candidate* candida
 	double remembererDuration = candidate->getIdleDuration(when);
 	if (remembererDuration < 1)
 		remembererDuration = 1;
-	double remembererWeight = sqrt(sqrt(remembererDuration));
-	Distribution rememberer = Distribution(1, 1 / remembererWeight, remembererWeight);
+	// The goal is to make d = sqrt(t) where d is the duration between listenings and t = num seconds
+	// Then n = sqrt(t) where n is the number of ratings
+	// If the user reliably rates a song down, then for calculated distributions, stddev = 1 / n = 1 / sqrt(t) and weight = n = sqrt(t)
+	// Then it is about ideal for the rememberer to have stddev = 1 / n and weight = d
+	// If the user only usually rates a song down, then for calculated distributions, stddev = k and weight = n
+	// Then it is about ideal for the rememberer to have stddev = k and weight = d
+	// This is mostly equivalent to stddev = d^(-1/3), weight = d^(2/3)
+	// So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
+	//double squareRoot = sqrt(remembererDuration);
+	double cubeRoot = pow(remembererDuration, 1.0/3.0);
+	Distribution rememberer = Distribution(1, 1 / cubeRoot, cubeRoot);
 	guesses.push_back(rememberer);
 	Distribution guess = this->averageDistributions(guesses);
 #if 0
