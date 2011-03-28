@@ -9,6 +9,8 @@
 
 using namespace std;
 
+// the TimeBasedRecommendor is the engine that computes recommendations from the data
+
 // constructor
 TimeBasedRecommendor::TimeBasedRecommendor()
 {
@@ -331,6 +333,7 @@ void TimeBasedRecommendor::addRatingAndCascade(Rating newRating)
 	}
 }
 
+// create the necessary PredictionLinks to predict these candidates from each other
 void TimeBasedRecommendor::linkCandidates(Candidate* candidateOne, Candidate* candidateTwo)
 {
 	int frequencyCountA = candidateOne->getNumFrequencyEstimators();
@@ -377,12 +380,14 @@ void TimeBasedRecommendor::linkCandidates(Candidate* candidateOne, Candidate* ca
 		this->linkAverages(candidateTwo->getRatingEstimatorAtIndex(j), candidateOne->getActualRatingHistory());
 	}
 }
+// create the necessary PredictionLink to predict 'predictee' from 'predictor'
 void TimeBasedRecommendor::linkAverages(MovingAverage* predictor, RatingMovingAverage* predictee)
 {
 	map<MovingAverage*, PredictionLink>& links = predictionLinks[predictee];
 	PredictionLink link = PredictionLink(predictor, predictee);
 	links[predictor] = link;
 }
+// inform each candidate of any parents or children that did not previously exist
 void TimeBasedRecommendor::updateChildPointers(void)
 {
 	// iterate over each candidate
@@ -408,6 +413,8 @@ void TimeBasedRecommendor::updateChildPointers(void)
 
 }
 
+// creates LOTS of PredictionLinks to predict everything from anything else. This is O(n*n) where n is the number of Candidates
+// in the near future, this will be replaced with only the most important O(n) PredictionLinks
 void TimeBasedRecommendor::addSomeTestLinks(void)
 {
 	message("adding some test links\r\n");
@@ -426,7 +433,7 @@ void TimeBasedRecommendor::addSomeTestLinks(void)
 		}
 	}
 }
-
+// inform everything of any new data that was added recently that it needs to know about
 void TimeBasedRecommendor::updatePredictions(void)
 {
 	message("updating predictions\r\n");
@@ -746,14 +753,13 @@ Name TimeBasedRecommendor::makeRecommendation(DateTime when)
 }
 
 // compute the distribution that is formed by combining the given distributions
-// Each distribution is the offset from zero and the result is the expected total offset from zero
 Distribution TimeBasedRecommendor::addDistributions(std::vector<Distribution>& distributions, double average)
 {
 	return this->averageDistributions(distributions);
 }
 
 // compute the distribution that is formed by combining the given distributions
-// Each distribution is the offset from zero and the result is the expected total offset from zero
+// compute the distribution that is formed by combining the given distributions
 Distribution TimeBasedRecommendor::averageDistributions(std::vector<Distribution>& distributions)
 {
 	// initialization

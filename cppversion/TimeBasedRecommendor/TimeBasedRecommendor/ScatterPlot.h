@@ -5,6 +5,9 @@
 #include <vector>
 #include "Datapoint.h"
 
+// the ScatterPlot represents a bunch of Datapoints that have x, y, and weight
+// It is used to predict y from x
+// Currently it uses nearby x-values atlthough it may later be changed to compute the least-squares-regression-line
 class ScatterPlot
 {
 public:

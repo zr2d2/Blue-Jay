@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Name.h"
 using namespace std;
+
+// the Name class serves essentially the same purpose as the std::string class
 Name::Name(void)
 {
 	//this->value = NULL;

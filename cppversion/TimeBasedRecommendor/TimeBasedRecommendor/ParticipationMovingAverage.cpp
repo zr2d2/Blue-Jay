@@ -5,10 +5,12 @@
 
 using namespace std;
 
+// The ParticipationMovingAverage class represents the progression of listening frequency of a song over time
 ParticipationMovingAverage::ParticipationMovingAverage()
 {
 	//this->halfLife = 1;
 }
+// inform this ParticipationMovingAverage that the Candidate that it cares about was listened to in the given interval
 void ParticipationMovingAverage::addParticipationInterval(Participation interval)
 {
 	// compute the total of previously observed intensities
@@ -101,6 +103,7 @@ int ParticipationMovingAverage::getIndexForDate(DateTime when, bool strictlyEarl
 			return upperIndex;
 	}
 }
+// adds up the total amount of listening through the date 'when'. It's optimized so it's faster than actually counting them all every time
 double ParticipationMovingAverage::getTotalIntensityThroughDate(DateTime when)
 {
 	int index = this->getIndexForDate(when, true);
@@ -144,6 +147,7 @@ double ParticipationMovingAverage::getTotalIntensityThroughDate(DateTime when)
 	return result;
 }
 // returns a pair with the distribution of expected values and an index telling which participation mattered the most in its calculation
+// if strictlyEarlier is true, then it will only use data from strictly before 'when'
 pair<Distribution, int> ParticipationMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	// stictlyEarlier is ignored in this function at the moment
@@ -278,6 +282,8 @@ pair<Distribution, int> ParticipationMovingAverage::getValueAt(DateTime when, bo
 #endif
 }
 // compute the current value, including the most recent participation
+// This is different from the function getValueAt because it only uses the most recent participation, not any earlier ones
+// if strictlyEarlier is true, then it will only use data from strictly before 'when'
 Distribution ParticipationMovingAverage::getCurrentValue(DateTime when, bool strictlyEarlier)
 {
 	// default when there's no data

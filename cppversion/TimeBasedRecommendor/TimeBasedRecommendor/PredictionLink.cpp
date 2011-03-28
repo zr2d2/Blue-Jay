@@ -6,6 +6,7 @@
 #include "Candidate.h"
 using namespace std;
 
+// The PredictionLink class is used to estimate the rating that will be given to another song (or category) based on an attribute of another song (or category)
 PredictionLink::PredictionLink(void)
 {
 	//cout << "Error; the default PredictionLink constructor should not be called";
@@ -56,6 +57,7 @@ void PredictionLink::initializeDecreasing(void)
 	this->numChanges += numPoints;
 }
 
+// updates the scatterplot with any new data that it hadn't yet requested from the MovingAverage that it tries to estimate
 void PredictionLink::update(void)
 {
 	//cout << "adding a point to a PredictionLink" << endl;

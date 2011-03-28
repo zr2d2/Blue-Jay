@@ -1,6 +1,8 @@
 #ifndef _NAME_H_
 #define _NAME_H_
 #include <string>
+
+// the Name class serves essentially the same purpose as the std::string class
 class Name
 {
 public:

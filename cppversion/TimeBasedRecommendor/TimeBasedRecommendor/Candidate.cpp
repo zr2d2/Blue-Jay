@@ -3,6 +3,7 @@
 #include "string.h"
 using namespace std;
 
+// constructor
 Candidate::Candidate(Name title)
 {
 	initialize();
@@ -18,12 +19,14 @@ Candidate::Candidate(void)
 	this->name = original.name;
 	initialize();
 }*/
+// Setting the name of the Candidate must be done before assigning any ratings or participations
 void Candidate::setName(Name newName)
 {
 	//printf("setting candidate name %s \r\n", newName.getName().c_str());
 	this->name = newName;
 	initialize();
 }
+// parent/child connections
 Name Candidate::getName(void)
 {
 	return this->name;
@@ -60,6 +63,7 @@ std::vector<Candidate*>* Candidate::getChildren(void)
 }
 
 
+// inform the candidate that the user gave it this rating
 void Candidate::giveRating(Rating rating)
 {
 	unsigned int i;
@@ -173,6 +177,7 @@ double Candidate::getAverageRating(void)
 	return this->actualRatingHistory.getAverageValue();
 }
 
+// constructor stuff
 void Candidate::initialize(void)
 {
 	numRatings = 0;

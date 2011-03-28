@@ -5,10 +5,12 @@
 
 using namespace std;
 
+// the RatingMovingAverage represents the progression of Ratings for a Candidate over time
 RatingMovingAverage::RatingMovingAverage()
 {
 	//this->weightOfOldRatings = 0;
 }
+// inform this RatingMovingAverage that the Candidate that it cares about was given the following rating
 void RatingMovingAverage::addRating(Rating rating)
 {
 #if 1
@@ -65,6 +67,7 @@ void RatingMovingAverage::addRating(Rating rating)
 #endif
 }
 
+// get the distribution of expected values at the given DateTime
 pair<Distribution, int> RatingMovingAverage::getValueAt(DateTime when, bool strictlyEarlier)
 {
 	// If there are no ratings then we default to 0

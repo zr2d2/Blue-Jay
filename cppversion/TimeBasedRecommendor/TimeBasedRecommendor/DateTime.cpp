@@ -15,6 +15,7 @@ DateTime::DateTime(string yyyymmddhhmmss)
 {
 	this->setComponents(yyyymmddhhmmss);
 }
+// create a new date equal to this date plus numSeconds
 DateTime DateTime::datePlusDuration(double numSeconds)
 {
 	DateTime result;
@@ -75,11 +76,13 @@ string DateTime::stringVersion(void) const
 	string result(characters);
 	return result;
 }
+// the number of seconds from this to other
 double DateTime::timeUntil(const DateTime& other) const
 {
 	double result = difftime(other.value, this->value);
 	return result;
 }
+// returns true if t1 comes before t2, and false if t2 is equal to or after t1
 bool strictlyChronologicallyOrdered(const DateTime& t1, const DateTime& t2)
 {
 	if (t1.timeUntil(t2) > 0)

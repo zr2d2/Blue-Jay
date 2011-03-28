@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Participation.h"
 
+// the Participation class represents an instance of listening to a song or to a song category
 Participation::Participation()
 {
 	this->value = 1;

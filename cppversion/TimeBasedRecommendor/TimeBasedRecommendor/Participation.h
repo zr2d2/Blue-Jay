@@ -4,6 +4,7 @@
 #include "DateTime.h"
 #include "Name.h"
 
+// the Participation class represents an instance of listening to a song or to a song category
 class Participation
 {
 public:

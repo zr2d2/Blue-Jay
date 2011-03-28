@@ -1,6 +1,8 @@
 #ifndef _DISTRIBUTION_H_
 #define _DISTRIBUTION_H_
 
+// the Distribution class represents a summary of a collection of floating-point numbers
+// it stores average, spread, and count (although even count may be fractional)
 class Distribution
 {
 public:

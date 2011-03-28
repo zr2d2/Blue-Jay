@@ -11,6 +11,7 @@
 #include "Rating.h"
 #include "PredictionLink.h"
 
+// the TimeBasedRecommendor is the engine that computes recommendations from the data
 class TimeBasedRecommendor
 {
 public:

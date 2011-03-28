@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// simple class with x, y, and weight
 Datapoint::Datapoint(double x, double y, double weight)
 {
 	this->itsX = x;

@@ -5,6 +5,7 @@
 #include "Name.h"
 #include "DateTime.h"
 
+// the Rating class is a score that is assigned to a certain Candidate at a certain time
 class Rating
 {
 public:

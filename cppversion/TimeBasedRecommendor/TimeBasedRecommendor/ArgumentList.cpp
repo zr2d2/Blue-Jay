@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ArgumentList.h"
 
+// The ArgumentList class represents a list of arguments
+// It's essentially a vector of strings
 ArgumentList::ArgumentList(int argc, char* argv[])
 {
 	this->numArguments = argc;

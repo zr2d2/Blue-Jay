@@ -1,6 +1,7 @@
 #ifndef _DATAPOINT_H_
 #define _DATAPOINT_H_
 
+// simple class with x, y, and weight
 class Datapoint
 {
 public:
