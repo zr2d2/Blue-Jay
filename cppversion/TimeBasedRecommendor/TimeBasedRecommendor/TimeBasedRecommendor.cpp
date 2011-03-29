@@ -22,7 +22,7 @@ void TimeBasedRecommendor::parseArguments(ArgumentList* arguments)
 	Rating();
 	int i;
 	char* argument;
-	for (i = 0; i < arguments->getNumArguments(); i++)
+	for (i = 1; i < arguments->getNumArguments(); i++)
 	{
 		argument = arguments->getArgument(i);
 		//message(argument);

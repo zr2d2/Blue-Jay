@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
 	TimeBasedRecommendor* recommendor = new TimeBasedRecommendor();
 	ArgumentList* arguments = new ArgumentList(argc, argv);
-	if (arguments->getNumArguments() == 0)
+	if (arguments->getNumArguments() == 1)
 	{
 		// if they didn't give any arguments then we should tell them what the commands do
 		cout << "option:				effect" << endl;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 		cout << "reccomend [date]		estimate the rating of all candidates at [date] and find the best one" << endl;
 		cout << endl;
 		cout << "sample usage:" << endl;
-		cout << "TimeBasedRecommendor.exe open inheritances.txt open ratings.txt recommend 2011-3-27T23:20:00" << endl;
+		cout << "TimeBasedRecommendor.exe open inheritances.txt open ratings.txt recommend 2011-3-27T23:20:00 >> output.txt" << endl;
 	}
 	else
 	{
