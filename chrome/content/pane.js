@@ -18,11 +18,13 @@ Bluejay.PaneController = {
     // Make a local variable for this controller so that
     // it is easy to access from closures.
     var controller = this;
+	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
     
     // Hook up the action button
     this._button = document.getElementById("action-button");
     this._button.addEventListener("command", 
          function() { controller.sayHello(); }, false);
+		 
   },
   
   /**
@@ -36,7 +38,7 @@ Bluejay.PaneController = {
   sayHello: function() {
     var greeting = "Hi there!";
 	alert(greeting);
-	}
+	},
   
   /**
    * Load the Display Pane documentation in the main browser pane

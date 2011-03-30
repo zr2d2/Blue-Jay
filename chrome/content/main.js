@@ -28,7 +28,7 @@ Bluejay.Controller = {
     // Add the toolbar button to the default item set of the browser toolbar.
     // TODO: Should only do this on first run, but Bug 6778 requires doing it
     // every load.
-    this._insertToolbarItem("nav-bar", "bluejay-toolbarbutton", "bluejay-toolbarbutton2", "subscription-button");
+    this._insertToolbarItem("nav-bar", "bluejay-toolbarbutton", "subscription-button");
 
     
 

@@ -12,20 +12,17 @@
 #bluejay-toolbarbutton
 {
   list-style-image: url(chrome://bluejay/skin/bluejay48.png);
-  -moz-image-region: rect(32px 16px 48px 0px);
+  -moz-image-region: rect(16px 16px 32px 0px);
 }
 #bluejay-toolbarbutton:hover
 {
-list-style-image: url(chrome://bluejay/skin/bluejay48.png);
-  -moz-image-region: rect(32px 16px 48px 0px);
+  -moz-appearance: none !important;
 }
 #bluejay-toolbarbutton[disabled="true"]
 {
-list-style-image: url(chrome://bluejay/skin/bluejay48.png);
-  -moz-image-region: rect(32px 16px 48px 0px);
+  -moz-image-region: rect(48px 16px 64px 0px);
 }
 #bluejay-toolbarbutton[active="true"]
 {
-list-style-image: url(chrome://bluejay/skin/bluejay48.png);
   -moz-image-region: rect(32px 16px 48px 0px);
 }

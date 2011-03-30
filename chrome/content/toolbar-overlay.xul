@@ -13,7 +13,7 @@
             label="&bluejay.helloworld.label;"
             tooltiptext="&bluejay.helloworld.label;" 
             class="toolbarbutton-1 chromeclass-toolbar-additional" 
-            command="bluejay-helloworld-cmd" />
+            command="bluejay-test-cmd" />
 			
 			<toolbarbutton  id="bluejay-toolbarbutton2" 
             label="&bluejay.test.label;"
