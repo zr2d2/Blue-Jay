@@ -4,20 +4,16 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>{0686d43b-1ae0-46cb-8a79-5e190abbba0b}</em:id>
     <em:type>2</em:type>
+	
     <em:name>Bluejay</em:name>
-    <em:version>1.0.0.0</em:version>
-    <em:creator>Me</em:creator>
-
-
+    <em:version>1.0.0.1</em:version>
+    <em:creator>Team Bluejay</em:creator>
     <em:description>Recommendation Engine for Songbird</em:description>
 
 
-
-
-
     <em:optionsURL>chrome://bluejay/content/options.xul</em:optionsURL>
-
-
+	<em:iconURL>chrome://bluejay/skin/bluejay.ico</em:iconURL>
+	<em:homepageURL>https://github.com/zr2d2/Blue-Jay</em:homepageURL>
 
     <em:targetApplication>
       <Description>
@@ -30,31 +26,22 @@
 
 
 
-
-    <!-- Register a pane to be displayed below the service sidebar.
+	
+    <!-- Register a pane in the sidebar.
          See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Display_Panes -->
     <songbird:displayPane>
       <Description>
         <songbird:contentTitle>Bluejay</songbird:contentTitle>
         <songbird:contentUrl>chrome://bluejay/content/pane.xul</songbird:contentUrl>
-        <songbird:contentIcon>chrome://bluejay/skin/pane-icon.png</songbird:contentIcon>
+        <songbird:contentIcon>chrome://bluejay/skin/bluejay.png</songbird:contentIcon>
         <songbird:defaultWidth>200</songbird:defaultWidth>
         <songbird:defaultHeight>100</songbird:defaultHeight>
-        <songbird:suggestedContentGroups>servicepane</songbird:suggestedContentGroups>
+        <songbird:suggestedContentGroups>sidebar</songbird:suggestedContentGroups>
         <songbird:showOnInstall>true</songbird:showOnInstall>
       </Description>
     </songbird:displayPane>
 
 
-
-    <!-- Register a custom media page.
-         See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Building_Media_Views -->
-    <songbird:mediaPage>
-      <Description>
-        <songbird:contentTitle>Bluejay</songbird:contentTitle>
-        <songbird:contentUrl>chrome://bluejay/content/media-page.xul</songbird:contentUrl>
-      </Description>
-    </songbird:mediaPage>
 
   </Description>
 </RDF>
