@@ -33,7 +33,7 @@
       <Description>
         <songbird:contentTitle>Bluejay</songbird:contentTitle>
         <songbird:contentUrl>chrome://bluejay/content/pane.xul</songbird:contentUrl>
-        <songbird:contentIcon>chrome://bluejay/skin/bluejay.png</songbird:contentIcon>
+        <songbird:contentIcon>chrome://bluejay/skin/bluejay.ico</songbird:contentIcon>
         <songbird:defaultWidth>200</songbird:defaultWidth>
         <songbird:defaultHeight>100</songbird:defaultHeight>
         <songbird:suggestedContentGroups>sidebar</songbird:suggestedContentGroups>
