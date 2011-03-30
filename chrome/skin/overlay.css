@@ -11,18 +11,21 @@
     flickering on state change **/
 #bluejay-toolbarbutton
 {
-  list-style-image: url(chrome://bluejay/skin/bluejay.png);
-  -moz-image-region: rect(16px 16px 32px 0px);
+  list-style-image: url(chrome://bluejay/skin/bluejay48.png);
+  -moz-image-region: rect(32px 16px 48px 0px);
 }
 #bluejay-toolbarbutton:hover
 {
-  -moz-image-region: rect(16px 16px 32px 0px);
+list-style-image: url(chrome://bluejay/skin/bluejay48.png);
+  -moz-image-region: rect(32px 16px 48px 0px);
 }
 #bluejay-toolbarbutton[disabled="true"]
 {
-  -moz-image-region: rect(16px 16px 32px 0px);
+list-style-image: url(chrome://bluejay/skin/bluejay48.png);
+  -moz-image-region: rect(32px 16px 48px 0px);
 }
 #bluejay-toolbarbutton[active="true"]
 {
-  -moz-image-region: rect(16px 16px 32px 0px);
+list-style-image: url(chrome://bluejay/skin/bluejay48.png);
+  -moz-image-region: rect(32px 16px 48px 0px);
 }

@@ -6,7 +6,7 @@
   
   <!-- Target the tools menu -->
   <menupopup id="menu_ToolsPopup"> 
-
+<!--
     <!-- Add a menu item -->
     <menuitem id="bluejay-helloworld-menuitem"
             label="&bluejay.helloworld.label;" 
@@ -20,6 +20,7 @@
             accesskey="&bluejay.test.accesskey;" 
             insertafter="devToolsSeparator"
             command="bluejay-test-cmd" />  
+-->
   </menupopup>
 
 </overlay>

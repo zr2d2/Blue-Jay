@@ -14,6 +14,12 @@
             tooltiptext="&bluejay.helloworld.label;" 
             class="toolbarbutton-1 chromeclass-toolbar-additional" 
             command="bluejay-helloworld-cmd" />
+			
+			<toolbarbutton  id="bluejay-toolbarbutton2" 
+            label="&bluejay.test.label;"
+            tooltiptext="&bluejay.test.label;" 
+            class="toolbarbutton-1 chromeclass-toolbar-additional" 
+            command="bluejay-test-cmd" />
     </toolbarpalette>
 
 </overlay>

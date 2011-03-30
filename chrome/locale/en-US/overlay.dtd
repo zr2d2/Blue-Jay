@@ -1,6 +1,4 @@
 <!ENTITY bluejay.helloworld.label "HelloWorld Pop-up">
-<!ENTITY bluejay.helloworld.accesskey "H">
 <!ENTITY bluejay.test.label "Test Button">
-<!ENTITY bluejay.helloworld.accesskey "T">
-<!ENTITY bluejay.pane.label "Here will be the list of songs!">
+<!ENTITY bluejay.pane.label "Here will be the list of songs? Maybe?">
 <!ENTITY bluejay.pane.button "Try Me!">

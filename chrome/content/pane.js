@@ -22,7 +22,7 @@ Bluejay.PaneController = {
     // Hook up the action button
     this._button = document.getElementById("action-button");
     this._button.addEventListener("command", 
-         function() { controller.loadHelpPage(); }, false);
+         function() { controller.sayHello(); }, false);
   },
   
   /**
