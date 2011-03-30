@@ -13,7 +13,13 @@
             accesskey="&bluejay.helloworld.accesskey;" 
             insertafter="devToolsSeparator"
             command="bluejay-helloworld-cmd" />   
-     
+    
+	<!-- Add a menu item -->
+    <menuitem id="bluejay-test-menuitem"
+            label="&bluejay.test.label;" 
+            accesskey="&bluejay.test.accesskey;" 
+            insertafter="devToolsSeparator"
+            command="bluejay-test-cmd" />  
   </menupopup>
 
 </overlay>

@@ -35,12 +35,16 @@ Bluejay.Controller = {
     // Make a local variable for this controller so that
     // it is easy to access from closures.
     var controller = this;
+    var controller = this;
     
     // Attach doHelloWorld to our helloworld command
     this._helloWorldCmd = document.getElementById("bluejay-helloworld-cmd");
     this._helloWorldCmd.addEventListener("command", 
          function() { controller.doHelloWorld(); }, false);
 
+	this._testCmd = document.getElementById("bluejay-test-cmd");
+	this._testCmd.addEventListener("command",
+			function() { controller.chooseSong(); }, false);
 
 
 
@@ -61,7 +65,7 @@ Bluejay.Controller = {
   doHelloWorld : function() {
     var message = "Bluejay: " + this._strings.getString("helloMessage");
     alert(message);
-    this.chooseSong();
+    //this.chooseSong();
   },
 
   /**
@@ -69,7 +73,7 @@ Bluejay.Controller = {
    */
   chooseSong : function() {
     var songName = "Come on Eileen";
-    alert("selecting song named" + songName);
+    alert("selecting song named " + songName);
     const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
     //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
     properties.appendProperty(SBProperties.trackName, songName);

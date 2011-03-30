@@ -32,6 +32,12 @@ Bluejay.PaneController = {
     this._initialized = false;
   },
   
+  //Give me a siiiiiiign
+  sayHello: function() {
+    var greeting = "Hi there!";
+	alert(greeting);
+	}
+  
   /**
    * Load the Display Pane documentation in the main browser pane
    */
