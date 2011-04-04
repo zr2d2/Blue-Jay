@@ -1,4 +1,6 @@
-<!ENTITY bluejay.helloworld.label "HelloWorld Pop-up">
+<!ENTITY bluejay.helloworld.label "One-Click Mix">
 <!ENTITY bluejay.test.label "Test Button">
 <!ENTITY bluejay.pane.label "Bluejay Panel">
-<!ENTITY bluejay.pane.button "Demo">
+<!ENTITY bluejay.pane.demobutton "Demo">
+<!ENTITY bluejay.pane.indexbutton "Index">
+<!ENTITY bluejay.pane.ratemenu "Rate Song:">

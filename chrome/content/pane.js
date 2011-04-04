@@ -21,9 +21,13 @@ Bluejay.PaneController = {
 	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
     
     // Hook up the action button
-    this._button = document.getElementById("action-button");
-    this._button.addEventListener("command", 
+    this._demobutton = document.getElementById("action-button");
+    this._demobutton.addEventListener("command", 
          function() { controller.sayHello(); }, false);
+		 
+	this._indexbutton = document.getElementById("index-button");
+    this._indexbutton.addEventListener("command", 
+         function() { controller.popUpProgress(); }, false);
 		 
   },
   
@@ -39,6 +43,10 @@ Bluejay.PaneController = {
     var greeting = "Hi there!";
 	alert(greeting);
 	},
+  
+  popUpProgress: function() {
+    
+  },
   
   /**
    * Load the Display Pane documentation in the main browser pane

@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://global/skin" type="text/css"?>
 <?xml-stylesheet href="chrome://songbird/content/bindings/bindings.css" type="text/css"?>
 <?xml-stylesheet href="chrome://songbird/skin/songbird.css" type="text/css" title="Skin"?>
-
+<?xml-stylesheet href="chrome://songbird-dialogs/skin/playQueue.css" type="text/css" ?>
 <?xml-stylesheet href="chrome://bluejay/skin/pane.css" type="text/css"?>
 
 <!DOCTYPE page SYSTEM "chrome://bluejay/locale/overlay.dtd">
@@ -11,25 +11,70 @@
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="pane.js"/>
  
- <vbox height="20">
-    <description value="&bluejay.pane.label;" />
-    
-  </vbox>
+ <hbox id="pane-header-box" align="center">
+    <description id="pane-header-label" value="&bluejay.pane.label;" />
+  </hbox>
 
 <box>
-	<groupbox min-width="150" style="margin:12px;padding:8px;"  flex="1">
+	<groupbox min-width="100"   flex="1">
 		<hbox>
-			<button id="action-button" label="&bluejay.pane.button;" flex="2" />
+			<button id="action-button" label="&bluejay.pane.demobutton;" flex="2" />
 			<spacer flex="2" />
 			<button label="Clear" disabled="true" flex="2" />
 			<spacer flex="2" />
-			<button label="Help" flex="2" />
+			<button id="index-button" label="&bluejay.pane.indexbutton;" flex="2" />
 			</hbox>
 	</groupbox>	
 </box>	
-  
-   <vbox id="playlist-box" flex="1" pack="start">
-  </vbox>
+
+  <hbox id="playlist-header-box"
+        align="center">
+    <description id="playlist-header-label"
+                 value="Playlist" />
+  </hbox>
+
+  <!-- Main Content Section -->
+  <stack flex="1">
+
+    <!-- Playlist Binding -->
+    <vbox id="playqueue-playlist-box"
+          flex="1">
+      <sb-playqueue-playlist id="playqueue-playlist"
+                             flex="1"
+                             hidefilters="true"
+      />
+    </vbox>
+
+    <!-- Message Layer for Empty Playlist -->
+    <vbox id="playlist-message-layer-outer-box"
+          pack="center"
+          flex="1" >
+      <vbox id="playqueue-message-layer-inner-box"
+            class="playqueue-instructions"
+            pack="center">
+        <description>No playlist created yet.</description>
+      </vbox>
+    </vbox>
+
+  </stack>  
+
+  <box>
+	<groupbox min-width="50" flex="1">
+		<hbox>
+			<description value="Rate Song: " flex="1" />
+			<spacer flex="8" />
+			<menulist sizetopopup="always">
+				<menupopup id="ratemenu">
+					<menuitem label="&#9733;&#9733;&#9733;&#9733;&#9733;" value="5"/>
+					<menuitem label="&#9733;&#9733;&#9733;&#9733;" value="4"/>
+					<menuitem label="&#9733;&#9733;&#9733;" value="3"/>
+					<menuitem label="&#9733;&#9733;" value="2"/>
+					<menuitem label="&#9733;" value="1"/>
+				</menupopup>
+			</menulist>
+			</hbox>
+	</groupbox>	
+</box>	
   
 
 </page>
