@@ -5,6 +5,7 @@
 <dialog title="&about;" orient="vertical" autostretch="always" onload="sizeToContent()" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <!-- Original template by Jed Brown -->
   <groupbox align="center" orient="horizontal">
+  
     <vbox>
       <text value="Bluejay" style="font-weight: bold; font-size: x-large;"/>
       <text value="&version; 1.0"/>

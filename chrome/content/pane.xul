@@ -10,9 +10,26 @@
 <page id="bluejay-pane" title="&bluejay.pane.label;"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="pane.js"/>
-
-  <vbox flex="1">
+ 
+ <vbox height="20">
     <description value="&bluejay.pane.label;" />
-    <button id="action-button" label="&bluejay.pane.button;" />
+    
   </vbox>
+
+<box>
+	<groupbox min-width="150" style="margin:12px;padding:8px;"  flex="1">
+		<hbox>
+			<button id="action-button" label="&bluejay.pane.button;" flex="2" />
+			<spacer flex="2" />
+			<button label="Clear" disabled="true" flex="2" />
+			<spacer flex="2" />
+			<button label="Help" flex="2" />
+			</hbox>
+	</groupbox>	
+</box>	
+  
+   <vbox id="playlist-box" flex="1" pack="start">
+  </vbox>
+  
+
 </page>

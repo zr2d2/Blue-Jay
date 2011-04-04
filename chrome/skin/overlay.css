@@ -2,7 +2,7 @@
 /** Make the menu item red so that it stands out **/
 #bluejay-helloworld-menuitem
 {
-  color: red ! important;
+  color: blue ! important;
 }
 
 
@@ -21,11 +21,9 @@
 }
 #bluejay-toolbarbutton[disabled="true"]
 {
-  list-style-image: url(chrome://bluejay/skin/bluejay.ico);
   -moz-image-region: rect(48px 16px 64px 0px);
 }
 #bluejay-toolbarbutton[active="true"]
 {
-  list-style-image: url(chrome://bluejay/skin/bluejay.ico);
   -moz-image-region: rect(16px 32px 32px 16px);
 }
