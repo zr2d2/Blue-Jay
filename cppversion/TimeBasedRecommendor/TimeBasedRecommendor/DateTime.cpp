@@ -8,11 +8,13 @@
 using namespace std;
 DateTime::DateTime(void)
 {
+	// initialize the date to a long time ago
 	this->setComponents("1970-01-01T01:01:01");
 	//time(&(this->value));
 }
 DateTime::DateTime(string yyyymmddhhmmss)
 {
+	// assign the given datestring to this date
 	this->setComponents(yyyymmddhhmmss);
 }
 // create a new date equal to this date plus numSeconds
@@ -25,7 +27,8 @@ DateTime DateTime::datePlusDuration(double numSeconds)
 	return result;
 }
 
-
+// assign the given datestring to this date
+// An example datestring would be "1970-01-01T01:01:01"
 void DateTime::setComponents(string yyyymmddhhmmss)
 {
 	int year, month, day, hour, minute, second;
@@ -35,21 +38,17 @@ void DateTime::setComponents(string yyyymmddhhmmss)
 	stringstream stream;
 	stream << cString;
 	stream >> year;
-	stream.ignore(1);
+	stream.ignore(1);	// ignore the "-"
 	stream >> month;
-	stream.ignore(1);
+	stream.ignore(1);	// ignore the "-"
 	stream >> day;
-	stream.ignore(1);
+	stream.ignore(1);	// ignore the "T"
 	stream >> hour;
-	stream.ignore(1);
+	stream.ignore(1);	// ignore the ":"
 	stream >> minute;
-	stream.ignore(1);
+	stream.ignore(1);	// ignore the ":"
 	stream >> second;
-	//cout << "date components = " << year << month << day << minute << second << endl;
-	//sscanf_s(yyyymmddhhmmss.c_str(), "%04d-%02d-%02dT%02d:%02d:%02d", &year, &month, &day, &hour, &minute, &second, totalSize);
-	//printf("datetime string = %s \r\n", yyyymmddhhmmss.c_str());
-	//printf("length = ");
-	//printf("%d\r\n", yyyymmddhhmmss.length());
+	// create the time structure and fill the components in
 	struct tm timeInfo;
 	timeInfo.tm_year = year - 1900;
 	timeInfo.tm_mon = month - 1;
@@ -60,12 +59,11 @@ void DateTime::setComponents(string yyyymmddhhmmss)
 	timeInfo.tm_isdst = -1;
 	timeInfo.tm_wday = -1;
 	timeInfo.tm_yday = -1;
-	//printf("");
 	// convert the components into a date and time	
 	this->value = mktime(&timeInfo);
-	//printf("new date = %s\r\n", this->stringVersion().c_str());
 }
 
+// returns a printable string that represents this date
 string DateTime::stringVersion(void) const
 {
 	struct tm timeInfo;
@@ -87,6 +85,5 @@ bool strictlyChronologicallyOrdered(const DateTime& t1, const DateTime& t2)
 {
 	if (t1.timeUntil(t2) > 0)
 		return true;
-	else
-		return false;
+	return false;
 }
