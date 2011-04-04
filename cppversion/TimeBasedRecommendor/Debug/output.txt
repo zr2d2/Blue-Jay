@@ -55452,3 +55452,166 @@ candidate name = Forever expected rating = 0.878763
 candidate name = Radar Love expected rating = 0.879701
 candidate name = Little Star expected rating = 0.883794
 best candidate name = Little Star expected rating = 0.883794
+opening file testInheritances.txt
+adding candidate named Activity
+parent names:
+
+adding candidate named A
+parent names:
+Activity
+
+adding candidate named B
+parent names:
+Activity
+
+adding candidate named C
+parent names:
+Activity
+
+adding candidate named D
+parent names:
+Activity
+
+done reading file testInheritances.txt
+adding some test links
+updating predictions
+giving ratings to activities
+num ratings given = 0
+giving participations to activities
+creating PredictionLinksnum PredictionLinks updated = 50
+opening file testRatings.txt
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 2
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 4
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 6
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 8
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 10
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 12
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 14
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 16
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 18
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 20
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:1.000000
+
+done reading file testRatings.txt
+adding some test links
+updating predictions
+giving ratings to activities
+num ratings given = 32
+giving participations to activities
+creating PredictionLinksnum PredictionLinks updated = 50

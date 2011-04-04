@@ -1,5 +1,5 @@
 <Comment>
-A and C can predict each other well; B does not
+C can predict A well; B does not
 </Comment>
 
 
