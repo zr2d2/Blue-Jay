@@ -1,8 +1,24 @@
 
+if (typeof(Cc) == 'undefined')
+	var Cc = Components.classes;
+if (typeof(Ci) == 'undefined')
+	var Ci = Components.interfaces;
+if (typeof(Cu) == 'undefined')
+	var Cu = Components.utils;
+if (typeof(Cr) == 'undefined')
+	var Cr = Components.results;
+	
+
 // Make a namespace.
 if (typeof Bluejay == 'undefined') {
   var Bluejay = {};
 }
+
+Cu.import("resource://app/jsmodules/sbProperties.jsm");
+
+
+
+//var paneChooseSong = Bluejay.Controller.doHelloWorld();
 
 /**
  * Controller for pane.xul
@@ -14,11 +30,15 @@ Bluejay.PaneController = {
    */
   onLoad: function() {
     this._initialized = true;
+
+	//include('main.js');
     
     // Make a local variable for this controller so that
     // it is easy to access from closures.
     var controller = this;
 	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
+
+	//mainController.chooseSong();
     
     // Hook up the action button
     this._demobutton = document.getElementById("action-button");
@@ -42,7 +62,10 @@ Bluejay.PaneController = {
   sayHello: function() {
     var greeting = "Hi there!";
 	alert(greeting);
+	Bluejay.Controller.doHelloWorld();
 	},
+
+
   
   popUpProgress: function() {
     
