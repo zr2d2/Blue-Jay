@@ -41,8 +41,8 @@ Bluejay.PaneController = {
 	//mainController.chooseSong();
     
     // Hook up the action button
-    this._demobutton = document.getElementById("action-button");
-    this._demobutton.addEventListener("command", 
+    this._mixbutton = document.getElementById("action-button");
+    this._mixbutton.addEventListener("command", 
          function() { controller.chooseSong(); }, false);
 		 
 	this._savebutton = document.getElementById("save-button");
