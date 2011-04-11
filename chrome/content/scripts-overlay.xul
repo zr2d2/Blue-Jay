@@ -2,6 +2,8 @@
 <overlay id="bluejay-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script src="main.js"/>
+  <script src="pane.js"/>
+  <script src="shared.js"/>
 
   <stringbundleset id="stringbundleset"> 
      <stringbundle id="bluejay-strings" src="chrome://bluejay/locale/overlay.properties"/>

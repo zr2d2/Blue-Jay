@@ -38,12 +38,11 @@ Bluejay.PaneController = {
     var controller = this;
 	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
 
-	//mainController.chooseSong();
     
     // Hook up the action button
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
-         function() { controller.chooseSong(); }, false);
+         function() { mainController.chooseSong(); }, false);
 		 
 	this._savebutton = document.getElementById("save-button");
     this._savebutton.addEventListener("command", 
@@ -62,12 +61,14 @@ Bluejay.PaneController = {
   sayHello: function() {
     var greeting = "Hi there!";
 	alert(greeting);
-	Bluejay.Controller.doHelloWorld();
+	//Bluejay.Controller.doHelloWorld();
 	},
 
 /**
    * A test function to choose a song
+   *	This function is unused at the moment
    */
+/*	
   chooseSong : function() {
     var songName = "Come on Eileen";
     alert("selecting song named " + songName);
@@ -81,6 +82,7 @@ Bluejay.PaneController = {
     alert("done selecting song");
 
   },
+*/
 
   
   popUpProgress: function() {

@@ -9,7 +9,9 @@
 <!DOCTYPE page SYSTEM "chrome://bluejay/locale/overlay.dtd">
 <page id="bluejay-pane" title="&bluejay.pane.label;"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="main.js"/>
   <script src="pane.js"/>
+  <script src="shared.js"/>
  
  <hbox id="pane-header-box" align="center">
     <description id="pane-header-label" value="&bluejay.pane.label;" />
