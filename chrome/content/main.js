@@ -28,7 +28,7 @@ Bluejay.Controller = {
     // Add the toolbar button to the default item set of the browser toolbar.
     // TODO: Should only do this on first run, but Bug 6778 requires doing it
     // every load.
-    this._insertToolbarItem("nav-bar", "bluejay-toolbarbutton", "subscription-button");
+    this._insertToolbarItem("nav-bar", "subscription-button");
 
     
 
@@ -42,9 +42,7 @@ Bluejay.Controller = {
     this._helloWorldCmd.addEventListener("command", 
          function() { controller.doHelloWorld(); }, false);
 
-	this._testCmd = document.getElementById("bluejay-test-cmd");
-	this._testCmd.addEventListener("command",
-			function() { controller.chooseSong(); }, false);
+
 
 
 
@@ -68,23 +66,7 @@ Bluejay.Controller = {
     //this.chooseSong();
   },
 
-  /**
-   * A test function to choose a song
-   */
-  chooseSong : function() {
-    var songName = "Come on Eileen";
-    alert("selecting song named " + songName);
-    const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
-    //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
-    properties.appendProperty(SBProperties.trackName, songName);
-    var tracks = LibraryUtils.mainLibrary.getItemsByProperties(properties);
-    //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
-    var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
-    gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
-    alert("done selecting song");
-
-  },
-
+  
   
   /**
    * Perform extra setup the first time the extension is run

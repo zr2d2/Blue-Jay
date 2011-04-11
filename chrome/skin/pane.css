@@ -1,3 +1,24 @@
+/** Apply an image to our toolbarbutton.  Use multiple states in a
+    single image and then reposition the viewport in order to avoid
+    flickering on state change **/
+#action-button
+{
+  list-style-image: url(chrome://bluejay/skin/bluejay.ico);
+  -moz-image-region: rect(16px 32px 32px 16px);
+}
+#action-button:hover
+{
+  list-style-image: url(chrome://bluejay/skin/bluejay48.png);
+  -moz-image-region: rect(16px 16px 32px 0px);
+}
+#action-button[disabled="true"]
+{
+  -moz-image-region: rect(48px 16px 64px 0px);
+}
+#action-button[active="true"]
+{
+  -moz-image-region: rect(16px 32px 32px 16px);
+
 #action-button {
   background-color: blue;
 }

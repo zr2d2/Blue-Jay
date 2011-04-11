@@ -43,10 +43,10 @@ Bluejay.PaneController = {
     // Hook up the action button
     this._demobutton = document.getElementById("action-button");
     this._demobutton.addEventListener("command", 
-         function() { controller.sayHello(); }, false);
+         function() { controller.chooseSong(); }, false);
 		 
-	this._indexbutton = document.getElementById("index-button");
-    this._indexbutton.addEventListener("command", 
+	this._savebutton = document.getElementById("save-button");
+    this._savebutton.addEventListener("command", 
          function() { controller.popUpProgress(); }, false);
 		 
   },
@@ -65,10 +65,26 @@ Bluejay.PaneController = {
 	Bluejay.Controller.doHelloWorld();
 	},
 
+/**
+   * A test function to choose a song
+   */
+  chooseSong : function() {
+    var songName = "Come on Eileen";
+    alert("selecting song named " + songName);
+    const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
+    //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
+    properties.appendProperty(SBProperties.trackName, songName);
+    var tracks = LibraryUtils.mainLibrary.getItemsByProperties(properties);
+    //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
+    var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
+    gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
+    alert("done selecting song");
+
+  },
 
   
   popUpProgress: function() {
-    
+    //do we want a progress bar for anything? 
   },
   
   /**

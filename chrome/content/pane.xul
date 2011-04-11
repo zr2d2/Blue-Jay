@@ -18,11 +18,11 @@
 <box>
 	<groupbox min-width="100"   flex="1">
 		<hbox>
-			<button id="action-button" label="&bluejay.pane.demobutton;" flex="2" />
+			<button id="action-button" label="&bluejay.pane.mixbutton.label;" flex="2" />
 			<spacer flex="2" />
 			<button label="Clear" disabled="true" flex="2" />
 			<spacer flex="2" />
-			<button id="index-button" label="&bluejay.pane.indexbutton;" flex="2" />
+			<button id="save-button" label="&bluejay.pane.savebutton;" flex="2" />
 			</hbox>
 	</groupbox>	
 </box>	
