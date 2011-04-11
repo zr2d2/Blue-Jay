@@ -37,12 +37,12 @@ Bluejay.PaneController = {
     // it is easy to access from closures.
     var controller = this;
 	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
-
+	var engine = TimeBasedRecommendor;
     
     // Hook up the action button
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
-         function() { mainController.chooseSong(); }, false);
+         function() { engine.recommend(); }, false);
 		 
 	this._savebutton = document.getElementById("save-button");
     this._savebutton.addEventListener("command", 
@@ -63,27 +63,6 @@ Bluejay.PaneController = {
 	alert(greeting);
 	//Bluejay.Controller.doHelloWorld();
 	},
-
-/**
-   * A test function to choose a song
-   *	This function is unused at the moment
-   */
-/*	
-  chooseSong : function() {
-    var songName = "Come on Eileen";
-    alert("selecting song named " + songName);
-    const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
-    //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
-    properties.appendProperty(SBProperties.trackName, songName);
-    var tracks = LibraryUtils.mainLibrary.getItemsByProperties(properties);
-    //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
-    var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
-    gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
-    alert("done selecting song");
-
-  },
-*/
-
   
   popUpProgress: function() {
     //do we want a progress bar for anything? 

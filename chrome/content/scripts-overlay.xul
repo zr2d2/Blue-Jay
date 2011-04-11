@@ -3,7 +3,7 @@
 
   <script src="main.js"/>
   <script src="pane.js"/>
-  <script src="shared.js"/>
+  <script src="algorithm/TimeBasedRecommendor.js"/>
 
   <stringbundleset id="stringbundleset"> 
      <stringbundle id="bluejay-strings" src="chrome://bluejay/locale/overlay.properties"/>
