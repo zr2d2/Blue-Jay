@@ -1,0 +1,10 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{MovingAverage\n|- name\l- ownerName\l|+ MovingAverage()\l+ getValueAt()\l+ getCurrentValue()\l+ getCorrelationsFor()\l+ setName()\l+ getName()\l+ setOwnerName()\l+ getOwnerName()\l+ isAParticipationMovingAverage()\l+ getLatestDate()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid",arrowtail="empty",fontname="Helvetica"];
+  Node2 [label="{ParticipationMovingAverage\n|- totalIntensities\l|+ ParticipationMovingAverage()\l+ addParticipationInterval()\l+ getValueAt()\l+ getCurrentValue()\l+ isAParticipationMovingAverage()\l+ getLatestDate()\l+ getNumParticipations()\l- getIndexForDate()\l- getTotalIntensityThroughDate()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_moving_average.html"];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid",arrowtail="empty",fontname="Helvetica"];
+  Node3 [label="{RatingMovingAverage\n|- ratings\l- sumRatings\l- sumSquaredRatings\l|+ RatingMovingAverage()\l+ addRating()\l+ getValueAt()\l+ getRatings()\l+ getNumRatings()\l+ getAverageValue()\l+ getLatestDate()\l- getIndexForDate()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating_moving_average.html"];
+}

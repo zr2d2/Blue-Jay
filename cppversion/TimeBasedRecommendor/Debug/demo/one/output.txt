@@ -1,0 +1,563 @@
+opening file demo/one/inheritances.txt
+adding candidate named Song
+parent names:
+
+adding candidate named A
+parent names:
+Song
+
+adding candidate named B
+parent names:
+Song
+
+adding candidate named C
+parent names:
+Song
+
+done reading file demo/one/inheritances.txt
+adding some test links
+updating predictions
+giving ratings to activities
+num ratings given = 0
+giving participations to activities
+creating PredictionLinksnum PredictionLinks updated = 32
+opening file demo/one/ratings.txt
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 1
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 2
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 3
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 4
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 5
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 6
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 7
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 8
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 9
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 10
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 11
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 12
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 13
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 14
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 15
+score:1.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 16
+score:0.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:1.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 17
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 18
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 19
+score:0.000000
+
+adding rating activity name:A
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 20
+score:1.000000
+
+adding rating activity name:B
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:0.000000
+
+adding rating activity name:C
+date:year = 2011, month = 3, day = 14, hour = 0, minute = 0, second = 21
+score:1.000000
+
+done reading file demo/one/ratings.txt
+adding some test links
+updating predictions
+giving ratings to activities
+num ratings given = 32
+giving participations to activities
+creating PredictionLinksnum PredictionLinks updated = 32
+making recommendation for date:year = 2011, month = 4, day = 1, hour = 1, minute = 0, second = 0
+rating candidate with name: A
+rating candidate SongPredicting Song from Song (ratings)
+PredictionLink::guess
+x = 0.5middle=0.333333 left = 0.666667 right = 0.166667
+mean:0.333333 stdDev:0.626362 weight:19.000000
+
+Predicting Song from Song (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.533642 weight:39.000000
+
+Predicting Song from A (ratings)
+PredictionLink::guess
+x = 0.6middle=0.333333 left = 0.666667 right = 0.266667
+mean:0.333333 stdDev:0.664886 weight:9.000000
+
+Predicting Song from A (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+Predicting Song from B (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.692308 right = 0.272727
+mean:0.500000 stdDev:0.685329 weight:9.000000
+
+Predicting Song from B (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+Predicting Song from C (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.625 right = 0.25
+mean:0.500000 stdDev:0.677565 weight:9.000000
+
+Predicting Song from C (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+averaging distributions
+mean = 0.333333 stdDev = 0.626362 weight = 19.000000
+mean = 0.500000 stdDev = 0.533642 weight = 39.000000
+mean = 0.333333 stdDev = 0.664886 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 0.500000 stdDev = 0.685329 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 0.500000 stdDev = 0.677565 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 1.000000 stdDev = 0.000916 weight = 1091.843872
+variance1 = 0.000037
+variance2 = 0.000044
+resultant distribution = mean:0.999934 stdDev:0.008989 weight:1176.843872
+
+average of all distributions0.999934
+rating = mean:0.999934 stdDev:0.008989 weight:1176.843872
+averaging distributions
+mean = 0.999934 stdDev = 0.008989 weight = 1176.843872
+variance1 = 0.000000
+variance2 = 0.000081
+resultant distribution = mean:0.999934 stdDev:0.008989 weight:1176.843872
+
+average of all distributions0.999934
+rating candidate APredicting A from Song (ratings)
+PredictionLink::guess
+x = 0.5middle=0.25 left = 1 right = 0
+mean:0.250000 stdDev:0.818218 weight:9.000000
+
+Predicting A from Song (participations)
+PredictionLink::guess
+x = 0middle=0.6 left = 0.6 right = 0.6
+mean:0.600000 stdDev:1.516398 weight:0.000000
+
+Predicting A from A (ratings)
+PredictionLink::guess
+x = 0.6middle=0.75 left = 0.75 right = 0.5
+mean:0.750000 stdDev:0.640388 weight:8.000000
+
+Predicting A from A (participations)
+PredictionLink::guess
+x = 0middle=0.6 left = 0.6 right = 0.6
+mean:0.600000 stdDev:0.542039 weight:39.000000
+
+Predicting A from B (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.75 left = 0.6 right = 0.6
+mean:0.750000 stdDev:0.611111 weight:9.000000
+
+Predicting A from B (participations)
+PredictionLink::guess
+x = 0middle=0.6 left = 0.6 right = 0.6
+mean:0.600000 stdDev:1.516398 weight:0.000000
+
+Predicting A from C (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.75 left = 1 right = 0
+mean:0.750000 stdDev:0.818218 weight:9.000000
+
+Predicting A from C (participations)
+PredictionLink::guess
+x = 0middle=0.6 left = 0.6 right = 0.6
+mean:0.600000 stdDev:1.516398 weight:0.000000
+
+averaging distributions
+mean = 0.250000 stdDev = 0.818218 weight = 9.000000
+mean = 0.600000 stdDev = 1.516398 weight = 0.000000
+mean = 0.750000 stdDev = 0.640388 weight = 8.000000
+mean = 0.600000 stdDev = 0.542039 weight = 39.000000
+mean = 0.750000 stdDev = 0.611111 weight = 9.000000
+mean = 0.600000 stdDev = 1.516398 weight = 0.000000
+mean = 0.750000 stdDev = 0.818218 weight = 9.000000
+mean = 0.600000 stdDev = 1.516398 weight = 0.000000
+mean = 1.000000 stdDev = 0.000916 weight = 1091.843872
+variance1 = 0.000017
+variance2 = 0.000040
+resultant distribution = mean:0.999961 stdDev:0.007529 weight:1165.843872
+
+average of all distributions0.999961
+rating = mean:0.999961 stdDev:0.007529 weight:1165.843872
+averaging distributions
+mean = 0.999934 stdDev = 0.008989 weight = 34.466618
+mean = 0.999961 stdDev = 0.007529 weight = 1165.843872
+variance1 = 0.000000
+variance2 = 0.000057
+resultant distribution = mean:0.999960 stdDev:0.007567 weight:1200.310547
+
+average of all distributions0.999960
+done rating candidate with name A
+rating = mean:0.999960 stdDev:0.007567 weight:1200.310547
+name = A rating = 0.999960
+name = Song rating = 0.999934
+candidate name = A expected rating = 0.999960
+rating candidate with name: B
+rating candidate SongPredicting Song from Song (ratings)
+PredictionLink::guess
+x = 0.5middle=0.333333 left = 0.666667 right = 0.166667
+mean:0.333333 stdDev:0.626362 weight:19.000000
+
+Predicting Song from Song (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.533642 weight:39.000000
+
+Predicting Song from A (ratings)
+PredictionLink::guess
+x = 0.6middle=0.333333 left = 0.666667 right = 0.266667
+mean:0.333333 stdDev:0.664886 weight:9.000000
+
+Predicting Song from A (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+Predicting Song from B (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.692308 right = 0.272727
+mean:0.500000 stdDev:0.685329 weight:9.000000
+
+Predicting Song from B (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+Predicting Song from C (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.625 right = 0.25
+mean:0.500000 stdDev:0.677565 weight:9.000000
+
+Predicting Song from C (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+averaging distributions
+mean = 0.333333 stdDev = 0.626362 weight = 19.000000
+mean = 0.500000 stdDev = 0.533642 weight = 39.000000
+mean = 0.333333 stdDev = 0.664886 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 0.500000 stdDev = 0.685329 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 0.500000 stdDev = 0.677565 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 1.000000 stdDev = 0.000916 weight = 1091.843872
+variance1 = 0.000037
+variance2 = 0.000044
+resultant distribution = mean:0.999934 stdDev:0.008989 weight:1176.843872
+
+average of all distributions0.999934
+rating = mean:0.999934 stdDev:0.008989 weight:1176.843872
+averaging distributions
+mean = 0.999934 stdDev = 0.008989 weight = 1176.843872
+variance1 = 0.000000
+variance2 = 0.000081
+resultant distribution = mean:0.999934 stdDev:0.008989 weight:1176.843872
+
+average of all distributions0.999934
+rating candidate BPredicting B from Song (ratings)
+PredictionLink::guess
+x = 0.5middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.688461 weight:9.000000
+
+Predicting B from Song (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:1.522233 weight:0.000000
+
+Predicting B from A (ratings)
+PredictionLink::guess
+x = 0.6middle=0 left = 0.75 right = 0
+mean:0.000000 stdDev:0.486111 weight:9.000000
+
+Predicting B from A (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:1.522233 weight:0.000000
+
+Predicting B from B (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.75 right = 0
+mean:0.500000 stdDev:0.799557 weight:9.000000
+
+Predicting B from B (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:0.547874 weight:39.000000
+
+Predicting B from C (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.2 right = 0.75
+mean:0.500000 stdDev:0.750610 weight:9.000000
+
+Predicting B from C (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:1.522233 weight:0.000000
+
+averaging distributions
+mean = 0.500000 stdDev = 0.688461 weight = 9.000000
+mean = 0.454545 stdDev = 1.522233 weight = 0.000000
+mean = 0.000000 stdDev = 0.486111 weight = 9.000000
+mean = 0.454545 stdDev = 1.522233 weight = 0.000000
+mean = 0.500000 stdDev = 0.799557 weight = 9.000000
+mean = 0.454545 stdDev = 0.547874 weight = 39.000000
+mean = 0.500000 stdDev = 0.750610 weight = 9.000000
+mean = 0.454545 stdDev = 1.522233 weight = 0.000000
+mean = 1.000000 stdDev = 0.000916 weight = 1091.843872
+variance1 = 0.000041
+variance2 = 0.000039
+resultant distribution = mean:0.999937 stdDev:0.008957 weight:1166.843872
+
+average of all distributions0.999937
+rating = mean:0.999937 stdDev:0.008957 weight:1166.843872
+averaging distributions
+mean = 0.999934 stdDev = 0.008989 weight = 34.451843
+mean = 0.999937 stdDev = 0.008957 weight = 1166.843872
+variance1 = 0.000000
+variance2 = 0.000080
+resultant distribution = mean:0.999937 stdDev:0.008958 weight:1201.295776
+
+average of all distributions0.999937
+done rating candidate with name B
+rating = mean:0.999937 stdDev:0.008958 weight:1201.295776
+name = B rating = 0.999937
+name = Song rating = 0.999934
+candidate name = B expected rating = 0.999937
+rating candidate with name: C
+rating candidate SongPredicting Song from Song (ratings)
+PredictionLink::guess
+x = 0.5middle=0.333333 left = 0.666667 right = 0.166667
+mean:0.333333 stdDev:0.626362 weight:19.000000
+
+Predicting Song from Song (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:0.533642 weight:39.000000
+
+Predicting Song from A (ratings)
+PredictionLink::guess
+x = 0.6middle=0.333333 left = 0.666667 right = 0.266667
+mean:0.333333 stdDev:0.664886 weight:9.000000
+
+Predicting Song from A (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+Predicting Song from B (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.692308 right = 0.272727
+mean:0.500000 stdDev:0.685329 weight:9.000000
+
+Predicting Song from B (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+Predicting Song from C (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.625 right = 0.25
+mean:0.500000 stdDev:0.677565 weight:9.000000
+
+Predicting Song from C (participations)
+PredictionLink::guess
+x = 0middle=0.5 left = 0.5 right = 0.5
+mean:0.500000 stdDev:1.508000 weight:0.000000
+
+averaging distributions
+mean = 0.333333 stdDev = 0.626362 weight = 19.000000
+mean = 0.500000 stdDev = 0.533642 weight = 39.000000
+mean = 0.333333 stdDev = 0.664886 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 0.500000 stdDev = 0.685329 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 0.500000 stdDev = 0.677565 weight = 9.000000
+mean = 0.500000 stdDev = 1.508000 weight = 0.000000
+mean = 1.000000 stdDev = 0.000916 weight = 1091.843872
+variance1 = 0.000037
+variance2 = 0.000044
+resultant distribution = mean:0.999934 stdDev:0.008989 weight:1176.843872
+
+average of all distributions0.999934
+rating = mean:0.999934 stdDev:0.008989 weight:1176.843872
+averaging distributions
+mean = 0.999934 stdDev = 0.008989 weight = 1176.843872
+variance1 = 0.000000
+variance2 = 0.000081
+resultant distribution = mean:0.999934 stdDev:0.008989 weight:1176.843872
+
+average of all distributions0.999934
+rating candidate CPredicting C from Song (ratings)
+PredictionLink::guess
+x = 0.5middle=0 left = 0.75 right = 0
+mean:0.000000 stdDev:0.486111 weight:9.000000
+
+Predicting C from Song (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:1.522233 weight:0.000000
+
+Predicting C from A (ratings)
+PredictionLink::guess
+x = 0.6middle=0.5 left = 0.25 right = 0.5
+mean:0.500000 stdDev:0.672916 weight:9.000000
+
+Predicting C from A (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:1.522233 weight:0.000000
+
+Predicting C from B (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.75 right = 0.25
+mean:0.500000 stdDev:0.740264 weight:9.000000
+
+Predicting C from B (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:1.522233 weight:0.000000
+
+Predicting C from C (ratings)
+PredictionLink::guess
+x = 0.454545middle=0.5 left = 0.6 right = 0.25
+mean:0.500000 stdDev:0.714401 weight:9.000000
+
+Predicting C from C (participations)
+PredictionLink::guess
+x = 0middle=0.454545 left = 0.454545 right = 0.454545
+mean:0.454545 stdDev:0.547874 weight:39.000000
+
+averaging distributions
+mean = 0.000000 stdDev = 0.486111 weight = 9.000000
+mean = 0.454545 stdDev = 1.522233 weight = 0.000000
+mean = 0.500000 stdDev = 0.672916 weight = 9.000000
+mean = 0.454545 stdDev = 1.522233 weight = 0.000000
+mean = 0.500000 stdDev = 0.740264 weight = 9.000000
+mean = 0.454545 stdDev = 1.522233 weight = 0.000000
+mean = 0.500000 stdDev = 0.714401 weight = 9.000000
+mean = 0.454545 stdDev = 0.547874 weight = 39.000000
+mean = 1.000000 stdDev = 0.000916 weight = 1091.843872
+variance1 = 0.000041
+variance2 = 0.000038
+resultant distribution = mean:0.999936 stdDev:0.008932 weight:1166.843872
+
+average of all distributions0.999936
+rating = mean:0.999936 stdDev:0.008932 weight:1166.843872
+averaging distributions
+mean = 0.999934 stdDev = 0.008989 weight = 34.451843
+mean = 0.999936 stdDev = 0.008932 weight = 1166.843872
+variance1 = 0.000000
+variance2 = 0.000080
+resultant distribution = mean:0.999936 stdDev:0.008933 weight:1201.295776
+
+average of all distributions0.999936
+done rating candidate with name C
+rating = mean:0.999936 stdDev:0.008933 weight:1201.295776
+name = C rating = 0.999936
+name = Song rating = 0.999934
+candidate name = C expected rating = 0.999936
+candidate name = C expected rating = 0.999936
+candidate name = B expected rating = 0.999937
+candidate name = A expected rating = 0.999960
+best candidate name = A expected rating = 0.999960

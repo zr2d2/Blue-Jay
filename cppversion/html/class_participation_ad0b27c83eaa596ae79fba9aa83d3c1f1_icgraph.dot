@@ -1,0 +1,13 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="Participation::getStartTime",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ParticipationMovingAverage::addParticipationInterval",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_moving_average.html#ab40ab4b8f2a5f4dba9521a017b18ae05"];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ParticipationMovingAverage::getCurrentValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_moving_average.html#ad7784811e4ee38c76f66784fdb040b4b"];
+  Node1 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ParticipationMovingAverage::getValueAt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_moving_average.html#ab4fd3e5dda4bbbbf03355c3f5fcba627"];
+}

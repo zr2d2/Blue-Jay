@@ -1,0 +1,8 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{TimeBasedRecommendor\n|- candidates\l- ratings\l- participations\l- predictionLinks\l- numHalfLives\l- latestDate\l|+ TimeBasedRecommendor()\l+ parseArguments()\l+ readFile()\l- addCandidate()\l- addRating()\l- addParticipation()\l- addRatingAndCascade()\l- addParticipationAndCascade()\l- linkCandidates()\l- linkAverages()\l- updateChildPointers()\l- addSomeTestLinks()\l- updatePredictions()\l- message()\l- message()\l- message()\l- message()\l- message()\l- printCandidate()\l- printRating()\l- printDistribution()\l- printParticipation()\l- findAllSuperCategoriesOf()\l- getCandidateWithName()\l- getLinkFromMovingAverages()\l- rateCandidate()\l- rateCandidateWithName()\l- rateCandidateByCorrelation()\l- updateCandidateRatingFromParents()\l- makeRecommendation()\l- makeRecommendation()\l- addDistributions()\l- averageDistributions()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="latestDate",arrowtail="open",fontname="Helvetica"];
+  Node2 [label="{DateTime\n|- value\l|+ DateTime()\l+ DateTime()\l+ datePlusDuration()\l+ setComponents()\l+ stringVersion()\l+ timeUntil()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_date_time.html"];
+}

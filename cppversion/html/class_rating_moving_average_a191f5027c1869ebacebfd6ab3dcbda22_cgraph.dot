@@ -1,0 +1,20 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="RatingMovingAverage::getValueAt",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="DateTime::datePlusDuration",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_date_time.html#a14ad4873e3fdfe6a6aca8397fe2495e3"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Rating::getDate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating.html#a7db2e3297f984c77d3247707a93e4584"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Rating::getScore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating.html#a8e6c8fb5d6e3882f65cba730beb56c97"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Rating::getWeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating.html#a9ac2c119ae6c4eeec5240efd33a2df5c"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="strictlyChronologicallyOrdered",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_date_time_8cpp.html#a5a147ca41ccd908973aed68c859f8977"];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="DateTime::timeUntil",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_date_time.html#a7425ac1c6a4912d5ef46c8df1cc0cea2"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

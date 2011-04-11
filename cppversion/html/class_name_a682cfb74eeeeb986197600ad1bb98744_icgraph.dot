@@ -1,0 +1,13 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="Name::getName",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="operator\<",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_name_8h.html#a082ffd299695c6db3852ace1643ea7e0"];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="operator==",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_name_8h.html#ad6889a946e1e1d48cce882b06a1b67d1"];
+  Node1 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="TimeBasedRecommendor::readFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_time_based_recommendor.html#adf93e7d343de4623e391e094889038b3"];
+}

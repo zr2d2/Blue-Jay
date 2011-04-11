@@ -1,0 +1,26 @@
+<Comment>
+LeftLeft is of type Left
+RightRight is of type Right
+Middle1 is of type Left and of type Right
+Middle2 is of type Left and of type Right
+</Comment>
+
+<Comment>
+LeftLeft is rated low
+</Comment>
+
+<Rating>
+<Activity>LeftLeft</Activity>
+<Score>0</Score>
+<Date>2011-1-01T01:01:00</Date>
+</Rating>
+
+<Comment>
+Middle1 is rated high
+</Comment>
+
+<Rating>
+<Activity>Middle1</Activity>
+<Score>1</Score>
+<Date>2011-1-01T01:01:00</Date>
+</Rating>

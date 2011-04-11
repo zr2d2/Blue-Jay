@@ -1,0 +1,35 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="TimeBasedRecommendor::readFile",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Candidate::addParent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_candidate.html#ab23bc1e9d03ff232fb8c7fefc9125dd4"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Name::appendChar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_name.html#a0a4de4b0cc47f09bd8fcd5e5812e8114"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Name::clear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_name.html#a108852642cef1933c69cb18008811ace"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Name::getName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_name.html#a682cfb74eeeeb986197600ad1bb98744"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Rating::setActivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating.html#abf1d98a192734ebee5941dc8efc525e6"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Participation::setActivityName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation.html#a4960f3c0d81a387716ba14746d31d20c"];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Rating::setDate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating.html#ab2190f25fd764a99ba5b1fd70abcc3f1"];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Candidate::setDiscoveryDate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_candidate.html#a2c528bf4d9e7be088d3d22ee04230712"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Participation::setEndTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation.html#a1c9e9a603bb08fa845d4ad5ee9b0522f"];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Candidate::setName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_candidate.html#a73181197dd3835653b2a13ae34427b14"];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Rating::setScore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating.html#a76b9736ee9394dbe034cbe401ba847ca"];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Participation::setStartTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation.html#a8a16ca47875f43774983e08ae5b3e068"];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="strictlyChronologicallyOrdered",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_date_time_8cpp.html#a5a147ca41ccd908973aed68c859f8977"];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="DateTime::timeUntil",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_date_time.html#a7425ac1c6a4912d5ef46c8df1cc0cea2"];
+}

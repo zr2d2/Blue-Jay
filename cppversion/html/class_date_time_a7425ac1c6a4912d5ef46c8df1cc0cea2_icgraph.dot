@@ -1,0 +1,30 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="DateTime::timeUntil",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ParticipationMovingAverage::addParticipationInterval",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_moving_average.html#ab40ab4b8f2a5f4dba9521a017b18ae05"];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ParticipationMovingAverage::getCurrentValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_moving_average.html#ad7784811e4ee38c76f66784fdb040b4b"];
+  Node1 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Candidate::getIdleDuration",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_candidate.html#a45b1760b868a298de0e27e4ef0cca2b8"];
+  Node1 -> Node5 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="RatingMovingAverage::getValueAt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating_moving_average.html#a191f5027c1869ebacebfd6ab3dcbda22"];
+  Node1 -> Node6 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="ParticipationMovingAverage::getValueAt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_moving_average.html#ab4fd3e5dda4bbbbf03355c3f5fcba627"];
+  Node1 -> Node7 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="strictlyChronologicallyOrdered",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_date_time_8h.html#a5a147ca41ccd908973aed68c859f8977"];
+  Node7 -> Node8 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="MovingAverage::getCorrelationsFor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_moving_average.html#a522afddbcea6e74c26346951287196c0"];
+  Node7 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node5 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node6 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node9 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="RatingPrecedes::operator()",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating_precedes.html#ac73cacefae43ce2960c17c99297a84a5"];
+  Node7 -> Node10 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="ParticipationPrecedes::operator()",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_participation_precedes.html#ab350194938b70821dd69e1e852086f98"];
+  Node7 -> Node11 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="TimeBasedRecommendor::readFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_time_based_recommendor.html#adf93e7d343de4623e391e094889038b3"];
+}

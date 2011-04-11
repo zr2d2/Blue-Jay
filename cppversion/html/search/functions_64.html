@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><title></title>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<link rel="stylesheet" type="text/css" href="search.css"/>
+<script type="text/javascript" src="search.js"></script>
+</head>
+<body class="SRPage">
+<div id="SRIndex">
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRResult" id="SR_datapoint">
+ <div class="SREntry">
+  <a id="Item0" onkeydown="return searchResults.Nav(event,0)" onkeypress="return searchResults.Nav(event,0)" onkeyup="return searchResults.Nav(event,0)" class="SRSymbol" href="../class_datapoint.html#a5e691bd4ff30820a227dbeb4863dccb3" target="_parent">Datapoint</a>
+  <span class="SRScope">Datapoint</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_dateplusduration">
+ <div class="SREntry">
+  <a id="Item1" onkeydown="return searchResults.Nav(event,1)" onkeypress="return searchResults.Nav(event,1)" onkeyup="return searchResults.Nav(event,1)" class="SRSymbol" href="../class_date_time.html#a14ad4873e3fdfe6a6aca8397fe2495e3" target="_parent">datePlusDuration</a>
+  <span class="SRScope">DateTime</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_datetime">
+ <div class="SREntry">
+  <a id="Item2" onkeydown="return searchResults.Nav(event,2)" onkeypress="return searchResults.Nav(event,2)" onkeyup="return searchResults.Nav(event,2)" class="SRSymbol" href="javascript:searchResults.Toggle('SR_datetime')">DateTime</a>
+  <div class="SRChildren">
+    <a id="Item2_c0" onkeydown="return searchResults.NavChild(event,2,0)" onkeypress="return searchResults.NavChild(event,2,0)" onkeyup="return searchResults.NavChild(event,2,0)" class="SRScope" href="../class_date_time.html#a6df0076d1bc7d0952b86cc051b1fd844" target="_parent">DateTime::DateTime(void)</a>
+    <a id="Item2_c1" onkeydown="return searchResults.NavChild(event,2,1)" onkeypress="return searchResults.NavChild(event,2,1)" onkeyup="return searchResults.NavChild(event,2,1)" class="SRScope" href="../class_date_time.html#a2183f3ca0b853e34e20767bf17907771" target="_parent">DateTime::DateTime(std::string yyyymmddhhmmss)</a>
+  </div>
+ </div>
+</div>
+<div class="SRResult" id="SR_distribution">
+ <div class="SREntry">
+  <a id="Item3" onkeydown="return searchResults.Nav(event,3)" onkeypress="return searchResults.Nav(event,3)" onkeyup="return searchResults.Nav(event,3)" class="SRSymbol" href="javascript:searchResults.Toggle('SR_distribution')">Distribution</a>
+  <div class="SRChildren">
+    <a id="Item3_c0" onkeydown="return searchResults.NavChild(event,3,0)" onkeypress="return searchResults.NavChild(event,3,0)" onkeyup="return searchResults.NavChild(event,3,0)" class="SRScope" href="../class_distribution.html#a44089c7b517e68ba66b23453d7587abe" target="_parent">Distribution::Distribution(void)</a>
+    <a id="Item3_c1" onkeydown="return searchResults.NavChild(event,3,1)" onkeypress="return searchResults.NavChild(event,3,1)" onkeyup="return searchResults.NavChild(event,3,1)" class="SRScope" href="../class_distribution.html#aef473d81f387176e4c66ef504d1ed150" target="_parent">Distribution::Distribution(double average, double stdDev, double relativeWeight)</a>
+  </div>
+ </div>
+</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+<script type="text/javascript"><!--
+document.getElementById("Loading").style.display="none";
+document.getElementById("NoMatches").style.display="none";
+var searchResults = new SearchResults("searchResults");
+searchResults.Search();
+--></script>
+</div>
+</body>
+</html>

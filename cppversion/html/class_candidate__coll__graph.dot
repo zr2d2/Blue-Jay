@@ -1,0 +1,17 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{Candidate\n|- name\l- parentNames\l- parents\l- children\l- ratingEstimators\l- frequencyEstimators\l- actualRatingHistory\l- numRatings\l- latestRatingTime\l- currentRating\l- currentRefinedRating\l- parentLinksNeeedUpdating\l- discoveryDate\l|+ Candidate()\l+ Candidate()\l+ setName()\l+ getName()\l+ addParent()\l+ addParent()\l+ addChild()\l+ getParentNames()\l+ getParents()\l+ getChildren()\l+ giveRating()\l+ giveParticipation()\l+ getNumRatingEstimators()\l+ getRatingEstimatorAtIndex()\l+ getNumFrequencyEstimators()\l+ getFrequencyEstimatorAtIndex()\l+ getActualRatingHistory()\l+ getCurrentRating()\l+ setCurrentRating()\l+ getCurrentRefinedRating()\l+ setCurrentRefinedRating()\l+ needToUpdateParentPointers()\l+ setDiscoveryDate()\l+ getIdleDuration()\l+ getAverageRating()\l- initialize()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="actualRatingHistory",arrowtail="open",fontname="Helvetica"];
+  Node2 [label="{RatingMovingAverage\n|- ratings\l- sumRatings\l- sumSquaredRatings\l|+ RatingMovingAverage()\l+ addRating()\l+ getValueAt()\l+ getRatings()\l+ getNumRatings()\l+ getAverageValue()\l+ getLatestDate()\l- getIndexForDate()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_rating_moving_average.html"];
+  Node3 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid",arrowtail="empty",fontname="Helvetica"];
+  Node3 [label="{MovingAverage\n|- name\l- ownerName\l|+ MovingAverage()\l+ getValueAt()\l+ getCurrentValue()\l+ getCorrelationsFor()\l+ setName()\l+ getName()\l+ setOwnerName()\l+ getOwnerName()\l+ isAParticipationMovingAverage()\l+ getLatestDate()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_moving_average.html"];
+  Node4 -> Node3 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="ownerName\nname",arrowtail="open",fontname="Helvetica"];
+  Node4 [label="{Name\n|- value\l|+ Name()\l+ Name()\l+ Name()\l+ getName()\l+ appendChar()\l+ clear()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_name.html"];
+  Node5 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="discoveryDate\nlatestRatingTime",arrowtail="open",fontname="Helvetica"];
+  Node5 [label="{DateTime\n|- value\l|+ DateTime()\l+ DateTime()\l+ datePlusDuration()\l+ setComponents()\l+ stringVersion()\l+ timeUntil()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_date_time.html"];
+  Node6 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="currentRating\ncurrentRefinedRating",arrowtail="open",fontname="Helvetica"];
+  Node6 [label="{Distribution\n|- mean\l- standardDeviation\l- weight\l|+ Distribution()\l+ Distribution()\l+ getMean()\l+ getStdDev()\l+ getWeight()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_distribution.html"];
+  Node4 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="name",arrowtail="open",fontname="Helvetica"];
+}
