@@ -4,6 +4,7 @@
   <script src="main.js"/>
   <script src="pane.js"/>
   <script src="algorithm/TimeBasedRecommendor.js"/>
+  <script src="algorithm/FileIO.js"/>
 
   <stringbundleset id="stringbundleset"> 
      <stringbundle id="bluejay-strings" src="chrome://bluejay/locale/overlay.properties"/>

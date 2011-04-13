@@ -12,6 +12,7 @@
   <script src="main.js"/>
   <script src="pane.js"/>
   <script src="algorithm/TimeBasedRecommendor.js"/>
+  <script src="algorithm/FileIO.js"/>
  
  <hbox id="pane-header-box" align="center">
     <description id="pane-header-label" value="&bluejay.pane.label;" />

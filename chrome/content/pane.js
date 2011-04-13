@@ -37,12 +37,12 @@ Bluejay.PaneController = {
     // it is easy to access from closures.
     var controller = this;
 	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
-	var engine = TimeBasedRecommendor;
+	//var engine = new TimeBasedRecommendor();
     
     // Hook up the action button
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
-         function() { engine.recommend(); }, false);
+         function() { controller.readFiles(); }, false);
 		 
 	this._savebutton = document.getElementById("save-button");
     this._savebutton.addEventListener("command", 
@@ -63,6 +63,14 @@ Bluejay.PaneController = {
 	alert(greeting);
 	//Bluejay.Controller.doHelloWorld();
 	},
+  
+  readFiles : function() {
+    //alert("pane reading files");
+    FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test");
+    TimeBasedRecommendor.readFiles();
+    return;
+    var data = "";
+  },
   
   popUpProgress: function() {
     //do we want a progress bar for anything? 
