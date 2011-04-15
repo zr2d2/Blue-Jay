@@ -20,10 +20,17 @@ Cu.import("resource://app/jsmodules/sbProperties.jsm");
 
 //var paneChooseSong = Bluejay.Controller.doHelloWorld();
 
+// test class
+function A()
+{
+    this.x = 1;
+};
+//function TimeBasedRecommendor();
 /**
  * Controller for pane.xul
  */
 Bluejay.PaneController = {
+
 
   /**
    * Called when the pane is instantiated
@@ -37,7 +44,13 @@ Bluejay.PaneController = {
     // it is easy to access from closures.
     var controller = this;
 	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
-	//var engine = new TimeBasedRecommendor();
+	//alert("initializing");
+    //TimeBasedRecommendor.constructor();
+	//this.engine = RecommendorFactory.recommendor();
+	this.engine = new TimeBasedRecommendor();
+	//alert("engine is " + this.engine);
+	//alert("constructed successfully");
+    //var engine = new A();
     
     // Hook up the action button
     this._mixbutton = document.getElementById("action-button");
@@ -65,11 +78,12 @@ Bluejay.PaneController = {
 	},
   
   readFiles : function() {
-    //alert("pane reading files");
+    alert("pane reading files");
+    //TimeBasedRecommendor.constructor();
+    // for testing, write to the file first
     FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test");
-    TimeBasedRecommendor.readFiles();
-    return;
-    var data = "";
+    // now read the file
+    this.engine.readFiles();
   },
   
   popUpProgress: function() {

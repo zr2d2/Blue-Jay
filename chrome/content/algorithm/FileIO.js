@@ -7,12 +7,12 @@ FileIO = {
 /////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
 
     readFile : function(fileName) {
-        alert("FileIO reading file" + fileName);
     
         var homeDirFile = FileIO.getHomeDirectory();
 
         var file = homeDirFile;
         file.append(fileName);
+        alert("FileIO reading file" + file.path);
         //alert("making input stream");
         // open an input stream from the file
         var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
@@ -42,11 +42,11 @@ FileIO = {
     },
     
     writeFile : function(fileName, stringData) {
-        alert("writing file " + fileName);
         homeDirFile = FileIO.getHomeDirectory();
 
         var file = homeDirFile;
         file.append(fileName);
+        alert("writing file " + file.path);
         
         var data = stringData
         // file is nsIFile, data is a string

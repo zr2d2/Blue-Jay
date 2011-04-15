@@ -2,29 +2,29 @@
 /**
  * The class that controls all of the recommendations
  */
-TimeBasedRecommendor = {
+ 
+function TimeBasedRecommendor() {
+
+    // initialization
+    //candidates = {};
+    //alert("constructing a recommendor point 2");
 
 /////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
 
 // the functions parseArguments has been skipped for now
-
-    // when starting up, read the ratings file
     
-// readFile
-
-    readFiles : function() {
+    this.readFiles = function() {
         //alert("recommendor reading files");
-        TimeBasedRecommendor.readFile("bluejay_ratings.txt");
-    },
-
-    readFile : function(fileName) {
+        this.readFile("bluejay_ratings.txt");
+    }
+    this.readFile = function(fileName) {
         //alert("recommendor reading file");
         // display a message
         var stringContents = FileIO.readFile(fileName);
     },
     
 // recommend function
-    recommend : function() {
+    this.recommend = function() {
         var songName = "Come on Eileen";
         alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
