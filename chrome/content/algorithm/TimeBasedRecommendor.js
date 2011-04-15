@@ -6,7 +6,9 @@
 function TimeBasedRecommendor() {
 
     // initialization
-    //candidates = {};
+    candidates = {};
+    ratings = {};
+    participations = {};
     //alert("constructing a recommendor point 2");
 
 /////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
@@ -21,6 +23,27 @@ function TimeBasedRecommendor() {
         //alert("recommendor reading file");
         // display a message
         var stringContents = FileIO.readFile(fileName);
+    },
+    this.addCandidate = function(newCandidate) {
+        var name = newCandidate.getName();
+        message("adding candidate named");
+        printCandidate(newCandidate);
+        this.candidates[name] = newCandidate;
+    },
+    this.addRating = function(newRating) {
+        printRating(newRating);
+        // need to add the rating here
+        // The interface for the Javascript map is not the same as for the C++ set
+        // So we probably need to compute a key for the rating
+        // and then call this.ratings[key] = newRating
+        // Or, we could just make the very reasonable assumption that the ratings are in
+        // chronological order in the ratings file already, in which case we can just
+        // keep track of the current number of ratings and use it as the key
+    },
+    this.addParticipation = function(newParticipation) {
+        printParticipation(newParticipation);
+        // Now we need to actually add the participation.
+        // See the comment block in addRating
     },
     
 // recommend function

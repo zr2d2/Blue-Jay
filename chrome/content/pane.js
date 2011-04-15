@@ -31,11 +31,11 @@ function A()
  */
 Bluejay.PaneController = {
 
-
   /**
    * Called when the pane is instantiated
    */
   onLoad: function() {
+    
     this._initialized = true;
 
 	//include('main.js');
