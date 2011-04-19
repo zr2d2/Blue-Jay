@@ -20,19 +20,24 @@ function TimeBasedRecommendor() {
 /////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
 
 // the functions parseArguments has been skipped for now
+    
+    // function prototypes
+    this.readFiles = readFiles;
+    this.readFile = readFile;
+    this.addCandidate = addCandidate;
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
-    this.readFiles = function() {
-        //alert("recommendor reading files");
+    function readFiles() {
+        alert("recommendor reading files");
         this.readFile("bluejay_ratings.txt");
-    },
+    }
     // reads one file
-    this.readFile = function(fileName) {
+    function readFile(fileName) {
         //alert("recommendor reading file");
         // display a message
         var stringContents = FileIO.readFile(fileName);
-    },
+    }
     // adds a candidate (also known as a song, genre, or category)
-    this.addCandidate = function(newCandidate) {
+    function addCandidate(newCandidate) {
         var name = newCandidate.getName();
         message("adding candidate named");
         printCandidate(newCandidate);
@@ -70,74 +75,63 @@ function TimeBasedRecommendor() {
 	    var candidate = getCandidateWithName(newParticipation.getActivityName());
 	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	    var i;
-	    for (i = 0; candidatesToUpdate[i]; i++)
-	    {
+	    for (i = 0; candidatesToUpdate[i]; i++) {
 		    candidatesToUpdate[i].giveParticipation(newParticipation);
 	    }
     },
     // adds the rating to the necessary candidate and all its parents
-    this.addRatingAndCascade = function(newRating)
-    {
+    this.addRatingAndCascade = function(newRating) {
 	    var candidate = getCandidateWithName(newRating.getActivity());
 	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	    var i, j;
-	    for (i = 0; candidatesToUpdate[i]; i++)
-	    {
+	    for (i = 0; candidatesToUpdate[i]; i++) {
 		    candidatesToUpdate[i].giveRating(newRating);
 	    }
     },
     // create the necessary PredictionLink to predict each candidate from the other
-    this.linkCandidates = function(candidateOne, candidateTwo)
-    {
+    this.linkCandidates = function(candidateOne, candidateTwo) {
 	    var frequencyCountA = candidateOne.getNumFrequencyEstimators();
 	    var ratingCountA = candidateOne.getNumRatingEstimators();
 	    var frequencyCountB = candidateTwo.getNumFrequencyEstimators();
 	    var ratingCountB = candidateTwo.getNumRatingEstimators();
 	    var i, j;
 	    // using the frequency of A, try to predict the rating for B
-	    for (i = 0; i < frequencyCountA; i++)
-	    {
+	    for (i = 0; i < frequencyCountA; i++) {
 		    this.linkAverages(candidateOne.getFrequencyEstimatorAtIndex(i), candidateTwo.getActualRatingHistory());
 	    }
 	    // using the frequency of B, try to predict the rating for A
-	    for (j = 0; j < frequencyCountB; j++)
-	    {
+	    for (j = 0; j < frequencyCountB; j++) {
 		    this.linkAverages(candidateTwo.getFrequencyEstimatorAtIndex(j), candidateOne.getActualRatingHistory());
 	    }
 	    // using the rating for A, try to predict the rating for B
-	    for (i = 0; i < ratingCountA; i++)
-	    {
+	    for (i = 0; i < ratingCountA; i++) {
 		    this.linkAverages(candidateOne.getRatingEstimatorAtIndex(i), candidateTwo.getActualRatingHistory());
 	    }
 	    // using the rating for B, try to predict the rating for A
-	    for (j = 0; j < ratingCountB; j++)
-	    {
+	    for (j = 0; j < ratingCountB; j++) {
 		    this.linkAverages(candidateTwo.getRatingEstimatorAtIndex(j), candidateOne.getActualRatingHistory());
 	    }
     },
     // create the necessary PredictionLink to predict the predictee from the predictor
-    this.linkAverages = function(predictor, predictee)
-    {
+    this.linkAverages = function(predictor, predictee) {
 	    var links = this.predictionLinks[predictee];
 	    var newLink = new PredictionLink(predictor, predictee);
 	    links[predictor] = newLink;
     },
-    this.updateChildPointers = function()
-    {
+    // inform each candidate of the categories it directly inherits from
+    // and the categories that directly inherit from it
+    this.updateChildPointers = function() {
 	    // iterate over each candidate
 	    var candidateIterator = Iterator(this.candidates);
 	    var currentCandidate;
 	    var parent;
 	    var i;
-	    for (candidateName in candidateIterator)
-	    {
+	    for (candidateName in candidateIterator) {
 		    currentCandidate = this.candidates[candidateName];
-		    if (currentCandidate.needToUpdateParentPointers())
-		    {
+		    if (currentCandidate.needToUpdateParentPointers()) {
 			    // if we get here then this candidate was added recently and its parents need their child pointers updated
 			    var parentNames = currentCandidate.getParentNames();
-			    for (i = 0; parentNames[i]; i++)
-			    {
+			    for (i = 0; parentNames[i]; i++) {
 				    parent = getCandidateWithName(parentNames[i])
 				    currentCandidate.addParent(parent);
 				    parent.addChild(currentCandidate);
@@ -145,6 +139,59 @@ function TimeBasedRecommendor() {
 		    }
 	    }
     },
+    this.updatePredictions = function() {
+        message("updating predictions\r\n");
+        message("giving ratings to activities\r\n");
+        // inform each candidate of the ratings given to it
+        var ratingIterator = Iterator(this.ratings);
+        var rating;
+        var activityName;
+        var numRatings = 0;
+        for (rating in ratingIterator) {
+            numRatings++;
+            this.addRatingAndCascade(rating);
+        }
+        message("num ratings given = ");
+	    message(numRatings);
+	    message("\r\n");
+	    message("giving participations to activities");
+	    
+	    participationIterator = Iterator(this.participations);
+	    var participation;
+	    for (participation in participationIterator) {
+	        this.addParticipationAndCascade(participation);
+	    }
+        message("\r\n");
+
+
+    	message("creating PredictionLinks");
+    	
+    	var mapIterator = Iterator(this.predictionLinks);
+    	var currentMap;
+    	var currentKey;
+    	
+    	for (currentKey in mapIterator) {
+    	    currentMap = this.predictionLinks[currentKey];
+    	}
+    	// Not done Yet!!!
+    },
+    // creates a bunch of PredictionLinks to predict the ratings of some Candidates from others
+    this.addSomeTestLinks = function() {
+    	message("adding some test links\r\n");
+	    var iterator1 = Iterator(this.candidates);
+	    var iterator2 = Iterator(this.candidates);
+	    var candidate1;
+	    var candidate2;
+	    // currently we add all combinations of links
+	    for (candidate1 in iterator1) {
+		    for (candidate2 in iterator2) {
+		        // to prevent double-counting, make sure candidate1 <= candidate2
+		        if (candidate1.getName() < candidate2.getName()) {
+		            linkCandidates(candidate1, candidate2);
+		        }
+		    }
+	    }
+    }
 
 // recommend function
     this.recommend = function() {

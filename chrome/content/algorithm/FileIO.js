@@ -77,10 +77,23 @@ FileIO = {
 /////////////////////////////////////////////////////// Private Methods ///////////////////////////////////////////////////
 
     getHomeDirectory : function() {
+        // This will choose the user's home directory
         var dirService = Components.classes["@mozilla.org/file/directory_service;1"].
                          getService(Components.interfaces.nsIProperties);
         var homeDirFile = dirService.get("Home", Components.interfaces.nsIFile); // returns an nsIFile object
         return homeDirFile;
+        
+        /* // If we can determine the correct path, we can use this
+        alert("homedir part 1");
+        var path = "c:\\Users\\gastoj3";
+        //var path = "chrome://bluejay/content";
+        var homeDir = Components.classes["@mozilla.org/file/local;1"]
+           .createInstance(Components.interfaces.nsILocalFile);
+        alert("homedir part 2");
+        //homeDir.initWithPath(path);
+        //alert("homedir path = " + homeDir.path);
+        return homeDir;
+        */
     }
 /////////////////////////////////////////////////////// Member Variables ///////////////////////////////////////////////////
 
