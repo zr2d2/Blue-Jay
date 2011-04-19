@@ -214,4 +214,4 @@
 		actualRatingHistory.setName(Name(name.getName() + " actual "));
 		actualRatingHistory.setOwnerName(name);
 	}
-		
+}
