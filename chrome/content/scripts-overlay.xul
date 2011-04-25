@@ -3,8 +3,10 @@
 
   <script src="main.js"/>
   <script src="pane.js"/>
-  <script src="algorithm/TimeBasedRecommendor.js"/>
+  <script src="algorithm/Candidate.js"/>
   <script src="algorithm/FileIO.js"/>
+  <script src="algorithm/Name.js"/>
+  <script src="algorithm/TimeBasedRecommendor.js"/>
 
   <stringbundleset id="stringbundleset"> 
      <stringbundle id="bluejay-strings" src="chrome://bluejay/locale/overlay.properties"/>

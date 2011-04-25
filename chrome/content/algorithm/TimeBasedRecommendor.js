@@ -5,16 +5,17 @@
  
 function TimeBasedRecommendor() {
 
-    // initialization
+/////////////////////////////////////////////////// Private Member Variables ///////////////////////////////////////////////////
+
     // setup some maps so that we can store all the data in memory and then update properly
     // Basically the concern is that can't add a rating to a candidate that doesn't exist yet
     // So we store everything, then create the candidates, then add the ratings
-    candidates = {};        // a map of all candidates (with key equal to its name)
-    ratings = {};           // a vector of all ratings
-    numRatings = 0;         // how many ratings there are
-    participations = {};    // a vector of all partipations
-    numParticipations = 0;  // how many participations there are
-    predictionLinks = {};   // the set of all prediction links
+    var candidates = {};        // a map of all candidates (with key equal to its name)
+    var ratings = {};           // a vector of all ratings
+    var numRatings = 0;         // how many ratings there are
+    var participations = {};    // a vector of all partipations
+    var numParticipations = 0;  // how many participations there are
+    var predictionLinks = {};   // the set of all prediction links
     //alert("constructing a recommendor point 2");
 
 /////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
@@ -25,6 +26,19 @@ function TimeBasedRecommendor() {
     this.readFiles = readFiles;
     this.readFile = readFile;
     this.addCandidate = addCandidate;
+    this.addRating = addRating;
+    this.addParticipation = addParticipation;
+    this.addParticipationAndCascade = addParticipationAndCascade;
+    this.addRatingAndCascade = addRatingAndCascade;
+    this.linkCandidates = linkCandidates;
+    this.linkAverages = linkAverages;
+    this.updatePredictions = updatePredictions;
+    this.updateChildPointers = updateChildPointers;
+    this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
+    this.addSomeTestLinks = addSomeTestLinks;
+    this.test = test;
+    this.message = message;
+    this.recommend = recommend;
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
         alert("recommendor reading files");
@@ -42,9 +56,10 @@ function TimeBasedRecommendor() {
         message("adding candidate named");
         printCandidate(newCandidate);
         this.candidates[name] = newCandidate;
-    },
+        message("done adding candidate");
+    }
     // adds a rating to the list of ratings
-    this.addRating = function(newRating) {
+    function addRating(newRating) {
         printRating(newRating);
         // need to add the rating here
         // The interface for the Javascript map is not the same as for the C++ set
@@ -58,9 +73,9 @@ function TimeBasedRecommendor() {
         // This just requires that the ratings are already in chronological order
         this.numRatings++;
         this.ratings[this.numRatings] = newRating;
-    },
+    }
     // adds a rating to the list of participation
-    this.addParticipation = function(newParticipation) {
+    function addParticipation(newParticipation) {
         printParticipation(newParticipation);
         // Now we need to actually add the participation.
         // See the comment block in addRating
@@ -69,27 +84,27 @@ function TimeBasedRecommendor() {
         // This just participations that the ratings are already in chronological order
         this.numParticipations++;
         this.participations[this.numParticipations] = newParticipation;
-    },
+    }
     // adds the participation to the necessary candidate and all its parents
-    this.addParticipationAndCascade = function(newParticipation) {
+    function addParticipationAndCascade(newParticipation) {
 	    var candidate = getCandidateWithName(newParticipation.getActivityName());
 	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	    var i;
 	    for (i = 0; candidatesToUpdate[i]; i++) {
 		    candidatesToUpdate[i].giveParticipation(newParticipation);
 	    }
-    },
+    }
     // adds the rating to the necessary candidate and all its parents
-    this.addRatingAndCascade = function(newRating) {
+    function addRatingAndCascade(newRating) {
 	    var candidate = getCandidateWithName(newRating.getActivity());
 	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	    var i, j;
 	    for (i = 0; candidatesToUpdate[i]; i++) {
 		    candidatesToUpdate[i].giveRating(newRating);
 	    }
-    },
+    }
     // create the necessary PredictionLink to predict each candidate from the other
-    this.linkCandidates = function(candidateOne, candidateTwo) {
+    function linkCandidates(candidateOne, candidateTwo) {
 	    var frequencyCountA = candidateOne.getNumFrequencyEstimators();
 	    var ratingCountA = candidateOne.getNumRatingEstimators();
 	    var frequencyCountB = candidateTwo.getNumFrequencyEstimators();
@@ -111,16 +126,16 @@ function TimeBasedRecommendor() {
 	    for (j = 0; j < ratingCountB; j++) {
 		    this.linkAverages(candidateTwo.getRatingEstimatorAtIndex(j), candidateOne.getActualRatingHistory());
 	    }
-    },
+    }
     // create the necessary PredictionLink to predict the predictee from the predictor
-    this.linkAverages = function(predictor, predictee) {
+    function linkAverages(predictor, predictee) {
 	    var links = this.predictionLinks[predictee];
 	    var newLink = new PredictionLink(predictor, predictee);
 	    links[predictor] = newLink;
-    },
+    }
     // inform each candidate of the categories it directly inherits from
     // and the categories that directly inherit from it
-    this.updateChildPointers = function() {
+    function updateChildPointers() {
 	    // iterate over each candidate
 	    var candidateIterator = Iterator(this.candidates);
 	    var currentCandidate;
@@ -138,8 +153,8 @@ function TimeBasedRecommendor() {
 			    }
 		    }
 	    }
-    },
-    this.updatePredictions = function() {
+    }
+    function updatePredictions() {
         message("updating predictions\r\n");
         message("giving ratings to activities\r\n");
         // inform each candidate of the ratings given to it
@@ -169,14 +184,80 @@ function TimeBasedRecommendor() {
     	var mapIterator = Iterator(this.predictionLinks);
     	var currentMap;
     	var currentKey;
+    	var currentPredictionKey;
+    	var predictionIterator;
+    	var numUpdates = 0;
     	
+    	// for each candidate, get the map of predictions links that have it as the predictor
     	for (currentKey in mapIterator) {
     	    currentMap = this.predictionLinks[currentKey];
+    	    predictionIterator = Iterator(currentMap);
+    	    // iterate over each PredictionLink that shares the predictor
+    	    for (currentPredictionKey in predictionIterator)
+    	    {
+    	        currentMap[currentPredictionKey].update();
+    	        numUpdates++;
+    	    }
     	}
-    	// Not done Yet!!!
-    },
+    	message("num PredictionLinks updated = ");
+	    message(numUpdates);
+	    message("\r\n");
+    }
+    
+////////////////////////////////// search functions /////////////////////////////////////
+    function findAllSuperCategoriesOf (candidate) {
+        message("finding supercategories of " + candidate.getName().getName());
+        // setup a set to check for duplicates
+        var setToUpdate;
+        // setup an array for sequential access
+        var vectorToUpdate = [];
+        // initialize the one leaf node
+        var currentCandidate = candidate;
+        setToUpdate[candidate.getName()] = currentCandidate;
+        vectorToUpdate.push(currentCandidate);
+        // compute the set of all supercategories of this candidate
+        var busy = true;
+        var currentParent;
+        var setIterator;
+        var parents;
+        var i, j;
+        for (i = 0; i < vectorToUpdate.length; i++)
+        {
+            currentCandidate = vectorToUpdate[i];
+            parents = currentCandidate.getParents();
+            for (j = 0; j < parents.length; j++)
+            {
+                currentParent = parents[i];
+                // check whether this candidate is already in the set
+                if (setToUpdate[currentParent.getName()] != {})
+                {
+                    message("adding parent named" + currentParent.getName().getName());
+                    // if we get here then we found another candidate to add
+                    setToUpdate[currentParent.getName()] = currentParent;
+                    vectorToUpdate.push(currentParent);
+                }
+            }
+        }
+        return vectorToUpdate;
+    }
+    // dictionary lookup
+    function getCandidateWithName(name) {
+        return this.candidates[name];
+    }
+    // given two moving averages, returns the PredictionLink that predicts the predictee from the predictor
+    function getLinkFromMovingAverages(predictor, predictee) {
+        var links = this.predictionLinks[predictor];
+        return links[predictee];    
+    }
+    // calculate a rating for the given candidate
+    function rateCandidate(candidate) {
+        message("rating candidate with name: " + candidate.getName().getName());
+        var parents = this.findAllSuperCategoriesOf(candidate);
+        
+    }
+    
     // creates a bunch of PredictionLinks to predict the ratings of some Candidates from others
-    this.addSomeTestLinks = function() {
+    function addSomeTestLinks() {
     	message("adding some test links\r\n");
 	    var iterator1 = Iterator(this.candidates);
 	    var iterator2 = Iterator(this.candidates);
@@ -186,15 +267,30 @@ function TimeBasedRecommendor() {
 	    for (candidate1 in iterator1) {
 		    for (candidate2 in iterator2) {
 		        // to prevent double-counting, make sure candidate1 <= candidate2
-		        if (candidate1.getName() < candidate2.getName()) {
+		        if (candidate1.getName() <= candidate2.getName()) {
 		            linkCandidates(candidate1, candidate2);
 		        }
 		    }
 	    }
     }
+    
+    function test() {
+        alert("testing");
+        //var candidate1 = new Candidate(new Name("Sell Me Candy"));
+        var candidate1 = new Candidate;
+        alert("adding candidate");
+        addCandidate(candidate1);
+        //candidate1.setName("name1");
+        //message(candidate1.getName().getName());
+    }
 
+    function message(text) {
+        // don't bother showing a blank message
+        if (text != "\r\n")
+            alert(text);
+    }
 // recommend function
-    this.recommend = function() {
+    function recommend() {
         var songName = "Come on Eileen";
         alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
@@ -209,6 +305,5 @@ function TimeBasedRecommendor() {
 
 /////////////////////////////////////////////////////// Private Methods ///////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////// Member Variables ///////////////////////////////////////////////////
 
 };

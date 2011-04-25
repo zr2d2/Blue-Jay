@@ -13,7 +13,7 @@ function Name(passedVal) {
 	
 	//private variables
 	//value is passedVal if exists, else nil
-	var value = passedVal | {};
+	var value = passedVal;
 	
 	//public functions
 	function getName() {

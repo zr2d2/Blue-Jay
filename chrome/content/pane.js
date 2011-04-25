@@ -55,7 +55,7 @@ Bluejay.PaneController = {
     // Hook up the action button
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
-         function() { controller.readFiles(); }, false);
+         function() { controller.test(); }, false);
 		 
 	this._savebutton = document.getElementById("save-button");
     this._savebutton.addEventListener("command", 
@@ -84,6 +84,10 @@ Bluejay.PaneController = {
     FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test");
     // now read the file
     this.engine.readFiles();
+  },
+  
+  test : function() {
+    this.engine.test();
   },
   
   popUpProgress: function() {

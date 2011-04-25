@@ -3,15 +3,19 @@
  */
  
  function Candidate(passedVal) {
+    this.name = passedVal;
+ 
 	//public function
 	newCandidate = new Candidate;
 	newCandidate.initialize();
 
 	this.setName = setName;
 	this.getName = getName;
+	this.getID = getID;
+	this.addParentName = addParentName;
 	this.addParent = addParent;
 	this.addChild = addChild;
-	this.getParentNames = getParentNmaes;
+	this.getParentNames = getParentNames;
 	this.getParents = getParents;
 	this.getChildren = getChildren;
 	this.giveRating = giveRating;
@@ -20,7 +24,7 @@
 	this.getRatingEstimatorAtIndex = getRatingEstimatorAtIndex;
 	this.getNumFrequencyEstimators = getNumFrequencyEstimators;
 	this.getFrequencyEstimatorAtIndex = getFrequencyEstimatorAtIndex;
-	this.getActualRatingHistory =  getActualRatingHistory£»
+	this.getActualRatingHistory =  getActualRatingHistory;
 	this.getCurrentRating = getCurrentRating;
 	this.setCurrentRating = setCurrentRating;
 	this.getCurrentRefinedRating = getCurrentRefinedRating;
@@ -34,7 +38,7 @@
 	var initialize;
 	
 	//private variables
-	var name = passedVal | {};
+	var name = passedVal;
 	var parentNames = []; //##### Use simple javascript ARRAY instead of vector #####
 	var parents = [];
 	var children = [];
@@ -58,11 +62,10 @@
 	function getName(){
 		return name;
 	}
-	
-	// ##### Problem? how to check the input argument data type??? #####
-	function addParent(newName)
-	{	
 		
+	// ##### Problem? how to check the input argument data type??? #####
+	function addParentName(newName)
+	{	
 		parentNames.push(newName);
 	}
 	
