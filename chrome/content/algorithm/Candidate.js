@@ -205,14 +205,14 @@
 		var i = 0;
 		ratingEstimators.length = numAverages;
 		frequencyEstimators.length = numAverages;
-    	alert("initializing participation averages");
+    	//alert("initializing participation averages");
 		for (i = 0; i < numAverages; i++){
 		    var newAverage = new ParticipationMovingAverage();
 			newAverage.setName(new Name(name.getName() + " (participations)"));
 			newAverage.setOwnerName(name);
 			frequencyEstimators[i] = newAverage;
 		}
-    	alert("done initializing participation averages");
+    	//alert("done initializing participation averages");
 		
 		for (i = 0; i < numAverages; i++){
     		var newAverage = new RatingMovingAverage();
@@ -220,7 +220,7 @@
 			newAverage.setOwnerName(name);
 			ratingEstimators[i] = newAverage;		
 		}
-    	alert("done initializing rating averages");
+    	//alert("done initializing rating averages");
 		
 		actualRatingHistory.setName(new Name(name.getName() + " actual "));
 		actualRatingHistory.setOwnerName(name);

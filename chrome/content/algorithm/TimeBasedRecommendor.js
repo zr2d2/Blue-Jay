@@ -10,10 +10,8 @@ function TimeBasedRecommendor() {
     // Basically the concern is that can't add a rating to a candidate that doesn't exist yet
     // So we store everything, then create the candidates, then add the ratings
     var candidates = {};        // a map of all candidates (with key equal to its name)
-    var ratings = {};           // a vector of all ratings
-    var numRatings = 0;         // how many ratings there are
-    var participations = {};    // a vector of all partipations
-    var numParticipations = 0;  // how many participations there are
+    var ratings = [];           // a vector of all ratings
+    var participations = [];    // a vector of all partipations
     var predictionLinks = {};   // the set of all prediction links
     //alert("constructing a recommendor point 2");
 
@@ -65,38 +63,25 @@ function TimeBasedRecommendor() {
     }
     // adds a candidate (also known as a song, genre, or category)
     function addCandidate(newCandidate) {
-        var name = newCandidate.getName();
-        message("adding candidate named");
-        printCandidate(newCandidate);
-        this.candidates[name] = newCandidate;
+        var name = newCandidate.getName().getName();
+        message("adding candidate named" + name);
+        //printCandidate(name);
+        //message("done printing candidate");
+        candidates[name] = newCandidate;
         message("done adding candidate");
     }
     // adds a rating to the list of ratings
     function addRating(newRating) {
         printRating(newRating);
-        // need to add the rating here
-        // The interface for the Javascript map is not the same as for the C++ set
-        // So we probably need to compute a key for the rating
-        // and then call this.ratings[key] = newRating
-        // Or, we could just make the very reasonable assumption that the ratings are in
-        // chronological order in the ratings file already, in which case we can just
-        // keep track of the current number of ratings and use it as the key
-
-        // For the moment we'll just keep track of the number of ratings
-        // This just requires that the ratings are already in chronological order
-        this.numRatings++;
-        this.ratings[this.numRatings] = newRating;
+        ratings.length += 1;
+        ratings[ratings.length - 1] = newRating;
     }
     // adds a rating to the list of participation
     function addParticipation(newParticipation) {
         printParticipation(newParticipation);
         // Now we need to actually add the participation.
-        // See the comment block in addRating
-
-        // For the moment we'll just keep track of the number of participations
-        // This just participations that the ratings are already in chronological order
-        this.numParticipations++;
-        this.participations[this.numParticipations] = newParticipation;
+        this.participations.length += 1;
+        this.participations[this.participations.length - 1] = newParticipation;
     }
     // adds the participation to the necessary candidate and all its parents
     function addParticipationAndCascade(newParticipation) {
@@ -150,12 +135,12 @@ function TimeBasedRecommendor() {
     // and the categories that directly inherit from it
     function updateChildPointers() {
 	    // iterate over each candidate
-	    var candidateIterator = Iterator(this.candidates);
+	    var candidateIterator = Iterator(candidates);
 	    var currentCandidate;
 	    var parent;
 	    var i;
 	    for (candidateName in candidateIterator) {
-		    currentCandidate = this.candidates[candidateName];
+		    currentCandidate = candidates[candidateName];
 		    if (currentCandidate.needToUpdateParentPointers()) {
 			    // if we get here then this candidate was added recently and its parents need their child pointers updated
 			    var parentNames = currentCandidate.getParentNames();
@@ -171,8 +156,8 @@ function TimeBasedRecommendor() {
     // creates a bunch of PredictionLinks to predict the ratings of some Candidates from others
     function addSomeTestLinks() {
     	message("adding some test links\r\n");
-	    var iterator1 = Iterator(this.candidates);
-	    var iterator2 = Iterator(this.candidates);
+	    var iterator1 = Iterator(candidates);
+	    var iterator2 = Iterator(candidates);
 	    var candidate1;
 	    var candidate2;
 	    // currently we add all combinations of links
@@ -190,7 +175,7 @@ function TimeBasedRecommendor() {
         message("updating predictions\r\n");
         message("giving ratings to activities\r\n");
         // inform each candidate of the ratings given to it
-        var ratingIterator = Iterator(this.ratings);
+        var ratingIterator = Iterator(ratings);
         var rating;
         var activityName;
         var numRatings = 0;
@@ -396,9 +381,9 @@ function TimeBasedRecommendor() {
     // determines which candidate has the best expected score at the given time
     function makeRecommendation(when) {
         message("make recommendation for date:" + when.stringVersion() + "\r\n");
-        var candidateIterator = Iterator(this.candidates);
+        var candidateIterator = Iterator(candidates);
 	    // make sure that there is at least one candidate to choose from
-	    if (this.candidates.length < 1) {
+	    if (candidates.length < 1) {
 	        return new Name("[no data]");
 	    }
 	    // setup a map to sort by expected rating
