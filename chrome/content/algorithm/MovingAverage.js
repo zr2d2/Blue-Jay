@@ -34,8 +34,8 @@ function MovingAverage() {
     // gets the current value of whatever variable we're tracking
     function getCurrentValue(when, strictlyEarlier)
     {
-        val resultArray = this.getValueAt(when, strictlyEarlier);
-        val resultantDistribution = resultArray[0];
+        var resultArray = this.getValueAt(when, strictlyEarlier);
+        var resultantDistribution = resultArray[0];
         return resultantDistribution;
     }
     // makes a bunch of datapoints that describe how the value of the 'other' distribution changes with this one
@@ -48,8 +48,41 @@ function MovingAverage() {
 			    break;
         }
         var startingIndex = i + 1;
+        var results = [];
+        var x, y, weight;
+        weight = 1;
+        var previousIndex = this.getValueAt(startTime, True)[1];
+        var numChanges = 0; // count how many individual x-values will be used to create the prediction
+	    // This should be improved eventually.
+	    // We should give the deviation of each point to the scatterplot in some meaningful way
+        for (i = startindIndex; i < otherRatings.length; i++) {
+            var value = this.getValueAt(otherRatings[i].getDate(), True);
+            x = value[0].getMean();
+            y = otherRatings[i].getWeight();
+            if (value.second != previousIndex) {
+                previousIndex = value[1];
+                numChanges++;
+            }
+            results.push(new Datapoint(x, y, weight));
+        }
+        return [results, numChanges];	
     }
-
-
-	
+    function setName(newName) {
+        name = newName;
+    }
+    function getName() {
+        return name;
+    }
+    function setOwnerName(newName) {
+        this.ownerName = newName;
+    }
+    function getOwnerName() {
+        return this.ownerName;
+    }
+    function isAParticipationMovingAverage() {
+        return false;
+    }
+    function getLatestDate() {
+        return new DateTime();
+    }
 }
