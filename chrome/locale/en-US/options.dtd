@@ -1,8 +1,5 @@
 <!ENTITY prefwindow.title "Bluejay preferences">
 <!ENTITY pane1.title "Bluejay preferences">
 <!ENTITY checkboolpref.label "Check here if you like checkboxes">
-<!ENTITY checkboolpref.accesskey "B">
 <!ENTITY intpref.label "What's your favorite number?">
-<!ENTITY intpref.accesskey "I">
 <!ENTITY stringpref.label "Nice to meet you, my name is: ">
-<!ENTITY stringpref.accesskey "S">
