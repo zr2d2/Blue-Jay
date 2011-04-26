@@ -3,15 +3,13 @@
  */
  
  function Candidate(passedVal) {
-    this.name = passedVal;
  
 	//public function
-	newCandidate = new Candidate;
-	newCandidate.initialize();
+	//newCandidate = new Candidate;
+	//newCandidate.initialize();
 
 	this.setName = setName;
 	this.getName = getName;
-	this.getID = getID;
 	this.addParentName = addParentName;
 	this.addParent = addParent;
 	this.addChild = addChild;
@@ -34,6 +32,7 @@
 	this.getIdleDuration = getIdleDuration;
 	this.getAverageRating = getAverageRating;
 	
+	
 	//private functions
 	var initialize;
 	
@@ -51,6 +50,11 @@
 	var currentRefinedRating = new Distribution();
 	var parentLinksNeeedUpdating = new Boolean();
 	var discoveryDate = new DateTime();
+    
+	// call the constructor
+	initialize();
+	
+	
 	
 	
 	//public functions
@@ -182,40 +186,47 @@
 		if (frequencies.getNumParticipations() > 0){
 		
 			latestDate = frequencies.getLatestDate();
-			}
-		else{
+		} else{
 			latestDate = discoveryDate;
-			}
+		}
 		
 		return latestDate.timeUntil(when);
 	}
 	
 	function getAverageRating(){
-	
 		return actualRatingHistory.getAverageValue();
 	}
 	
+	
 	function initialize(){
+    	alert("initializing candidate");
 		numRatings = 0;
 		var numAverages = 1;
 		var i = 0;
-		ratingEstimators.resize(numAverages);
-		frequencyEstimators.resize(numAverages);
+		ratingEstimators.length = numAverages;
+		frequencyEstimators.length = numAverages;
+    	alert("initializing participation averages");
 		for (i = 0; i < numAverages; i++){
-		
-			frequencyEstimators[i].setName(Name(name.getName() + " (participations)"));
-			frequencyEstimators[i].setOwnerName(name);
+		    var newAverage = new ParticipationMovingAverage();
+			newAverage.setName(new Name(name.getName() + " (participations)"));
+			newAverage.setOwnerName(name);
+			frequencyEstimators[i] = newAverage;
 		}
+    	alert("done initializing participation averages");
 		
 		for (i = 0; i < numAverages; i++){
-		
-			ratingEstimators[i].setName(Name(name.getName() + " (ratings)"));
-			ratingEstimators[i].setOwnerName(name);
-		
+    		var newAverage = new RatingMovingAverage();
+			newAverage.setName(new Name(name.getName() + " (ratings)"));
+			newAverage.setOwnerName(name);
+			ratingEstimators[i] = newAverage;		
 		}
+    	alert("done initializing rating averages");
 		
-		actualRatingHistory.setName(Name(name.getName() + " actual "));
+		actualRatingHistory.setName(new Name(name.getName() + " actual "));
 		actualRatingHistory.setOwnerName(name);
+		
+    	alert("done initializing candidate ");
+		
 	}
 	
 };

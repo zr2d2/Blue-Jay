@@ -552,8 +552,13 @@ function TimeBasedRecommendor() {
     }
 
     function test() {
-        alert("creating MovingAverage");
-        var m1 = new MovingAverage();
+        alert("testing");
+        var c1 = new Candidate(new Name("name1"));
+        alert("adding candidate");
+        this.addCandidate(c1);
+
+
+        /*var m1 = new MovingAverage();
         //m1.superFunction();
         alert("creating ParticipationMovingAverage");
         var p1 = new ParticipationMovingAverage();
@@ -563,6 +568,7 @@ function TimeBasedRecommendor() {
         var r1 = new RatingMovingAverage();
         alert("r1.superFunction();");
         r1.superFunction();
+        */
         /*
         if (m1.isAParticipationMovingAverage()) {
             alert("m1 stores participations");
