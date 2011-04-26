@@ -4,11 +4,29 @@
 <!-- OPTIONS WINDOW - Specified in install.rdf, launched from the Extension Manager -->
 <prefwindow id="bluejayPreferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;">
   <prefpane id="pane1" label="&pane1.title;">
+  <text value="There are four different preferences." style="font-weight: bold; font-size: large;"/>
+  <text value="Skip Star Worth:" style="font-weight: bold;"/> 
+  <text value="The numerical star-equivalent for skipping a song (lower numbers make more sense)."/>
+  <text value="Skip Weight:" style="font-weight: bold;"/>
+  <text value="The weight that Bluejay will assign to skipping a song, where 0 means no weight,"/>
+  <text value="1 means a weight equivalent to manually rating the song, and 10 being a lot more weight!"/>
+  <text value="Select Star Worth:" style="font-weight: bold;"/>
+  <text value="The numerical star-equivalent for selecting a song (higher numbers make sense, since"/> 
+  <text value="you should like the song if you pick it manually!)."/>
+  <text value="Select Weight:" style="font-weight: bold;"/>
+  <text value="The weight that Bluejay will assign to selecting a song, where 0 means no weight,"/>
+  <text value="1 means a weight equivalent to manually rating the song, and 10 being a lot more weight!"/>
+  <separator class="thin"/>
     <preferences>
-      <preference id="intprefup" name="extensions.bluejay.intprefup" type="int"/>
+	<!--skip stars, skip weight, select stars, select weight -->
 	  <preference id="intprefdown" name="extensions.bluejay.intprefdown" type="int"/>
+	  <preference id="intprefdownweight" name="extensions.bluejay.intprefdownweight" type="int"/>
+      <preference id="intprefup" name="extensions.bluejay.intprefup" type="int"/>
+	  <preference id="intprefupweight" name="extensions.bluejay.intprefupweight" type="int"/>
     </preferences>
-    <label control="textintprefup">&intprefup.label;</label><textbox id="textintprefup" preference="intprefup"/>
     <label control="textintprefdown">&intprefdown.label;</label><textbox id="textintprefdown" preference="intprefdown"/>
+	<label control="textintprefdownweight">&intprefdownweight.label;</label><textbox id="textintprefdownweight" preference="intprefdownweight"/>
+    <label control="textintprefup">&intprefup.label;</label><textbox id="textintprefup" preference="intprefup"/>
+	<label control="textintprefupweight">&intprefupweight.label;</label><textbox id="textintprefupweight" preference="intprefupweight"/>
   </prefpane>
 </prefwindow>

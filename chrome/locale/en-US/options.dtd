@@ -1,4 +1,6 @@
-<!ENTITY prefwindow.title "Bluejay preferences">
-<!ENTITY pane1.title "Bluejay preferences">
-<!ENTITY intprefup.label "How many stars is a skip worth? Please enter a number between 1 and 5. Lower numbers make more sense.">
-<!ENTITY intprefdown.label "How many stars is a select worth? Please enter a number between 1 and 5. Higher numbers make more sense.">
+<!ENTITY prefwindow.title "Bluejay Preferences">
+<!ENTITY pane1.title "Bluejay Preferences">
+<!ENTITY intprefup.label "Selection Star Worth:">
+<!ENTITY intprefupweight.label "Selection Weight:">
+<!ENTITY intprefdown.label "Skip Star Worth:">
+<!ENTITY intprefdownweight.label "Skip Weight:">
