@@ -523,9 +523,36 @@ function TimeBasedRecommendor() {
 	    message("\r\n average of all distributions:" + (sumY / sumWeight) + "\r\n");
     	return result;
     }
-
-    
-    
+    // print functions
+    function message(text) {
+        alert(text);
+    }
+    function printCandidate(candidate) {
+        var parentNames = candidate.getParentNames();
+        message(candidate.getName().getName());
+        message("\r\nparent names:\r\n");
+        var i;
+        for (i = 0; i < parentNames.length; i++) {
+            message(parentNames[i].getName() + "\r\n");
+        }
+        message("\r\n");        
+    }
+    function printRating(rating) {
+        message("song name:" + rating.getActivity().getName() + "\r\n");
+        message("date:" + rating.getDate().stringVersion() + "\r\n");
+        message("score:" + rating.getScore() + "\r\n");
+    }
+    function printDistribution(distribution) {
+        message("mean:" + distribution.getMean());
+        message(" stdDev:" + distribution.getStdDev());
+        message(" weight:" + distribution.getWeight() + "\r\n");
+    }
+    function printParticipation(participation) {
+        message("start time = " + participation.getStartTime().stringVersion());
+        message("end time = " + participation.getEndTime().stringVersion());
+        message("song name = " + participation.getActivityName().getName());
+        message("intensity = " + participation.getIntensity() + "\r\n");
+    }
 
     function test() {
         alert("testing");
