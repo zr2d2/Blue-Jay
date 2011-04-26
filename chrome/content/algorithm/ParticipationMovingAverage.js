@@ -4,21 +4,29 @@
  */
  
 function ParticipationMovingAverage() {
+    this.prototype = new MovingAverage();
+/////////////////////////////////////////////////// Superclass Functions ///////////////////////////////////////////////////
+    this.stringVersion = this.prototype.stringVersion;
 /////////////////////////////////////////////////// Private Member Variables ///////////////////////////////////////////////////
 	var totalIntensities = []
 
 /////////////////////////////////////////////////// Function Prototypes ///////////////////////////////////////////////////
-    this.getIndexForDate = getIndexForDate;
-    this.getTotalIntensityThroughDate = getTotalIntensityThroughDate;
-	this.addParticipationInterval = addParticipationInterval;
-	this.getValueAt = getValueAt;
-	this.getCurrentValue = getValueAt;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
+    //this.getIndexForDate = getIndexForDate;
+    //this.getTotalIntensityThroughDate = getTotalIntensityThroughDate;
+	//this.addParticipationInterval = addParticipationInterval;
+	//this.getValueAt = getValueAt;
+	//this.getCurrentValue = getValueAt;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		// for determining if its type is ParticipationMovingAverage or not
-	this.getLatestDate = getLatestDate;
-	this.getNumParticipations = getNumParticipations;
+	//this.getLatestDate = getLatestDate;
+	//this.getNumParticipations = getNumParticipations;
 	
 /////////////////////////////////////////////////// Function Definitions ///////////////////////////////////////////////////
-	function getIndexForDate {
+	/*function getIndexForDate() {
 	    
 	}
-}
+	function getTotalIntensityThroughDate() {
+	}*/
+	function isAParticipationMovingAverage() {
+	    return true;
+	}
+};

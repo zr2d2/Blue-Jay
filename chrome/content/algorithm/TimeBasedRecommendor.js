@@ -554,12 +554,14 @@ function TimeBasedRecommendor() {
     function test() {
         alert("testing");
         var m1 = new MovingAverage();
-        var p1 = new PartipationMovingAverage();
         if (m1.isAParticipationMovingAverage()) {
             alert("m1 stores participations");
         } else {
             alert("m1 does not store participations");
         }
+        var p1 = new ParticipationMovingAverage();
+        message("done creating p1");
+        
         if (p1.isAParticipationMovingAverage()) {
             alert("p1 stores participations");
         } else {

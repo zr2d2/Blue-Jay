@@ -21,7 +21,7 @@ function MovingAverage() {
 	this.getOwnerName = getOwnerName;
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		// for determining if its type is ParticipationMovingAverage or not
 	this.getLatestDate = getLatestDate;
-	
+	this.stringVersion = stringVersion;
     // function definitions
     
     // a MovingAverage doesn't know how to return its value. This function must be overriden    
@@ -85,4 +85,7 @@ function MovingAverage() {
     function getLatestDate() {
         return new DateTime();
     }
-}
+    function stringVersion() {
+        return "I am a MovingAverage";
+    }
+};
