@@ -9,7 +9,6 @@
 <!DOCTYPE page SYSTEM "chrome://bluejay/locale/overlay.dtd">
 <page id="bluejay-pane" title="&bluejay.pane.label;"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="main.js"/>
   <script src="pane.js"/>
   <script src="algorithm/Candidate.js"/>
   <script src="algorithm/FileIO.js"/>

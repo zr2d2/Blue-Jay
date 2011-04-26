@@ -305,7 +305,7 @@ function TimeBasedRecommendor() {
         {
             currentCandidate = parents[i];
             message("name = " + currentCandidate.getName().getName());
-            message(" rating = " + currentCandidate->getCurrentRefinedRating().getMean() + "\r\n");
+            message(" rating = " + currentCandidate.getCurrentRefinedRating().getMean() + "\r\n");
         }
         return candidate.getCurrentRefinedRating();
     }
@@ -494,7 +494,7 @@ function TimeBasedRecommendor() {
 				    sumY2 += y * y * weight;
 				    sumWeight += weight;
 				    sumVariance += stdDev * stdDev * weight;
-				    outputWeight += currentDistribution->getWeight();
+				    outputWeight += currentDistribution.getWeight();
 				    count += 1;
 			    }
 	        }
