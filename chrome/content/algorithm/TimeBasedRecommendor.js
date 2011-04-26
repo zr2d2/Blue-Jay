@@ -23,6 +23,7 @@ function TimeBasedRecommendor() {
 // the functions parseArguments has been skipped for now
     
     // function prototypes
+    // functions to add data
     this.readFiles = readFiles;
     this.readFile = readFile;
     this.addCandidate = addCandidate;
@@ -32,13 +33,24 @@ function TimeBasedRecommendor() {
     this.addRatingAndCascade = addRatingAndCascade;
     this.linkCandidates = linkCandidates;
     this.linkAverages = linkAverages;
-    this.updatePredictions = updatePredictions;
     this.updateChildPointers = updateChildPointers;
-    this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
     this.addSomeTestLinks = addSomeTestLinks;
-    this.test = test;
+    this.updatePredictions = updatePredictions;
+    // search functions
+    this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
+    this.rateCandidate = rateCandidate;
+    this.getCandidateWithName = getCandidateWithName;
+    this.rateCandidateByCorrelation = rateCandidateByCorrelation;
+    this.updateCandidateRatingFromParents = updateCandidateRatingFromParents;
+    this.makeRecommendation = makeRecommendation;
+    this.addDistributions = addDistributions;
+    this.averageDistributions = averageDistributions;
+    // print functions
     this.message = message;
-    this.recommend = recommend;
+    // functions for testing that it all works
+    this.test = test;
+
+    // function definitions
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
         alert("recommendor reading files");
@@ -154,6 +166,25 @@ function TimeBasedRecommendor() {
 		    }
 	    }
     }
+    
+    // creates a bunch of PredictionLinks to predict the ratings of some Candidates from others
+    function addSomeTestLinks() {
+    	message("adding some test links\r\n");
+	    var iterator1 = Iterator(this.candidates);
+	    var iterator2 = Iterator(this.candidates);
+	    var candidate1;
+	    var candidate2;
+	    // currently we add all combinations of links
+	    for (candidate1 in iterator1) {
+		    for (candidate2 in iterator2) {
+		        // to prevent double-counting, make sure candidate1 <= candidate2
+		        if (candidate1.getName() <= candidate2.getName()) {
+		            linkCandidates(candidate1, candidate2);
+		        }
+		    }
+	    }
+    }
+    // inform everything of any new data that was added recently that it needs to know about    
     function updatePredictions() {
         message("updating predictions\r\n");
         message("giving ratings to activities\r\n");
@@ -180,7 +211,7 @@ function TimeBasedRecommendor() {
 
 
     	message("creating PredictionLinks");
-    	
+    	// have each PredictionLink update itself with the changes to the appropriate MovingAverage    	
     	var mapIterator = Iterator(this.predictionLinks);
     	var currentMap;
     	var currentKey;
@@ -190,12 +221,12 @@ function TimeBasedRecommendor() {
     	
     	// for each candidate, get the map of predictions links that have it as the predictor
     	for (currentKey in mapIterator) {
-    	    currentMap = this.predictionLinks[currentKey];
+    	    currentMap = this.predictionLinks[currentKey];  	// get the map within the map
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
     	    for (currentPredictionKey in predictionIterator)
     	    {
-    	        currentMap[currentPredictionKey].update();
+    	        currentMap[currentPredictionKey].update();  // update the prediction link within the map
     	        numUpdates++;
     	    }
     	}
@@ -205,7 +236,7 @@ function TimeBasedRecommendor() {
     }
     
 ////////////////////////////////// search functions /////////////////////////////////////
-    function findAllSuperCategoriesOf (candidate) {
+    function findAllSuperCategoriesOf(candidate) {
         message("finding supercategories of " + candidate.getName().getName());
         // setup a set to check for duplicates
         var setToUpdate;
@@ -249,31 +280,280 @@ function TimeBasedRecommendor() {
         var links = this.predictionLinks[predictor];
         return links[predictee];    
     }
+////////////////////////////////// Prediction functions ///////////////////////////////////////
     // calculate a rating for the given candidate
-    function rateCandidate(candidate) {
+    function rateCandidate(candidate, when) {
         message("rating candidate with name: " + candidate.getName().getName());
         var parents = this.findAllSuperCategoriesOf(candidate);
-        
+        var i;
+        var currentCandidate;
+        for (i = parents.length - 1; i >= 0; i--)
+        {
+            currentCandidate = parents[i];
+            message("rating candidate " + currentCandidate.getName().getName());
+		    // Calculate a rating based on PredictionLinks. If there isn't much data it won't be very good
+            currentCandidate.setCurrentRating(rateCandidateByCorrleation(currentCandidate, when));
+            message("rating = ");
+            printDistribution(currentCandidate.getCurrentRating());
+		    // Update the rating using parental information. This is to improve guesses for items that have little data but whose parents have data
+            updateCandidateRatingFromParents(currentCandidate);            
+        }
+        message("done rating candidate with name " + candidate.getName().getName() + "\r\n");
+        message("rating = ");
+        printDistribution(candidate.getCurrentRefinedRating());
+        for (i = 0; i < parents.length; i++)
+        {
+            currentCandidate = parents[i];
+            message("name = " + currentCandidate.getName().getName());
+            message(" rating = " + currentCandidate->getCurrentRefinedRating().getMean() + "\r\n");
+        }
+        return candidate.getCurrentRefinedRating();
     }
     
-    // creates a bunch of PredictionLinks to predict the ratings of some Candidates from others
-    function addSomeTestLinks() {
-    	message("adding some test links\r\n");
-	    var iterator1 = Iterator(this.candidates);
-	    var iterator2 = Iterator(this.candidates);
-	    var candidate1;
-	    var candidate2;
-	    // currently we add all combinations of links
-	    for (candidate1 in iterator1) {
-		    for (candidate2 in iterator2) {
-		        // to prevent double-counting, make sure candidate1 <= candidate2
-		        if (candidate1.getName() <= candidate2.getName()) {
-		            linkCandidates(candidate1, candidate2);
-		        }
-		    }
+    // calculate a rating for the candidate with the given name
+    function rateCandidateWithName(name, when) {
+        return rateCandidate(getCandidateWithName(name), when);
+    }
+    
+    // compute the rating for the candidate using all of the relevant prediction links (predicting based on other moving averages)
+    function rateCandidateByCorrelation(candidate, when) {
+	    // get some pointers to the relevant data and initialize
+        var shortTermAverage = candidate.getActualRatingHistory();
+        var links = this.predictionLinks[shortTermAverage];
+        var mapIterator = Iterator(links);
+        var currentLink;
+        var predictor;
+        var predictorName;
+        var predicteeName = candidate.getName();
+        var guesses = [];
+        var currentGuess;
+	    // iterate over all relevant prediction links
+        for (predictor in links) {
+            currentLink = links[predictor];
+            predictorName = predictor.getName();
+            message("Predicting " + predicteeName.getName() + " from " + predictorName().getName() + "\r\n");
+            currentGuess = currentLing.guess(when);
+            printDistribution(currentGuess);
+            guesses.push(currentGuess);
+        }
+        // We don't want to ever completely forget about a song. So, move it slowly closer to perfection
+        var remembererDuration = candidate.getIdleDuration(when);
+        if (remembererDuration < 1)
+		    remembererDuration = 1;
+		    
+		// The goal is to make d = sqrt(t) where d is the duration between listenings and t = num seconds
+	    // Then n = sqrt(t) where n is the number of ratings
+	    // If the user reliably rates a song down, then for calculated distributions, stddev = 1 / n = 1 / sqrt(t) and weight = n = sqrt(t)
+	    // Then it is about ideal for the rememberer to have stddev = 1 / n and weight = d
+	    // If the user only usually rates a song down, then for calculated distributions, stddev = k and weight = n
+	    // Then it is about ideal for the rememberer to have stddev = k and weight = d
+	    // This is mostly equivalent to stddev = d^(-1/3), weight = d^(2/3)
+	    // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
+	    //double squareRoot = sqrt(remembererDuration);
+	    var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
+	    var rememberer = Distribution(1, 1 / cubeRoot, cubeRoot);
+	    guesses.push(rememberer);
+	    // combine all of the distributions into one final guess
+	    var guess = this.averageDistributions(guesses);
+	    // assign the calculated rating to the candidate
+	    candidate.setCurrentRating(guess);
+	    return guess;
+    }
+    
+    // Using the current estimated rating for the candidate and the estimates for parents, compute an updated rating for the candidate
+    // It assumes that all parents are already correct
+    function updateCandidateRatingFromParents(candidate) {
+    	// get the candidate's rating without parental information
+    	var currentChildDistribution = candidate.getCurrentRating();
+    	// now get the ratings for each parent
+    	var parents = candidate.getParents();
+    	var i;
+    	var currentParent;
+    	var distributions = [];
+    	var parentDistribution;
+    	var currentDistribution;
+    	var scale;
+    	// figure out by what factor to decrease the importance of the parent distributions
+	    // The child distribution is a better predictor than the parent distribution, so weight the child distribution by another factor of sqrt(n)
+	    // THIS ISN'T THE BEST APPROXIMATION BUT IT WILL DO FOR NOW. IT WOULD BE PREFERABLE TO COMPUTE THE STDDEV BETWEEN CHILDREN AND WITHIN CHILDREN AND WEIGHT ACCORDINGLY
+	    if (currentChildDistribution.getWeight() == 0)
+		    scale = 1;
+	    else
+		    scale = 1 / Math.sqrt(currentChildDistribution.getWeight());
+		    
+		for (i = 0; i < parents.length; i++)
+        {
+	        currentParent = parents[i];
+	        parentDistribution = currentParent.getCurrentRefinedRating();
+	        currentDistribution = new Distribution(parentDistribution.getMean(), parentDistribution.getStdDev(), parentDistribution.getWeight() * scale);
+	        distributions.push(currentDistribution);
+        }
+        distributions.push(currentChildDistribution);
+        var average = candidate.getAverageRating();
+    	// Now combine the ratings of each parent with the child's
+    	var result = averageDistributions(distributions);
+    	candidate.setCurrentRefinedRating(result);
+    	return result;
+    }
+    // determines which candidate has the best expected score at the given time
+    function makeRecommendation(when) {
+        messge("make recommendation for date:" + when.stringVersion() + "\r\n");
+        var candidateIterator = Iterator(this.candidates);
+	    // make sure that there is at least one candidate to choose from
+	    if (this.candidates.length < 1) {
+	        return new Name("[no data]");
 	    }
+	    // setup a map to sort by expected rating
+	    var guesses = {};
+	    var scoreValid = False;
+	    var currentCandidate;
+	    var bestScore = -1;
+	    var currentScore = -1;
+	    var bestName;
+	    for (currentCandidate in candidateIterator) {
+	        // only bother to rate the candidates that are not categories
+	        if (currentCandidate.getChildren().length == 0)
+	        {
+	            rateCandidate(currentCandidate, when);
+	            currentScore = currentCandidate.getCurrentRefinedRating().getMean();
+	            message("candidate name = " + currentCandidate.getName().getName());
+	            message("expected rating = " + currentScore + "\r\n");
+	            guesses[currentScore] = currentCandidate.getName();
+	            if ((currentScore > bestScore) || !scoreValid) {
+	                bestScore = currentScore;
+	                bestName = currentCandidate.getName();
+    	            scoreValid = true;
+    	        }    	            
+	        }	        
+	    }
+	    // print the distributions in order
+	    var distributionIterator = Iterator(guesses);
+	    var currentScore;
+	    var currentName;
+	    for (currentScore in distributionIterator) {
+	        currentName = distributionIterator[currentScore];
+	        message("candidate name = " + currentName.getName());
+	        message(" expected rating = " + currentScore);
+	    }
+	    message("best candidate name = " + bestName.getName()));
+	    message(" expected rating = " + bestScore + "\r\n");
+	    return bestName;
     }
-    
+    // compute the distribution that is formed by combining the given distributions
+    function addDistributions(distributions, average) {
+        return this.averageDistributions(distributions);
+    }
+    // compute the distribution that is formed by combining the given distributions
+    function averageDistributions(distributions) {
+        // initialization
+        var sumY = 0;
+        var sumY2 = 0;
+        var sumWeight = 0;  // the sum of the weights that we calculate, which we use to normalize
+    	var stdDevIsZero = new Boolean(false);
+        var sumVariance = 0;	// variance is another name for standard deviation squared
+	    var outputWeight = 0;// the sum of the given weights, which we use to assign a weight to our guess
+	    var count = 0;	// the number of distributions being used
+	    var weight;
+	    var y;
+	    var stdDev;
+	    message("averaging distributions \r\n");	    
+	    var i;
+	    var currentDistribution;
+    	// iterate over each distribution and weight them according to their given weights and standard deviations
+	    for (i = 0; i < distributions.length; i++) {
+	        message("mean = " + currentDistribution.getMean() + " stdDev = " + currentDistribution.getStdDev() + " weight = " + currentDistribution.getWeight() + "\r\n");
+	        stdDev = currentDistribution.getStdDev();
+	        // only consider nonempty distributions
+	        if (currentDistribution.getWeight() > 0) {
+    			// If the standard deviation of any distribution is zero, then compute the average of only distributions with zero standard deviation
+    			if (stdDev == 0) {
+    			    if (!stdDevIsZero) {
+    			        stdDevIsZero = True;
+    			        sumVariance = 0;
+    			        sumY = sumY2 = 0;
+    			        outputWeight = count = sumWeight = 0;
+    			    }
+    			}
+    			// Figure out whether we care about this distribution or not
+			    if ((stdDev == 0) || (!stdDevIsZero))
+			    {
+				    // get the values from the distribution
+				    y = currentDistribution.getMean();
+				    if (stdDev == 0)
+				    {
+					    // If stddev is zero, then just use the given weight
+					    weight = currentDistribution.getWeight();
+				    }
+				    else
+				    {
+					    // If stddev is nonzero then weight based on both the stddev and the given weight
+					    weight = currentDistribution.getWeight() / stdDev;
+				    }
+				    // add to the running totals
+				    sumY += y * weight;
+				    sumY2 += y * y * weight;
+				    sumWeight += weight;
+				    sumVariance += stdDev * stdDev * weight;
+				    outputWeight += currentDistribution->getWeight();
+				    count += 1;
+			    }
+	        }
+	    }
+	    var result;
+	    if (sumWeight == 0) {
+	        result = Distribution(0, 0, 0);
+	    }
+	    else{
+		    // If we did have a distribution to predict from then we can calculate the average and standard deviations
+		    var newAverage = sumY / sumWeight;
+		    var variance1 = (sumY2 - sumY * sumY / sumWeight) / sumWeight;
+		    message("variance1 = ");
+		    message(variance1);
+		    message("\r\n");
+		    var variance2 = sumVariance / sumWeight;
+		    message("variance2 = ");
+		    message(variance2);
+		    message("\r\n");
+		    stdDev = sqrt(variance1 + variance2);
+		    result = Distribution(newAverage, stdDev, outputWeight);
+	    }
+	    
+	    message("resultant distribution = ");
+	    printDistribution(result);
+	    message("\r\n average of all distributions:" + (sumY / sumWeight) + "\r\n");
+    	return result;
+    }
+    // print functions
+    function message(text) {
+        alert(text);
+    }
+    function printCandidate(candidate) {
+        var parentNames = candidate.getParentNames();
+        message(candidate.getName().getName());
+        message("\r\nparent names:\r\n");
+        var i;
+        for (i = 0; i < parentNames.length; i++) {
+            message(parentNames[i].getName() + "\r\n");
+        }
+        message("\r\n");        
+    }
+    function printRating(rating) {
+        message("song name:" + rating.getActivity().getName() + "\r\n");
+        message("date:" + rating.getDate().stringVersion() + "\r\n");
+        message("score:" + rating.getScore() + "\r\n");
+    }
+    function printDistribution(distribution) {
+        message("mean:" + distribution.getMean());
+        message(" stdDev:" + distribution.getStdDev());
+        message(" weight:" + distribution.getWeight() + "\r\n");
+    }
+    function printParticipation(participation) {
+        message("start time = " + participation.getStartTime().stringVersion());
+        message("end time = " + participation.getEndTime().stringVersion());
+        message("song name = " + participation.getActivityName().getName());
+        message("intensity = " + participation.getIntensity() + "\r\n");
+    }
+
     function test() {
         alert("testing");
         //var candidate1 = new Candidate(new Name("Sell Me Candy"));
