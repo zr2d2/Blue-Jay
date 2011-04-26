@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <overlay id="bluejay-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script src="main.js"/>
   <script src="pane.js"/>
   <script src="algorithm/Candidate.js"/>
   <script src="algorithm/FileIO.js"/>

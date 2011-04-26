@@ -12,6 +12,7 @@
 
 
     <em:optionsURL>chrome://bluejay/content/options.xul</em:optionsURL>
+	<em:aboutURL>chrome://bluejay/content/about.xul</em:aboutURL>
 	<em:iconURL>chrome://bluejay/skin/bluejay.png</em:iconURL>
 	<em:homepageURL>https://github.com/zr2d2/Blue-Jay</em:homepageURL>
 

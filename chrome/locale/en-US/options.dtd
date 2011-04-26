@@ -1,5 +1,4 @@
 <!ENTITY prefwindow.title "Bluejay preferences">
 <!ENTITY pane1.title "Bluejay preferences">
-<!ENTITY checkboolpref.label "Check here if you like checkboxes">
-<!ENTITY intpref.label "What's your favorite number?">
-<!ENTITY stringpref.label "Nice to meet you, my name is: ">
+<!ENTITY intprefup.label "How many stars is a skip worth? Please enter a number between 1 and 5. Lower numbers make more sense.">
+<!ENTITY intprefdown.label "How many stars is a select worth? Please enter a number between 1 and 5. Higher numbers make more sense.">

@@ -43,7 +43,6 @@ Bluejay.PaneController = {
     // Make a local variable for this controller so that
     // it is easy to access from closures.
     var controller = this;
-	var mainController = Bluejay.Controller; //pane.js doesn't know what main.js is
 	//alert("initializing");
     //TimeBasedRecommendor.constructor();
 	//this.engine = RecommendorFactory.recommendor();
@@ -88,10 +87,6 @@ Bluejay.PaneController = {
   
   test : function() {
     this.engine.test();
-  },
-  
-  popUpProgress: function() {
-    //do we want a progress bar for anything? 
   },
   
   /**
