@@ -28,6 +28,7 @@ function MovingAverage() {
     
     // a MovingAverage doesn't know how to return its value. This function must be overriden    
     function getValueAt(when, strictlyEarlier) {
+        alert("MovingAverage::getValueAt() was called. This is an error.");
         // setup an invalid distribution
 	    var distribution = new Distribution(0, 0, 0);
 	    // return an array with the invalid distribution and invalid index
@@ -82,9 +83,11 @@ function MovingAverage() {
         return this.ownerName;
     }
     function isAParticipationMovingAverage() {
+        alert("MovingAverage::isAParticipationMovingAverage() was called. This is an error.");
         return false;
     }
     function getLatestDate() {
+        alert("MovingAverage::getLatestDate() was called. This is an error.");
         return new DateTime();
     }
     function stringVersion() {

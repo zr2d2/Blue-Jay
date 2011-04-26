@@ -3,6 +3,30 @@
  */
  
  function RatingMovingAverage(){
+    this.prototype = new MovingAverage(); 
+//////////////////////////////////////////////// Superclass Function Prototypes ///////////////////////////////////////////////////
+    // these functions are defined in the superclass and used in the subclass
+	this.getCorrelationsFor = this.prototype.getCorrelationsFor;
+	this.setName = this.prototype.setName;
+	this.getName = this.prototype.setName;
+	// the name of the Candidate that this MovingAverage describes
+	this.setOwnerName = this.prototype.setOwnerName;
+	this.getOwnerName = this.prototype.getOwnerName;
+	this.stringVersion = this.prototype.stringVersion;
+
+	this.superFunction = this.prototype.superFunction;
+	this.prototype.subFunction = subFunction;
+
+    // these functions are defined in the subclass
+    this.addRating = addRating;
+	this.getValueAt = getValueAt;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
+	this.getRatings = getRatings;
+	this.getNameRatings = getNumRatings;
+	this.getAverageValue = getAverageValue;
+	this.getLatestDate = getLatestDate;
+	this.subFunction = subFunction;
+
+
 	//public functions
 	this.addRating = addRating;
 	this.getValueAt = getValueAt;
@@ -66,7 +90,7 @@
 		}
 		
 		var firstRating = sumRatings[0];
-		if(!strictlyChronologicallyOrdered(firstRating(firstRating.getDate(), when)){
+		if(!strictlyChronologicallyOrdered(firstRating(firstRating.getDate(), when))) {
 			return [Distribution(0, 0, 0), -1];
 		}
 		
@@ -169,8 +193,12 @@
 			return DateTime();
 		}
 		else{
-			return sumRatings[sumRatings.length -1].getDate);
+			return sumRatings[sumRatings.length -1].getDate();
 		}
+	}
+	
+	function subFunction() {
+	    alert("RatingMovingAverage subfunction. This is good.");
 	}
 }
 		

@@ -9,31 +9,29 @@ function ParticipationMovingAverage() {
     // these functions are defined in the superclass and used in the subclass
 	// returns a distribution of the expected values at this time, and an integer identifying how many data points came before it
 	// the vector returned is the relevant datapoints and the double is the additional weight contributed by these datapoints
-	/*this.getCorrelationsFor = this.prototype.getCorrelationsFor;
+	this.getCorrelationsFor = this.prototype.getCorrelationsFor;
 	this.setName = this.prototype.setName;
 	this.getName = this.prototype.setName;
 	// the name of the Candidate that this MovingAverage describes
 	this.setOwnerName = this.prototype.setOwnerName;
 	this.getOwnerName = this.prototype.getOwnerName;
-	*/
 	this.stringVersion = this.prototype.stringVersion;
 
 	this.superFunction = this.prototype.superFunction;
 	this.prototype.subFunction = subFunction;
     
 //////////////////////////////////////////////// Function Prototypes ///////////////////////////////////////////////////
-
-	/*this.addParticipationInterval = addParticipationInterval;
-*/
+    // these functions are defined in the subclass
+	this.addParticipationInterval = addParticipationInterval;
 	this.getValueAt = getValueAt;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	this.getCurrentValue = getCurrentValue;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		// for determining if its type is ParticipationMovingAverage or not
 	this.getLatestDate = getLatestDate;
 	this.getNumParticipations = getNumParticipations;
 	this.subFunction = subFunction;
-	/*this.getIndexForDate = getIndexForDate;
-	this.getTotalIntensityThroughDate = getIndexForDate;
-*/
+	this.getIndexForDate = getIndexForDate;
+	this.getTotalIntensityThroughDate = getTotalIntensityThroughDate;
+
 
 
 /////////////////////////////////////////////////// Private Member Variables ///////////////////////////////////////////////////
@@ -43,7 +41,7 @@ function ParticipationMovingAverage() {
 	
 /////////////////////////////////////////////////// Function Definitions ///////////////////////////////////////////////////
     // inform this ParticipationMovingAverage that the Candidate that it cares about was listened to in the given interval
-	/*function addParticipationInterval(interval) {
+	function addParticipationInterval(interval) {
 	    // compute the total of previously observed intensities
 	    var startTime = interval.getStartTime();
 	    var endtime = interval.getEndTime();
@@ -67,7 +65,7 @@ function ParticipationMovingAverage() {
     	if (strictlyChronologicallyOrdered(when, this.totalIntensities[0].getStartTime())) {
     	    return -1;
     	}
-    	if (strictlyChronologicallyOrdered(this->totalIntensities[totalIntensities.length - 1].getStartTime(), when)) {
+    	if (strictlyChronologicallyOrdered(this.totalIntensities[totalIntensities.length - 1].getStartTime(), when)) {
 		    return this.totalIntensities.size() - 1;
 		}
 	    // If there are participations then we binary search for the most recent one
@@ -97,7 +95,7 @@ function ParticipationMovingAverage() {
 		var index = this.getIndexForDate(when, true);
 	    if (index < 0)
 		    return 0;
-	    var mostRecentParticipation = this->totalIntensities[index];
+	    var mostRecentParticipation = this.totalIntensities[index];
 	    // if it is after the end of the interval, then the total is still the total at the end of the interval
 	    if (strictlyChronologicallyOrdered(mostRecentParticipation.getEndTime(), when))
 		    return mostRecentParticipation.getIntensity();
@@ -120,7 +118,6 @@ function ParticipationMovingAverage() {
 	    var result = previousTotal + currentComponent;
 	    return result;
 	}
-	*/
 	// returns a pair with the distribution of expected values and an index telling which participation mattered the most in its calculation
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier) {
@@ -149,7 +146,7 @@ function ParticipationMovingAverage() {
 			    mostRecentDuration = 1;
 		    averageIntensity = 1 / mostRecentDuration;
 	    }
-	    var result(averageIntensity, 0, 1);
+	    var result = new Distribution(averageIntensity, 0, 1);
 	    return [result, mostRecentIndex];
 	}
 	
@@ -193,6 +190,6 @@ function ParticipationMovingAverage() {
 	    return this.totalIntensities.size();
 	}	
 	function subFunction() {
-	    alert("subclass subfunction. This is good.");
+	    alert("ParticipationMovingAverage subfunction. This is good.");
 	}
 };

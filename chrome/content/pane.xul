@@ -10,13 +10,20 @@
 <page id="bluejay-pane" title="&bluejay.pane.label;"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="pane.js"/>
+  <script src="algorithm/ArgumentList.js"/>
   <script src="algorithm/Candidate.js"/>
+  <script src="algorithm/Datapoint.js"/>
+  <script src="algorithm/DateTime.js"/>
+  <script src="algorithm/Distribution.js"/>
   <script src="algorithm/FileIO.js"/>
-  <script src="algorithm/Name.js"/>
   <script src="algorithm/MovingAverage.js"/>
-  <script src="algorithm/ParticipationMovingAverage.js"/>
-  <script src="algorithm/RatingMovingAverage.js"/>
   <script src="algorithm/Name.js"/>
+  <script src="algorithm/Participation.js"/>
+  <script src="algorithm/ParticipationMovingAverage.js"/>
+  <script src="algorithm/PredictionLink.js"/>
+  <script src="algorithm/Rating.js"/>
+  <script src="algorithm/RatingMovingAverage.js"/>
+  <script src="algorithm/ScatterPlot.js"/>
   <script src="algorithm/TimeBasedRecommendor.js"/>
  
  <hbox id="pane-header-box" align="center">
