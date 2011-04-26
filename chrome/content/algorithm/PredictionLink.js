@@ -38,26 +38,20 @@
 	}
 	
 	function update(){
-	
-		// creating a pair in javascript is hard, creating an array might be easier
-		// depends on how the movingAverage define getCorrelationsFor
-		var newPoints = [inputData->getCorrelationsFor(*(this->outputData), this->latestUpdateTime);
+
+		var newPoints = inputData.getCorrelationsFor(outputData, latestUpdateTime);
 		
-		/*if (newPoints.first.size() > 0)
-		{
-		// put them into the scatterplot
-		unsigned int i;
-		for (i = 0; i < newPoints.first.size(); i++)
-		{
-			//cout << "adding a point to a PredictionLink" << endl;
-			this->plot.addDataPoint(newPoints.first[i]);
-		}
-		// update the latest update time
-		this->latestUpdateTime = this->outputData->getLatestDate();
-		// keep track of how much useful data we have
-		this->numChanges += newPoints.second;
-		}*/
-	
+		if (newPoints[1].length > 0){
+		
+			var i=0;
+			for (i = 0; i < newPoints[1].length; i++)
+			{
+				plot.addDataPoint(newPoints[i]);
+			}
+		
+			latestUpdateTime = outputDate.getLatestDate();
+			numChanges = numChanges+ newPoints[2];
+		}	
 	}
 	
 	function guess(when){
