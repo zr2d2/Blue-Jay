@@ -554,12 +554,15 @@ function TimeBasedRecommendor() {
     function test() {
         alert("testing");
         var m1 = new MovingAverage();
+        m1.superFunction();
+        var p1 = new ParticipationMovingAverage();
+        p1.superFunction();
+        /*
         if (m1.isAParticipationMovingAverage()) {
             alert("m1 stores participations");
         } else {
             alert("m1 does not store participations");
         }
-        var p1 = new ParticipationMovingAverage();
         message("done creating p1");
         
         if (p1.isAParticipationMovingAverage()) {
@@ -569,7 +572,7 @@ function TimeBasedRecommendor() {
         }
         alert("m1 name = " + m1.stringVersion());
         alert("p1 name = " + p1.stringVersion());
-        
+        */
             
         //var candidate1 = new Candidate(new Name("Sell Me Candy"));
         //var candidate1 = new Candidate;

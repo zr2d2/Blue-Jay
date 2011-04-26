@@ -22,6 +22,8 @@ function MovingAverage() {
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		// for determining if its type is ParticipationMovingAverage or not
 	this.getLatestDate = getLatestDate;
 	this.stringVersion = stringVersion;
+	this.superFunction = superFunction;
+	this.subFunction = subFunction;
     // function definitions
     
     // a MovingAverage doesn't know how to return its value. This function must be overriden    
@@ -87,5 +89,12 @@ function MovingAverage() {
     }
     function stringVersion() {
         return "I am a MovingAverage";
+    }
+    function superFunction() {
+        alert("super function");
+        this.subFunction();
+    }
+    function subFunction() {
+        alert("super version of sub function. This is bad");
     }
 };
