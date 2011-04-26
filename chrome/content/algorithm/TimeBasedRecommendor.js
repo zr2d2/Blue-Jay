@@ -4,7 +4,6 @@
  */
  
 function TimeBasedRecommendor() {
-
 /////////////////////////////////////////////////// Private Member Variables ///////////////////////////////////////////////////
 
     // setup some maps so that we can store all the data in memory and then update properly
@@ -38,13 +37,15 @@ function TimeBasedRecommendor() {
     this.updatePredictions = updatePredictions;
     // search functions
     this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
-    this.rateCandidate = rateCandidate;
     this.getCandidateWithName = getCandidateWithName;
+    this.getLinkFromMovingAverages = getLinkFromMovingAverages;
+    this.rateCandidate = rateCandidate;
     this.rateCandidateByCorrelation = rateCandidateByCorrelation;
     this.updateCandidateRatingFromParents = updateCandidateRatingFromParents;
     this.makeRecommendation = makeRecommendation;
     this.addDistributions = addDistributions;
     this.averageDistributions = averageDistributions;
+    
     // print functions
     this.message = message;
     // functions for testing that it all works
@@ -224,8 +225,7 @@ function TimeBasedRecommendor() {
     	    currentMap = this.predictionLinks[currentKey];  	// get the map within the map
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
-    	    for (currentPredictionKey in predictionIterator)
-    	    {
+    	    for (currentPredictionKey in predictionIterator) {
     	        currentMap[currentPredictionKey].update();  // update the prediction link within the map
     	        numUpdates++;
     	    }
@@ -252,16 +252,13 @@ function TimeBasedRecommendor() {
         var setIterator;
         var parents;
         var i, j;
-        for (i = 0; i < vectorToUpdate.length; i++)
-        {
+        for (i = 0; i < vectorToUpdate.length; i++) {
             currentCandidate = vectorToUpdate[i];
             parents = currentCandidate.getParents();
-            for (j = 0; j < parents.length; j++)
-            {
+            for (j = 0; j < parents.length; j++) {
                 currentParent = parents[i];
                 // check whether this candidate is already in the set
-                if (setToUpdate[currentParent.getName()] != {})
-                {
+                if (setToUpdate[currentParent.getName()] != {}) {
                     message("adding parent named" + currentParent.getName().getName());
                     // if we get here then we found another candidate to add
                     setToUpdate[currentParent.getName()] = currentParent;
@@ -273,13 +270,14 @@ function TimeBasedRecommendor() {
     }
     // dictionary lookup
     function getCandidateWithName(name) {
-        return this.candidates[name];
+        return candidates[name];
     }
     // given two moving averages, returns the PredictionLink that predicts the predictee from the predictor
     function getLinkFromMovingAverages(predictor, predictee) {
-        var links = this.predictionLinks[predictor];
+        var links = predictionLinks[predictor];
         return links[predictee];    
     }
+    
 ////////////////////////////////// Prediction functions ///////////////////////////////////////
     // calculate a rating for the given candidate
     function rateCandidate(candidate, when) {
@@ -397,7 +395,7 @@ function TimeBasedRecommendor() {
     }
     // determines which candidate has the best expected score at the given time
     function makeRecommendation(when) {
-        messge("make recommendation for date:" + when.stringVersion() + "\r\n");
+        message("make recommendation for date:" + when.stringVersion() + "\r\n");
         var candidateIterator = Iterator(this.candidates);
 	    // make sure that there is at least one candidate to choose from
 	    if (this.candidates.length < 1) {
@@ -412,8 +410,7 @@ function TimeBasedRecommendor() {
 	    var bestName;
 	    for (currentCandidate in candidateIterator) {
 	        // only bother to rate the candidates that are not categories
-	        if (currentCandidate.getChildren().length == 0)
-	        {
+	        if (currentCandidate.getChildren().length == 0) {
 	            rateCandidate(currentCandidate, when);
 	            currentScore = currentCandidate.getCurrentRefinedRating().getMean();
 	            message("candidate name = " + currentCandidate.getName().getName());
@@ -422,7 +419,7 @@ function TimeBasedRecommendor() {
 	            if ((currentScore > bestScore) || !scoreValid) {
 	                bestScore = currentScore;
 	                bestName = currentCandidate.getName();
-    	            scoreValid = true;
+    	            scoreValid = True;
     	        }    	            
 	        }	        
 	    }
@@ -435,7 +432,7 @@ function TimeBasedRecommendor() {
 	        message("candidate name = " + currentName.getName());
 	        message(" expected rating = " + currentScore);
 	    }
-	    message("best candidate name = " + bestName.getName()));
+	    message("best candidate name = " + bestName.getName());
 	    message(" expected rating = " + bestScore + "\r\n");
 	    return bestName;
     }
@@ -556,10 +553,26 @@ function TimeBasedRecommendor() {
 
     function test() {
         alert("testing");
+        var m1 = new MovingAverage();
+        var p1 = new PartipationMovingAverage();
+        if (m1.isAParticipationMovingAverage()) {
+            alert("m1 stores participations");
+        } else {
+            alert("m1 does not store participations");
+        }
+        if (p1.isAParticipationMovingAverage()) {
+            alert("p1 stores participations");
+        } else {
+            alert("p1 does not store participations");
+        }
+        alert("m1 name = " + m1.stringVersion());
+        alert("p1 name = " + p1.stringVersion());
+        
+            
         //var candidate1 = new Candidate(new Name("Sell Me Candy"));
-        var candidate1 = new Candidate;
-        alert("adding candidate");
-        addCandidate(candidate1);
+        //var candidate1 = new Candidate;
+        //alert("adding candidate");
+        //addCandidate(candidate1);
         //candidate1.setName("name1");
         //message(candidate1.getName().getName());
     }
