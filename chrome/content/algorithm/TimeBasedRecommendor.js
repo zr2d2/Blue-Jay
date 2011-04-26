@@ -520,7 +520,7 @@ function TimeBasedRecommendor() {
         message("\r\n");        
     }
     function printRating(rating) {
-        message("song name:" + rating.getActivity().getName() + "\r\n");
+        message("song name:" + rating.getActivity() + "\r\n");
         message("date:" + rating.getDate().stringVersion() + "\r\n");
         message("score:" + rating.getScore() + "\r\n");
     }
@@ -538,10 +538,22 @@ function TimeBasedRecommendor() {
 
     function test() {
         alert("testing");
+        /*
+        var r1 = new Rating();
+        r1.setActivity("Holding on for a hero");
+        alert(r1.getActivity());
+        var dt = new DateTime();
+        alert("setting date");
+        r1.setDate(dt);
+        alert("setting score");
+        r1.setScore(0);
+        this.addRating(r1);
+        */
+        /*
         var c1 = new Candidate(new Name("name1"));
         alert("adding candidate");
         this.addCandidate(c1);
-
+        */
 
         /*var m1 = new MovingAverage();
         //m1.superFunction();
