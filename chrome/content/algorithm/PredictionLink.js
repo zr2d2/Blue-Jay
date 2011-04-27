@@ -47,13 +47,12 @@
 		if (newPoints[1].length > 0){
 		
 			var i=0;
-			for (i = 0; i < newPoints[1].length; i++)
-			{
+			for (i = 0; i < newPoints[1].length; i++) {
 				plot.addDataPoint(newPoints[i]);
 			}
 		
 			latestUpdateTime = outputDate.getLatestDate();
-			numChanges = numChanges+ newPoints[2];
+			numChanges = numChanges + newPoints[2];
 		}	
 	}
 	

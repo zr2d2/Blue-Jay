@@ -209,7 +209,7 @@ function TimeBasedRecommendor() {
 						    participation.setEndTime(currentDate);
 					    }
 					    if (endTag.equalTo(participationActivityIndicator))
-						    participation.setActivityName(value);
+						    participation.setActivityName(value.makeCopy());
 				    }
 				    if (stackCount == 1) {
                         //alert("probably read a candidate");
@@ -282,7 +282,7 @@ function TimeBasedRecommendor() {
     }
     // adds the participation to the necessary candidate and all its parents
     function addParticipationAndCascade(newParticipation) {
-	    message("cascading participation " + newParticipation.getActivityName().getName());
+	    message("cascading participation " + newParticipation.getActivityName().getName() + "\r\n");
 	    var candidate = getCandidateWithName(newParticipation.getActivityName());
 	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	    var i;
@@ -417,28 +417,28 @@ function TimeBasedRecommendor() {
             this.addRatingAndCascade(ratings[i]);
         }
         
-	    message("giving participations to activities");
+	    message("giving participations to activities\r\n");
         for (i = 0; i < participations.length; i++) {
             this.addParticipationAndCascade(participations[i]);
         }
 
 
-    	message("creating PredictionLinks");
+    	message("updating PredictionLinks");
     	// have each PredictionLink update itself with the changes to the appropriate MovingAverage    	
     	var mapIterator = Iterator(predictionLinks, true);
     	var currentMap;
     	var currentKey;
     	var currentPredictionKey;
+    	var currentLink;
     	var predictionIterator;
     	var numUpdates = 0;
     	
     	// for each candidate, get the map of predictions links that have it as the predictor
-    	for (currentKey in mapIterator) {
-    	    currentMap = predictionLinks[currentKey];  	// get the map within the map
+    	for ([currentKey, currentMap] in mapIterator) {
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
-    	    for (currentPredictionKey in predictionIterator) {
-    	        currentMap[currentPredictionKey].update();  // update the prediction link within the map
+    	    for ([currentPredictionKey, currentLink] in predictionIterator) {
+    	        currentLink.update();  // update the prediction link within the map
     	        numUpdates++;
     	    }
     	}

@@ -44,38 +44,45 @@ function ParticipationMovingAverage() {
 	function addParticipationInterval(interval) {
 	    // compute the total of previously observed intensities
 	    var startTime = interval.getStartTime();
-	    var endtime = interval.getEndTime();
+	    var endTime = interval.getEndTime();
 	    var preTotalIntensity = 0;
-	    if (this.totalIntensities.length > 0) {
-	        preTotalIntensity = this.totalIntensities[totalIntensities.length - 1].getIntensity;
+	    if (totalIntensities.length > 0) {
+	        preTotalIntensity = totalIntensities[totalIntensities.length - 1].getIntensity();
 	    }
+	    //alert("::addparticipation p3\r\n");
+	    //alert("startTime = " + startTime.stringVersion() + "\r\n");
+	    //alert("endTime = " + endTime.stringVersion() + "\r\n");
 	    // compute the total intensity and add it to the total
 	    var duration = startTime.timeUntil(endTime);
+	    //alert("::addparticipation p4\r\n");
 	    var postTotalIntensity = preTotalIntensity + duration * interval.getIntensity();
 	    // replace the intensity per unit time with a total intensity
+	    //alert("::addparticipation p5\r\n");
 	    interval.setIntensity(postTotalIntensity);
 	    // save the interval
-	    this.totalIntensities.push(interval);	    
+	    //alert("::addparticipation p6\r\n");
+	    totalIntensities.push(interval);	    
+	    //alert("::addparticipation p7\r\n");
 	}
     // find the most recent participation that was started before "when"
 	function getIndexForDate(when, strictlyEarlier) {
-	    if (this.totalIntensities.length < 1) {
+	    if (totalIntensities.length < 1) {
     	    return -1;
     	}
-    	if (strictlyChronologicallyOrdered(when, this.totalIntensities[0].getStartTime())) {
+    	if (strictlyChronologicallyOrdered(when, totalIntensities[0].getStartTime())) {
     	    return -1;
     	}
-    	if (strictlyChronologicallyOrdered(this.totalIntensities[totalIntensities.length - 1].getStartTime(), when)) {
-		    return this.totalIntensities.size() - 1;
+    	if (strictlyChronologicallyOrdered(totalIntensities[totalIntensities.length - 1].getStartTime(), when)) {
+		    return totalIntensities.size() - 1;
 		}
 	    // If there are participations then we binary search for the most recent one
 	    var lowerIndex, upperIndex, middleIndex;
 	    lowerIndex = 0;
-	    upperIndex = this.totalIntensities.size() - 1;
+	    upperIndex = totalIntensities.size() - 1;
 	    // find the most recent participation that was started strictly before "when"
 	    while (upperIndex > lowerIndex + 1) {
 		    middleIndex = (lowerIndex + upperIndex) / 2;
-		    if (strictlyChronologicallyOrdered(this.totalIntensities[middleIndex].getStartTime(), when)) {
+		    if (strictlyChronologicallyOrdered(totalIntensities[middleIndex].getStartTime(), when)) {
 			    lowerIndex = middleIndex;
 		    } else {
 			    upperIndex = middleIndex;
@@ -95,7 +102,7 @@ function ParticipationMovingAverage() {
 		var index = this.getIndexForDate(when, true);
 	    if (index < 0)
 		    return 0;
-	    var mostRecentParticipation = this.totalIntensities[index];
+	    var mostRecentParticipation = totalIntensities[index];
 	    // if it is after the end of the interval, then the total is still the total at the end of the interval
 	    if (strictlyChronologicallyOrdered(mostRecentParticipation.getEndTime(), when))
 		    return mostRecentParticipation.getIntensity();
@@ -105,7 +112,7 @@ function ParticipationMovingAverage() {
 	    if (index == 0) {
 		    previousTotal = 0;
 	    } else {
-		    previousTotal = this.totalIntensities[index - 1].getIntensity();
+		    previousTotal = totalIntensities[index - 1].getIntensity();
 	    }
 	    var currentDuration = mostRecentParticipation.getStartTime().timeUntil(when);
 	    var totalDuration = mostRecentParticipation.getStartTime().timeUntil(mostRecentParticipation.getEndTime());
@@ -123,10 +130,10 @@ function ParticipationMovingAverage() {
 	function getValueAt(when, strictlyEarlier) {
 		// stictlyEarlier is ignored in this function at the moment
 	    // If there are no ratings then we default to 0
-	    if (this.totalIntensities.size() < 1)
+	    if (totalIntensities.size() < 1)
 		    return [new Distribution(0, 0, 0), -1];
 	    // If the time is before the first one then we default to 0
-	    var firstParticipation = this.totalIntensities[0];
+	    var firstParticipation = totalIntensities[0];
 	    if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when))
 		    return [Distribution(0, 0, 0), -1];
 
@@ -155,10 +162,10 @@ function ParticipationMovingAverage() {
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getCurrentValue(when, strictlyEarlier) {
 		// default when there's no data
-	    if (this.totalIntensities.size() < 1)
+	    if (totalIntensities.size() < 1)
 		    return new Distribution(0, 0, 0);
 	    // If the time is before the first one then we default to 0
-	    var firstParticipation = this.totalIntensities.front();
+	    var firstParticipation = totalIntensities.front();
 	    if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when))
 		    return new Distribution(0, 0, 0);
 	    // find the most recent participation
@@ -181,13 +188,13 @@ function ParticipationMovingAverage() {
 	    return true;
 	}
 	function getLatestDate() {
-		if (this.totalIntensities.size() < 1)
+		if (totalIntensities.size() < 1)
 		    return DateTime();
 	    else
-		    return this.totalIntensities.back().getEndTime();
+		    return totalIntensities.back().getEndTime();
 	}
 	function getNumParticipations() {
-	    return this.totalIntensities.size();
+	    return totalIntensities.size();
 	}	
 	function subFunction() {
 	    alert("ParticipationMovingAverage subfunction. This is good.");

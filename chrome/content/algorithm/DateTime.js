@@ -9,6 +9,7 @@ function DateTime(yyyymmddhhmmss) {
     this.stringVersion= stringVersion;
     this.timeUntil = timeUntil;
     this.setComponents = setComponents;
+    this.getDurationSinceReference = getDurationSinceReference;
 
     //private variables 
     var value = new Date();
@@ -30,10 +31,18 @@ function DateTime(yyyymmddhhmmss) {
         return value.toString();
     }
 
+    function getDurationSinceReference() {
+        return value.valueOf();
+    }
     // the number of seconds from this to other
     function timeUntil(other) {
-        var result = new Date();
-        result = other.valueOf() - value.valueOf();
+        //alert("::timeUntil");
+        var myDuration = this.getDurationSinceReference();
+        //alert("myDuration = " + myDuration);
+        var otherDuration = other.getDurationSinceReference();
+        //alert("otherDuration = " + otherDuration);
+        var result =  myDuration - otherDuration;
+        //alert("result = " + result);
         return result;
     }
 

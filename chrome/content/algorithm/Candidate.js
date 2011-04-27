@@ -101,8 +101,6 @@
 	
 	function giveRating(rating)	{
 
-	    alert("candidate::giveRating\r\n");
-	
 		var i = 0;
 		for (i=0; i<ratingEstimators.length; i++){
 			
@@ -113,6 +111,7 @@
 	
 	function giveParticipation(participation){
 	
+	    alert("candidate::giveParticipation\r\n");
 		var i = 0;
 		for (i=0; i<frequencyEstimators.length; i++){
 		
