@@ -478,7 +478,7 @@ function TimeBasedRecommendor() {
             for (j = 0; j < parents.length; j++) {
                 currentParent = parents[i];
                 // check whether this candidate is already in the set
-                if (setToUpdate[currentParent.getName().getName()]) {
+                if (!setToUpdate[currentParent.getName().getName()]) {
                     //message("adding parent named" + currentParent.getName().getName());
                     // if we get here then we found another candidate to add
                     setToUpdate[currentParent.getName().getName()] = currentParent;
@@ -505,6 +505,7 @@ function TimeBasedRecommendor() {
         message("rating candidate with name: " + candidate.getName().getName());
         var parents = this.findAllSuperCategoriesOf(candidate);
         var i;
+        message("super category count = " + parents.length + "\r\n");
         var currentCandidate;
         message("iterating over parents\r\n");
         for (i = parents.length - 1; i >= 0; i--) {
@@ -580,6 +581,7 @@ function TimeBasedRecommendor() {
     // Using the current estimated rating for the candidate and the estimates for parents, compute an updated rating for the candidate
     // It assumes that all parents are already correct
     function updateCandidateRatingFromParents(candidate) {
+        message("updateCandidate " +  candidate.getName().getName() + " RatingFromParents");
     	// get the candidate's rating without parental information
     	var currentChildDistribution = candidate.getCurrentRating();
     	// now get the ratings for each parent
@@ -598,8 +600,7 @@ function TimeBasedRecommendor() {
 	    else
 		    scale = 1 / Math.sqrt(currentChildDistribution.getWeight());
 		    
-		for (i = 0; i < parents.length; i++)
-        {
+		for (i = 0; i < parents.length; i++) {
 	        currentParent = parents[i];
 	        parentDistribution = currentParent.getCurrentRefinedRating();
 	        currentDistribution = new Distribution(parentDistribution.getMean(), parentDistribution.getStdDev(), parentDistribution.getWeight() * scale);
