@@ -10,6 +10,9 @@ function Name(passedVal) {
 	this.getName = getName;
 	this.appendChar = appendChar;
 	this.clear = clear;
+	this.equalTo = equalTo;
+	this.lessThan = lessThan;
+	this.makeCopy = makeCopy;
 	
 	//private variables
 	//value is passedVal if exists, else nil
@@ -26,5 +29,22 @@ function Name(passedVal) {
 	
 	function clear() {
 		value = "";
+	}
+	
+	function equalTo(other) {
+	    if (this.getName() == other.getName()) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	function lessThan(other) {
+	    if (this.getName() < other.getName()) {
+	        return true;
+	    }
+	    return false;
+	}
+	function makeCopy() {
+	    return new Name(this.getName());
 	}
 };

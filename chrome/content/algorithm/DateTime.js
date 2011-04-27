@@ -3,10 +3,12 @@
 */
 
 function DateTime(yyyymmddhhmmss) {
+    //alert("constructing date");
     //public function prototypes
     this.datePlusDuration= datePlusDuration;
     this.stringVersion= stringVersion;
     this.timeUntil = timeUntil;
+    this.setComponents = setComponents;
 
     //private variables 
     var value = new Date();
@@ -51,6 +53,7 @@ function DateTime(yyyymmddhhmmss) {
         value.setMinutes(newTime[4]);
         value.setSeconds(newTime[5]);
     }
+    //alert("done constructing date");
 };
 
 // returns true if t1 comes before t2, and false if t2 is equal to or after t1

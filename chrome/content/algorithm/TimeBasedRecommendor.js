@@ -45,6 +45,10 @@ function TimeBasedRecommendor() {
     this.averageDistributions = averageDistributions;
     
     // print functions
+    this.printCandidate = printCandidate;
+    this.printRating = printRating;
+    this.printDistribution = printDistribution;
+    this.printParticipation = printParticipation;
     this.message = message;
     // functions for testing that it all works
     this.test = test;
@@ -53,19 +57,202 @@ function TimeBasedRecommendor() {
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
         alert("recommendor reading files");
+        //this.readFile("bluejay_inheritances.txt");
         this.readFile("bluejay_ratings.txt");
     }
     // reads one file
     function readFile(fileName) {
-        //alert("recommendor reading file");
+        alert("recommendor reading file");
+        
+        
+        message("opening file " + fileName + "\r\n");
+
         // display a message
-        var stringContents = FileIO.readFile(fileName);
+        var fileContents = FileIO.readFile(fileName);
+        
+        message("initializing temporary variables");
+
+	    var currentChar;
+	    var startTag = new Name();
+	    var endTag = new Name();
+	    var stackCount = 0;
+	    var readingStartTag = false;
+	    var readingValue = false;
+	    var readingEndTag = false;
+        //message("initializing local candidate");
+	    var candidate = new Candidate();
+        //message("initializing local name");
+	    var value = new Name();
+	    var objectName = new Name();
+        //message("initializing local rating");
+	    var rating = new Rating();
+	    var activityType = new Name();
+        //message("initializing local participation");
+	    var participation = new Participation();
+    	
+	    // setup some strings to search for in the file
+	    var candidateIndicator = new Name("Candidate");
+	    var nameIndicator = new Name("Name");
+	    var parentIndicator = new Name("Parent");
+	    var discoveryDateIndicator = new Name("DiscoveryDate");
+
+        //message("done initializing some temporary variables");
+        
+	    var ratingIndicator = new Name("Rating");
+	    var ratingActivityIndicator = new Name("Activity");
+	    var ratingDateIndicator = new Name("Date");
+	    var ratingValueIndicator = new Name("Score");
+
+	    var participationIndicator = new Name("Participation");
+	    var participationActivityIndicator = new Name("Activity");
+	    var participationStartDateIndicator = new Name("StartDate");
+	    var participationEndDateIndicator = new Name("EndDate");
+
+	    var currentDate = new DateTime();
+	    var characterIndex;
+	    alert("starting to scan file");
+	    // read until the file is finished
+	    for (characterIndex = -1; characterIndex < fileContents.length; ) {
+		    // Check if this is a new starttag or endtag
+		    characterIndex++;
+		    currentChar = fileContents[characterIndex];
+		    
+		    //message(currentChar);
+		    if (currentChar == '<') {
+			    readingValue = false;
+			    characterIndex++;
+			    currentChar = fileContents[characterIndex];
+			    if (currentChar != '/') {
+			        //message("<");
+				    // If we get here, then it's a start tag
+				    startTag.clear();
+				    stackCount++;
+				    //message("stackCount = " + stackCount);
+				    readingStartTag = true;
+			    } else {
+			        //message(value.getName() + "</");
+				    // If we get here, then it's an end tag
+				    endTag.clear();
+				    readingEndTag = true;
+			        characterIndex++;
+			        currentChar = fileContents[characterIndex];
+			    }
+		    }
+		    // Check if this is the end of a tag
+		    if (currentChar == '>') {
+		        //message(value.getName());
+			    //message(">\r\n");
+			    characterIndex++;
+			    currentChar = fileContents[characterIndex];
+			    if (readingStartTag) {
+				    if (stackCount == 1) {
+					    // If we get here, then we just read the type of the object that is about to follow
+					    objectName = startTag.makeCopy();
+				    }
+				    //message("start tag = ");
+				    //message(startTag.getName() + ">");
+				    value.clear();
+				    readingValue = true;
+			    }
+			    if (readingEndTag) {
+				    //message("end tag = ");
+				    //message(endTag.getName() + ">\r\n");
+				    if (stackCount == 2) {
+					    // If we get here, then we just read an attribute of the object
+
+					    // If any of these trigger, then we just read an attribute of a candidate (which is a song, artist, genre or whatever)
+					    if (endTag.equalTo(nameIndicator))
+						    candidate.setName(value);
+					    if (endTag.equalTo(parentIndicator))
+						    candidate.addParent(value);
+					    if (endTag.equalTo(discoveryDateIndicator))
+						    candidate.setDiscoveryDate(new DateTime(value.getName()));
+
+
+					    // If any of these trigger, then we just read an attribute of a rating
+					    // Tags associated with ratings
+					    if (endTag.equalTo(ratingActivityIndicator))
+						    rating.setActivity(value);
+					    if (endTag.equalTo(ratingDateIndicator)) {
+						    // keep track of the latest date ever encountered
+						    currentDate = new DateTime(value.getName());
+						    if (strictlyChronologicallyOrdered(this.latestDate, currentDate))
+							    this.latestDate = currentDate;
+						    rating.setDate(currentDate);
+					    }
+					
+					    if (endTag.equalTo(ratingValueIndicator)) {
+						    rating.setScore(parseFloat(value.getName()));
+					    }
+					 
+
+					    // If any of these trigger, then we just read an attribute of a participation (an instance of listening)
+					    if (endTag.equalTo(participationStartDateIndicator)) {
+						    // keep track of the latest date ever encountered
+						    currentDate = new DateTime(value.getName());
+						    if (strictlyChronologicallyOrdered(this.latestDate, currentDate))
+							    this.latestDate = currentDate;
+						    participation.setStartTime(currentDate);
+					    }
+					    if (endTag.equalTo(participationEndDateIndicator)) {
+						    // keep track of the latest date ever encountered
+						    currentDate = new DateTime(value.getName());
+						    if (strictlyChronologicallyOrdered(this.latestDate, currentDate))
+							    this.latestDate = currentDate;
+						    participation.setEndTime(currentDate);
+					    }
+					    if (endTag.equalTo(participationActivityIndicator))
+						    participation.setActivityName(value);
+				    }
+				    if (stackCount == 1) {
+                        //alert("probably read a candidate");
+                        //message("object name = " + objectName.getName());
+					    // If we get here then we just finished reading an object
+					    if (objectName.equalTo(candidateIndicator)) {
+						    // If we get here then we just finished reading a candidate (which is a song, artist, genre or whatever)
+						    // add the candidate to the inheritance hierarchy
+						    //alert("adding candidate");
+						    this.addCandidate(candidate);
+						    candidate = new Candidate();
+					    }
+					    if (objectName.equalTo(ratingIndicator)) {
+						    // If we get here then we just finished reading a rating
+						    // add the rating to the rating set
+						    this.addRating(rating);
+						
+						    rating = new Rating();
+					    }
+					    if (objectName.equalTo(participationIndicator)) {
+						    // If we get here then we just finished reading a rating
+						    this.addParticipation(participation);
+						    participation = new Participation();
+					    }
+				    }
+				    stackCount--;
+			    }
+			    readingStartTag = false;
+			    readingEndTag = false;
+		    }
+		    //message("start tag = ");
+		    //message(startTag.getName());
+		    // update names accordingly
+		    if (readingStartTag) {
+			    startTag.appendChar(currentChar);
+		    }
+		    if (readingValue) {
+			    value.appendChar(currentChar);
+		    }
+		    if (readingEndTag) {
+			    endTag.appendChar(currentChar);
+		    }
+	    }
+	    alert("done reading file " + fileName + "\r\n");
     }
     // adds a candidate (also known as a song, genre, or category)
     function addCandidate(newCandidate) {
         var name = newCandidate.getName().getName();
         message("adding candidate named" + name);
-        //printCandidate(name);
+        printCandidate(newCandidate);
         //message("done printing candidate");
         candidates[name] = newCandidate;
         message("done adding candidate");
@@ -506,12 +693,9 @@ function TimeBasedRecommendor() {
     	return result;
     }
     // print functions
-    function message(text) {
-        alert(text);
-    }
     function printCandidate(candidate) {
+        message("printing candidate named " + candidate.getName().getName());
         var parentNames = candidate.getParentNames();
-        message(candidate.getName().getName());
         message("\r\nparent names:\r\n");
         var i;
         for (i = 0; i < parentNames.length; i++) {
@@ -538,6 +722,9 @@ function TimeBasedRecommendor() {
 
     function test() {
         alert("testing");
+        this.readFiles();
+        //message("hi\r\n");
+        //FileIO.writeFile("appendedFile.txt", "appended data", 1);
         /*
         var r1 = new Rating();
         r1.setActivity("Holding on for a hero");
@@ -592,9 +779,12 @@ function TimeBasedRecommendor() {
     }
 
     function message(text) {
+        // append the text to the end of the output file
+        FileIO.writeFile("output.txt", text, 1);
+    
         // don't bother showing a blank message
-        if (text != "\r\n")
-            alert(text);
+        //if (text != "\r\n")
+        //    alert(text);
     }
 // recommend function
     function recommend() {

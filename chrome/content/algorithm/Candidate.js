@@ -52,14 +52,16 @@
 	var discoveryDate = new DateTime();
     
 	// call the constructor
-	initialize();
+	if (name) {
+    	initialize();
+    }
 	
 	
 	
 	
 	//public functions
 	function setName(newName){
-		name = newName;
+		name = newName.makeCopy();
 		initialize();
 	}
 	
@@ -199,7 +201,7 @@
 	
 	
 	function initialize(){
-    	alert("initializing candidate");
+    	//alert("initializing candidate");
 		numRatings = 0;
 		var numAverages = 1;
 		var i = 0;
@@ -225,7 +227,7 @@
 		actualRatingHistory.setName(new Name(name.getName() + " actual "));
 		actualRatingHistory.setOwnerName(name);
 		
-    	alert("done initializing candidate ");
+    	//alert("done initializing candidate ");
 		
 	}
 	

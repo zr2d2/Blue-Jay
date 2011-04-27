@@ -80,7 +80,7 @@ Bluejay.PaneController = {
     alert("pane reading files");
     //TimeBasedRecommendor.constructor();
     // for testing, write to the file first
-    FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test");
+    //FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test", 0);
     // now read the file
     this.engine.readFiles();
   },
