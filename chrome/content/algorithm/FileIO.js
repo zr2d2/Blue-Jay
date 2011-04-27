@@ -113,3 +113,12 @@ FileIO = {
 /////////////////////////////////////////////////////// Member Variables ///////////////////////////////////////////////////
 
 };
+
+function message(text) {
+    // append the text to the end of the output file
+    FileIO.writeFile("output.txt", text, 1);
+
+    // don't bother showing a blank message
+    //if (text != "\r\n")
+    //    alert(text);
+};

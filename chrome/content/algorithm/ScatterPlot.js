@@ -34,13 +34,17 @@
 	
 	function predict(x){
 	
-	    //alert("ScatterPlot::predict");
+	    //message("ScatterPlot::predict(" + x + ")");
 	    // Make sure there are enough datapoints for a prediction
 	    if (datapoints.length < 1) {
 		    return new Distribution(0, 0, 0);
 	    }
-	    // find the location where x belongs
 	    var i;
+	    /*for (i = 0; i < datapoints.length; i++) {
+	        message("x= " + datapoints[i].getX() + "y= " + datapoints[i].getY() + "\r\n");
+	    }*/
+	    
+	    // find the location where x belongs
 	    for (i = 0; i < datapoints.length - 1; i++) {
 		    if (datapoints[i].getX() >= x)
 			    break;
@@ -79,6 +83,7 @@
 			    upperIndex++;
 		    }
 	    }
+	    //message("lowerIndex = " + lowerIndex + " upperIndex = " + upperIndex + "\r\n");	    
 	    // Now compute the average and standard deviation of the points in this interval
 	    var sumY = 0.0;
 	    var sumY2 = 0.0;

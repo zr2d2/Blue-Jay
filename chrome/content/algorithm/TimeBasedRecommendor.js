@@ -614,15 +614,18 @@ function TimeBasedRecommendor() {
     	return result;
     }
     // determines which candidate has the best expected score at the given time
-    function makeRecommendation() {
-        // get the current date
-        var when = new DateTime();
-        when.setNow();
+    function makeRecommendation(when) {
+        // default to the current date
+        if (!when) {
+            // get the current date
+            when = new DateTime();
+            when.setNow();
+        }
         message("make recommendation for date:" + when.stringVersion() + "\r\n");
         var candidateIterator = Iterator(candidates);
 	    // make sure that there is at least one candidate to choose from
 	    // setup a map to sort by expected rating
-	    var guesses = {};
+	    var guesses = [];
 	    var scoreValid = false;
 	    var candidateKey;
 	    var currentCandidate;
@@ -637,25 +640,34 @@ function TimeBasedRecommendor() {
 	            currentScore = currentCandidate.getCurrentRefinedRating().getMean();
 	            message("candidate name = " + currentCandidate.getName().getName());
 	            message("expected rating = " + currentScore + "\r\n");
-	            guesses["score " + currentScore] = currentCandidate.getName();
+	            guesses.push(currentCandidate);
 	            if ((currentScore > bestScore) || !scoreValid) {
 	                bestScore = currentScore;
 	                bestName = currentCandidate.getName();
     	            scoreValid = true;
-    	        }    	            
-	        }	        
+    	        }
+	        }
 	    }
-	    // print the distributions in order
+	    var i;
+	    for (i = 0; i < guesses.length; i++) {
+	        currentCandidate = guesses[i];
+	        message("candidate name = " + currentCandidate.getName().getName());
+	        message(" expected rating = " + currentCandidate.getCurrentRefinedRating().getMean() + "\r\n");
+	    }
+	    /* // print the distributions in order
 	    var distributionIterator = Iterator(guesses, true);
 	    var currentScore;
 	    var currentName;
-	    for (currentScore in distributionIterator) {
-	        currentName = distributionIterator["score " + currentScore];
+	    for ([currentScore, currentName] in distributionIterator) {
+	        message("in the home stretch\r\n");
+	        //currentName = distributionIterator[currentScore];
 	        message("candidate name = " + currentName.getName());
 	        message(" expected rating = " + currentScore);
 	    }
+	    */
 	    message("best candidate name = " + bestName.getName());
 	    message(" expected rating = " + bestScore + "\r\n");
+	    alert("done making recommendation\r\n");
 	    return bestName;
     }
     // compute the distribution that is formed by combining the given distributions

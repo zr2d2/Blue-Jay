@@ -64,7 +64,7 @@ function MovingAverage() {
         for (i = startingIndex; i < otherRatings.length; i++) {
             var value = this.getValueAt(otherRatings[i].getDate(), true);
             x = value[0].getMean();
-            y = otherRatings[i].getWeight();
+            y = otherRatings[i].getScore();
             //alert("MovingAverage::getCorrelationsFor pt4");
             if (value[1] != previousIndex) {
                 previousIndex = value[1];
