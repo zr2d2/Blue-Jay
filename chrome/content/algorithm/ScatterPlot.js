@@ -14,13 +14,13 @@
 	var debugHistory = [];
 	var upperChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
 	var lowerChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
-	var totalWeight = 0;
+	var totalWeight = 0.0;
 	
 	//public function
 	function addDataPoint(datapoint){
 	
 		datapoints.push(datapoint);
-		var i = 0;
+		var i = 0.0;
 		for (i = datapoints.length -1; i> 0; i--){
 		
 			datapoints[i] = datapoints[i-1];
@@ -34,7 +34,7 @@
 	
 	function predict(x){
 	
-	    alert("ScatterPlot::predict");
+	    //alert("ScatterPlot::predict");
 	    // Make sure there are enough datapoints for a prediction
 	    if (datapoints.length < 1) {
 		    return new Distribution(0, 0, 0);
@@ -80,9 +80,9 @@
 		    }
 	    }
 	    // Now compute the average and standard deviation of the points in this interval
-	    var sumY = 0;
-	    var sumY2 = 0;
-	    var n = 0;
+	    var sumY = 0.0;
+	    var sumY2 = 0.0;
+	    var n = 0.0;
 	    var weight, y;
 	    for (i = lowerIndex; i <= upperIndex; i++) {
 		    weight = datapoints[i].getWeight();
@@ -99,7 +99,7 @@
 		    // stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1));
 		    // However, if we assume that the output is between 0 and 1 then we can estimate standard deviation better
 		    //stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1)) + (1 / (n + 1));
-		    // currently the +1/(n+1) is taken care of elsewhere
+		    // currently the +1/(n+1) is taken care of elsewhere (in PredictionLink::guess)
 		    stddev = Math.sqrt((sumY2 - sumY * sumY / n) / (n - 1));
 		    // The additional (+1/n) is to account for the fact that humans like to give repeated ratings a lot
 		    // The user interface might even require it.

@@ -568,7 +568,7 @@ function TimeBasedRecommendor() {
 	    // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
 	    //double squareRoot = sqrt(remembererDuration);
 	    var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
-	    var rememberer = Distribution(1, 1 / cubeRoot, cubeRoot);
+	    var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot);
 	    guesses.push(rememberer);
 	    // combine all of the distributions into one final guess
 	    var guess = this.averageDistributions(guesses);
@@ -636,11 +636,11 @@ function TimeBasedRecommendor() {
 	            currentScore = currentCandidate.getCurrentRefinedRating().getMean();
 	            message("candidate name = " + currentCandidate.getName().getName());
 	            message("expected rating = " + currentScore + "\r\n");
-	            guesses[currentScore] = currentCandidate.getName();
+	            guesses["score " + currentScore] = currentCandidate.getName();
 	            if ((currentScore > bestScore) || !scoreValid) {
 	                bestScore = currentScore;
 	                bestName = currentCandidate.getName();
-    	            scoreValid = True;
+    	            scoreValid = true;
     	        }    	            
 	        }	        
 	    }
@@ -649,7 +649,7 @@ function TimeBasedRecommendor() {
 	    var currentScore;
 	    var currentName;
 	    for (currentScore in distributionIterator) {
-	        currentName = distributionIterator[currentScore];
+	        currentName = distributionIterator["score " + currentScore];
 	        message("candidate name = " + currentName.getName());
 	        message(" expected rating = " + currentScore);
 	    }
@@ -664,13 +664,13 @@ function TimeBasedRecommendor() {
     // compute the distribution that is formed by combining the given distributions
     function averageDistributions(distributions) {
         // initialization
-        var sumY = 0;
-        var sumY2 = 0;
-        var sumWeight = 0;  // the sum of the weights that we calculate, which we use to normalize
-    	var stdDevIsZero = new Boolean(false);
-        var sumVariance = 0;	// variance is another name for standard deviation squared
-	    var outputWeight = 0;// the sum of the given weights, which we use to assign a weight to our guess
-	    var count = 0;	// the number of distributions being used
+        var sumY = 0.0;
+        var sumY2 = 0.0;
+        var sumWeight = 0.0;  // the sum of the weights that we calculate, which we use to normalize
+    	var stdDevIsZero = false;
+        var sumVariance = 0.0;	// variance is another name for standard deviation squared
+	    var outputWeight = 0.0;// the sum of the given weights, which we use to assign a weight to our guess
+	    var count = 0.0;	// the number of distributions being used
 	    var weight;
 	    var y;
 	    var stdDev;
@@ -679,6 +679,7 @@ function TimeBasedRecommendor() {
 	    var currentDistribution;
     	// iterate over each distribution and weight them according to their given weights and standard deviations
 	    for (i = 0; i < distributions.length; i++) {
+	        currentDistribution = distributions[i];
 	        message("mean = " + currentDistribution.getMean() + " stdDev = " + currentDistribution.getStdDev() + " weight = " + currentDistribution.getWeight() + "\r\n");
 	        stdDev = currentDistribution.getStdDev();
 	        // only consider nonempty distributions
@@ -686,24 +687,20 @@ function TimeBasedRecommendor() {
     			// If the standard deviation of any distribution is zero, then compute the average of only distributions with zero standard deviation
     			if (stdDev == 0) {
     			    if (!stdDevIsZero) {
-    			        stdDevIsZero = True;
-    			        sumVariance = 0;
-    			        sumY = sumY2 = 0;
-    			        outputWeight = count = sumWeight = 0;
+    			        stdDevIsZero = true;
+    			        sumVariance = 0.0;
+    			        sumY = sumY2 = 0.0;
+    			        outputWeight = count = sumWeight = 0.0;
     			    }
     			}
     			// Figure out whether we care about this distribution or not
-			    if ((stdDev == 0) || (!stdDevIsZero))
-			    {
+			    if ((stdDev == 0) || (!stdDevIsZero)) {
 				    // get the values from the distribution
 				    y = currentDistribution.getMean();
-				    if (stdDev == 0)
-				    {
+				    if (stdDev == 0.0) {
 					    // If stddev is zero, then just use the given weight
 					    weight = currentDistribution.getWeight();
-				    }
-				    else
-				    {
+				    } else {
 					    // If stddev is nonzero then weight based on both the stddev and the given weight
 					    weight = currentDistribution.getWeight() / stdDev;
 				    }
@@ -713,13 +710,13 @@ function TimeBasedRecommendor() {
 				    sumWeight += weight;
 				    sumVariance += stdDev * stdDev * weight;
 				    outputWeight += currentDistribution.getWeight();
-				    count += 1;
+				    count += 1.0;
 			    }
 	        }
 	    }
 	    var result;
 	    if (sumWeight == 0) {
-	        result = Distribution(0, 0, 0);
+	        result = new Distribution(0, 0, 0);
 	    }
 	    else{
 		    // If we did have a distribution to predict from then we can calculate the average and standard deviations
@@ -732,8 +729,8 @@ function TimeBasedRecommendor() {
 		    message("variance2 = ");
 		    message(variance2);
 		    message("\r\n");
-		    stdDev = sqrt(variance1 + variance2);
-		    result = Distribution(newAverage, stdDev, outputWeight);
+		    stdDev = Math.sqrt(variance1 + variance2);
+		    result = new Distribution(newAverage, stdDev, outputWeight);
 	    }
 	    
 	    message("resultant distribution = ");

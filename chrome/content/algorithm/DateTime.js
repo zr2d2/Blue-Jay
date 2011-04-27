@@ -49,7 +49,7 @@ function DateTime(yyyymmddhhmmss) {
     }
 
     function getDurationSinceReference() {
-        return value.valueOf() / 1000;
+        return value.valueOf() / 1000.0;
     }
     // the number of seconds from this to other
     function timeUntil(other) {

@@ -17,7 +17,7 @@
 	var plot = new ScatterPlot();
     //alert("constructing DateTime\r\n");
 	var latestUpdateTime = new DateTime();
-	var numChanges = 0;
+	var numChanges = 0.0;
 	
 	
 	//public function
@@ -25,15 +25,15 @@
 	
 		var intensity = 1;
 		var numPoints = 40;
-		var i =0;
-		var score = 0;
-		var duration = 0;
+		var i = 0;
+		var score = 0.0;
+		var duration = 0.0;
 		
-		for (i = 0; i< numPoints; i++){
+		for (i = 0; i < numPoints; i++){
 		
 			duration = i*1500.0;
 			intensity = 1.0/duration;
-			score = Math.sqrt(duration) / 250;
+			score = Math.sqrt(duration) / 250.0;
 			plot.addDataPoint(Datapoint(intensity, score, 1));
 		}
 		numChanges = numChanges + numPoints;
@@ -54,7 +54,7 @@
 			}
 		
 			latestUpdateTime = outputData.getLatestDate();
-			numChanges = numChanges + newPoints[0];
+			numChanges = numChanges + newPoints[1];
             //alert("plot done adding datapoints\r\n");
 		}
 	}
@@ -77,23 +77,23 @@
 		
 		//alert("PredictionLink::guess pt2");
 		
-		var stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2;
+		var stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2.0;
 		var stdDevB = middle.getStdDev();
 		var stdDev = Math.sqrt(stdDevA * stdDevA + stdDevB * stdDevB);
 
 		//alert("PredictionLink::guess pt3");
 		
-		var weight = numChanges - 1;
-		if (weight < 0){
-			weight = 0;
+		var weight = numChanges - 1.0;
+		if (weight < 0.0){
+			weight = 0.0;
 		}
 		
 		var stdDev2;
 		
 		if (weight >= 1){
-			stdDev2 = 1 / weight;
+			stdDev2 = 1.0 / weight;
 		} else {
-			stdDev2 = 1;
+			stdDev2 = 1.0;
 		}
 		
 		var result = new Distribution(middle.getMean(), stdDev + stdDev2, weight);

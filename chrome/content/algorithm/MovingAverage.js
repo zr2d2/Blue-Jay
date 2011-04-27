@@ -66,14 +66,14 @@ function MovingAverage() {
             x = value[0].getMean();
             y = otherRatings[i].getWeight();
             //alert("MovingAverage::getCorrelationsFor pt4");
-            if (value.second != previousIndex) {
+            if (value[1] != previousIndex) {
                 previousIndex = value[1];
                 numChanges++;
             }
             results.push(new Datapoint(x, y, weight));
         }
         //alert("MovingAverage::getCorrelationsFor pt5");
-        return [results, numChanges];	
+        return [results, numChanges];
     }
     function setName(newName) {
         name = newName;
