@@ -13,6 +13,7 @@ function TimeBasedRecommendor() {
     var ratings = [];           // a vector of all ratings
     var participations = [];    // a vector of all partipations
     var predictionLinks = {};   // the set of all prediction links
+    var latestDate = new DateTime();
     //alert("constructing a recommendor point 2");
 
 /////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
@@ -117,7 +118,7 @@ function TimeBasedRecommendor() {
 		    characterIndex++;
 		    currentChar = fileContents[characterIndex];
 		    
-		    //message(currentChar);
+		    message(currentChar);
 		    if (currentChar == '<') {
 			    readingValue = false;
 			    characterIndex++;
@@ -175,10 +176,12 @@ function TimeBasedRecommendor() {
 						    rating.setActivity(value);
 					    if (endTag.equalTo(ratingDateIndicator)) {
 						    // keep track of the latest date ever encountered
+						    message("assigning date to rating\r\n");
 						    currentDate = new DateTime(value.getName());
-						    if (strictlyChronologicallyOrdered(this.latestDate, currentDate))
+						    if (strictlyChronologicallyOrdered(latestDate, currentDate))
 							    this.latestDate = currentDate;
 						    rating.setDate(currentDate);
+						    message("done assigning date to rating\r\n");
 					    }
 					
 					    if (endTag.equalTo(ratingValueIndicator)) {
@@ -206,7 +209,7 @@ function TimeBasedRecommendor() {
 				    }
 				    if (stackCount == 1) {
                         //alert("probably read a candidate");
-                        //message("object name = " + objectName.getName());
+                        message("object name = " + objectName.getName());
 					    // If we get here then we just finished reading an object
 					    if (objectName.equalTo(candidateIndicator)) {
 						    // If we get here then we just finished reading a candidate (which is a song, artist, genre or whatever)
@@ -255,7 +258,7 @@ function TimeBasedRecommendor() {
         printCandidate(newCandidate);
         //message("done printing candidate");
         candidates[name] = newCandidate;
-        message("done adding candidate");
+        message("done adding candidate\r\n");
     }
     // adds a rating to the list of ratings
     function addRating(newRating) {
@@ -704,7 +707,7 @@ function TimeBasedRecommendor() {
         message("\r\n");        
     }
     function printRating(rating) {
-        message("song name:" + rating.getActivity() + "\r\n");
+        message("song name:" + rating.getActivity().getName() + "\r\n");
         message("date:" + rating.getDate().stringVersion() + "\r\n");
         message("score:" + rating.getScore() + "\r\n");
     }
