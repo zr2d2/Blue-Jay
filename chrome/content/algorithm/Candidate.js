@@ -48,7 +48,7 @@
 	var latestRatingTime = new DateTime();
 	var currentRating = new Distribution();
 	var currentRefinedRating = new Distribution();
-	var parentLinksNeeedUpdating = new Boolean();
+	var parentLinksNeedUpdating = false;
 	var discoveryDate = new DateTime();
     
 	// call the constructor
@@ -69,10 +69,9 @@
 		return name;
 	}
 		
-	// ##### Problem? how to check the input argument data type??? #####
-	function addParentName(newName)
-	{	
+	function addParentName(newName) {
 		parentNames.push(newName);
+		parentLinksNeedUpdating = true;
 	}
 	
 	function addParent(newCandidate){

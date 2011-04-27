@@ -12,8 +12,8 @@
 	//private variables
 	var datapoins = [];
 	var debugHistory = [];
-	var upperChild = new ScatterPlot();
-	var lowerChild = new ScatterPlot();
+	var upperChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
+	var lowerChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
 	var totalWeight = 0;
 	
 	//public function
@@ -40,7 +40,7 @@
 	
 	function getNumPoints(){
 	
-		return datapoints.length();
+		return datapoints.length;
 	}
  
  }

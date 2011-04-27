@@ -37,7 +37,7 @@ FileIO = {
         converter.close(); // this closes foStream
 
         // do something with read data
-        alert("filecontents = " + stringContents);
+        //alert("filecontents = " + stringContents);
         return stringContents;
     },
     

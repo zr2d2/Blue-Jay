@@ -86,7 +86,9 @@ Bluejay.PaneController = {
   },
   
   test : function() {
-    this.engine.test();
+    this.engine.readFiles();
+    //this.engine.
+    //this.engine.test();
   },
   
   /**

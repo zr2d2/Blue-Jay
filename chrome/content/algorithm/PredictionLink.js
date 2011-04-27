@@ -3,6 +3,7 @@
  */
  
  function PredictionLink(passedVal1, passedVal2){
+    //alert("constructing predictionLink\r\n");
 	//public function
 	this.initializeDecreasing = initializeDecreasing;
 	this.update = update;
@@ -11,9 +12,11 @@
 	// ##### problem with constructor!!! #####
 	
 	//private variables
-	var inputData = passedVal1 | new MovingAverage();
-	var outputData = passedVal2 | new RatingMovingAverage();
+	var inputData = passedVal1;
+	var outputData = passedVal2;
+    //alert("constructing Scatterplot\r\n");
 	var plot = new ScatterPlot();
+    //alert("constructing DateTime\r\n");
 	var latestUpdateTime = new DateTime();
 	var numChanges = 0;
 	

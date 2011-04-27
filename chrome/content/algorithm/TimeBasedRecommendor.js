@@ -58,8 +58,12 @@ function TimeBasedRecommendor() {
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
         alert("recommendor reading files");
-        //this.readFile("bluejay_inheritances.txt");
+        this.readFile("bluejay_inheritances.txt");
         this.readFile("bluejay_ratings.txt");
+		this.updateChildPointers();
+		this.addSomeTestLinks();
+		this.updatePredictions();
+		alert("recommendor done reading files");
     }
     // reads one file
     function readFile(fileName) {
@@ -71,7 +75,7 @@ function TimeBasedRecommendor() {
         // display a message
         var fileContents = FileIO.readFile(fileName);
         
-        message("initializing temporary variables");
+        //message("initializing temporary variables");
 
 	    var currentChar;
 	    var startTag = new Name();
@@ -111,14 +115,14 @@ function TimeBasedRecommendor() {
 
 	    var currentDate = new DateTime();
 	    var characterIndex;
-	    alert("starting to scan file");
+	    alert("starting to parse file text");
 	    // read until the file is finished
 	    for (characterIndex = -1; characterIndex < fileContents.length; ) {
 		    // Check if this is a new starttag or endtag
 		    characterIndex++;
 		    currentChar = fileContents[characterIndex];
 		    
-		    message(currentChar);
+		    //message(currentChar);
 		    if (currentChar == '<') {
 			    readingValue = false;
 			    characterIndex++;
@@ -165,7 +169,7 @@ function TimeBasedRecommendor() {
 					    if (endTag.equalTo(nameIndicator))
 						    candidate.setName(value);
 					    if (endTag.equalTo(parentIndicator))
-						    candidate.addParent(value);
+						    candidate.addParentName(value);
 					    if (endTag.equalTo(discoveryDateIndicator))
 						    candidate.setDiscoveryDate(new DateTime(value.getName()));
 
@@ -176,12 +180,12 @@ function TimeBasedRecommendor() {
 						    rating.setActivity(value);
 					    if (endTag.equalTo(ratingDateIndicator)) {
 						    // keep track of the latest date ever encountered
-						    message("assigning date to rating\r\n");
+						    //message("assigning date to rating\r\n");
 						    currentDate = new DateTime(value.getName());
 						    if (strictlyChronologicallyOrdered(latestDate, currentDate))
-							    this.latestDate = currentDate;
+							    latestDate = currentDate;
 						    rating.setDate(currentDate);
-						    message("done assigning date to rating\r\n");
+						    //message("done assigning date to rating\r\n");
 					    }
 					
 					    if (endTag.equalTo(ratingValueIndicator)) {
@@ -193,15 +197,15 @@ function TimeBasedRecommendor() {
 					    if (endTag.equalTo(participationStartDateIndicator)) {
 						    // keep track of the latest date ever encountered
 						    currentDate = new DateTime(value.getName());
-						    if (strictlyChronologicallyOrdered(this.latestDate, currentDate))
-							    this.latestDate = currentDate;
+						    if (strictlyChronologicallyOrdered(latestDate, currentDate))
+							    latestDate = currentDate;
 						    participation.setStartTime(currentDate);
 					    }
 					    if (endTag.equalTo(participationEndDateIndicator)) {
 						    // keep track of the latest date ever encountered
 						    currentDate = new DateTime(value.getName());
-						    if (strictlyChronologicallyOrdered(this.latestDate, currentDate))
-							    this.latestDate = currentDate;
+						    if (strictlyChronologicallyOrdered(latestDate, currentDate))
+							    latestDate = currentDate;
 						    participation.setEndTime(currentDate);
 					    }
 					    if (endTag.equalTo(participationActivityIndicator))
@@ -209,7 +213,7 @@ function TimeBasedRecommendor() {
 				    }
 				    if (stackCount == 1) {
                         //alert("probably read a candidate");
-                        message("object name = " + objectName.getName());
+                        //message("object name = " + objectName.getName());
 					    // If we get here then we just finished reading an object
 					    if (objectName.equalTo(candidateIndicator)) {
 						    // If we get here then we just finished reading a candidate (which is a song, artist, genre or whatever)
@@ -254,24 +258,27 @@ function TimeBasedRecommendor() {
     // adds a candidate (also known as a song, genre, or category)
     function addCandidate(newCandidate) {
         var name = newCandidate.getName().getName();
-        message("adding candidate named" + name);
+        message("adding candidate named ");
         printCandidate(newCandidate);
         //message("done printing candidate");
         candidates[name] = newCandidate;
-        message("done adding candidate\r\n");
+        //message("done adding candidate\r\n");
     }
     // adds a rating to the list of ratings
     function addRating(newRating) {
+        message("adding rating ");
         printRating(newRating);
         ratings.length += 1;
         ratings[ratings.length - 1] = newRating;
+        message("\r\n");
     }
     // adds a rating to the list of participation
     function addParticipation(newParticipation) {
+        message("adding participation");
         printParticipation(newParticipation);
         // Now we need to actually add the participation.
-        this.participations.length += 1;
-        this.participations[this.participations.length - 1] = newParticipation;
+        participations.length += 1;
+        participations[participations.length - 1] = newParticipation;
     }
     // adds the participation to the necessary candidate and all its parents
     function addParticipationAndCascade(newParticipation) {
@@ -293,6 +300,7 @@ function TimeBasedRecommendor() {
     }
     // create the necessary PredictionLink to predict each candidate from the other
     function linkCandidates(candidateOne, candidateTwo) {
+        message("linking candidates " + candidateOne.getName().getName() + " and " + candidateTwo.getName().getName() + "\r\n");
 	    var frequencyCountA = candidateOne.getNumFrequencyEstimators();
 	    var ratingCountA = candidateOne.getNumRatingEstimators();
 	    var frequencyCountB = candidateTwo.getNumFrequencyEstimators();
@@ -300,7 +308,12 @@ function TimeBasedRecommendor() {
 	    var i, j;
 	    // using the frequency of A, try to predict the rating for B
 	    for (i = 0; i < frequencyCountA; i++) {
-		    this.linkAverages(candidateOne.getFrequencyEstimatorAtIndex(i), candidateTwo.getActualRatingHistory());
+    	    message("getting frequency estimator\r\n");
+	        var predictor = candidateOne.getFrequencyEstimatorAtIndex(i);
+    	    message("getting actual rating history\r\n");
+	        var predictee = candidateTwo.getActualRatingHistory();
+            message("linking averages\r\n");
+		    this.linkAverages(predictor, predictee);
 	    }
 	    // using the frequency of B, try to predict the rating for A
 	    for (j = 0; j < frequencyCountB; j++) {
@@ -317,28 +330,53 @@ function TimeBasedRecommendor() {
     }
     // create the necessary PredictionLink to predict the predictee from the predictor
     function linkAverages(predictor, predictee) {
-	    var links = this.predictionLinks[predictee];
+        message("inside the linkAverages function\r\n");
+        var name = predictee.getOwnerName().getName();
+        message("doing dictionary lookup\r\n");
+        var links = predictionLinks[name];
+        message("checking for undefined value\r\n");
+        if (links == undefined) {
+            message("links was undefined\r\n");
+	        links = {};
+        }
+        message("making new link");
 	    var newLink = new PredictionLink(predictor, predictee);
-	    links[predictor] = newLink;
+        message("puttin new link in map");
+	    links[predictor.getOwnerName().getName()] = newLink;
+        predictionLinks[predictee.getOwnerName().getName()] = links;
     }
     // inform each candidate of the categories it directly inherits from
     // and the categories that directly inherit from it
     function updateChildPointers() {
+        message("updating child pointers");
 	    // iterate over each candidate
-	    var candidateIterator = Iterator(candidates);
+	    var candidateIterator = Iterator(candidates, true);
 	    var currentCandidate;
 	    var parent;
 	    var i;
 	    for (candidateName in candidateIterator) {
+	        //message("candidateName = " + candidateName);
 		    currentCandidate = candidates[candidateName];
+		    //message("current candidate = ");
+		    //message(currentCandidate);
+		    //message("current candidate is named" + currentCandidate.getName().getName());
+		    //message("checking if update is needed\r\n");
 		    if (currentCandidate.needToUpdateParentPointers()) {
+    		    //message("update is required\r\n");
 			    // if we get here then this candidate was added recently and its parents need their child pointers updated
 			    var parentNames = currentCandidate.getParentNames();
 			    for (i = 0; parentNames[i]; i++) {
-				    parent = getCandidateWithName(parentNames[i])
+		            //message("parent name = " + parentNames[i].getName() + "\r\n");
+				    parent = getCandidateWithName(parentNames[i]);
+				    //message("parent is named " + parent.getName().getName() + "\r\n");
+				    //message("adding parent\r\n");
 				    currentCandidate.addParent(parent);
+				    //message("adding child\r\n");
 				    parent.addChild(currentCandidate);
+				    //message("done adding child\r\n");
 			    }
+		    } else {
+		        //message("update was not required\r\n");
 		    }
 	    }
     }
@@ -348,14 +386,17 @@ function TimeBasedRecommendor() {
     	message("adding some test links\r\n");
 	    var iterator1 = Iterator(candidates);
 	    var iterator2 = Iterator(candidates);
+	    var name1;
+	    var name2;
 	    var candidate1;
 	    var candidate2;
 	    // currently we add all combinations of links
-	    for (candidate1 in iterator1) {
-		    for (candidate2 in iterator2) {
+	    for ([name1, candidate1] in iterator1) {
+		    for ([name2, candidate2] in iterator2) {
 		        // to prevent double-counting, make sure candidate1 <= candidate2
-		        if (candidate1.getName() <= candidate2.getName()) {
-		            linkCandidates(candidate1, candidate2);
+		        if (candidate1.getName().lessThan(candidate2.getName())) {
+		            message("linking candidates\r\n");
+		            this.linkCandidates(candidate1, candidate2);
 		        }
 		    }
 	    }
@@ -365,7 +406,7 @@ function TimeBasedRecommendor() {
         message("updating predictions\r\n");
         message("giving ratings to activities\r\n");
         // inform each candidate of the ratings given to it
-        var ratingIterator = Iterator(ratings);
+        var ratingIterator = Iterator(ratings, true);
         var rating;
         var activityName;
         var numRatings = 0;
@@ -378,7 +419,7 @@ function TimeBasedRecommendor() {
 	    message("\r\n");
 	    message("giving participations to activities");
 	    
-	    participationIterator = Iterator(this.participations);
+	    participationIterator = Iterator(participations, true);
 	    var participation;
 	    for (participation in participationIterator) {
 	        this.addParticipationAndCascade(participation);
@@ -388,7 +429,7 @@ function TimeBasedRecommendor() {
 
     	message("creating PredictionLinks");
     	// have each PredictionLink update itself with the changes to the appropriate MovingAverage    	
-    	var mapIterator = Iterator(this.predictionLinks);
+    	var mapIterator = Iterator(predictionLinks, true);
     	var currentMap;
     	var currentKey;
     	var currentPredictionKey;
@@ -397,7 +438,7 @@ function TimeBasedRecommendor() {
     	
     	// for each candidate, get the map of predictions links that have it as the predictor
     	for (currentKey in mapIterator) {
-    	    currentMap = this.predictionLinks[currentKey];  	// get the map within the map
+    	    currentMap = predictionLinks[currentKey];  	// get the map within the map
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
     	    for (currentPredictionKey in predictionIterator) {
@@ -445,12 +486,12 @@ function TimeBasedRecommendor() {
     }
     // dictionary lookup
     function getCandidateWithName(name) {
-        return candidates[name];
+        return candidates[name.getName()];
     }
     // given two moving averages, returns the PredictionLink that predicts the predictee from the predictor
     function getLinkFromMovingAverages(predictor, predictee) {
-        var links = predictionLinks[predictor];
-        return links[predictee];    
+        var links = predictionLinks[predictor.getName().getName()];
+        return links[predictee.getName().getName()];    
     }
     
 ////////////////////////////////// Prediction functions ///////////////////////////////////////
@@ -492,8 +533,8 @@ function TimeBasedRecommendor() {
     function rateCandidateByCorrelation(candidate, when) {
 	    // get some pointers to the relevant data and initialize
         var shortTermAverage = candidate.getActualRatingHistory();
-        var links = this.predictionLinks[shortTermAverage];
-        var mapIterator = Iterator(links);
+        var links = predictionLinks[shortTermAverage];
+        var mapIterator = Iterator(links, true);
         var currentLink;
         var predictor;
         var predictorName;
@@ -571,7 +612,7 @@ function TimeBasedRecommendor() {
     // determines which candidate has the best expected score at the given time
     function makeRecommendation(when) {
         message("make recommendation for date:" + when.stringVersion() + "\r\n");
-        var candidateIterator = Iterator(candidates);
+        var candidateIterator = Iterator(candidates, true);
 	    // make sure that there is at least one candidate to choose from
 	    if (candidates.length < 1) {
 	        return new Name("[no data]");
@@ -599,7 +640,7 @@ function TimeBasedRecommendor() {
 	        }	        
 	    }
 	    // print the distributions in order
-	    var distributionIterator = Iterator(guesses);
+	    var distributionIterator = Iterator(guesses, true);
 	    var currentScore;
 	    var currentName;
 	    for (currentScore in distributionIterator) {
@@ -697,7 +738,8 @@ function TimeBasedRecommendor() {
     }
     // print functions
     function printCandidate(candidate) {
-        message("printing candidate named " + candidate.getName().getName());
+        //message("printing candidate named " + candidate.getName().getName());
+        message(candidate.getName().getName());
         var parentNames = candidate.getParentNames();
         message("\r\nparent names:\r\n");
         var i;
@@ -707,7 +749,7 @@ function TimeBasedRecommendor() {
         message("\r\n");        
     }
     function printRating(rating) {
-        message("song name:" + rating.getActivity().getName() + "\r\n");
+        message("name:" + rating.getActivity().getName() + "\r\n");
         message("date:" + rating.getDate().stringVersion() + "\r\n");
         message("score:" + rating.getScore() + "\r\n");
     }
@@ -717,15 +759,15 @@ function TimeBasedRecommendor() {
         message(" weight:" + distribution.getWeight() + "\r\n");
     }
     function printParticipation(participation) {
-        message("start time = " + participation.getStartTime().stringVersion());
-        message("end time = " + participation.getEndTime().stringVersion());
-        message("song name = " + participation.getActivityName().getName());
+        message("song name = " + participation.getActivityName().getName() + "\r\n");
+        message("start time = " + participation.getStartTime().stringVersion() + "\r\n");
+        message("end time = " + participation.getEndTime().stringVersion() + "\r\n");
         message("intensity = " + participation.getIntensity() + "\r\n");
     }
 
     function test() {
-        alert("testing");
-        this.readFiles();
+        //alert("testing");
+        //this.readFiles();
         //message("hi\r\n");
         //FileIO.writeFile("appendedFile.txt", "appended data", 1);
         /*
