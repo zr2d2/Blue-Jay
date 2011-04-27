@@ -16,6 +16,7 @@
 	this.getParentNames = getParentNames;
 	this.getParents = getParents;
 	this.getChildren = getChildren;
+	this.getNumChildren = getNumChildren;
 	this.giveRating = giveRating;
 	this.giveParticipation = giveParticipation;
 	this.getNumRatingEstimators = getNumRatingEstimators;
@@ -97,6 +98,11 @@
 	function getChildren(){
 	
 		return children;
+	}
+	
+	function getNumChildren() {
+	
+	    return children.length;
 	}
 	
 	function giveRating(rating)	{

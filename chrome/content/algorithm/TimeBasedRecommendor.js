@@ -63,7 +63,7 @@ function TimeBasedRecommendor() {
 		this.updateChildPointers();
 		this.addSomeTestLinks();
 		this.updatePredictions();
-		message("recommendor done reading files");
+		message("recommendor done reading files\r\n");
 		alert("recommendor done reading files");
     }
     // reads one file
@@ -506,10 +506,10 @@ function TimeBasedRecommendor() {
         var parents = this.findAllSuperCategoriesOf(candidate);
         var i;
         var currentCandidate;
-        for (i = parents.length - 1; i >= 0; i--)
-        {
+        message("iterating over parents\r\n");
+        for (i = parents.length - 1; i >= 0; i--) {
             currentCandidate = parents[i];
-            message("rating candidate " + currentCandidate.getName().getName());
+            message("rating candidate " + currentCandidate.getName().getName() + "\r\n");
 		    // Calculate a rating based on PredictionLinks. If there isn't much data it won't be very good
             currentCandidate.setCurrentRating(rateCandidateByCorrleation(currentCandidate, when));
             message("rating = ");
@@ -615,23 +615,25 @@ function TimeBasedRecommendor() {
     	return result;
     }
     // determines which candidate has the best expected score at the given time
-    function makeRecommendation(when) {
+    function makeRecommendation() {
+        // get the current date
+        var when = new DateTime();
+        when.setNow();
         message("make recommendation for date:" + when.stringVersion() + "\r\n");
-        var candidateIterator = Iterator(candidates, true);
+        var candidateIterator = Iterator(candidates);
 	    // make sure that there is at least one candidate to choose from
-	    if (candidates.length < 1) {
-	        return new Name("[no data]");
-	    }
 	    // setup a map to sort by expected rating
 	    var guesses = {};
-	    var scoreValid = False;
+	    var scoreValid = false;
+	    var candidateKey;
 	    var currentCandidate;
 	    var bestScore = -1;
 	    var currentScore = -1;
-	    var bestName;
-	    for (currentCandidate in candidateIterator) {
+	    var bestName = new Name("[no data]");
+	    for ([candidateKey, currentCandidate] in candidateIterator) {
+	        message("considering candidate" + currentCandidate.getName().getName());
 	        // only bother to rate the candidates that are not categories
-	        if (currentCandidate.getChildren().length == 0) {
+	        if (currentCandidate.getNumChildren() == 0) {
 	            rateCandidate(currentCandidate, when);
 	            currentScore = currentCandidate.getCurrentRefinedRating().getMean();
 	            message("candidate name = " + currentCandidate.getName().getName());

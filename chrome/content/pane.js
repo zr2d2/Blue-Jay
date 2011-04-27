@@ -83,10 +83,12 @@ Bluejay.PaneController = {
     //FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test", 0);
     // now read the file
     this.engine.readFiles();
+    //this.engine.makeRecommendation();
   },
   
   test : function() {
     this.engine.readFiles();
+    this.engine.makeRecommendation();
     //this.engine.
     //this.engine.test();
   },

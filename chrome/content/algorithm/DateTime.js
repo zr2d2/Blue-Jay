@@ -10,6 +10,7 @@ function DateTime(yyyymmddhhmmss) {
     this.timeUntil = timeUntil;
     this.setComponents = setComponents;
     this.getDurationSinceReference = getDurationSinceReference;
+    this.setNow = setNow;   // makes the date equal to the current date
     // don't use this function from outside this class. It would be made private if possible
     this.setInternalValue = setInternalValue;
 
@@ -61,7 +62,11 @@ function DateTime(yyyymmddhhmmss) {
         //alert("result = " + result);
         return result;
     }
-
+    
+    // make this DateTime object equal to the current date
+    function setNow() {
+        value = new Date();
+    }
     //private functions
 
     // assign the given datestring to this date
