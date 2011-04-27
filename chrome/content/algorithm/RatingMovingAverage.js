@@ -79,22 +79,29 @@
 			
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier){
-		alert("RatingMovingAverage::getValueAt\r\n");
+		//alert("RatingMovingAverage::getValueAt pt a\r\n");
 		if (sumRatings.length == 0){
-			return [Distribution(0, 0, 0), -1];
+			return [new Distribution(0, 0, 0), -1];
 		}
 		
+		//alert("RatingMovingAverage::getValueAt pt b\r\n");
 		var firstRating = sumRatings[0];
-		if(!strictlyChronologicallyOrdered(firstRating(firstRating.getDate(), when))) {
-			return [Distribution(0, 0, 0), -1];
+		if(!strictlyChronologicallyOrdered(firstRating.getDate(), when)) {
+    		//alert("RatingMovingAverage::getValueAt pt c\r\n");
+			return [new Distribution(0, 0, 0), -1];
 		}
+		//alert("RatingMovingAverage::getValueAt pt d\r\n");
 		
-		var lastestRatingIndex = getIndexForDate(when, strictlyEarlier);
+		var latestRatingIndex = getIndexForDate(when, strictlyEarlier);
+		//alert("index = " + latestRatingIndex);
 		var latestRatingDate = sumRatings[latestRatingIndex].getDate();
+		//alert("calculating duration");
 		var duration = latestRatingDate.timeUntil(when);
+		//alert("constructing new date");
 		var oldestRatingDate = latestRatingDate.datePlusDuration(-duration);
+		//alert("getting new index");
 		var earliestRatingIndex = getIndexForDate(oldestRatingDate, true);
-		
+		//alert("array lookups");		
 		var latestSumRating = sumRatings[latestRatingIndex];
 		var latestSumSquaredRating = sumSquaredRatings[latestRatingIndex];
 		var earliestSumRating = sumRatings[earliestRatingIndex];
@@ -103,6 +110,7 @@
 		var sumY = 0.0;
 		var sumY2 = 0.0;
 		var sumWeight = 0.0;
+		//alert("in the middle of RatingMovingAverage::pt e\r\n");
 		
 		if(strictlyChronologicallyOrdered(oldestRatingDate, sumRatings[0].getDate())){
 			sumY = latestSumRating.getScore();
@@ -117,9 +125,9 @@
 		
 		var average = sumY/sumWeight;
 		var stdDev = Math.sqrt((sumY2 - sumY * sumY/sumWeight)/sumWeight);
-		var result = Distribution(average, stdDev, sumWeight);
+		var result = new Distribution(average, stdDev, sumWeight);
 		
-		alert("done with RatingMovingAverage::getValueAt\r\n");
+		//alert("done with RatingMovingAverage::getValueAt\r\n");
 		return [result, latestRatingIndex];
 	}
 	
@@ -135,20 +143,25 @@
 		if(sumRatings.length < 1){
 			return -1;
 		}
-		
-		if(strictlyChronologicallyOrdered(sumRatings[sumRatings.length -1].getDate(), when)){
+
+        //alert("RatingMovingAverage::getIndexForDate nonzero");
+		var finalDate = sumRatings[sumRatings.length - 1].getDate();
+        //alert("RatingMovingAverage::getIndexForDate comparing last");
+		if(strictlyChronologicallyOrdered(finalDate, when)){
+            //alert("RatingMovingAverage::getIndexForDate was last");
 			return sumRatings.length - 1;
 		}
+
+        //alert("RatingMovingAverage::getIndexForDate not last");
 		
 		var lowerIndex = 0;
-		var upperIndex = 0;
+		var upperIndex = sumRatings.length - 1;
 		var middleIndex = 0;
-		
-		upperIndex = sumRating.length - 1;
 		
 		while (upperIndex > lowerIndex + 1)
 		{
-			middleIndex = (lowerIndex + upperIndex) / 2;
+			middleIndex = Math.floor((lowerIndex + upperIndex) / 2);
+			//alert("middleIndex = " + middleIndex);
 			if (strictlyChronologicallyOrdered(sumRatings[middleIndex].getDate(), when)){
 				lowerIndex = middleIndex;
 			}
@@ -183,8 +196,7 @@
 		return sumRatings[sumRatings.length -1].getScore()/(sumRatings.length);
 	}
 	
-	function getLatestDate()
-	{
+	function getLatestDate() {
 		if(sumRatings.length < 1){
 			return DateTime();
 		}

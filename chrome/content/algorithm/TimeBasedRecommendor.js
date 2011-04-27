@@ -63,6 +63,7 @@ function TimeBasedRecommendor() {
 		this.updateChildPointers();
 		this.addSomeTestLinks();
 		this.updatePredictions();
+		message("recommendor done reading files");
 		alert("recommendor done reading files");
     }
     // reads one file
@@ -391,16 +392,17 @@ function TimeBasedRecommendor() {
     function addSomeTestLinks() {
     	message("adding some test links\r\n");
 	    var iterator1 = Iterator(candidates);
-	    var iterator2 = Iterator(candidates);
 	    var name1;
 	    var name2;
 	    var candidate1;
 	    var candidate2;
 	    // currently we add all combinations of links
 	    for ([name1, candidate1] in iterator1) {
+    	    var iterator2 = Iterator(candidates);
 		    for ([name2, candidate2] in iterator2) {
+		        message("name1 = " + name1 + " name2 = " + name2 + "\r\n");
 		        // to prevent double-counting, make sure candidate1 <= candidate2
-		        if (candidate1.getName().lessThan(candidate2.getName())) {
+		        if (!candidate1.getName().lessThan(candidate2.getName())) {
 		            message("linking candidates\r\n");
 		            this.linkCandidates(candidate1, candidate2);
 		        }
@@ -438,14 +440,13 @@ function TimeBasedRecommendor() {
     	
     	// for each candidate, get the map of predictions links that have it as the predictor
     	for ([currentKey, currentMap] in mapIterator) {
-    	    message("making iterator out of map\r\n");
+    	    message("making iterator out of map " + currentKey + "\r\n");
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
     	    for ([currentPredictionKey, currentLink] in predictionIterator) {
-    	        message("updating a PredictionLink\r\n");
+    	        message("updating a PredictionLink " + currentPredictionKey + "\r\n");
     	        currentLink.update();  // update the prediction link within the map
     	        numUpdates++;
-    	        return;
     	    }
     	}
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");

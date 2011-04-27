@@ -10,7 +10,7 @@
 	this.getNumPoints = getNumPoints;
 	
 	//private variables
-	var datapoins = [];
+	var datapoints = [];
 	var debugHistory = [];
 	var upperChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
 	var lowerChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
@@ -21,14 +21,14 @@
 	
 		datapoints.push(datapoint);
 		var i = 0;
-		for ( i = datapoins.length -1; i> 0; i--){
+		for (i = datapoints.length -1; i> 0; i--){
 		
 			datapoints[i] = datapoints[i-1];
 			if (datapoints[i].getX() <= datapoint.getX()){
 				break;
 			}
 		}
-		datapoints[i] = datapoints;
+		datapoints[i] = datapoint;
 		totalWeight = totalWeight + datapoint.getWeight();
 	}
 	

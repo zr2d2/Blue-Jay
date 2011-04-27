@@ -10,19 +10,35 @@ function DateTime(yyyymmddhhmmss) {
     this.timeUntil = timeUntil;
     this.setComponents = setComponents;
     this.getDurationSinceReference = getDurationSinceReference;
+    // don't use this function from outside this class. It would be made private if possible
+    this.setInternalValue = setInternalValue;
 
     //private variables 
     var value = new Date();
+    //private functions
     setComponents(yyyymmddhhmmss);
 
     //public functions
     //create a new date equal to this date plus numSeconds
     function datePlusDuration(numSeconds) {
-        var duration = new Date(numSeconds*1000);
-        var result = new Date(value.getTime() + numSeconds*1000);
-        if (timeUntil(result) != numSeconds*1000){
-            alert(timeUntil(result).valueOf() + " not equal to " + numSeconds + " " + newTime );
+        //var duration = new Date(numSeconds*1000);
+        //alert("new Date()");
+        var newValue = new Date(value.getTime() + numSeconds*1000);
+        //alert("new DateTime()");
+        var result = new DateTime();
+        //alert("setInternalValue");
+        result.setInternalValue(newValue);  // this should be a private function
+        //alert("my duration " + this.getDurationSinceReference());
+        //alert("other duration " + result.getDurationSinceReference());
+        //alert("timeUntil");
+        var duration = this.timeUntil(result);
+        //alert("checking equality");        
+        /*
+        if (duration != numSeconds){
+            alert(duration + " not equal to " + numSeconds);
         }
+        */
+        //alert("returning result");
         return result;
     }
 
@@ -32,7 +48,7 @@ function DateTime(yyyymmddhhmmss) {
     }
 
     function getDurationSinceReference() {
-        return value.valueOf();
+        return value.valueOf() / 1000;
     }
     // the number of seconds from this to other
     function timeUntil(other) {
@@ -41,7 +57,7 @@ function DateTime(yyyymmddhhmmss) {
         //alert("myDuration = " + myDuration);
         var otherDuration = other.getDurationSinceReference();
         //alert("otherDuration = " + otherDuration);
-        var result =  myDuration - otherDuration;
+        var result = otherDuration - myDuration;
         //alert("result = " + result);
         return result;
     }
@@ -69,6 +85,9 @@ function DateTime(yyyymmddhhmmss) {
         value.setHours(newTime[3]);
         value.setMinutes(newTime[4]);
         value.setSeconds(newTime[5]);
+    }
+    function setInternalValue(newValue) {
+        value = newValue;
     }
     //alert("done constructing date");
 };

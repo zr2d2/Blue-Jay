@@ -42,18 +42,22 @@
 	
 	function update(){
 
+        //alert("PredictionLink::update\r\n");
 		var newPoints = inputData.getCorrelationsFor(outputData, latestUpdateTime);
+        //alert("back in PredictionLink::update\r\n");
 		
-		if (newPoints[1].length > 0){
+		if (newPoints[0].length > 0){
 		
 			var i=0;
-			for (i = 0; i < newPoints[1].length; i++) {
-				plot.addDataPoint(newPoints[i]);
+            //alert("plot adding datapoints\r\n");
+			for (i = 0; i < newPoints[0].length; i++) {
+				plot.addDataPoint(newPoints[0][i]);
 			}
 		
-			latestUpdateTime = outputDate.getLatestDate();
-			numChanges = numChanges + newPoints[2];
-		}	
+			latestUpdateTime = outputData.getLatestDate();
+			numChanges = numChanges + newPoints[0];
+            //alert("plot done adding datapoints\r\n");
+		}
 	}
 	
 	function guess(when){
