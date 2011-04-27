@@ -511,7 +511,7 @@ function TimeBasedRecommendor() {
             currentCandidate = parents[i];
             message("rating candidate " + currentCandidate.getName().getName() + "\r\n");
 		    // Calculate a rating based on PredictionLinks. If there isn't much data it won't be very good
-            currentCandidate.setCurrentRating(rateCandidateByCorrleation(currentCandidate, when));
+            currentCandidate.setCurrentRating(this.rateCandidateByCorrelation(currentCandidate, when));
             message("rating = ");
             printDistribution(currentCandidate.getCurrentRating());
 		    // Update the rating using parental information. This is to improve guesses for items that have little data but whose parents have data
@@ -520,8 +520,7 @@ function TimeBasedRecommendor() {
         message("done rating candidate with name " + candidate.getName().getName() + "\r\n");
         message("rating = ");
         printDistribution(candidate.getCurrentRefinedRating());
-        for (i = 0; i < parents.length; i++)
-        {
+        for (i = 0; i < parents.length; i++) {
             currentCandidate = parents[i];
             message("name = " + currentCandidate.getName().getName());
             message(" rating = " + currentCandidate.getCurrentRefinedRating().getMean() + "\r\n");
@@ -531,27 +530,26 @@ function TimeBasedRecommendor() {
     
     // calculate a rating for the candidate with the given name
     function rateCandidateWithName(name, when) {
-        return rateCandidate(getCandidateWithName(name), when);
+        return this.rateCandidate(getCandidateWithName(name), when);
     }
     
     // compute the rating for the candidate using all of the relevant prediction links (predicting based on other moving averages)
     function rateCandidateByCorrelation(candidate, when) {
+        message("rating candidate " + candidate.getName().getName() + " by correlation\r\n");
 	    // get some pointers to the relevant data and initialize
-        var shortTermAverage = candidate.getActualRatingHistory();
-        var links = predictionLinks[shortTermAverage];
-        var mapIterator = Iterator(links, true);
+        var shortTermAverageName = candidate.getActualRatingHistory().getName().getName();
+        var links = predictionLinks[shortTermAverageName];
+        var mapIterator = Iterator(links);
         var currentLink;
         var predictor;
         var predictorName;
-        var predicteeName = candidate.getName();
+        var predicteeName = candidate.getName().getName();
         var guesses = [];
         var currentGuess;
 	    // iterate over all relevant prediction links
-        for (predictor in links) {
-            currentLink = links[predictor];
-            predictorName = predictor.getName();
-            message("Predicting " + predicteeName.getName() + " from " + predictorName().getName() + "\r\n");
-            currentGuess = currentLing.guess(when);
+        for ([predictorName, currentLink] in mapIterator) {
+            message("Predicting " + predicteeName + " from " + predictorName + "\r\n");
+            currentGuess = currentLink.guess(when);
             printDistribution(currentGuess);
             guesses.push(currentGuess);
         }
@@ -634,7 +632,7 @@ function TimeBasedRecommendor() {
 	        message("considering candidate" + currentCandidate.getName().getName());
 	        // only bother to rate the candidates that are not categories
 	        if (currentCandidate.getNumChildren() == 0) {
-	            rateCandidate(currentCandidate, when);
+	            this.rateCandidate(currentCandidate, when);
 	            currentScore = currentCandidate.getCurrentRefinedRating().getMean();
 	            message("candidate name = " + currentCandidate.getName().getName());
 	            message("expected rating = " + currentScore + "\r\n");

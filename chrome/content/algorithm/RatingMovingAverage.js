@@ -14,10 +14,11 @@
 	this.getOwnerName = this.prototype.getOwnerName;
 	this.stringVersion = this.prototype.stringVersion;
 	this.superFunction = this.prototype.superFunction;
-	this.prototype.subFunction = subFunction;
+	this.getCurrentValue = this.prototype.getCurrentValue;
 	// functions that we are overriding
 	this.getValueAt = getValueAt;
 	this.prototype.getValueAt = getValueAt;
+	this.prototype.subFunction = subFunction;
 
     // these functions are defined in the subclass
     this.addRating = addRating;

@@ -21,18 +21,18 @@ function ParticipationMovingAverage() {
 	// functions that we are overriding
 	this.getValueAt = getValueAt;
 	this.prototype.getValueAt = getValueAt;
+	this.getCurrentValue = getCurrentValue;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
+	this.prototype.getCurrentValue = getCurrentValue;
     
 //////////////////////////////////////////////// Function Prototypes ///////////////////////////////////////////////////
     // these functions are defined in the subclass
 	this.addParticipationInterval = addParticipationInterval;
-	this.getCurrentValue = getCurrentValue;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		// for determining if its type is ParticipationMovingAverage or not
 	this.getLatestDate = getLatestDate;
 	this.getNumParticipations = getNumParticipations;
 	this.subFunction = subFunction;
 	this.getIndexForDate = getIndexForDate;
 	this.getTotalIntensityThroughDate = getTotalIntensityThroughDate;
-
 
 
 /////////////////////////////////////////////////// Private Member Variables ///////////////////////////////////////////////////
@@ -169,7 +169,7 @@ function ParticipationMovingAverage() {
 	    if (totalIntensities.length < 1)
 		    return new Distribution(0, 0, 0);
 	    // If the time is before the first one then we default to 0
-	    var firstParticipation = totalIntensities.front();
+	    var firstParticipation = totalIntensities[0];
 	    if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when))
 		    return new Distribution(0, 0, 0);
 	    // find the most recent participation
@@ -193,9 +193,9 @@ function ParticipationMovingAverage() {
 	}
 	function getLatestDate() {
 		if (totalIntensities.length < 1)
-		    return DateTime();
+		    return new DateTime();
 	    else
-		    return totalIntensities.back().getEndTime();
+		    return totalIntensities[totalIntensities.length - 1].getEndTime();
 	}
 	function getNumParticipations() {
 	    return totalIntensities.length;

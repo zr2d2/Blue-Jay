@@ -9,7 +9,6 @@
 	this.update = update;
 	this.guess = guess;
 	
-	// ##### problem with constructor!!! #####
 	
 	//private variables
 	var inputData = passedVal1;
@@ -62,25 +61,29 @@
 	
 	function guess(when){
 	
-		document.writeln('PredictionLink::guess');
+		//alert("PredictionLink::guess");
 		
 		var input = inputData.getCurrentValue(when, false);
 		var middle = plot.predict(input.getMean());
 		
-		document.writeln('x ='+input.getMean());
-		document.writeln('middle = ' + middle.getMean());
+		//document.writeln('x ='+input.getMean());
+		//document.writeln('middle = ' + middle.getMean());
 		
 		var leftOneStdDev = plot.predict(input.getMean() - input.getStdDev());
-		document.writeln(' left = ' + leftOneStdDev.getMean());
+		//document.writeln(' left = ' + leftOneStdDev.getMean());
 		
 		var rightOneStdDev = plot.predict(input.getMean() + input.getStdDev());
-		document.writeln(' right = ' + rightOneStdDev.getMean());
+		//document.writeln(' right = ' + rightOneStdDev.getMean());
+		
+		//alert("PredictionLink::guess pt2");
 		
 		var stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2;
 		var stdDevB = middle.getStdDev();
 		var stdDev = Math.sqrt(stdDevA * stdDevA + stdDevB * stdDevB);
+
+		//alert("PredictionLink::guess pt3");
 		
-		var weight = numChanges -1;
+		var weight = numChanges - 1;
 		if (weight < 0){
 			weight = 0;
 		}
@@ -88,15 +91,14 @@
 		var stdDev2;
 		
 		if (weight >= 1){
-			stdDev2 = 1/weight;
-		}
-		else {
+			stdDev2 = 1 / weight;
+		} else {
 			stdDev2 = 1;
 		}
 		
 		var result = new Distribution(middle.getMean(), stdDev + stdDev2, weight);
+		//alert("PredictionLink::guess pt4");
 		return result;
-		
 	}
 }
 		

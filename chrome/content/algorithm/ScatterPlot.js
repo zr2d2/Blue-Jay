@@ -34,6 +34,7 @@
 	
 	function predict(x){
 	
+	    alert("ScatterPlot::predict");
 	    // Make sure there are enough datapoints for a prediction
 	    if (datapoints.length < 1) {
 		    return new Distribution(0, 0, 0);
@@ -68,6 +69,7 @@
 			    upperIndex = lowerIndex + targetLength;
 		    }
 	    }
+	    //alert("ScatterPlot::predict pt 2");	    
 	    // If all these points have the same input then count all datapoints with this input
 	    if (datapoints[lowerIndex].getX() == datapoints[upperIndex].getX()) {
 		    while ((lowerIndex > 0) && (datapoints[lowerIndex - 1].getX() == datapoints[upperIndex].getX())) {
@@ -98,7 +100,7 @@
 		    // However, if we assume that the output is between 0 and 1 then we can estimate standard deviation better
 		    //stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1)) + (1 / (n + 1));
 		    // currently the +1/(n+1) is taken care of elsewhere
-		    stddev = sqrt((sumY2 - sumY * sumY / n) / (n - 1));
+		    stddev = Math.sqrt((sumY2 - sumY * sumY / n) / (n - 1));
 		    // The additional (+1/n) is to account for the fact that humans like to give repeated ratings a lot
 		    // The user interface might even require it.
 		    // We cannot claim that the standard deviation is low until we have a lot of data
@@ -110,6 +112,7 @@
 	    //cout << "fraction used = " << fractionUsed << endl;
 	    //Distribution result = Distribution(average, stddev, totalWeight - n);
 	    var result = new Distribution(average, stddev, n);
+	    //alert("finished ScatterPlot::predict");
 	    return result;
 	}
 	
