@@ -40,11 +40,19 @@ function DateTime(yyyymmddhhmmss) {
     //private functions
 
     // assign the given datestring to this date
-    // An example datestring would be "1970 00 01 01 01 01"
+    // An example datestring would be "1970-00-01T01:01:01"
     function setComponents(yyyymmddhhmmss) {
         if(!yyyymmddhhmmss){
             yyyymmddhhmmss = "1970 00 01 00 00 00";
         }
+        var i;
+        // replace any kind of separator with spaces
+        yyyymmddhhmmss = yyyymmddhhmmss.replace("-", " ");
+        yyyymmddhhmmss = yyyymmddhhmmss.replace("-", " ");
+        yyyymmddhhmmss = yyyymmddhhmmss.replace("T", " ");
+        yyyymmddhhmmss = yyyymmddhhmmss.replace(":", " ");
+        yyyymmddhhmmss = yyyymmddhhmmss.replace(":", " ");
+        // split it into pieces and assign the date components accordingly
         var newTime = yyyymmddhhmmss.split(" ");
         value.setYear(newTime[0]);
         value.setMonth(newTime[1]);
