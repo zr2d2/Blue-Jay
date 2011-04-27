@@ -57,7 +57,7 @@ function TimeBasedRecommendor() {
     // function definitions
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
-        alert("recommendor reading files");
+        //alert("recommendor reading files");
         this.readFile("bluejay_inheritances.txt");
         this.readFile("bluejay_ratings.txt");
 		this.updateChildPointers();
@@ -67,7 +67,7 @@ function TimeBasedRecommendor() {
     }
     // reads one file
     function readFile(fileName) {
-        alert("recommendor reading file");
+        //alert("recommendor reading file");
         
         
         message("opening file " + fileName + "\r\n");
@@ -333,20 +333,23 @@ function TimeBasedRecommendor() {
     }
     // create the necessary PredictionLink to predict the predictee from the predictor
     function linkAverages(predictor, predictee) {
-        //message("inside the linkAverages function\r\n");
-        var name = predictee.getOwnerName().getName();
+        message("linking averages ");
+        message(predictor.getName().getName());
+        message(" and ");
+        message(predictee.getName().getName() + "\r\n");
+        var predicteeName = predictee.getName().getName();
         //message("doing dictionary lookup\r\n");
-        var links = predictionLinks[name];
+        var links = predictionLinks[predicteeName];
         //message("checking for undefined value\r\n");
         if (links == undefined) {
-            message("links was undefined\r\n");
+            //message("links was undefined\r\n");
 	        links = {};
         }
         //message("making new link");
 	    var newLink = new PredictionLink(predictor, predictee);
-        message("putting new link in map");
-	    links[predictor.getOwnerName().getName()] = newLink;
-        predictionLinks[predictee.getOwnerName().getName()] = links;
+        //message("putting new link in map");
+	    links[predictor.getName().getName()] = newLink;
+        predictionLinks[predicteeName] = links;
     }
     // inform each candidate of the categories it directly inherits from
     // and the categories that directly inherit from it
@@ -425,7 +428,7 @@ function TimeBasedRecommendor() {
 
     	message("updating PredictionLinks");
     	// have each PredictionLink update itself with the changes to the appropriate MovingAverage    	
-    	var mapIterator = Iterator(predictionLinks, true);
+    	var mapIterator = Iterator(predictionLinks);
     	var currentMap;
     	var currentKey;
     	var currentPredictionKey;
@@ -435,16 +438,17 @@ function TimeBasedRecommendor() {
     	
     	// for each candidate, get the map of predictions links that have it as the predictor
     	for ([currentKey, currentMap] in mapIterator) {
+    	    message("making iterator out of map\r\n");
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
     	    for ([currentPredictionKey, currentLink] in predictionIterator) {
+    	        message("updating a PredictionLink\r\n");
     	        currentLink.update();  // update the prediction link within the map
     	        numUpdates++;
+    	        return;
     	    }
     	}
-    	message("num PredictionLinks updated = ");
-	    message(numUpdates);
-	    message("\r\n");
+    	message("num PredictionLinks updated = " + numUpdates + "\r\n");
     }
     
 ////////////////////////////////// search functions /////////////////////////////////////
@@ -490,8 +494,8 @@ function TimeBasedRecommendor() {
     }
     // given two moving averages, returns the PredictionLink that predicts the predictee from the predictor
     function getLinkFromMovingAverages(predictor, predictee) {
-        var links = predictionLinks[predictor.getName().getName()];
-        return links[predictee.getName().getName()];    
+        var links = predictionLinks[predictee.getName().getName()];
+        return links[predictor.getName().getName()];    
     }
     
 ////////////////////////////////// Prediction functions ///////////////////////////////////////

@@ -54,11 +54,11 @@ function MovingAverage() {
         var results = [];
         var x, y, weight;
         weight = 1;
-        var previousIndex = this.getValueAt(startTime, True)[1];
+        var previousIndex = this.getValueAt(startTime, true)[1];
         var numChanges = 0; // count how many individual x-values will be used to create the prediction
 	    // This should be improved eventually.
 	    // We should give the deviation of each point to the scatterplot in some meaningful way
-        for (i = startindIndex; i < otherRatings.length; i++) {
+        for (i = startingIndex; i < otherRatings.length; i++) {
             var value = this.getValueAt(otherRatings[i].getDate(), True);
             x = value[0].getMean();
             y = otherRatings[i].getWeight();

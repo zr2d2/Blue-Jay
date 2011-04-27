@@ -8,32 +8,25 @@
     // these functions are defined in the superclass and used in the subclass
 	this.getCorrelationsFor = this.prototype.getCorrelationsFor;
 	this.setName = this.prototype.setName;
-	this.getName = this.prototype.setName;
+	this.getName = this.prototype.getName;
 	// the name of the Candidate that this MovingAverage describes
 	this.setOwnerName = this.prototype.setOwnerName;
 	this.getOwnerName = this.prototype.getOwnerName;
 	this.stringVersion = this.prototype.stringVersion;
-
 	this.superFunction = this.prototype.superFunction;
 	this.prototype.subFunction = subFunction;
+	// functions that we are overriding
+	this.getValueAt = getValueAt;
+	this.prototype.getValueAt = getValueAt;
 
     // these functions are defined in the subclass
     this.addRating = addRating;
-	this.getValueAt = getValueAt;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	this.getRatings = getRatings;
 	this.getNameRatings = getNumRatings;
 	this.getAverageValue = getAverageValue;
 	this.getLatestDate = getLatestDate;
 	this.subFunction = subFunction;
 
-
-	//public functions
-	this.addRating = addRating;
-	this.getValueAt = getValueAt;
-	this.getRatings = getRatings;
-	this.getNumRatings = getNumRatings;
-	this.getAverageValue = getAverageValue;
-	this.getLatestDate = getLatestDate;
 	
 	//private functions
 	var getIndexForDate;
@@ -84,8 +77,9 @@
         //alert("rating moving average adding rating pt4\r\n");	
 	}
 			
+    // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier){
-		
+		alert("RatingMovingAverage::getValueAt\r\n");
 		if (sumRatings.length == 0){
 			return [Distribution(0, 0, 0), -1];
 		}
@@ -125,6 +119,7 @@
 		var stdDev = Math.sqrt((sumY2 - sumY * sumY/sumWeight)/sumWeight);
 		var result = Distribution(average, stdDev, sumWeight);
 		
+		alert("done with RatingMovingAverage::getValueAt\r\n");
 		return [result, latestRatingIndex];
 	}
 	

@@ -11,19 +11,20 @@ function ParticipationMovingAverage() {
 	// the vector returned is the relevant datapoints and the double is the additional weight contributed by these datapoints
 	this.getCorrelationsFor = this.prototype.getCorrelationsFor;
 	this.setName = this.prototype.setName;
-	this.getName = this.prototype.setName;
+	this.getName = this.prototype.getName;
 	// the name of the Candidate that this MovingAverage describes
 	this.setOwnerName = this.prototype.setOwnerName;
 	this.getOwnerName = this.prototype.getOwnerName;
 	this.stringVersion = this.prototype.stringVersion;
-
 	this.superFunction = this.prototype.superFunction;
 	this.prototype.subFunction = subFunction;
+	// functions that we are overriding
+	this.getValueAt = getValueAt;
+	this.prototype.getValueAt = getValueAt;
     
 //////////////////////////////////////////////// Function Prototypes ///////////////////////////////////////////////////
     // these functions are defined in the subclass
 	this.addParticipationInterval = addParticipationInterval;
-	this.getValueAt = getValueAt;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	this.getCurrentValue = getCurrentValue;  // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		// for determining if its type is ParticipationMovingAverage or not
 	this.getLatestDate = getLatestDate;
@@ -128,6 +129,7 @@ function ParticipationMovingAverage() {
 	// returns a pair with the distribution of expected values and an index telling which participation mattered the most in its calculation
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier) {
+		alert("ParticipationMovingAverage::getValueAt\r\n");
 		// stictlyEarlier is ignored in this function at the moment
 	    // If there are no ratings then we default to 0
 	    if (totalIntensities.size() < 1)
@@ -154,6 +156,7 @@ function ParticipationMovingAverage() {
 		    averageIntensity = 1 / mostRecentDuration;
 	    }
 	    var result = new Distribution(averageIntensity, 0, 1);
+		alert("done with ParticipationMovingAverage::getValueAt\r\n");
 	    return [result, mostRecentIndex];
 	}
 	

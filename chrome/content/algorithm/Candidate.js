@@ -111,7 +111,6 @@
 	
 	function giveParticipation(participation){
 	
-	    alert("candidate::giveParticipation\r\n");
 		var i = 0;
 		for (i=0; i<frequencyEstimators.length; i++){
 		
@@ -210,7 +209,7 @@
     	//alert("initializing participation averages");
 		for (i = 0; i < numAverages; i++){
 		    var newAverage = new ParticipationMovingAverage();
-			newAverage.setName(new Name(name.getName() + " (participations)"));
+			newAverage.setName(new Name(name.getName() + " (participations) " + i));
 			newAverage.setOwnerName(name);
 			frequencyEstimators[i] = newAverage;
 		}
@@ -218,13 +217,13 @@
 		
 		for (i = 0; i < numAverages; i++){
     		var newAverage = new RatingMovingAverage();
-			newAverage.setName(new Name(name.getName() + " (ratings)"));
+			newAverage.setName(new Name(name.getName() + " (ratings) " + i));
 			newAverage.setOwnerName(name);
 			ratingEstimators[i] = newAverage;		
 		}
     	//alert("done initializing rating averages");
 		
-		actualRatingHistory.setName(new Name(name.getName() + " actual "));
+		actualRatingHistory.setName(new Name(name.getName() + " actual"));
 		actualRatingHistory.setOwnerName(name);
 		
     	//alert("done initializing candidate ");
