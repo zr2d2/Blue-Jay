@@ -282,6 +282,7 @@ function TimeBasedRecommendor() {
     }
     // adds the participation to the necessary candidate and all its parents
     function addParticipationAndCascade(newParticipation) {
+	    message("cascading participation " + newParticipation.getActivityName().getName());
 	    var candidate = getCandidateWithName(newParticipation.getActivityName());
 	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	    var i;
@@ -295,7 +296,9 @@ function TimeBasedRecommendor() {
 	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	    var i, j;
 	    for (i = 0; candidatesToUpdate[i]; i++) {
-		    candidatesToUpdate[i].giveRating(newRating);
+	        var currentCandidate = candidatesToUpdate[i];
+	        message("giving rating to candidate " + currentCandidate.getName().getName() + "\r\n");
+		    currentCandidate.giveRating(newRating);
 	    }
     }
     // create the necessary PredictionLink to predict each candidate from the other
@@ -330,18 +333,18 @@ function TimeBasedRecommendor() {
     }
     // create the necessary PredictionLink to predict the predictee from the predictor
     function linkAverages(predictor, predictee) {
-        message("inside the linkAverages function\r\n");
+        //message("inside the linkAverages function\r\n");
         var name = predictee.getOwnerName().getName();
-        message("doing dictionary lookup\r\n");
+        //message("doing dictionary lookup\r\n");
         var links = predictionLinks[name];
-        message("checking for undefined value\r\n");
+        //message("checking for undefined value\r\n");
         if (links == undefined) {
             message("links was undefined\r\n");
 	        links = {};
         }
-        message("making new link");
+        //message("making new link");
 	    var newLink = new PredictionLink(predictor, predictee);
-        message("puttin new link in map");
+        message("putting new link in map");
 	    links[predictor.getOwnerName().getName()] = newLink;
         predictionLinks[predictee.getOwnerName().getName()] = links;
     }
@@ -409,22 +412,15 @@ function TimeBasedRecommendor() {
         var ratingIterator = Iterator(ratings, true);
         var rating;
         var activityName;
-        var numRatings = 0;
-        for (rating in ratingIterator) {
-            numRatings++;
-            this.addRatingAndCascade(rating);
+        var i;
+        for (i = 0; i < ratings.length; i++) {
+            this.addRatingAndCascade(ratings[i]);
         }
-        message("num ratings given = ");
-	    message(numRatings);
-	    message("\r\n");
+        
 	    message("giving participations to activities");
-	    
-	    participationIterator = Iterator(participations, true);
-	    var participation;
-	    for (participation in participationIterator) {
-	        this.addParticipationAndCascade(participation);
-	    }
-        message("\r\n");
+        for (i = 0; i < participations.length; i++) {
+            this.addParticipationAndCascade(participations[i]);
+        }
 
 
     	message("creating PredictionLinks");
@@ -453,14 +449,16 @@ function TimeBasedRecommendor() {
     
 ////////////////////////////////// search functions /////////////////////////////////////
     function findAllSuperCategoriesOf(candidate) {
-        message("finding supercategories of " + candidate.getName().getName());
+        message("finding supercategories of " + candidate.getName().getName() + "\r\n");
         // setup a set to check for duplicates
-        var setToUpdate;
+        var setToUpdate = {};
         // setup an array for sequential access
         var vectorToUpdate = [];
         // initialize the one leaf node
         var currentCandidate = candidate;
-        setToUpdate[candidate.getName()] = currentCandidate;
+        //message("putting first entry into set\r\n");
+        setToUpdate[candidate.getName().getName()] = currentCandidate;
+        //message("putting first entry into vector\r\n");
         vectorToUpdate.push(currentCandidate);
         // compute the set of all supercategories of this candidate
         var busy = true;
@@ -468,20 +466,22 @@ function TimeBasedRecommendor() {
         var setIterator;
         var parents;
         var i, j;
+        //message("starting loop\r\n");
         for (i = 0; i < vectorToUpdate.length; i++) {
             currentCandidate = vectorToUpdate[i];
             parents = currentCandidate.getParents();
             for (j = 0; j < parents.length; j++) {
                 currentParent = parents[i];
                 // check whether this candidate is already in the set
-                if (setToUpdate[currentParent.getName()] != {}) {
-                    message("adding parent named" + currentParent.getName().getName());
+                if (setToUpdate[currentParent.getName().getName()]) {
+                    //message("adding parent named" + currentParent.getName().getName());
                     // if we get here then we found another candidate to add
-                    setToUpdate[currentParent.getName()] = currentParent;
+                    setToUpdate[currentParent.getName().getName()] = currentParent;
                     vectorToUpdate.push(currentParent);
                 }
             }
         }
+        //message("done find supercategories\r\n");
         return vectorToUpdate;
     }
     // dictionary lookup

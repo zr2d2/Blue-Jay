@@ -44,43 +44,44 @@
 	
 	//public functions
 	function addRating(rating){
-	
+
 		var totalScore = 0.0; 
 		var totalWeight = 0.0;
 		var totalSquaredScore = 0.0;
 		
 		if(sumRatings.length > 0){
-			var lastRating = sumRatings[sumRatings.length-1];
+			var lastRating = sumRatings[sumRatings.length - 1];
 			totalScore = lastRating.getScore();
 			totalWeight = lastRating.getWeight();
-			var sumSquaredRating = sumSquaredRatings[sumSquaredRatings];
+			var sumSquaredRating = sumSquaredRatings[sumSquaredRatings.length - 1];
 			totalSquaredScore = sumSquaredRating.getScore();
-		}
-		else
-		{
+		} else {
 			totalScore = totalWeigh = totalSquaredScore = 0;
 		}
 		
+        //alert("rating moving average adding rating pt2\r\n");	
 		// compute new running total
 		var newTotalScore = totalScore + rating.getScore() * rating.getWeight();
 		var newTotalWeight = totalWeight + rating.getWeight();
-		var newRating;
+		var newRating = new Rating();
 		newRating.setScore(newTotalScore);
 		newRating.setWeight(newTotalWeight);
 		newRating.setDate(rating.getDate());
 		
 		// save the new running total
 		sumRatings.push(newRating);
+        //alert("rating moving average adding rating pt3\r\n");	
 		
 		// compute new running squared total
 		var newTotalSquaredScore = totalSquaredScore + rating.getScore() * rating.getScore() * rating.getWeight();
-		var newSquaredRating;
+		var newSquaredRating = new Rating();
 		newSquaredRating.setScore(newTotalSquaredScore);
 		newSquaredRating.setWeight(newTotalWeight);
 		newSquaredRating.setDate(rating.getDate());
-		sumSquaredRatings.push_back(newSquaredRating);
+		sumSquaredRatings.push(newSquaredRating);
 		
 		ratings.push(rating);
+        //alert("rating moving average adding rating pt4\r\n");	
 	}
 			
 	function getValueAt(when, strictlyEarlier){
