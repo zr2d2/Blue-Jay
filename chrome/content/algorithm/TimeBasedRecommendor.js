@@ -1,14 +1,26 @@
-
-/**
- * The class that controls all of the recommendations
+/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
+ */
+ 
+/* Name: TimeBasedRecommendor
+ * Description: the TimeBasedRecommendor is the engine that computes 
+ * recommendations from the data
  */
  
 function TimeBasedRecommendor() {
-/////////////////////////////////////////////////// Private Member Variables ///////////////////////////////////////////////////
+
+	/* Private Member Variables */
 
     // setup some maps so that we can store all the data in memory and then update properly
     // Basically the concern is that can't add a rating to a candidate that doesn't exist yet
     // So we store everything, then create the candidates, then add the ratings
+	
     var candidates = {};        // a map of all candidates (with key equal to its name)
     var ratings = [];           // a vector of all ratings
     var participations = [];    // a vector of all partipations
@@ -16,11 +28,12 @@ function TimeBasedRecommendor() {
     var latestDate = new DateTime();
     //alert("constructing a recommendor point 2");
 
-/////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
+	/* Public Methods */
 
-// the functions parseArguments has been skipped for now
+	// the functions parseArguments has been skipped for now
     
-    // function prototypes
+    /* function prototypes */
+	
     // functions to add data
     this.readFiles = readFiles;
     this.readFile = readFile;
@@ -34,6 +47,7 @@ function TimeBasedRecommendor() {
     this.updateChildPointers = updateChildPointers;
     this.addSomeTestLinks = addSomeTestLinks;
     this.updatePredictions = updatePredictions;
+	
     // search functions
     this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
     this.getCandidateWithName = getCandidateWithName;
@@ -860,7 +874,7 @@ function TimeBasedRecommendor() {
         alert("done selecting song");
     }  
 
-/////////////////////////////////////////////////////// Private Methods ///////////////////////////////////////////////////
+	/* Private Methods */
 
 
 };

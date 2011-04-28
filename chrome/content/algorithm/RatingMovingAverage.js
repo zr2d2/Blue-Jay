@@ -1,20 +1,34 @@
-/**
- * RatingMovingAverage Object
+/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
+ */
+ 
+/* Name: Rating
+ * Description: the RatingMovingAverage represents the progression of 
+ * Ratings for a Candidate over time
  */
  
  function RatingMovingAverage(){
     this.prototype = new MovingAverage(); 
-//////////////////////////////////////////////// Superclass Function Prototypes ///////////////////////////////////////////////////
+
+	/* Superclass Function Prototypes */
     // these functions are defined in the superclass and used in the subclass
 	this.getCorrelationsFor = this.prototype.getCorrelationsFor;
 	this.setName = this.prototype.setName;
 	this.getName = this.prototype.getName;
+	
 	// the name of the Candidate that this MovingAverage describes
 	this.setOwnerName = this.prototype.setOwnerName;
 	this.getOwnerName = this.prototype.getOwnerName;
 	this.stringVersion = this.prototype.stringVersion;
 	this.superFunction = this.prototype.superFunction;
 	this.getCurrentValue = this.prototype.getCurrentValue;
+	
 	// functions that we are overriding
 	this.getValueAt = getValueAt;
 	this.prototype.getValueAt = getValueAt;
@@ -33,6 +47,7 @@
 	
 	//private functions
 	var getIndexForDate;
+	
 	//private variables
 	var ratings = [];
 	var sumRatings = [];

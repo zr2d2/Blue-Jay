@@ -1,10 +1,23 @@
-/**
- * PredictionLink object
+/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
+ */
+ 
+/* Name: PredictionLink
+ * Description: The PredictionLink class is used to estimate the rating 
+ * that will be given to another song (or category) based on an attribute 
+ * of another song (or category)
  */
  
  function PredictionLink(passedVal1, passedVal2){
     //alert("constructing predictionLink\r\n");
-	//public function
+	
+	/* public function */
 	this.initializeDecreasing = initializeDecreasing;
 	this.update = update;
 	this.guess = guess;
@@ -22,12 +35,15 @@
 	//message("making prediction link part 1\r\n");
 	// check whether this link is predicting something from its own past history
 	if (inputData.getOwnerName().equalTo(outputData.getOwnerName())) {
+	
 	    //message("making prediction link part 2\r\n");
 		// check whether this link is using the participation history
 		if (inputData.isAParticipationMovingAverage()) {
     	    //message("making prediction link part 3\r\n");
-			// If we get here then we're predicting the score of a Candidate based on its past frequency
-			// Usually, if something has happened a lot recently then it will be boring in the future
+			
+			// If we get here then we're predicting the score of a Candidate based
+			// on its past frequency. Usually, if something has happened a lot recently 
+			// then it will be boring in the future
 			this.initializeDecreasing();
 		}
 	}
@@ -53,6 +69,8 @@
 		numChanges = numChanges + numPoints;
 	}
 	
+	// updates the scatterplot with any new data that it hadn't yet 
+	// requested from the MovingAverage that it tries to estimate
 	function update(){
 
         //alert("PredictionLink::update\r\n");
@@ -73,6 +91,7 @@
 		}
 	}
 	
+	// compute a distribution that represents the expected deviation from the overall mean
 	function guess(when){
 	
 		//alert("PredictionLink::guess");

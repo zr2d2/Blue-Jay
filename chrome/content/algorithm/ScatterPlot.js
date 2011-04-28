@@ -1,9 +1,23 @@
-/**
- * ScatterPlot object
+/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
+ */
+ 
+/* Name: ScatterPlot
+ * Description: the ScatterPlot represents a bunch of Datapoints that 
+ * have x, y, and weight. It is used to predict y from x
+ * Currently it uses nearby x-values atlthough it may later be changed 
+ * to compute the least-squares-regression-line
  */
  
  function ScatterPlot(){
-	//public function
+	/* public function */
+	
 	//this.ScatterPlot = ScatterPlot;
 	this.addDataPoint = addDataPoint;
 	this.predict = predict;
@@ -16,7 +30,8 @@
 	var lowerChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
 	var totalWeight = 0.0;
 	
-	//public function
+	/* public function definition */
+	// add data point
 	function addDataPoint(datapoint){
 	
 		datapoints.push(datapoint);
@@ -32,6 +47,8 @@
 		totalWeight = totalWeight + datapoint.getWeight();
 	}
 	
+	// Find the N closest points to x, where N is the 
+	// square root of the number of points in the plot
 	function predict(x){
 	
 	    //message("ScatterPlot::predict(" + x + ")");
