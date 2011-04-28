@@ -681,7 +681,7 @@ function TimeBasedRecommendor() {
 	    */
 	    message("best candidate name = " + bestName.getName());
 	    message(" expected rating = " + bestScore + "\r\n");
-	    alert("done making recommendation\r\n");
+	    alert("done making recommendation. Best song name = " + bestName.getName());
 	    return bestName;
     }
     // compute the distribution that is formed by combining the given distributions
@@ -852,14 +852,14 @@ function TimeBasedRecommendor() {
         //message(candidate1.getName().getName());
     }
 
-    function message(text) {
+    /*function message(text) {
         // append the text to the end of the output file
         FileIO.writeFile("output.txt", text, 1);
     
         // don't bother showing a blank message
         //if (text != "\r\n")
         //    alert(text);
-    }
+    }*/
 // recommend function
     function recommend() {
         var songName = "Come on Eileen";

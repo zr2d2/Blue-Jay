@@ -22,7 +22,7 @@ FileIO = {
 
         var file = homeDirFile;
         file.append(fileName);
-        //alert("FileIO reading file" + file.path);
+        alert("FileIO reading file" + file.path);
         //alert("making input stream");
 		
         // open an input stream from the file
@@ -128,7 +128,7 @@ FileIO = {
 
 function message(text) {
     // append the text to the end of the output file
-    FileIO.writeFile("output.txt", text, 1);
+    //FileIO.writeFile("output.txt", text, 1);
 
     // don't bother showing a blank message
     //if (text != "\r\n")
