@@ -162,7 +162,7 @@ Bluejay.PaneController = {
 		    var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
 		    alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
 		    // decide whether it was skipped based on the duration
-		    if (playedDuration >= this.currentSongDuration) {
+		    if (playedDuration >= this.currentSongDuration - 8) {
 		        // if we get here then it was not skipped
 		        alert("song named " + this.currentSongName + " finished");
 		        var newParticipation = new Participation();
