@@ -29,6 +29,7 @@ Bluejay.PaneController = {
 
     this._initialized = true;
     this.currentSongName = null;
+    this.currentSongDuration = null;
     this.songStartDate = null;
     this.songEndDate = null;
 
@@ -159,19 +160,32 @@ Bluejay.PaneController = {
 		    // if we get here then we were previously playing a song
 		    // compute the duration it actually played
 		    var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
+		    alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
 		    // decide whether it was skipped based on the duration
-		    if (playedDuration >= songLength - 5) {
+		    if (playedDuration >= this.currentSongDuration) {
 		        // if we get here then it was not skipped
-		        alert("song named " + songName + " finished");
+		        alert("song named " + this.currentSongName + " finished");
+		        var newParticipation = new Participation();
+		        newParticipation.setStartTime(this.songStartDate);
+		        newParticipation.setEndTime(this.songEndDate);
+		        newParticipation.setIntensity(1);
+		        newParticipation.setActivityName(new Name(this.currentSongName));
+		        this.engine.addParticipation(newParticipation);
 		    } else {
-		        alert("song named " + songName + " got skipped");
+		        alert("song named " + this.currentSongName + " got skipped");
+		        var newRating = new Rating();
+		        newRating.setActivity(new Name(this.currentSongName));
+		        newRating.setDate(this.songEndDate);
+		        newRating.setScore(0);
+		        this.engine.addRating(newRating);
 		    }
-		    alert("played duration = " + playedDuration + " song length = " + songLength);
+		    alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
 		}
 	    //alert("song changed pt3");
 	    // update the current song
 	    this.currentSongName = songName;
 	    this.songStartDate = this.songEndDate;
+	    this.currentSongDuration = songLength;
 		//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
 		//alert("writing participation to file");
 	    //alert("song changed pt4");
