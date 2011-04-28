@@ -19,15 +19,18 @@ Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 
 //////////////////////////////////////////////////////////
 var list = LibraryUtils.mainLibrary;
-
-mystring = "";
+var mystring = "";
 for (i = 0; i<list.length; i++){
-	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' + + list.getItemByIndex(i).getProperty(SBProperties.artistName)+ '_' + list.getItemByIndex(i).getProperty(SBProperties.genre) +'\r\n';
+	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' + list.getItemByIndex(i).getProperty(SBProperties.artistName)+ '_' + list.getItemByIndex(i).getProperty(SBProperties.genre) +'\r\n';
 }
 
 alert(mystring);
 
 message("this is Tian's test data");
+
+alert(" hello");
+
+
 /////////////////////////////////////////////////////////////
 
 //var paneChooseSong = Bluejay.Controller.doHelloWorld();
