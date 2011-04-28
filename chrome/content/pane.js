@@ -46,12 +46,67 @@ function A()
  */
 Bluejay.PaneController = {
 
-  // this function scans the user's library and send that data to the engine
+  /**
+   * Called when the pane is instantiated
+   */
+  onLoad: function() {
+
+    this._initialized = true;
+    
+    // Make a local variable for this controller so that
+    // it is easy to access from closures.
+	var controller = this;
+	//alert("initializing");
+    //TimeBasedRecommendor.constructor();
+	//this.engine = RecommendorFactory.recommendor();
+	this.engine = new TimeBasedRecommendor();
+	//alert("engine is " + this.engine);
+	//alert("constructed successfully");
+    //var engine = new A();
+
+ 	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
+                    .getService(Components.interfaces.sbIMediacoreManager); 
+	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
+	
+	var myListener = {
+		onMediacoreEvent:function(ev){
+			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
+				var mediaItem = ev.data;
+				alert("Track skipped. New track: \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+				var dura=mediaItem.getProperty(SBProperties.duration)/60000000;
+				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " minutes");
+			}
+			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
+					alert("End of Playlist");
+			}
+		}
+	}
+	gMM.addListener(myListener);
+
+    // Hook up the ScanLibrary button
+	this._scanbutton = document.getElementById("scan-button");
+    this._scanbutton.addEventListener("command", 
+         function() { controller.scanLibrary(); }, false);
+	
+	
+    // Hook up the Mix button
+    this._mixbutton = document.getElementById("action-button");
+    this._mixbutton.addEventListener("command", 
+         function() { controller.test(); }, false);
+	
+			 
+  },
+  /**
+   * Called when the pane is about to close
+   */
+  onUnLoad: function() {
+    this._initialized = false;
+  },
+// this function scans the user's library and send that data to the engine
   scanLibrary : function() {
     var list = LibraryUtils.mainLibrary;
     var mystring = "";
     // iterate over each thing in the library
-    alert("push [ok] to start scanning library");
     for (i = 0; i<list.length; i++){
         var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
         if (!songName.isNull()) {
@@ -90,72 +145,8 @@ Bluejay.PaneController = {
         }
     }    
     flushMessage();
-    alert("done scanning library");
+    alert("Library scan complete.");
   },
-  
-
-
-
-  /**
-   * Called when the pane is instantiated
-   */
-  onLoad: function() {
-
-    this._initialized = true;
-    
-    // Make a local variable for this controller so that
-    // it is easy to access from closures.
-	var controller = this;
-	//alert("initializing");
-    //TimeBasedRecommendor.constructor();
-	//this.engine = RecommendorFactory.recommendor();
-	this.engine = new TimeBasedRecommendor();
-	//alert("engine is " + this.engine);
-	//alert("constructed successfully");
-    //var engine = new A();
-
-    this.scanLibrary();
-
-  	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
-                    .getService(Components.interfaces.sbIMediacoreManager); 
-	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
-	
-	var myListener = {
-		onMediacoreEvent:function(ev){
-			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
-				var mediaItem = ev.data;
-				alert("Track skipped. New track: \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-				var dura=mediaItem.getProperty(SBProperties.duration)/60000000;
-				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " minutes");
-			}
-			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
-					alert("End of Playlist");
-			}
-		}
-	}
-	gMM.addListener(myListener);
-
-    
-    // Hook up the action button
-    this._mixbutton = document.getElementById("action-button");
-    this._mixbutton.addEventListener("command", 
-         function() { controller.test(); }, false);
-	
-			 
-  },
-  /**
-   * Called when the pane is about to close
-   */
-  onUnLoad: function() {
-    this._initialized = false;
-  },
-  
-  //Give me a siiiiiiign
-  sayHello: function() {
-    var greeting = "Hi there!";
-	alert(greeting);
-	//Bluejay.Controller.doHelloWorld();
-	},
   
   readFiles : function() {
     alert("pane reading files");
