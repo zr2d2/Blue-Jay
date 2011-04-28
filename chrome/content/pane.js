@@ -69,7 +69,6 @@ Bluejay.PaneController = {
 	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
 	
 	var myListener = {
-	if(gMM.status.state==sbIMediacoreStatus.STATUS_PLAYING){
 		onMediacoreEvent:function(ev){
 			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
 				var mediaItem = ev.data;
@@ -81,7 +80,6 @@ Bluejay.PaneController = {
 					alert("End of Playlist");
 			}
 		}
-	}
 	}
 	gMM.addListener(myListener);
 
