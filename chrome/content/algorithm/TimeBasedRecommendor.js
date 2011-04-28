@@ -496,6 +496,8 @@ function TimeBasedRecommendor() {
     }
     // writes the participation out to a file
     function writeParticipation(participation) {
+        var stringValue = participation.stringVersion();
+        FileIO.writeFile(ratingsFilename, stringValue, 0);    
         
     }
     

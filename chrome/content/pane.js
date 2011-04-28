@@ -27,6 +27,9 @@ Bluejay.PaneController = {
   scanLibrary : function() {
     var list = LibraryUtils.mainLibrary;
     var mystring = "";
+    var currentSongName = null;
+    var songStartDate = null;
+    var songEndDate = null;
     // iterate over each thing in the library
     alert("push [ok] to start scanning library");
     var length = list.length;
@@ -75,7 +78,40 @@ Bluejay.PaneController = {
   },
   
 
-
+  songChanged: function(ev) {
+	    alert("song changed");
+	    // get the data for the new track
+		var mediaItem = ev.data;
+		var songName = mediaItem.getProperty(SBProperties.trackName)
+		//alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+		var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
+		// get the current date
+	    songEndDate = new DateTime();
+	    songEndDate.setNow();
+	    alert("song changed pt2");
+		// check if we were previously playing a song
+		if (currentSongName) {
+	        alert("song changed pt2a");
+		    // if we get here then we were previously playing a song
+		    // compute the duration it actually played
+		    var playedDuration = songStartDate.timeUntil(songEndDate);
+		    // decide whether it was skipped based on the duration
+		    if (playedDuration >= songLength - 5) {
+		        // if we get here then it was not skipped
+		        alert("song named " + songName + " finished");
+		    } else {
+		        alert("song named " + songName + " got skipped");
+		    }
+		    alert("played duration = " + playedDuration + " song length = " + songLength);
+		}
+	    alert("song changed pt3");
+	    // update the current song
+	    currentSongName = songName;
+	    songStartDate = songEndDate;
+		//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
+		//alert("writing participation to file");
+	    alert("song changed pt4");
+  },
 
 
   /**
@@ -100,15 +136,11 @@ Bluejay.PaneController = {
 	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
 	
 	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
-	/*var myListener = {
+	var myListener = {
 		onMediacoreEvent:function(ev){
 			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
-				var mediaItem = ev.data;
-				alert("Track skipped. New track: \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-				var dura=mediaItem.getProperty(SBProperties.duration)/60000000;
-				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " minutes");
-				alert("writing participation to file");
-				var newParticipation = new Participation();
+			    alert("the song has changed");
+			    songChanged(ev);
 			}
 			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
 					alert("End of Playlist");
@@ -116,7 +148,7 @@ Bluejay.PaneController = {
 		}
 	}
 	gMM.addListener(myListener);
-*/
+
 	
     // Hook up the ScanLibrary button
 	this._scanbutton = document.getElementById("scan-button");
