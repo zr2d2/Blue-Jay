@@ -33,8 +33,6 @@ alert(mystring);
 //message("this is Tian's test data");
 /////////////////////////////////////////////////////////////
 
-//var paneChooseSong = Bluejay.Controller.doHelloWorld();
-
 // test class
 function A()
 {
@@ -126,9 +124,9 @@ Bluejay.PaneController = {
 		onMediacoreEvent:function(ev){
 			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
 				var mediaItem = ev.data;
-				alert("Track changed to \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-				var dura=mediaItem.getProperty(SBProperties.duration);
-				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " nanoseconds");
+				alert("Track skipped. New track: \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+				var dura=mediaItem.getProperty(SBProperties.duration)/60000000;
+				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " minutes");
 			}
 			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
 					alert("End of Playlist");

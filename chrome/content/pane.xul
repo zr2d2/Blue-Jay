@@ -28,6 +28,8 @@
  
  <hbox id="pane-header-box" align="center">
     <description id="pane-header-label" value="&bluejay.pane.label;" />
+	<spacer flex="1"/>
+	<button id="scan-button" label="Scan Library"/>
   </hbox>
 
 <box>
