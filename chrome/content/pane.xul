@@ -80,11 +80,11 @@
 			<spacer flex="8" />
 			<menulist sizetopopup="always">
 				<menupopup id="ratemenu">
-					<menuitem label="&#9733;&#9733;&#9733;&#9733;&#9733;" value="5"/>
-					<menuitem label="&#9733;&#9733;&#9733;&#9733;" value="4"/>
-					<menuitem label="&#9733;&#9733;&#9733;" value="3"/>
-					<menuitem label="&#9733;&#9733;" value="2"/>
-					<menuitem label="&#9733;" value="1"/>
+					<menuitem id="5star" label="&#9733;&#9733;&#9733;&#9733;&#9733;" value="5"/>
+					<menuitem id="4star" label="&#9733;&#9733;&#9733;&#9733;" value="4"/>
+					<menuitem id="3star" label="&#9733;&#9733;&#9733;" value="3"/>
+					<menuitem id="2star" label="&#9733;&#9733;" value="2"/>
+					<menuitem id="1star" label="&#9733;" value="1"/>
 				</menupopup>
 			</menulist>
 			</hbox>
