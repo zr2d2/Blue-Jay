@@ -67,6 +67,7 @@ function ParticipationMovingAverage() {
 	}
     // find the most recent participation that was started before "when"
 	function getIndexForDate(when, strictlyEarlier) {
+		//message("ParticipationMovingAverage::getIndexForDate\r\n");
 	    if (totalIntensities.length < 1) {
     	    return -1;
     	}
@@ -82,7 +83,7 @@ function ParticipationMovingAverage() {
 	    upperIndex = totalIntensities.length - 1;
 	    // find the most recent participation that was started strictly before "when"
 	    while (upperIndex > lowerIndex + 1) {
-		    Math.floor(middleIndex = (lowerIndex + upperIndex) / 2);
+		    middleIndex = Math.floor((lowerIndex + upperIndex) / 2);
 		    if (strictlyChronologicallyOrdered(totalIntensities[middleIndex].getStartTime(), when)) {
 			    lowerIndex = middleIndex;
 		    } else {
@@ -129,19 +130,23 @@ function ParticipationMovingAverage() {
 	// returns a pair with the distribution of expected values and an index telling which participation mattered the most in its calculation
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier) {
-		//alert("ParticipationMovingAverage::getValueAt\r\n");
+		//message("ParticipationMovingAverage::getValueAt\r\n");
 		// stictlyEarlier is ignored in this function at the moment
 	    // If there are no ratings then we default to 0
-	    if (totalIntensities.length < 1)
+	    if (totalIntensities.length < 1) {
+	        //message("no participations\r\n");
 		    return [new Distribution(0, 0, 0), -1];
+        }
 	    // If the time is before the first one then we default to 0
 	    var firstParticipation = totalIntensities[0];
-	    if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when))
+	    if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when)) {
+	        //message("past last participation\r\n");
 		    return [new Distribution(0, 0, 0), -1];
+        }
 
 	    var mostRecentIndex = this.getIndexForDate(when, true);
 	    var averageIntensity;
-		//alert("in the middle of ParticipationMovingAverage::getValueAt\r\n");
+		//message("in the middle of ParticipationMovingAverage::getValueAt\r\n");
 	    if (mostRecentIndex > 0) {
 		    var previousIndex = mostRecentIndex - 1;
 		    var previousParticipation = totalIntensities[previousIndex];
@@ -157,7 +162,7 @@ function ParticipationMovingAverage() {
 		    averageIntensity = 1 / mostRecentDuration;
 	    }
 	    var result = new Distribution(averageIntensity, 0, 1);
-		//alert("done with ParticipationMovingAverage::getValueAt\r\n");
+		//message("done with ParticipationMovingAverage::getValueAt\r\n");
 	    return [result, mostRecentIndex];
 	}
 	

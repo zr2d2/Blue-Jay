@@ -19,6 +19,8 @@
 	this.getValueAt = getValueAt;
 	this.prototype.getValueAt = getValueAt;
 	this.prototype.subFunction = subFunction;
+	this.prototype.isAParticipationMovingAverage = isAParticipationMovingAverage;
+	this.isAParticipationMovingAverage = isAParticipationMovingAverage;
 
     // these functions are defined in the subclass
     this.addRating = addRating;
@@ -208,6 +210,10 @@
 	
 	function subFunction() {
 	    alert("RatingMovingAverage subfunction. This is good.");
+	}
+	
+	function isAParticipationMovingAverage() {
+	    return false;
 	}
 }
 		

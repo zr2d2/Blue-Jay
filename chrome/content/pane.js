@@ -22,12 +22,12 @@ var list = LibraryUtils.mainLibrary;
 
 mystring = "";
 for (i = 0; i<list.length; i++){
-	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' + + list.getItemByIndex(i).getProperty(SBProperties.artistName)+ '_' + list.getItemByIndex(i).getProperty(SBProperties.genre) +'\r\n';
+	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' + list.getItemByIndex(i).getProperty(SBProperties.artistName)+ '_' + list.getItemByIndex(i).getProperty(SBProperties.genre) +'\r\n';
 }
 
 alert(mystring);
 
-message("this is Tian's test data");
+//message("this is Tian's test data");
 /////////////////////////////////////////////////////////////
 
 //var paneChooseSong = Bluejay.Controller.doHelloWorld();
@@ -77,6 +77,7 @@ Bluejay.PaneController = {
     // Make a local variable for this controller so that
     // it is easy to access from closures.
 
+    var controller = this;
 	//alert("initializing");
     //TimeBasedRecommendor.constructor();
 	//this.engine = RecommendorFactory.recommendor();
@@ -122,7 +123,7 @@ Bluejay.PaneController = {
   
   test : function() {
     this.engine.readFiles();
-    this.engine.makeRecommendation(new DateTime("2011-3-14T00:00:22"));
+    this.engine.makeRecommendation(new DateTime("2011-3-27T22:34:00"));
     //this.engine.
     //this.engine.test();
   },
