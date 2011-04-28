@@ -15,8 +15,20 @@ if (typeof Bluejay == 'undefined') {
 }
 
 Cu.import("resource://app/jsmodules/sbProperties.jsm");
+Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 
+//////////////////////////////////////////////////////////
+var list = LibraryUtils.mainLibrary;
 
+mystring = "";
+for (i = 0; i<list.length; i++){
+	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' + + list.getItemByIndex(i).getProperty(SBProperties.artistName)+ '_' + list.getItemByIndex(i).getProperty(SBProperties.genre) +'\r\n';
+}
+
+alert(mystring);
+
+message("this is Tian's test data");
+/////////////////////////////////////////////////////////////
 
 //var paneChooseSong = Bluejay.Controller.doHelloWorld();
 
@@ -25,24 +37,46 @@ function A()
 {
     this.x = 1;
 };
+
+/*
+  	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
+                    .getService(Components.interfaces.sbIMediacoreManager); 
+	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
+	
+	var myListener = {
+		onMediacoreEvent:function(ev){
+			switch(ev.type){
+				case Ci.sbIMediacoreEvent.TRACK_CHANGE:
+					var mediaItem = ev.data;
+					alert("Track changed to: " + mediaItem.guid);
+					break;
+				case Ci.sbIMediacoreEvent.STREAM_END:
+					alert("Track has ended");
+					break;
+			}
+		}
+	}
+	gMM.addListener(myListener);
+*/
+
+
 //function TimeBasedRecommendor();
 /**
  * Controller for pane.xul
  */
 Bluejay.PaneController = {
-
   /**
    * Called when the pane is instantiated
    */
   onLoad: function() {
-    
+
     this._initialized = true;
 
 	//include('main.js');
     
     // Make a local variable for this controller so that
     // it is easy to access from closures.
-    var controller = this;
+
 	//alert("initializing");
     //TimeBasedRecommendor.constructor();
 	//this.engine = RecommendorFactory.recommendor();
@@ -59,9 +93,9 @@ Bluejay.PaneController = {
 	this._savebutton = document.getElementById("save-button");
     this._savebutton.addEventListener("command", 
          function() { controller.popUpProgress(); }, false);
-		 
+	
+			 
   },
-  
   /**
    * Called when the pane is about to close
    */
