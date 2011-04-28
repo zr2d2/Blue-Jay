@@ -1,15 +1,19 @@
-/** Apply an image to our toolbarbutton.  Use multiple states in a
+/** Apply an image to our button.  Use multiple states in a
     single image and then reposition the viewport in order to avoid
     flickering on state change **/
 #action-button
 {
-  list-style-image: url(chrome://bluejay/skin/bluejay.ico);
-  -moz-image-region: rect(16px 32px 32px 16px);
+  font-weight: bold;
+  font-size: 16px;
+  list-style-image: url(chrome://bluejay/skin/bluejay48.png);
+  -moz-image-region: rect(0px 48px 48px 0px);
 }
 #action-button:hover
 {
+  font-weight: bold;
+  font-size: 16px;
   list-style-image: url(chrome://bluejay/skin/bluejay48.png);
-  -moz-image-region: rect(16px 16px 32px 0px);
+  -moz-image-region: rect(0px 48px 48px 0px);
 }
 #action-button[disabled="true"]
 {
@@ -17,11 +21,10 @@
 }
 #action-button[active="true"]
 {
-  -moz-image-region: rect(16px 32px 32px 16px);
-
-#action-button {
-  background-color: blue;
+  list-style-image: url(chrome://bluejay/skin/bluejay48.png);
+  -moz-image-region: rect(0px 32px 32px 0px);
 }
+
 #pane-header-box {
   min-height: 27px;
   background-image: url("chrome://songbird/skin/playqueue/bg-playqueue-header.png");

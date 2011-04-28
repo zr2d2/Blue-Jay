@@ -92,10 +92,6 @@ Bluejay.PaneController = {
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
          function() { controller.test(); }, false);
-		 
-	this._savebutton = document.getElementById("save-button");
-    this._savebutton.addEventListener("command", 
-         function() { controller.popUpProgress(); }, false);
 	
 			 
   },
