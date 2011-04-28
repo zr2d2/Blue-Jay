@@ -55,7 +55,20 @@ function DateTime(yyyymmddhhmmss) {
 
     // returns a printable string that represents this date
     function stringVersion() {
-        return value.toString();
+        var result = "";
+        result += value.getFullYear();
+        result += "-";
+        result += value.getUTCMonth();
+        result += "-";
+        result += value.getUTCDate();
+        result += "T";
+        result += value.getUTCHours();
+        result += ":";
+        result += value.getUTCMinutes();
+        result += ":";
+        result += value.getUTCSeconds();
+        return result;
+        //return value.toString();
     }
 
     function getDurationSinceReference() {

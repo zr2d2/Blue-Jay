@@ -52,6 +52,7 @@ function TimeBasedRecommendor() {
     this.addSomeTestLinks = addSomeTestLinks;
     this.updatePredictions = updatePredictions;
     this.createFiles = createFiles;
+    this.writeParticipation = writeParticipation;
 	
     // search functions
     this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
@@ -74,21 +75,19 @@ function TimeBasedRecommendor() {
     this.test = test;
 
     function update() {
+        //alert("recommendor updating child pointers");
         this.updateChildPointers();
+        //alert("recommendor adding test links");
 		this.addSomeTestLinks();
+        //alert("recommendor updating predictiongs");
 		this.updatePredictions();
     }
     // function definitions
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
-        //alert("recommendor reading files");
-        //this.readFile("bluejay_inheritances.txt");
-        //this.readFile("bluejay_ratings.txt");
-        this.readFile(inheritancesFilename);
+        alert("recommendor reading files");
+        //this.readFile(inheritancesFilename);
         this.readFile(ratingsFilename);
-		//this.updateChildPointers();
-		//this.addSomeTestLinks();
-		//this.updatePredictions();
 		this.update();
 		message("recommendor done reading files\r\n");
 		alert("recommendor done reading files");
@@ -438,8 +437,12 @@ function TimeBasedRecommendor() {
 	    // to make the algorithm run quickly, we currently only predict a song based on itself and supercategories
 	    var parents;
 	    var i;
+	    var currentParent;
 	    for ([name1, candidate1] in iterator1) {
-	        parents = this.findAllSuperCategoriesOf(candidate1);
+	        // for speed, only compare against oneself and ones immediate parents
+            this.linkCandidates(candidate1, candidate1);
+	        parents = candidate1.getParents();
+	        //parents = this.findAllSuperCategoriesOf(candidate1);
 	        for (i = 0; i < parents.length; i++) {
 	            this.linkCandidates(candidate1, parents[i]);
 	        }
@@ -489,7 +492,11 @@ function TimeBasedRecommendor() {
     }
     function createFiles() {
         FileIO.writeFile(ratingsFilename, "", 0);    
-        FileIO.writeFile(inheritancesFilename, "", 0);    
+        //FileIO.writeFile(inheritancesFilename, "", 0);    
+    }
+    // writes the participation out to a file
+    function writeParticipation(participation) {
+        
     }
     
 ////////////////////////////////// search functions /////////////////////////////////////

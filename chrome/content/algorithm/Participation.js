@@ -24,6 +24,7 @@ function Participation() {
 	this.getActivityName = getActivityName;
 	this.setIntensity = setIntensity;
 	this.getIntensity = getIntensity;
+	this.stringVersion = stringVersion;
 	
 	//private variables 
 	var value = 1;
@@ -71,6 +72,15 @@ function Participation() {
 	// returns intensity
 	function getIntensity() {
 		return value;
+	}
+	
+	function stringVersion() {
+	    var result = "<Participation>";
+	    result += "<Activity>" + this.getActivityName().getName() + "</Activity>";
+	    result += "<StartDate>" + startTime.stringVersion() + "</StartDate>";
+	    result += "<EndDate>" + endTime.stringVersion() + "</EndDate>";
+	    result += "</Participation>";
+	    return result;
 	}
 	
 	

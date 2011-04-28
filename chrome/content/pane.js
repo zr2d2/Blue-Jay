@@ -33,12 +33,6 @@ alert(mystring);
 //message("this is Tian's test data");
 /////////////////////////////////////////////////////////////
 
-// test class
-function A()
-{
-    this.x = 1;
-	alert(x);
-};
 
 //function TimeBasedRecommendor();
 /**
@@ -54,8 +48,8 @@ Bluejay.PaneController = {
     alert("push [ok] to start scanning library");
     var length = list.length;
     // limit the number of songs (for testing)
-    if (length > 50)
-        length = 50;
+    if (length > 10)
+        length = 10;
     for (i = 0; i < length; i++){
         var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
         if (!songName.isNull()) {
@@ -100,6 +94,7 @@ Bluejay.PaneController = {
 
 
 
+
   /**
    * Called when the pane is instantiated
    */
@@ -118,9 +113,7 @@ Bluejay.PaneController = {
 	//alert("constructed successfully");
     //var engine = new A();
 
-    this.scanLibrary();
-
-  	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
+ 	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
                     .getService(Components.interfaces.sbIMediacoreManager); 
 	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
 	
@@ -131,6 +124,8 @@ Bluejay.PaneController = {
 				alert("Track skipped. New track: \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
 				var dura=mediaItem.getProperty(SBProperties.duration)/60000000;
 				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " minutes");
+				alert("writing participation to file");
+				var newParticipation = new Participation();
 			}
 			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
 					alert("End of Playlist");
@@ -139,8 +134,13 @@ Bluejay.PaneController = {
 	}
 	gMM.addListener(myListener);
 
-    
-    // Hook up the action button
+    // Hook up the ScanLibrary button
+	this._scanbutton = document.getElementById("scan-button");
+    this._scanbutton.addEventListener("command", 
+         function() { controller.scanLibrary(); }, false);
+	
+	
+    // Hook up the Mix button
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
          function() { controller.test(); }, false);
@@ -154,13 +154,6 @@ Bluejay.PaneController = {
     this._initialized = false;
   },
   
-  //Give me a siiiiiiign
-  sayHello: function() {
-    var greeting = "Hi there!";
-	alert(greeting);
-	//Bluejay.Controller.doHelloWorld();
-	},
-  
   readFiles : function() {
     alert("pane reading files");
     //TimeBasedRecommendor.constructor();
@@ -173,13 +166,25 @@ Bluejay.PaneController = {
   },
   
   test : function() {
+    //var newDate = new DateTime();
+    //newDate.setNow();
+    //alert(newDate.stringVersion());
     this.engine.readFiles();
-    //this.engine.makeRecommendation(new DateTime("2011-4-27T22:34:00"));
     this.engine.makeRecommendation();
-    //this.engine.
-    //this.engine.test();
   },
   
+  changeSong: function(trackName) {
+        var songName = trackName.getName();
+        alert("selecting song named " + songName);
+        const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
+        //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
+        properties.appendProperty(SBProperties.trackName, songName);
+        var tracks = LibraryUtils.mainLibrary.getItemsByProperties(properties);
+        //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
+        var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
+        gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
+        alert("done selecting song");
+    },
   /**
    * Load the Display Pane documentation in the main browser pane
    */

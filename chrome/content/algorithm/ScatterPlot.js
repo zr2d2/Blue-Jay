@@ -50,6 +50,7 @@
 	// Find the N closest points to x, where N is the 
 	// square root of the number of points in the plot
 	function predict(x){
+		//return new Distribution(0, 0, 0);
 	
 	    //message("ScatterPlot::predict(" + x + ")");
 	    // Make sure there are enough datapoints for a prediction
@@ -62,14 +63,32 @@
 	    }*/
 	    
 	    // find the location where x belongs
+	    var lowerIndex = 0.0;
+	    var upperIndex = datapoints.length - 1;
+	    var middleIndex;
+	    while (upperIndex > lowerIndex + 1) {
+	        middleIndex = Math.floor((lowerIndex + upperIndex) / 2.0);
+	        if (datapoints[middleIndex].getX() >= x) {
+	            upperIndex = middleIndex;
+	        } else {
+	            lowerIndex = middleIndex;
+	        }
+	    }
+	    if (datapoints[lowerIndex].getX() >= x) {
+	        middleIndex = lowerIndex;
+	    } else {
+	        middleIndex = upperIndex;
+	    }
+	    /*
 	    for (i = 0; i < datapoints.length - 1; i++) {
 		    if (datapoints[i].getX() >= x)
 			    break;
 	    }
+	    */
 	    // now search for a bunch more nearby points
-	    var middleIndex = i;
-	    var lowerIndex = middleIndex;
-	    var upperIndex = middleIndex;
+	    //var middleIndex = i;
+	    lowerIndex = middleIndex;
+	    upperIndex = middleIndex;
 	    var targetLength = Math.ceil(Math.sqrt(datapoints.length)) - 1;
 	    while ((upperIndex - lowerIndex) < targetLength) {
 		    if (lowerIndex > 0) {
