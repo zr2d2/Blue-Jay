@@ -19,9 +19,23 @@
 	var latestUpdateTime = new DateTime();
 	var numChanges = 0.0;
 	
-	
+	//message("making prediction link part 1\r\n");
+	// check whether this link is predicting something from its own past history
+	if (inputData.getOwnerName().equalTo(outputData.getOwnerName())) {
+	    //message("making prediction link part 2\r\n");
+		// check whether this link is using the participation history
+		if (inputData.isAParticipationMovingAverage()) {
+    	    //message("making prediction link part 3\r\n");
+			// If we get here then we're predicting the score of a Candidate based on its past frequency
+			// Usually, if something has happened a lot recently then it will be boring in the future
+			this.initializeDecreasing();
+		}
+	}
+
+
 	//public function
 	function initializeDecreasing(){
+	    //message("making prediction link part 4\r\n");
 	
 		var intensity = 1;
 		var numPoints = 40;
@@ -34,7 +48,7 @@
 			duration = i*1500.0;
 			intensity = 1.0/duration;
 			score = Math.sqrt(duration) / 250.0;
-			plot.addDataPoint(Datapoint(intensity, score, 1));
+			plot.addDataPoint(new Datapoint(intensity, score, 1));
 		}
 		numChanges = numChanges + numPoints;
 	}

@@ -64,14 +64,13 @@ function MovingAverage() {
     function getCorrelationsFor(other, startTime) {
         var i;
         var otherRatings = other.getRatings();
-        //alert("MovingAverage::getCorrelationsFor pt1");
-		
+
         // find the starting index. This can be optimized with a binary search!
         for (i = otherRatings.length - 1; i >= 0; i--) {
             if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
 			    break;
         }
-        //alert("MovingAverage::getCorrelationsFor pt2");
+        //message("MovingAverage::getCorrelationsFor pt2");
         var startingIndex = i + 1;
         var results = [];
         var x, y, weight;
@@ -83,19 +82,19 @@ function MovingAverage() {
 		
 	    // This should be improved eventually.
 	    // We should give the deviation of each point to the scatterplot in some meaningful way
-        //alert("MovingAverage::getCorrelationsFor pt3");
+        //message("MovingAverage::getCorrelationsFor pt3");
         for (i = startingIndex; i < otherRatings.length; i++) {
             var value = this.getValueAt(otherRatings[i].getDate(), true);
             x = value[0].getMean();
             y = otherRatings[i].getScore();
-            //alert("MovingAverage::getCorrelationsFor pt4");
+            //message("MovingAverage::getCorrelationsFor pt4");
             if (value[1] != previousIndex) {
                 previousIndex = value[1];
                 numChanges++;
             }
             results.push(new Datapoint(x, y, weight));
         }
-        //alert("MovingAverage::getCorrelationsFor pt5");
+        //message("MovingAverage::getCorrelationsFor pt5");
         return [results, numChanges];
     }
     function setName(newName) {

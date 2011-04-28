@@ -170,7 +170,7 @@ function TimeBasedRecommendor() {
 					    if (endTag.equalTo(nameIndicator))
 						    candidate.setName(value);
 					    if (endTag.equalTo(parentIndicator))
-						    candidate.addParentName(value);
+						    candidate.addParentName(value.makeCopy());
 					    if (endTag.equalTo(discoveryDateIndicator))
 						    candidate.setDiscoveryDate(new DateTime(value.getName()));
 
@@ -476,10 +476,10 @@ function TimeBasedRecommendor() {
             currentCandidate = vectorToUpdate[i];
             parents = currentCandidate.getParents();
             for (j = 0; j < parents.length; j++) {
-                currentParent = parents[i];
+                currentParent = parents[j];
                 // check whether this candidate is already in the set
                 if (!setToUpdate[currentParent.getName().getName()]) {
-                    //message("adding parent named" + currentParent.getName().getName());
+                    message("adding parent named " + currentParent.getName().getName() + "\r\n");
                     // if we get here then we found another candidate to add
                     setToUpdate[currentParent.getName().getName()] = currentParent;
                     vectorToUpdate.push(currentParent);

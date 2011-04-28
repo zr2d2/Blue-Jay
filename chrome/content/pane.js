@@ -31,9 +31,6 @@ for (i = 0; i<list.length; i++){
 alert(mystring);
 
 //message("this is Tian's test data");
-
-
-
 /////////////////////////////////////////////////////////////
 
 //var paneChooseSong = Bluejay.Controller.doHelloWorld();
@@ -128,7 +125,7 @@ Bluejay.PaneController = {
   
   test : function() {
     this.engine.readFiles();
-    this.engine.makeRecommendation(new DateTime("2011-3-14T00:00:22"));
+    this.engine.makeRecommendation(new DateTime("2011-3-27T22:34:00"));
     //this.engine.
     //this.engine.test();
   },
