@@ -101,12 +101,12 @@ Bluejay.PaneController = {
     // limit the number of songs (for testing)
     if (length > 10)
         length = 10;
+    var music = new Name("Song");
     for (i = 0; i < length; i++){
         var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
         if (!songName.isNull()) {
             var artistName = new Name(list.getItemByIndex(i).getProperty(SBProperties.artistName));
             var genre = new Name(list.getItemByIndex(i).getProperty(SBProperties.genre));
-            var music = new Name("Song");
             var songCandidate = new Candidate();
             songCandidate.setName(songName);
             // check for all kinds of invalid types
@@ -137,6 +137,9 @@ Bluejay.PaneController = {
             // give the song to the engine
             this.engine.addCandidate(songCandidate);
         }
+        var musicCategory = new Candidate();
+        musicCategory.setName(music);
+        this.engine.addCandidate(musicCategory);        
     }    
     flushMessage();
     alert("done scanning library");
@@ -214,8 +217,11 @@ Bluejay.PaneController = {
     //var newDate = new DateTime();
     //newDate.setNow();
     //alert(newDate.stringVersion());
-    this.engine.readFiles();
-    this.engine.makeRecommendation();
+    //this.engine.readFiles();
+    this.engine.update();
+    //this.engine.makeRecommendation();
+    var trackName = this.engine.makeRecommendation();
+    changeSong(trackName);    
   },
   
   changeSong: function(trackName) {

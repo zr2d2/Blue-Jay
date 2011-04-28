@@ -75,11 +75,11 @@ function TimeBasedRecommendor() {
     this.test = test;
 
     function update() {
-        //alert("recommendor updating child pointers");
+        alert("recommendor updating child pointers");
         this.updateChildPointers();
-        //alert("recommendor adding test links");
+        alert("recommendor adding test links");
 		this.addSomeTestLinks();
-        //alert("recommendor updating predictiongs");
+        alert("recommendor updating predictiongs");
 		this.updatePredictions();
     }
     // function definitions
@@ -388,28 +388,28 @@ function TimeBasedRecommendor() {
 	    var parent;
 	    var i;
 	    for (candidateName in candidateIterator) {
-	        //message("candidateName = " + candidateName);
+	        message("candidateName = " + candidateName);
 		    currentCandidate = candidates[candidateName];
-		    //message("current candidate = ");
+		    message("current candidate = ");
 		    //message(currentCandidate);
-		    //message("current candidate is named" + currentCandidate.getName().getName());
+		    message("current candidate is named" + currentCandidate.getName().getName());
 		    //message("checking if update is needed\r\n");
 		    if (currentCandidate.needToUpdateParentPointers()) {
-    		    //message("update is required\r\n");
+    		    message("update is required\r\n");
 			    // if we get here then this candidate was added recently and its parents need their child pointers updated
 			    var parentNames = currentCandidate.getParentNames();
 			    for (i = 0; parentNames[i]; i++) {
-		            //message("parent name = " + parentNames[i].getName() + "\r\n");
+		            message("parent name = " + parentNames[i].getName() + "\r\n");
 				    parent = getCandidateWithName(parentNames[i]);
-				    //message("parent is named " + parent.getName().getName() + "\r\n");
-				    //message("adding parent\r\n");
+				    message("parent is named " + parent.getName().getName() + "\r\n");
+				    message("adding parent\r\n");
 				    currentCandidate.addParent(parent);
-				    //message("adding child\r\n");
+				    message("adding child\r\n");
 				    parent.addChild(currentCandidate);
-				    //message("done adding child\r\n");
+				    message("done adding child\r\n");
 			    }
 		    } else {
-		        //message("update was not required\r\n");
+		        message("update was not required\r\n");
 		    }
 	    }
     }
