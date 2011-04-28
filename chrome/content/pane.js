@@ -71,7 +71,7 @@ Bluejay.PaneController = {
     // Hook up the Mix button
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
-        function() { controller.test(); }, false);
+        function() { controller.makePlaylist(); }, false);
 	
 	// Hook up the ratings menu (five entries)
 	this._1star = document.getElementById("1star");
@@ -225,7 +225,7 @@ Bluejay.PaneController = {
     //this.engine.makeRecommendation();
   },
   
-  test : function() {
+  makePlaylist : function() {
     //var newDate = new DateTime();
     //newDate.setNow();
     //alert(newDate.stringVersion());
