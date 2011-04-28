@@ -33,8 +33,6 @@ alert(mystring);
 //message("this is Tian's test data");
 /////////////////////////////////////////////////////////////
 
-//var paneChooseSong = Bluejay.Controller.doHelloWorld();
-
 // test class
 function A()
 {
@@ -71,17 +69,19 @@ Bluejay.PaneController = {
 	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
 	
 	var myListener = {
+	if(gMM.status.state==sbIMediacoreStatus.STATUS_PLAYING){
 		onMediacoreEvent:function(ev){
 			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
 				var mediaItem = ev.data;
-				alert("Track changed to \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-				var dura=mediaItem.getProperty(SBProperties.duration);
-				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " nanoseconds");
+				alert("Track skipped. New track: \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+				var dura=mediaItem.getProperty(SBProperties.duration)/60000000;
+				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + dura + " minutes");
 			}
 			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
 					alert("End of Playlist");
 			}
 		}
+	}
 	}
 	gMM.addListener(myListener);
 
@@ -111,7 +111,7 @@ Bluejay.PaneController = {
     alert("pane reading files");
     //TimeBasedRecommendor.constructor();
     // for testing, write to the file first
-    //FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test", 0);
+    FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test", 0);
     // now read the file
     this.engine.readFiles();
     //this.engine.makeRecommendation();
