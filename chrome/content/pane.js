@@ -75,6 +75,7 @@ Bluejay.PaneController = {
 			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
 				var mediaItem = ev.data;
 				alert("Track changed to \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+				alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times");
 			}
 			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
 					alert("End of Playlist");
