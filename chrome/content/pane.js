@@ -68,7 +68,8 @@ Bluejay.PaneController = {
                     .getService(Components.interfaces.sbIMediacoreManager); 
 	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
 	
-	var myListener = {
+	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
+	/*var myListener = {
 		onMediacoreEvent:function(ev){
 			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
 				var mediaItem = ev.data;
@@ -82,7 +83,8 @@ Bluejay.PaneController = {
 		}
 	}
 	gMM.addListener(myListener);
-
+*/
+	
     // Hook up the ScanLibrary button
 	this._scanbutton = document.getElementById("scan-button");
     this._scanbutton.addEventListener("command", 
