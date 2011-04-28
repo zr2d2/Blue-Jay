@@ -17,29 +17,6 @@ if (typeof Bluejay == 'undefined') {
 Cu.import("resource://app/jsmodules/sbProperties.jsm");
 Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 
-//////////////////////////////////////////////////////////
-/*var list = LibraryUtils.mainLibrary;
-var mystring = "";
-for (i = 0; i<list.length; i++){
-	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' 
-	+ list.getItemByIndex(i).getProperty(SBProperties.artistName) + '_' 
-	+ list.getItemByIndex(i).getProperty(SBProperties.genre) + '_'
-	+ list.getItemByIndex(i).getProperty(SBProperties.rating)
-	+'\r\n';
-}
-
-alert(mystring);
-*/
-//message("this is Tian's test data");
-/////////////////////////////////////////////////////////////
-
-// test class
-function A()
-{
-    this.x = 1;
-	alert(x);
-};
-
 //function TimeBasedRecommendor();
 /**
  * Controller for pane.xul
@@ -62,7 +39,6 @@ Bluejay.PaneController = {
 	this.engine = new TimeBasedRecommendor();
 	//alert("engine is " + this.engine);
 	//alert("constructed successfully");
-    //var engine = new A();
 
  	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
                     .getService(Components.interfaces.sbIMediacoreManager); 
@@ -99,19 +75,19 @@ Bluejay.PaneController = {
 	// Hook up the ratings menu (five entries)
 	this._1star = document.getElementById("1star");
 	this._1star.addEventListener("command",
-		function() { this.engine.addRating(0.0) }, false);
+		function() { this.engine.addRating(0.0); }, false);
 	this._2star = document.getElementById("2star");
 	this._2star.addEventListener("command",
-		function() { this.engine.addRating(0.25) }, false);
+		function() { this.engine.addRating(0.25); }, false);
 	this._3star = document.getElementById("3star");
 	this._3star.addEventListener("command",
-		function() { this.engine.addRating(0.5) }, false);
+		function() { this.engine.addRating(0.5); }, false);
 	this._4star = document.getElementById("4star");
 	this._4star.addEventListener("command",
-		function() { this.engine.addRating(0.75) }, false);
+		function() { this.engine.addRating(0.75); }, false);
 	this._5star = document.getElementById("5star");
 	this._5star.addEventListener("command",
-		function() { this.engine.addRating(1.0) }, false);
+		function() { this.engine.addRating(1.0); }, false);
 			 
   },
   /**
