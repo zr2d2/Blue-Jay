@@ -76,21 +76,33 @@ Bluejay.PaneController = {
 	// Hook up the ratings menu (five entries)
 	this._1star = document.getElementById("1star");
 	this._1star.addEventListener("command",
-		function() { this.engine.addRating(0.0); }, false);
+		function() { controller.giveRating(0.0); }, false);
 	this._2star = document.getElementById("2star");
 	this._2star.addEventListener("command",
-		function() { this.engine.addRating(0.25); }, false);
+		function() { controller.giveRating(0.25); }, false);
 	this._3star = document.getElementById("3star");
 	this._3star.addEventListener("command",
-		function() { this.engine.addRating(0.5); }, false);
+		function() { controller.giveRating(0.5); }, false);
 	this._4star = document.getElementById("4star");
 	this._4star.addEventListener("command",
-		function() { this.engine.addRating(0.75); }, false);
+		function() { controller.giveRating(0.75); }, false);
 	this._5star = document.getElementById("5star");
 	this._5star.addEventListener("command",
-		function() { this.engine.addRating(1.0); }, false);
+		function() { controller.giveRating(1.0); }, false);
 			 
   },
+	giveRating : function(score) {
+    	if (this.currentSongName) {
+	        var newRating = new Rating();
+            newRating.setActivity(new Name(this.currentSongName));
+            var newDate = new DateTime();
+            newDate.setNow();
+            newRating.setDate(newDate);
+            newRating.setScore(score);
+            alert("adding rating");
+            this.engine.addRating(newRating);	
+        }
+    }, 
   // this function scans the user's library and send that data to the engine
   scanLibrary : function() {
     var list = LibraryUtils.mainLibrary;
