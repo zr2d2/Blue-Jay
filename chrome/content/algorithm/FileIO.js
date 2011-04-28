@@ -12,6 +12,7 @@
  * Description: This is a class that handles read and write a file
  */
  
+messageToWrite = "";
 FileIO = {
 
     /* Public Methods */
@@ -127,6 +128,7 @@ FileIO = {
 };
 
 function message(text) {
+    messageToWrite += text;
     // append the text to the end of the output file
     //FileIO.writeFile("output.txt", text, 1);
 
@@ -134,3 +136,9 @@ function message(text) {
     //if (text != "\r\n")
     //    alert(text);
 };
+
+function flushMessage() {
+    // append the text to the end of the output file
+    FileIO.writeFile("output.txt", messageToWrite, 1);
+    messageToWrite = "";
+}

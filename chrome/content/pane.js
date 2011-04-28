@@ -47,6 +47,57 @@ function A()
  * Controller for pane.xul
  */
 Bluejay.PaneController = {
+
+  // this function scans the user's library and send that data to the engine
+  scanLibrary : function() {
+    var list = LibraryUtils.mainLibrary;
+    var mystring = "";
+    // iterate over each thing in the library
+    alert("push [ok] to start scanning library");
+    for (i = 0; i<list.length; i++){
+        var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
+        if (!songName.isNull()) {
+            var artistName = new Name(list.getItemByIndex(i).getProperty(SBProperties.artistName));
+            var genre = new Name(list.getItemByIndex(i).getProperty(SBProperties.genre));
+            var music = new Name("Song");
+            var songCandidate = new Candidate();
+            songCandidate.setName(songName);
+            // check for all kinds of invalid types
+            if (!artistName.isNull()) {
+                // create a Candidate representing the artist
+                var artistCandidate = new Candidate();
+                artistCandidate.setName(artistName);
+                artistCandidate.addParentName(music);
+                // give this candidate to the engine
+                this.engine.addCandidate(artistCandidate);
+                // add the artist as a parent of the song
+                songCandidate.addParentName(artistName);
+            }
+            if (!genre.isNull()) {
+                // create a Candidate representing the artist
+                var genreCandidate = new Candidate();
+                genreCandidate.setName(genre);
+                genreCandidate.addParentName(music);
+                // give this candidate to the engine
+                this.engine.addCandidate(genreCandidate);
+                // add the artist as a parent of the song
+                songCandidate.addParentName(genre);
+            }
+            // if the artist name and genre name are unknown, then the song is a direct child of the category "Song"
+            if (artistName.isNull() && genre.isNull()) {
+                songCandidate.addParentName(music);
+            }
+            // give the song to the engine
+            this.engine.addCandidate(songCandidate);
+        }
+    }    
+    flushMessage();
+    alert("done scanning library");
+  },
+  
+
+
+
   /**
    * Called when the pane is instantiated
    */
@@ -65,6 +116,7 @@ Bluejay.PaneController = {
 	//alert("constructed successfully");
     //var engine = new A();
 
+    this.scanLibrary();
 
   	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
                     .getService(Components.interfaces.sbIMediacoreManager); 
@@ -112,6 +164,7 @@ Bluejay.PaneController = {
     //TimeBasedRecommendor.constructor();
     // for testing, write to the file first
     //FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test", 0);
+    //this.engine.createFiles();
     // now read the file
     this.engine.readFiles();
     //this.engine.makeRecommendation();
@@ -119,7 +172,8 @@ Bluejay.PaneController = {
   
   test : function() {
     this.engine.readFiles();
-    this.engine.makeRecommendation(new DateTime("2011-4-27T22:34:00"));
+    //this.engine.makeRecommendation(new DateTime("2011-4-27T22:34:00"));
+    this.engine.makeRecommendation();
     //this.engine.
     //this.engine.test();
   },

@@ -21,6 +21,7 @@ function Name(passedVal) {
 	this.equalTo = equalTo;
 	this.lessThan = lessThan;
 	this.makeCopy = makeCopy;
+	this.isNull = isNull;
 	
 	//private variables
 	//value is passedVal if exists, else nil
@@ -54,5 +55,10 @@ function Name(passedVal) {
 	}
 	function makeCopy() {
 	    return new Name(this.getName());
+	}
+	function isNull() {
+	    if (this.getName())
+	        return false;
+	    return true;
 	}
 };

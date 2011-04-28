@@ -26,6 +26,9 @@ function TimeBasedRecommendor() {
     var participations = [];    // a vector of all partipations
     var predictionLinks = {};   // the set of all prediction links
     var latestDate = new DateTime();
+    
+    var ratingsFilename = "bluejay_ratings.txt";
+    var inheritancesFilename = "bluejay_inheritances.txt";
     //alert("constructing a recommendor point 2");
 
 	/* Public Methods */
@@ -35,6 +38,7 @@ function TimeBasedRecommendor() {
     /* function prototypes */
 	
     // functions to add data
+    this.update = update;
     this.readFiles = readFiles;
     this.readFile = readFile;
     this.addCandidate = addCandidate;
@@ -47,6 +51,7 @@ function TimeBasedRecommendor() {
     this.updateChildPointers = updateChildPointers;
     this.addSomeTestLinks = addSomeTestLinks;
     this.updatePredictions = updatePredictions;
+    this.createFiles = createFiles;
 	
     // search functions
     this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
@@ -68,15 +73,23 @@ function TimeBasedRecommendor() {
     // functions for testing that it all works
     this.test = test;
 
+    function update() {
+        this.updateChildPointers();
+		this.addSomeTestLinks();
+		this.updatePredictions();
+    }
     // function definitions
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
         //alert("recommendor reading files");
-        this.readFile("bluejay_inheritances.txt");
-        this.readFile("bluejay_ratings.txt");
-		this.updateChildPointers();
-		this.addSomeTestLinks();
-		this.updatePredictions();
+        //this.readFile("bluejay_inheritances.txt");
+        //this.readFile("bluejay_ratings.txt");
+        this.readFile(inheritancesFilename);
+        this.readFile(ratingsFilename);
+		//this.updateChildPointers();
+		//this.addSomeTestLinks();
+		//this.updatePredictions();
+		this.update();
 		message("recommendor done reading files\r\n");
 		alert("recommendor done reading files");
     }
@@ -411,7 +424,7 @@ function TimeBasedRecommendor() {
 	    var candidate1;
 	    var candidate2;
 	    // currently we add all combinations of links
-	    for ([name1, candidate1] in iterator1) {
+	    /*for ([name1, candidate1] in iterator1) {
     	    var iterator2 = Iterator(candidates);
 		    for ([name2, candidate2] in iterator2) {
 		        message("name1 = " + name1 + " name2 = " + name2 + "\r\n");
@@ -421,6 +434,15 @@ function TimeBasedRecommendor() {
 		            this.linkCandidates(candidate1, candidate2);
 		        }
 		    }
+	    }*/
+	    // to make the algorithm run quickly, we currently only predict a song based on itself and supercategories
+	    var parents;
+	    var i;
+	    for ([name1, candidate1] in iterator1) {
+	        parents = this.findAllSuperCategoriesOf(candidate1);
+	        for (i = 0; i < parents.length; i++) {
+	            this.linkCandidates(candidate1, parents[i]);
+	        }
 	    }
     }
     // inform everything of any new data that was added recently that it needs to know about    
@@ -464,6 +486,10 @@ function TimeBasedRecommendor() {
     	    }
     	}
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");
+    }
+    function createFiles() {
+        FileIO.writeFile(ratingsFilename, "", 0);    
+        FileIO.writeFile(inheritancesFilename, "", 0);    
     }
     
 ////////////////////////////////// search functions /////////////////////////////////////
@@ -681,6 +707,7 @@ function TimeBasedRecommendor() {
 	    */
 	    message("best candidate name = " + bestName.getName());
 	    message(" expected rating = " + bestScore + "\r\n");
+	    flushMessage();
 	    alert("done making recommendation. Best song name = " + bestName.getName());
 	    return bestName;
     }
