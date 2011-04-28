@@ -221,7 +221,7 @@ Bluejay.PaneController = {
     this.engine.update();
     //this.engine.makeRecommendation();
     var trackName = this.engine.makeRecommendation();
-    changeSong(trackName);    
+    this.changeSong(trackName);    
   },
   
   changeSong: function(trackName) {
