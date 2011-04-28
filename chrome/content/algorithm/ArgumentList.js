@@ -1,6 +1,15 @@
-
-/**
- *  ArgumentList object
+/* Copyright (c) 2011 Bluejay 
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
+ */
+ 
+/* Name: ArgumentList 
+ * Description: It's not used anymore.
  */
  
 function ArgumentList(argc, argv) {

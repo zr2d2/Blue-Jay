@@ -1,7 +1,17 @@
-/**
-*  DateTime object
-*/
-
+/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
+ */
+ 
+/* Name: DateTime
+ * Description: simple class that holds date and time
+ */
+ 
 function DateTime(yyyymmddhhmmss) {
     //alert("constructing date");
     //public function prototypes

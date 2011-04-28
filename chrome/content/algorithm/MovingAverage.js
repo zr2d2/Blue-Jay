@@ -1,25 +1,40 @@
-
-/**
- * The class that represents the value of a variable over time
+/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
  */
  
+/* Name: MovingAverage
+ * Description: the MovingAverage class represents the progression of 
+ * values of some attribute of a Candidate over time
+ */
+ 
+ 
 function MovingAverage() {
-/////////////////////////////////////////////////// Private Member Variables ///////////////////////////////////////////////////
+	/* Private Member Variables */
 	var name;
 	var ownerName;
 
-/////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
+	/* Public Methods */
     // returns a distribution of the expected values at this time, and an integer identifying how many data points came before it
 	this.getValueAt = getValueAt;
 	this.getCurrentValue = getCurrentValue;
+	
 	// the vector returned is the relevant datapoints and the double is the additional weight contributed by these datapoints
 	this.getCorrelationsFor = getCorrelationsFor;
 	this.setName = setName;
 	this.getName = getName;
+	
 	// the name of the Candidate that this MovingAverage describes
 	this.setOwnerName = setOwnerName;
 	this.getOwnerName = getOwnerName;
-	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		// for determining if its type is ParticipationMovingAverage or not
+	
+	// for determining if its type is ParticipationMovingAverage or not
+	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		
 	this.getLatestDate = getLatestDate;
 	this.stringVersion = stringVersion;
 	this.superFunction = superFunction;
@@ -29,11 +44,14 @@ function MovingAverage() {
     // a MovingAverage doesn't know how to return its value. This function must be overriden    
     function getValueAt(when, strictlyEarlier) {
         alert("MovingAverage::getValueAt() was called. This is an error.");
+		
         // setup an invalid distribution
 	    var distribution = new Distribution(0, 0, 0);
+		
 	    // return an array with the invalid distribution and invalid index
 	    return [distribution, -1];
     }
+	
     // gets the current value of whatever variable we're tracking
     function getCurrentValue(when, strictlyEarlier)
     {
@@ -41,11 +59,13 @@ function MovingAverage() {
         var resultantDistribution = resultArray[0];
         return resultantDistribution;
     }
+	
     // makes a bunch of datapoints that describe how the value of the 'other' distribution changes with this one
     function getCorrelationsFor(other, startTime) {
         var i;
         var otherRatings = other.getRatings();
         //alert("MovingAverage::getCorrelationsFor pt1");
+		
         // find the starting index. This can be optimized with a binary search!
         for (i = otherRatings.length - 1; i >= 0; i--) {
             if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
@@ -57,7 +77,10 @@ function MovingAverage() {
         var x, y, weight;
         weight = 1;
         var previousIndex = this.getValueAt(startTime, true)[1];
-        var numChanges = 0; // count how many individual x-values will be used to create the prediction
+		
+		// count how many individual x-values will be used to create the prediction
+        var numChanges = 0; 
+		
 	    // This should be improved eventually.
 	    // We should give the deviation of each point to the scatterplot in some meaningful way
         //alert("MovingAverage::getCorrelationsFor pt3");

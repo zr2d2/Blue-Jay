@@ -1,10 +1,20 @@
-
-/**
- * The class that handles the reading and writing of files
+/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the XXX License as published by the Free 
+ * Sofeware Foundation.
+ *
+ * You should have received a copy of the XXX License along with this 
+ * program. If not, please visit <http://www....>
  */
+ 
+/* Name: FileIO
+ * Description: This is a class that handles read and write a file
+ */
+ 
 FileIO = {
 
-/////////////////////////////////////////////////////// Public Methods ///////////////////////////////////////////////////
+    /* Public Methods */
 
     readFile : function(fileName) {
     
@@ -14,6 +24,7 @@ FileIO = {
         file.append(fileName);
         alert("FileIO reading file" + file.path);
         //alert("making input stream");
+		
         // open an input stream from the file
         var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
                       createInstance(Components.interfaces.nsIFileInputStream);
@@ -89,7 +100,8 @@ FileIO = {
 
         //alert("done writing file " + fileName);
     },
-/////////////////////////////////////////////////////// Private Methods ///////////////////////////////////////////////////
+
+	/* Private Methods */
 
     getHomeDirectory : function() {
         // This will choose the user's home directory
@@ -110,7 +122,7 @@ FileIO = {
         return homeDir;
         */
     }
-/////////////////////////////////////////////////////// Member Variables ///////////////////////////////////////////////////
+	/* Member Variables */
 
 };
 
