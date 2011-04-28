@@ -19,10 +19,13 @@ Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 
 //////////////////////////////////////////////////////////
 var list = LibraryUtils.mainLibrary;
-
-mystring = "";
+var mystring = "";
 for (i = 0; i<list.length; i++){
-	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' + list.getItemByIndex(i).getProperty(SBProperties.artistName)+ '_' + list.getItemByIndex(i).getProperty(SBProperties.genre) +'\r\n';
+	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' 
+	+ list.getItemByIndex(i).getProperty(SBProperties.artistName) + '_' 
+	+ list.getItemByIndex(i).getProperty(SBProperties.genre) + '_'
+	+ list.getItemByIndex(i).getProperty(SBProperties.rating)
+	+'\r\n';
 }
 
 alert(mystring);
@@ -76,8 +79,7 @@ Bluejay.PaneController = {
     
     // Make a local variable for this controller so that
     // it is easy to access from closures.
-
-    var controller = this;
+	var controller = this;
 	//alert("initializing");
     //TimeBasedRecommendor.constructor();
 	//this.engine = RecommendorFactory.recommendor();
