@@ -125,7 +125,7 @@ Bluejay.PaneController = {
   
   test : function() {
     this.engine.readFiles();
-    this.engine.makeRecommendation(new DateTime("2011-3-27T22:34:00"));
+    this.engine.makeRecommendation(new DateTime("2011-4-27T22:34:00"));
     //this.engine.
     //this.engine.test();
   },

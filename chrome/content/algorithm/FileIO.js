@@ -22,7 +22,7 @@ FileIO = {
 
         var file = homeDirFile;
         file.append(fileName);
-        alert("FileIO reading file" + file.path);
+        //alert("FileIO reading file" + file.path);
         //alert("making input stream");
 		
         // open an input stream from the file
@@ -57,7 +57,7 @@ FileIO = {
 
         var file = homeDirFile;
         file.append(fileName);
-        alert("writing file " + file.path);
+        //alert("writing file " + file.path);
         
         var data = stringData
         // file is nsIFile, data is a string
