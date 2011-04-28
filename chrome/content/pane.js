@@ -22,7 +22,71 @@ Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
  * Controller for pane.xul
  */
 Bluejay.PaneController = {
+/**
+   * Called when the pane is instantiated
+   */
+  onLoad: function() {
 
+    this._initialized = true;
+    
+    // Make a local variable for this controller so that
+    // it is easy to access from closures.
+	var controller = this;
+	//alert("initializing");
+    //TimeBasedRecommendor.constructor();
+	//this.engine = RecommendorFactory.recommendor();
+	this.engine = new TimeBasedRecommendor();
+	//alert("engine is " + this.engine);
+	//alert("constructed successfully");
+
+ 	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
+                    .getService(Components.interfaces.sbIMediacoreManager); 
+	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
+	
+	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
+	var myListener = {
+		onMediacoreEvent:function(ev){
+			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
+			    alert("the song has changed");
+			    controller.songChanged(ev);
+			}
+			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
+					alert("End of Playlist");
+			}
+		}
+	}
+	gMM.addListener(myListener);
+
+	
+    // Hook up the ScanLibrary button
+	this._scanbutton = document.getElementById("scan-button");
+    this._scanbutton.addEventListener("command", 
+         function() { controller.scanLibrary(); }, false);
+	
+	
+    // Hook up the Mix button
+    this._mixbutton = document.getElementById("action-button");
+    this._mixbutton.addEventListener("command", 
+        function() { controller.test(); }, false);
+	
+	// Hook up the ratings menu (five entries)
+	this._1star = document.getElementById("1star");
+	this._1star.addEventListener("command",
+		function() { this.engine.addRating(0.0); }, false);
+	this._2star = document.getElementById("2star");
+	this._2star.addEventListener("command",
+		function() { this.engine.addRating(0.25); }, false);
+	this._3star = document.getElementById("3star");
+	this._3star.addEventListener("command",
+		function() { this.engine.addRating(0.5); }, false);
+	this._4star = document.getElementById("4star");
+	this._4star.addEventListener("command",
+		function() { this.engine.addRating(0.75); }, false);
+	this._5star = document.getElementById("5star");
+	this._5star.addEventListener("command",
+		function() { this.engine.addRating(1.0); }, false);
+			 
+  },
   // this function scans the user's library and send that data to the engine
   scanLibrary : function() {
     var list = LibraryUtils.mainLibrary;
@@ -114,71 +178,6 @@ Bluejay.PaneController = {
   },
 
 
-  /**
-   * Called when the pane is instantiated
-   */
-  onLoad: function() {
-
-    this._initialized = true;
-    
-    // Make a local variable for this controller so that
-    // it is easy to access from closures.
-	var controller = this;
-	//alert("initializing");
-    //TimeBasedRecommendor.constructor();
-	//this.engine = RecommendorFactory.recommendor();
-	this.engine = new TimeBasedRecommendor();
-	//alert("engine is " + this.engine);
-	//alert("constructed successfully");
-
- 	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
-                    .getService(Components.interfaces.sbIMediacoreManager); 
-	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
-	
-	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
-	var myListener = {
-		onMediacoreEvent:function(ev){
-			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
-			    alert("the song has changed");
-			    songChanged(ev);
-			}
-			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
-					alert("End of Playlist");
-			}
-		}
-	}
-	gMM.addListener(myListener);
-
-	
-    // Hook up the ScanLibrary button
-	this._scanbutton = document.getElementById("scan-button");
-    this._scanbutton.addEventListener("command", 
-         function() { controller.scanLibrary(); }, false);
-	
-	
-    // Hook up the Mix button
-    this._mixbutton = document.getElementById("action-button");
-    this._mixbutton.addEventListener("command", 
-        function() { controller.test(); }, false);
-	
-	// Hook up the ratings menu (five entries)
-	this._1star = document.getElementById("1star");
-	this._1star.addEventListener("command",
-		function() { this.engine.addRating(0.0); }, false);
-	this._2star = document.getElementById("2star");
-	this._2star.addEventListener("command",
-		function() { this.engine.addRating(0.25); }, false);
-	this._3star = document.getElementById("3star");
-	this._3star.addEventListener("command",
-		function() { this.engine.addRating(0.5); }, false);
-	this._4star = document.getElementById("4star");
-	this._4star.addEventListener("command",
-		function() { this.engine.addRating(0.75); }, false);
-	this._5star = document.getElementById("5star");
-	this._5star.addEventListener("command",
-		function() { this.engine.addRating(1.0); }, false);
-			 
-  },
   /**
    * Called when the pane is about to close
    */
