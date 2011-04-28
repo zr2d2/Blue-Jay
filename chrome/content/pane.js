@@ -52,7 +52,11 @@ Bluejay.PaneController = {
     var mystring = "";
     // iterate over each thing in the library
     alert("push [ok] to start scanning library");
-    for (i = 0; i<list.length; i++){
+    var length = list.length;
+    // limit the number of songs (for testing)
+    if (length > 50)
+        length = 50;
+    for (i = 0; i < length; i++){
         var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
         if (!songName.isNull()) {
             var artistName = new Name(list.getItemByIndex(i).getProperty(SBProperties.artistName));

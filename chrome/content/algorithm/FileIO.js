@@ -128,7 +128,7 @@ FileIO = {
 };
 
 function message(text) {
-    messageToWrite += text;
+    //messageToWrite += text;
     // append the text to the end of the output file
     //FileIO.writeFile("output.txt", text, 1);
 
