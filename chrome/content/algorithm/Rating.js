@@ -23,7 +23,7 @@ function Rating() {
 
     //public functions
     function setActivity(name){
-        activityName = name;
+        activityName = name.makeCopy();
     }
 
     function getActivity(){

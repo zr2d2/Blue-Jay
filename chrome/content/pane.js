@@ -114,13 +114,17 @@ Bluejay.PaneController = {
     alert("pane reading files");
     //TimeBasedRecommendor.constructor();
     // for testing, write to the file first
-    FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test");
+    //FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test", 0);
     // now read the file
     this.engine.readFiles();
+    //this.engine.makeRecommendation();
   },
   
   test : function() {
-    this.engine.test();
+    this.engine.readFiles();
+    this.engine.makeRecommendation(new DateTime("2011-3-14T00:00:22"));
+    //this.engine.
+    //this.engine.test();
   },
   
   /**

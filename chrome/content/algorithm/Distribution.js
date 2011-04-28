@@ -10,9 +10,9 @@ function Distribution(average, stdDev, relativeWidth) {
 	this.getWeight = getWeight;
 	
 	//private variables 
-	var mean = average | 0;
-	var standardDeviation = stdDev | 0;
-	var weight = relativeWidth | 0;
+	var mean = average;
+	var standardDeviation = stdDev;
+	var weight = relativeWidth;
 	
 	//public functions
 	function getMean() {

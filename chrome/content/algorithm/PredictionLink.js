@@ -3,19 +3,21 @@
  */
  
  function PredictionLink(passedVal1, passedVal2){
+    //alert("constructing predictionLink\r\n");
 	//public function
 	this.initializeDecreasing = initializeDecreasing;
 	this.update = update;
 	this.guess = guess;
 	
-	// ##### problem with constructor!!! #####
 	
 	//private variables
-	var inputData = passedVal1 | new MovingAverage();
-	var outputData = passedVal2 | new RatingMovingAverage();
+	var inputData = passedVal1;
+	var outputData = passedVal2;
+    //alert("constructing Scatterplot\r\n");
 	var plot = new ScatterPlot();
+    //alert("constructing DateTime\r\n");
 	var latestUpdateTime = new DateTime();
-	var numChanges = 0;
+	var numChanges = 0.0;
 	
 	
 	//public function
@@ -23,15 +25,15 @@
 	
 		var intensity = 1;
 		var numPoints = 40;
-		var i =0;
-		var score = 0;
-		var duration = 0;
+		var i = 0;
+		var score = 0.0;
+		var duration = 0.0;
 		
-		for (i = 0; i< numPoints; i++){
+		for (i = 0; i < numPoints; i++){
 		
 			duration = i*1500.0;
 			intensity = 1.0/duration;
-			score = Math.sqrt(duration) / 250;
+			score = Math.sqrt(duration) / 250.0;
 			plot.addDataPoint(Datapoint(intensity, score, 1));
 		}
 		numChanges = numChanges + numPoints;
@@ -39,58 +41,64 @@
 	
 	function update(){
 
+        //alert("PredictionLink::update\r\n");
 		var newPoints = inputData.getCorrelationsFor(outputData, latestUpdateTime);
+        //alert("back in PredictionLink::update\r\n");
 		
-		if (newPoints[1].length > 0){
+		if (newPoints[0].length > 0){
 		
 			var i=0;
-			for (i = 0; i < newPoints[1].length; i++)
-			{
-				plot.addDataPoint(newPoints[i]);
+            //alert("plot adding datapoints\r\n");
+			for (i = 0; i < newPoints[0].length; i++) {
+				plot.addDataPoint(newPoints[0][i]);
 			}
 		
-			latestUpdateTime = outputDate.getLatestDate();
-			numChanges = numChanges+ newPoints[2];
-		}	
+			latestUpdateTime = outputData.getLatestDate();
+			numChanges = numChanges + newPoints[1];
+            //alert("plot done adding datapoints\r\n");
+		}
 	}
 	
 	function guess(when){
 	
-		document.writeln('PredictionLink::guess');
+		//alert("PredictionLink::guess");
 		
 		var input = inputData.getCurrentValue(when, false);
 		var middle = plot.predict(input.getMean());
 		
-		document.writeln('x ='+input.getMean());
-		document.writeln('middle = ' + middle.getMean());
+		//document.writeln('x ='+input.getMean());
+		//document.writeln('middle = ' + middle.getMean());
 		
 		var leftOneStdDev = plot.predict(input.getMean() - input.getStdDev());
-		document.writeln(' left = ' + leftOneStdDev.getMean());
+		//document.writeln(' left = ' + leftOneStdDev.getMean());
 		
 		var rightOneStdDev = plot.predict(input.getMean() + input.getStdDev());
-		document.writeln(' right = ' + rightOneStdDev.getMean());
+		//document.writeln(' right = ' + rightOneStdDev.getMean());
 		
-		var stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2;
+		//alert("PredictionLink::guess pt2");
+		
+		var stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2.0;
 		var stdDevB = middle.getStdDev();
 		var stdDev = Math.sqrt(stdDevA * stdDevA + stdDevB * stdDevB);
+
+		//alert("PredictionLink::guess pt3");
 		
-		var weight = numChanges -1;
-		if (weight < 0){
-			weight = 0;
+		var weight = numChanges - 1.0;
+		if (weight < 0.0){
+			weight = 0.0;
 		}
 		
 		var stdDev2;
 		
 		if (weight >= 1){
-			stdDev2 = 1/weight;
-		}
-		else {
-			stdDev2 = 1;
+			stdDev2 = 1.0 / weight;
+		} else {
+			stdDev2 = 1.0;
 		}
 		
 		var result = new Distribution(middle.getMean(), stdDev + stdDev2, weight);
+		//alert("PredictionLink::guess pt4");
 		return result;
-		
 	}
 }
 		

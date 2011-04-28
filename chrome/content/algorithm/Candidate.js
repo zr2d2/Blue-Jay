@@ -3,21 +3,20 @@
  */
  
  function Candidate(passedVal) {
-    this.name = passedVal;
  
 	//public function
-	newCandidate = new Candidate;
-	newCandidate.initialize();
+	//newCandidate = new Candidate;
+	//newCandidate.initialize();
 
 	this.setName = setName;
 	this.getName = getName;
-	this.getID = getID;
 	this.addParentName = addParentName;
 	this.addParent = addParent;
 	this.addChild = addChild;
 	this.getParentNames = getParentNames;
 	this.getParents = getParents;
 	this.getChildren = getChildren;
+	this.getNumChildren = getNumChildren;
 	this.giveRating = giveRating;
 	this.giveParticipation = giveParticipation;
 	this.getNumRatingEstimators = getNumRatingEstimators;
@@ -34,6 +33,7 @@
 	this.getIdleDuration = getIdleDuration;
 	this.getAverageRating = getAverageRating;
 	
+	
 	//private functions
 	var initialize;
 	
@@ -49,13 +49,20 @@
 	var latestRatingTime = new DateTime();
 	var currentRating = new Distribution();
 	var currentRefinedRating = new Distribution();
-	var parentLinksNeeedUpdating = new Boolean();
+	var parentLinksNeedUpdating = false;
 	var discoveryDate = new DateTime();
+    
+	// call the constructor
+	if (name) {
+    	initialize();
+    }
+	
+	
 	
 	
 	//public functions
 	function setName(newName){
-		name = newName;
+		name = newName.makeCopy();
 		initialize();
 	}
 	
@@ -63,10 +70,9 @@
 		return name;
 	}
 		
-	// ##### Problem? how to check the input argument data type??? #####
-	function addParentName(newName)
-	{	
+	function addParentName(newName) {
 		parentNames.push(newName);
+		parentLinksNeedUpdating = true;
 	}
 	
 	function addParent(newCandidate){
@@ -94,8 +100,13 @@
 		return children;
 	}
 	
-	function giveRating(rating)
-	{
+	function getNumChildren() {
+	
+	    return children.length;
+	}
+	
+	function giveRating(rating)	{
+
 		var i = 0;
 		for (i=0; i<ratingEstimators.length; i++){
 			
@@ -182,40 +193,47 @@
 		if (frequencies.getNumParticipations() > 0){
 		
 			latestDate = frequencies.getLatestDate();
-			}
-		else{
+		} else{
 			latestDate = discoveryDate;
-			}
+		}
 		
 		return latestDate.timeUntil(when);
 	}
 	
 	function getAverageRating(){
-	
 		return actualRatingHistory.getAverageValue();
 	}
 	
+	
 	function initialize(){
+    	//alert("initializing candidate");
 		numRatings = 0;
 		var numAverages = 1;
 		var i = 0;
-		ratingEstimators.resize(numAverages);
-		frequencyEstimators.resize(numAverages);
+		ratingEstimators.length = numAverages;
+		frequencyEstimators.length = numAverages;
+    	//alert("initializing participation averages");
 		for (i = 0; i < numAverages; i++){
-		
-			frequencyEstimators[i].setName(Name(name.getName() + " (participations)"));
-			frequencyEstimators[i].setOwnerName(name);
+		    var newAverage = new ParticipationMovingAverage();
+			newAverage.setName(new Name(name.getName() + " (participations) " + i));
+			newAverage.setOwnerName(name);
+			frequencyEstimators[i] = newAverage;
 		}
+    	//alert("done initializing participation averages");
 		
 		for (i = 0; i < numAverages; i++){
-		
-			ratingEstimators[i].setName(Name(name.getName() + " (ratings)"));
-			ratingEstimators[i].setOwnerName(name);
-		
+    		var newAverage = new RatingMovingAverage();
+			newAverage.setName(new Name(name.getName() + " (ratings) " + i));
+			newAverage.setOwnerName(name);
+			ratingEstimators[i] = newAverage;		
 		}
+    	//alert("done initializing rating averages");
 		
-		actualRatingHistory.setName(Name(name.getName() + " actual "));
+		actualRatingHistory.setName(new Name(name.getName() + " actual"));
 		actualRatingHistory.setOwnerName(name);
+		
+    	//alert("done initializing candidate ");
+		
 	}
 	
 };

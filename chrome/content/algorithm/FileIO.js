@@ -37,16 +37,16 @@ FileIO = {
         converter.close(); // this closes foStream
 
         // do something with read data
-        alert("filecontents = " + stringContents);
+        //alert("filecontents = " + stringContents);
         return stringContents;
     },
     
-    writeFile : function(fileName, stringData) {
+    writeFile : function(fileName, stringData, append) {
         homeDirFile = FileIO.getHomeDirectory();
 
         var file = homeDirFile;
         file.append(fileName);
-        alert("writing file " + file.path);
+        //alert("writing file " + file.path);
         
         var data = stringData
         // file is nsIFile, data is a string
@@ -55,7 +55,22 @@ FileIO = {
         //alert("writing files part 1");
          
         // use 0x02 | 0x10 to open file for appending.
-        foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
+        /*
+        File_io_flags 	
+            0×01 	Read only
+	        0×02 	Write only
+            0×04    Read and Write
+	        0×08 	Create File
+	        0×10 	Append
+	        0×20 	Truncate
+	        0×40 	Sync
+	        0×80 	Exclude
+	        */
+	    if (append)
+            foStream.init(file, 0x02 | 0x08 | 0x10, 0666, 0);
+        else
+            foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
+        
         // write, create, truncate
         // In a c file operation, we have no need to set file mode with or operation,
         // directly using "r" or "w" usually.
@@ -72,7 +87,7 @@ FileIO = {
         //alert("writing files part 5");
         converter.close(); // this closes foStream
 
-        alert("done writing file " + fileName);
+        //alert("done writing file " + fileName);
     },
 /////////////////////////////////////////////////////// Private Methods ///////////////////////////////////////////////////
 
@@ -97,4 +112,13 @@ FileIO = {
     }
 /////////////////////////////////////////////////////// Member Variables ///////////////////////////////////////////////////
 
+};
+
+function message(text) {
+    // append the text to the end of the output file
+    FileIO.writeFile("output.txt", text, 1);
+
+    // don't bother showing a blank message
+    //if (text != "\r\n")
+    //    alert(text);
 };
