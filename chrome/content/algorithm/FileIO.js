@@ -130,7 +130,7 @@ FileIO = {
 function message(text) {
     //messageToWrite += text;
     // append the text to the end of the output file
-    //FileIO.writeFile("output.txt", text, 1);
+    FileIO.writeFile("output.txt", text, 1);
 
     // don't bother showing a blank message
     //if (text != "\r\n")

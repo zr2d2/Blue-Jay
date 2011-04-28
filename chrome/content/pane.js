@@ -28,7 +28,10 @@ Bluejay.PaneController = {
   onLoad: function() {
 
     this._initialized = true;
-    
+    this.currentSongName = null;
+    this.songStartDate = null;
+    this.songEndDate = null;
+
     // Make a local variable for this controller so that
     // it is easy to access from closures.
 	var controller = this;
@@ -47,7 +50,7 @@ Bluejay.PaneController = {
 	var myListener = {
 		onMediacoreEvent:function(ev){
 			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
-			    alert("the song has changed");
+			    //alert("the song has changed");
 			    controller.songChanged(ev);
 			}
 			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
@@ -91,9 +94,6 @@ Bluejay.PaneController = {
   scanLibrary : function() {
     var list = LibraryUtils.mainLibrary;
     var mystring = "";
-    var currentSongName = null;
-    var songStartDate = null;
-    var songEndDate = null;
     // iterate over each thing in the library
     alert("push [ok] to start scanning library");
     var length = list.length;
@@ -143,22 +143,22 @@ Bluejay.PaneController = {
   
 
   songChanged: function(ev) {
-	    alert("song changed");
+	    //alert("song changed");
 	    // get the data for the new track
 		var mediaItem = ev.data;
 		var songName = mediaItem.getProperty(SBProperties.trackName)
 		//alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
 		var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
 		// get the current date
-	    songEndDate = new DateTime();
-	    songEndDate.setNow();
-	    alert("song changed pt2");
+	    this.songEndDate = new DateTime();
+	    this.songEndDate.setNow();
+	    //alert("song changed pt2");
 		// check if we were previously playing a song
-		if (currentSongName) {
-	        alert("song changed pt2a");
+		if (this.currentSongName) {
+	        //alert("song changed pt2a");
 		    // if we get here then we were previously playing a song
 		    // compute the duration it actually played
-		    var playedDuration = songStartDate.timeUntil(songEndDate);
+		    var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
 		    // decide whether it was skipped based on the duration
 		    if (playedDuration >= songLength - 5) {
 		        // if we get here then it was not skipped
@@ -168,13 +168,13 @@ Bluejay.PaneController = {
 		    }
 		    alert("played duration = " + playedDuration + " song length = " + songLength);
 		}
-	    alert("song changed pt3");
+	    //alert("song changed pt3");
 	    // update the current song
-	    currentSongName = songName;
-	    songStartDate = songEndDate;
+	    this.currentSongName = songName;
+	    this.songStartDate = this.songEndDate;
 		//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
 		//alert("writing participation to file");
-	    alert("song changed pt4");
+	    //alert("song changed pt4");
   },
 
 
