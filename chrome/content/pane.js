@@ -18,7 +18,7 @@ Cu.import("resource://app/jsmodules/sbProperties.jsm");
 Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 
 //////////////////////////////////////////////////////////
-var list = LibraryUtils.mainLibrary;
+/*var list = LibraryUtils.mainLibrary;
 var mystring = "";
 for (i = 0; i<list.length; i++){
 	mystring = mystring + list.getItemByIndex(i).getProperty(SBProperties.trackName) + '_' 
@@ -29,7 +29,7 @@ for (i = 0; i<list.length; i++){
 }
 
 alert(mystring);
-
+*/
 //message("this is Tian's test data");
 /////////////////////////////////////////////////////////////
 
@@ -39,29 +39,8 @@ alert(mystring);
 function A()
 {
     this.x = 1;
+	alert(x);
 };
-
-/*
-  	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
-                    .getService(Components.interfaces.sbIMediacoreManager); 
-	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
-	
-	var myListener = {
-		onMediacoreEvent:function(ev){
-			switch(ev.type){
-				case Ci.sbIMediacoreEvent.TRACK_CHANGE:
-					var mediaItem = ev.data;
-					alert("Track changed to: " + mediaItem.guid);
-					break;
-				case Ci.sbIMediacoreEvent.STREAM_END:
-					alert("Track has ended");
-					break;
-			}
-		}
-	}
-	gMM.addListener(myListener);
-*/
-
 
 //function TimeBasedRecommendor();
 /**
@@ -74,8 +53,6 @@ Bluejay.PaneController = {
   onLoad: function() {
 
     this._initialized = true;
-
-	//include('main.js');
     
     // Make a local variable for this controller so that
     // it is easy to access from closures.
@@ -87,6 +64,25 @@ Bluejay.PaneController = {
 	//alert("engine is " + this.engine);
 	//alert("constructed successfully");
     //var engine = new A();
+
+
+  	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
+                    .getService(Components.interfaces.sbIMediacoreManager); 
+	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
+	
+	var myListener = {
+		onMediacoreEvent:function(ev){
+			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
+				var mediaItem = ev.data;
+				alert("Track changed to \"" + mediaItem.getProperty(SBProperties.trackName) + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+			}
+			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
+					alert("End of Playlist");
+			}
+		}
+	}
+	gMM.addListener(myListener);
+
     
     // Hook up the action button
     this._mixbutton = document.getElementById("action-button");
