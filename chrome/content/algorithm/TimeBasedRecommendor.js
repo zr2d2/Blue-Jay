@@ -455,7 +455,7 @@ function TimeBasedRecommendor() {
     }
     // inform everything of any new data that was added recently that it needs to know about    
     function updatePredictions() {
-        alert("Updating predictions. Please wait.\r\n");
+        //alert("Updating predictions. Please wait.\r\n");
         message("giving ratings to activities\r\n");
         // inform each candidate of the ratings given to it
         var ratingIterator = Iterator(ratings, true);
@@ -725,7 +725,7 @@ function TimeBasedRecommendor() {
 	    message("best candidate name = " + bestName.getName());
 	    message(" expected rating = " + bestScore + "\r\n");
 	    flushMessage();
-	    alert("done making recommendation. Best song name = " + bestName.getName());
+	    //alert("done making recommendation. Best song name = " + bestName.getName());
 	    return bestName;
     }
     // compute the distribution that is formed by combining the given distributions
