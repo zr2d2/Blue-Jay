@@ -32,6 +32,7 @@ Bluejay.PaneController = {
     this.currentSongDuration = null;
     this.songStartDate = null;
     this.songEndDate = null;
+    this.isLibraryScanned = false;
 
     // Make a local variable for this controller so that
     // it is easy to access from closures.
@@ -43,35 +44,17 @@ Bluejay.PaneController = {
 	//alert("engine is " + this.engine);
 	//alert("constructed successfully");
 
- 	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
-                    .getService(Components.interfaces.sbIMediacoreManager); 
-	var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
-	
-	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
-	var myListener = {
-		onMediacoreEvent:function(ev){
-			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
-			    //alert("the song has changed");
-			    controller.songChanged(ev);
-			}
-			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
-					alert("End of Playlist");
-			}
-		}
-	}
-	gMM.addListener(myListener);
 
-	
     // Hook up the ScanLibrary button
 	this._scanbutton = document.getElementById("scan-button");
     this._scanbutton.addEventListener("command", 
          function() { controller.scanLibrary(); }, false);
 	
-	
+
     // Hook up the Mix button
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
-        function() { controller.test(); }, false);
+        function() { controller.oneClickMix(); }, false);
 	
 	// Hook up the ratings menu (five entries)
 	this._1star = document.getElementById("1star");
@@ -89,7 +72,31 @@ Bluejay.PaneController = {
 	this._5star = document.getElementById("5star");
 	this._5star.addEventListener("command",
 		function() { controller.giveRating(1.0); }, false);
-			 
+		
+	//alert("creating listener");
+	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
+                    .getService(Components.interfaces.sbIMediacoreManager); 
+	//alert("creating listener pt0");
+	//var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
+	
+	//alert("creating listener pt1");
+	
+	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
+	var myListener = {
+		onMediacoreEvent:function(ev){
+			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
+			    //alert("the song has changed");
+			    controller.songChanged(ev);
+			}
+			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
+					alert("End of Playlist");
+			}
+		}
+	}
+	//alert("creating listener pt2");
+	gMM.addListener(myListener);
+	//alert("created listener");
+ 	 
   },
 	giveRating : function(score) {
     	if (this.currentSongName) {
@@ -151,9 +158,12 @@ Bluejay.PaneController = {
         }
         var musicCategory = new Candidate();
         musicCategory.setName(music);
-        this.engine.addCandidate(musicCategory);        
-    }    
+        this.engine.addCandidate(musicCategory);    
+    }
+    // tell the engine to update its internal data structure
+    this.engine.updateLinks();    
     flushMessage();
+    this.isLibraryScanned = true;
     alert("done scanning library");
   },
   
@@ -177,7 +187,7 @@ Bluejay.PaneController = {
 		    var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
 		    alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
 		    // decide whether it was skipped based on the duration
-		    if (playedDuration >= this.currentSongDuration - 8) {
+		    if (playedDuration >= this.currentSongDuration * 0.75) {
 		        // if we get here then it was not skipped
 		        alert("song named " + this.currentSongName + " finished");
 		        var newParticipation = new Participation();
@@ -225,12 +235,15 @@ Bluejay.PaneController = {
     //this.engine.makeRecommendation();
   },
   
-  test : function() {
+  oneClickMix : function() {
+    if (!this.isLibraryScanned) {
+        this.scanLibrary();
+    }
     //var newDate = new DateTime();
     //newDate.setNow();
     //alert(newDate.stringVersion());
     //this.engine.readFiles();
-    this.engine.update();
+    this.engine.updatePredictions();
     //this.engine.makeRecommendation();
     var trackName = this.engine.makeRecommendation();
     this.changeSong(trackName);    

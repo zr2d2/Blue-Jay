@@ -38,7 +38,7 @@ function TimeBasedRecommendor() {
     /* function prototypes */
 	
     // functions to add data
-    this.update = update;
+    this.updateLinks = updateLinks;
     this.readFiles = readFiles;
     this.readFile = readFile;
     this.addCandidate = addCandidate;
@@ -74,13 +74,13 @@ function TimeBasedRecommendor() {
     // functions for testing that it all works
     this.test = test;
 
-    function update() {
+    function updateLinks() {
         alert("recommendor updating child pointers");
         this.updateChildPointers();
         alert("recommendor adding test links");
 		this.addSomeTestLinks();
-        alert("recommendor updating predictiongs");
-		this.updatePredictions();
+        //alert("recommendor updating predictiongs");
+		//this.updatePredictions();
     }
     // function definitions
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
@@ -88,7 +88,8 @@ function TimeBasedRecommendor() {
         alert("recommendor reading files");
         //this.readFile(inheritancesFilename);
         this.readFile(ratingsFilename);
-		this.update();
+		this.updateLinks();
+		this.updatePredictions();
 		message("recommendor done reading files\r\n");
 		alert("recommendor done reading files");
     }
@@ -311,11 +312,13 @@ function TimeBasedRecommendor() {
     function addParticipationAndCascade(newParticipation) {
 	    message("cascading participation " + newParticipation.getActivityName().getName() + "\r\n");
 	    var candidate = getCandidateWithName(newParticipation.getActivityName());
-	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
-	    var i;
-	    for (i = 0; candidatesToUpdate[i]; i++) {
-		    candidatesToUpdate[i].giveParticipation(newParticipation);
-	    }
+	    if (candidate) {
+	        var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
+	        var i;
+	        for (i = 0; candidatesToUpdate[i]; i++) {
+		        candidatesToUpdate[i].giveParticipation(newParticipation);
+	        }
+        }
     }
     // adds the rating to the necessary candidate and all its parents
     function addRatingAndCascade(newRating) {
@@ -450,7 +453,7 @@ function TimeBasedRecommendor() {
     }
     // inform everything of any new data that was added recently that it needs to know about    
     function updatePredictions() {
-        message("updating predictions\r\n");
+        alert("Updating predictions. Please wait.\r\n");
         message("giving ratings to activities\r\n");
         // inform each candidate of the ratings given to it
         var ratingIterator = Iterator(ratings, true);
@@ -460,11 +463,14 @@ function TimeBasedRecommendor() {
         for (i = 0; i < ratings.length; i++) {
             this.addRatingAndCascade(ratings[i]);
         }
+        ratings.length = 0;
         
 	    message("giving participations to activities\r\n");
         for (i = 0; i < participations.length; i++) {
             this.addParticipationAndCascade(participations[i]);
         }
+        participations.length = 0;
+        
 
 
     	message("updating PredictionLinks");
