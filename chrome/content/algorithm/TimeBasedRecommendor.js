@@ -323,13 +323,15 @@ function TimeBasedRecommendor() {
     // adds the rating to the necessary candidate and all its parents
     function addRatingAndCascade(newRating) {
 	    var candidate = getCandidateWithName(newRating.getActivity());
-	    var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
-	    var i, j;
-	    for (i = 0; candidatesToUpdate[i]; i++) {
-	        var currentCandidate = candidatesToUpdate[i];
-	        message("giving rating to candidate " + currentCandidate.getName().getName() + "\r\n");
-		    currentCandidate.giveRating(newRating);
-	    }
+	    if (candidate) {
+	        var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
+	        var i, j;
+	        for (i = 0; candidatesToUpdate[i]; i++) {
+	            var currentCandidate = candidatesToUpdate[i];
+	            message("giving rating to candidate " + currentCandidate.getName().getName() + "\r\n");
+		        currentCandidate.giveRating(newRating);
+	        }
+        }
     }
     // create the necessary PredictionLink to predict each candidate from the other
     function linkCandidates(candidateOne, candidateTwo) {

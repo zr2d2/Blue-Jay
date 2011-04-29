@@ -2,8 +2,7 @@ PURPOSE:
 The Blue-Jay project is to create a recommendation engine to better predict which song a user would like to
 listen to in his or her media player with minimal user input.
 It will make use of more time-sensitive data than other recommendation engines typically use.
-This will allow the engine to make educated guesses based on which songs go together, which mood the user
-may currently be in, what time of day it is, who else is around, and similar factors.
+This will allow the engine to make educated guesses based on which songs go together, which mood the user may currently be in, and similar factors.
 
 TECHNOLOGY:
-We plan to create a plugin for the open-source media player Songbird
+We have created a plugin for the open-source media player Songbird

@@ -89,7 +89,8 @@ Bluejay.PaneController = {
 			    controller.songChanged(ev);
 			}
 			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
-					alert("End of Playlist");
+			    controller.songChanged(ev);
+		        //alert("End of Playlist");
 			}
 		}
 	}
@@ -118,8 +119,8 @@ Bluejay.PaneController = {
     alert("push [ok] to start scanning library");
     var length = list.length;
     // limit the number of songs (for testing)
-    if (length > 10)
-        length = 10;
+    if (length > 50)
+        length = 50;
     var music = new Name("Song");
     for (i = 0; i < length; i++){
         var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
@@ -236,6 +237,9 @@ Bluejay.PaneController = {
   },
   
   makePlaylist : function() {
+    if (!this.isLibraryScanned) {
+        this.scanLibrary();
+    }
     //var newDate = new DateTime();
     //newDate.setNow();
     //alert(newDate.stringVersion());
