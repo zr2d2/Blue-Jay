@@ -33,6 +33,7 @@ Bluejay.PaneController = {
     this.songStartDate = null;
     this.songEndDate = null;
     this.isLibraryScanned = false;
+    this.desiredTrackName = null;
 
     // Make a local variable for this controller so that
     // it is easy to access from closures.
@@ -107,7 +108,7 @@ Bluejay.PaneController = {
             newDate.setNow();
             newRating.setDate(newDate);
             newRating.setScore(score);
-            alert("adding rating");
+            //alert("adding rating");
             this.engine.addRating(newRating);	
         }
     }, 
@@ -174,47 +175,50 @@ Bluejay.PaneController = {
 	    // get the data for the new track
 		var mediaItem = ev.data;
 		var songName = mediaItem.getProperty(SBProperties.trackName)
-		//alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-		var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
-		// get the current date
-	    this.songEndDate = new DateTime();
-	    this.songEndDate.setNow();
-	    //alert("song changed pt2");
-		// check if we were previously playing a song
-		if (this.currentSongName) {
-	        //alert("song changed pt2a");
-		    // if we get here then we were previously playing a song
-		    // compute the duration it actually played
-		    var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
-		    alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
-		    // decide whether it was skipped based on the duration
-		    if (playedDuration >= this.currentSongDuration * 0.75) {
-		        // if we get here then it was not skipped
-		        alert("song named " + this.currentSongName + " finished");
-		        var newParticipation = new Participation();
-		        newParticipation.setStartTime(this.songStartDate);
-		        newParticipation.setEndTime(this.songEndDate);
-		        newParticipation.setIntensity(1);
-		        newParticipation.setActivityName(new Name(this.currentSongName));
-		        this.engine.addParticipation(newParticipation);
-		    } else {
-		        alert("song named " + this.currentSongName + " got skipped");
-		        var newRating = new Rating();
-		        newRating.setActivity(new Name(this.currentSongName));
-		        newRating.setDate(this.songEndDate);
-		        newRating.setScore(0);
-		        this.engine.addRating(newRating);
-		    }
-		    alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
-		}
-	    //alert("song changed pt3");
-	    // update the current song
-	    this.currentSongName = songName;
-	    this.songStartDate = this.songEndDate;
-	    this.currentSongDuration = songLength;
-		//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
-		//alert("writing participation to file");
-	    //alert("song changed pt4");
+	    //alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+	    var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
+	    // get the current date
+        this.songEndDate = new DateTime();
+        this.songEndDate.setNow();
+        //alert("song changed pt2");
+	    // check if we were previously playing a song
+	    if (this.currentSongName) {
+            //alert("song changed pt2a");
+	        // if we get here then we were previously playing a song
+	        // compute the duration it actually played
+	        var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
+	        //alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
+	        // decide whether it was skipped based on the duration
+	        if (playedDuration >= this.currentSongDuration * 0.75) {
+	            // if we get here then it was not skipped
+	            //alert("song named " + this.currentSongName + " finished");
+	            var newParticipation = new Participation();
+	            newParticipation.setStartTime(this.songStartDate);
+	            newParticipation.setEndTime(this.songEndDate);
+	            newParticipation.setIntensity(1);
+	            newParticipation.setActivityName(new Name(this.currentSongName));
+	            this.engine.addParticipation(newParticipation);
+	        } else {
+	            //alert("song named " + this.currentSongName + " got skipped");
+	            var newRating = new Rating();
+	            newRating.setActivity(new Name(this.currentSongName));
+	            newRating.setDate(this.songEndDate);
+	            newRating.setScore(0);
+	            this.engine.addRating(newRating);
+	        }
+	        //alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
+	    }
+        //alert("song changed pt3");
+        // update the current song
+        this.currentSongName = songName;
+        this.songStartDate = this.songEndDate;
+        this.currentSongDuration = songLength;
+	    //alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
+	    //alert("writing participation to file");
+        //alert("song changed pt4");
+        if (songName != this.desiredTrackName) {
+	        this.makePlaylist();
+        }
   },
 
 
@@ -246,13 +250,12 @@ Bluejay.PaneController = {
     //this.engine.readFiles();
     this.engine.updatePredictions();
     //this.engine.makeRecommendation();
-    var trackName = this.engine.makeRecommendation();
-    this.changeSong(trackName);    
+    this.desiredTrackName = this.engine.makeRecommendation().getName();
+    this.changeSong(this.desiredTrackName);    
   },
   
-  changeSong: function(trackName) {
-        var songName = trackName.getName();
-        alert("selecting song named " + songName);
+  changeSong: function(songName) {
+        //alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
         //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
         properties.appendProperty(SBProperties.trackName, songName);
@@ -260,7 +263,7 @@ Bluejay.PaneController = {
         //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
         var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
         gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
-        alert("done selecting song");
+        //alert("done selecting song");
     },
   /**
    * Load the Display Pane documentation in the main browser pane
