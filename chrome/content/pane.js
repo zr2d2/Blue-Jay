@@ -185,7 +185,7 @@ Bluejay.PaneController = {
         this.songEndDate.setNow();
         //alert("song changed pt2");
 	    // check if we were previously playing a song
-	    if (this.currentSongName) {
+	    if (this.currentSongName && (this.currentSongName != this.ignoredSongname)) {
             //alert("song changed pt2a");
 	        // if we get here then we were previously playing a song
 	        // compute the duration it actually played
@@ -220,6 +220,8 @@ Bluejay.PaneController = {
 	    //alert("writing participation to file");
         //alert("song changed pt4");
         if (songName != this.desiredTrackName) {
+            // if a song was chosen randomly, and we then skip it automatically, that's not a downvote
+            this.ignoredSongname = songName
 	        this.makePlaylist();
         }
   },
