@@ -534,12 +534,6 @@ function TimeBasedRecommendor() {
         FileIO.writeFile(ratingsFilename, "", 1);    
         //FileIO.writeFile(inheritancesFilename, "", 0);    
     }
-    // writes the participation out to a file
-    function writeParticipation(participation) {
-        var stringValue = participation.stringVersion();
-        FileIO.writeFile(ratingsFilename, stringValue, 0);    
-        
-    }
     
 ////////////////////////////////// search functions /////////////////////////////////////
     function findAllSuperCategoriesOf(candidate) {
