@@ -42,10 +42,22 @@ function TimeBasedRecommendor() {
     this.readFiles = readFiles;
     this.readFile = readFile;
     this.addCandidate = addCandidate;
+    // give the previously unseen rating to the engine
     this.addRating = addRating;
+    // restore the previously seen rating and don't write it to a file
+    this.putRatingInMemory = putRatingInMemory;
+    // save this rating to a text file
+    this.writeRating = writeRating;
+    // give the previously unseen participation to the engine and write it to a file
     this.addParticipation = addParticipation;
-    this.addParticipationAndCascade = addParticipationAndCascade;
-    this.addRatingAndCascade = addRatingAndCascade;
+    // restore the previously seen participation and don't write it to a file
+    this.putParticipationInMemory = putParticipationInMemory;
+    // save this participation to a text file
+    this.writeParticipation = writeParticipation;
+    // give this rating to all the Candidates that need it    
+    this.cascadeRating = cascadeRating;
+    // give this participation to all the Candidates that need it
+    this.cascadeParticipation = cascadeParticipation;
     this.linkCandidates = linkCandidates;
     this.linkAverages = linkAverages;
     this.updateChildPointers = updateChildPointers;
@@ -87,6 +99,7 @@ function TimeBasedRecommendor() {
     function readFiles() {
         alert("recommendor reading files");
         //this.readFile(inheritancesFilename);
+        this.createFiles();
         this.readFile(ratingsFilename);
 		this.updateLinks();
 		this.updatePredictions();
@@ -151,26 +164,6 @@ function TimeBasedRecommendor() {
 		    currentChar = fileContents[characterIndex];
 		    
 		    //message(currentChar);
-		    if (currentChar == '<') {
-			    readingValue = false;
-			    characterIndex++;
-			    currentChar = fileContents[characterIndex];
-			    if (currentChar != '/') {
-			        //message("<");
-				    // If we get here, then it's a start tag
-				    startTag.clear();
-				    stackCount++;
-				    //message("stackCount = " + stackCount);
-				    readingStartTag = true;
-			    } else {
-			        //message(value.getName() + "</");
-				    // If we get here, then it's an end tag
-				    endTag.clear();
-				    readingEndTag = true;
-			        characterIndex++;
-			        currentChar = fileContents[characterIndex];
-			    }
-		    }
 		    // Check if this is the end of a tag
 		    if (currentChar == '>') {
 		        //message(value.getName());
@@ -253,13 +246,13 @@ function TimeBasedRecommendor() {
 					    if (objectName.equalTo(ratingIndicator)) {
 						    // If we get here then we just finished reading a rating
 						    // add the rating to the rating set
-						    this.addRating(rating);
+						    this.putRatingInMemory(rating);
 						
 						    rating = new Rating();
 					    }
 					    if (objectName.equalTo(participationIndicator)) {
 						    // If we get here then we just finished reading a rating
-						    this.addParticipation(participation);
+						    this.putParticipationInMemory(participation);
 						    participation = new Participation();
 					    }
 				    }
@@ -267,6 +260,26 @@ function TimeBasedRecommendor() {
 			    }
 			    readingStartTag = false;
 			    readingEndTag = false;
+		    }
+		    if (currentChar == '<') {
+			    readingValue = false;
+			    characterIndex++;
+			    currentChar = fileContents[characterIndex];
+			    if (currentChar != '/') {
+			        //message("<");
+				    // If we get here, then it's a start tag
+				    startTag.clear();
+				    stackCount++;
+				    //message("stackCount = " + stackCount);
+				    readingStartTag = true;
+			    } else {
+			        //message(value.getName() + "</");
+				    // If we get here, then it's an end tag
+				    endTag.clear();
+				    readingEndTag = true;
+			        characterIndex++;
+			        currentChar = fileContents[characterIndex];
+			    }
 		    }
 		    //message("start tag = ");
 		    //message(startTag.getName());
@@ -294,22 +307,41 @@ function TimeBasedRecommendor() {
     }
     // adds a rating to the list of ratings
     function addRating(newRating) {
+        writeRating(newRating);
+        putRatingInMemory(newRating);
+    }
+    // saves the rating to the text file
+    function writeRating(newRating) {
+        var text = newRating.stringVersion();
+        message("saving rating " + text);
+        FileIO.writeFile(ratingsFilename, text + "\r\n", 1);
+    }
+    function putRatingInMemory(newRating) {
         message("adding rating ");
         printRating(newRating);
+        message("\r\n");
         ratings.length += 1;
         ratings[ratings.length - 1] = newRating;
-        message("\r\n");
     }
     // adds a rating to the list of participation
     function addParticipation(newParticipation) {
+        writeParticipation(newParticipation);
+        putParticipationInMemory(newParticipation);
+    }
+    // saves the rating to the text file
+    function writeParticipation(newParticipation) {
+        var text = newParticipation.stringVersion();
+        message("saving participation " + text);
+        FileIO.writeFile(ratingsFilename, text + "\r\n", 1);
+    }
+    function putParticipationInMemory(newParticipation) {
         message("adding participation");
         printParticipation(newParticipation);
-        // Now we need to actually add the participation.
         participations.length += 1;
         participations[participations.length - 1] = newParticipation;
     }
     // adds the participation to the necessary candidate and all its parents
-    function addParticipationAndCascade(newParticipation) {
+    function cascadeParticipation(newParticipation) {
 	    message("cascading participation " + newParticipation.getActivityName().getName() + "\r\n");
 	    var candidate = getCandidateWithName(newParticipation.getActivityName());
 	    if (candidate) {
@@ -321,7 +353,7 @@ function TimeBasedRecommendor() {
         }
     }
     // adds the rating to the necessary candidate and all its parents
-    function addRatingAndCascade(newRating) {
+    function cascadeRating(newRating) {
 	    var candidate = getCandidateWithName(newRating.getActivity());
 	    if (candidate) {
 	        var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
@@ -463,13 +495,13 @@ function TimeBasedRecommendor() {
         var activityName;
         var i;
         for (i = 0; i < ratings.length; i++) {
-            this.addRatingAndCascade(ratings[i]);
+            this.cascadeRating(ratings[i]);
         }
         ratings.length = 0;
         
 	    message("giving participations to activities\r\n");
         for (i = 0; i < participations.length; i++) {
-            this.addParticipationAndCascade(participations[i]);
+            this.cascadeParticipation(participations[i]);
         }
         participations.length = 0;
         
@@ -499,7 +531,7 @@ function TimeBasedRecommendor() {
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");
     }
     function createFiles() {
-        FileIO.writeFile(ratingsFilename, "", 0);    
+        FileIO.writeFile(ratingsFilename, "", 1);    
         //FileIO.writeFile(inheritancesFilename, "", 0);    
     }
     // writes the participation out to a file
@@ -825,6 +857,10 @@ function TimeBasedRecommendor() {
         message("name:" + rating.getActivity().getName() + "\r\n");
         message("date:" + rating.getDate().stringVersion() + "\r\n");
         message("score:" + rating.getScore() + "\r\n");
+        var now = new DateTime();
+        now.setNow();
+        var duration = rating.getDate().timeUntil(now);
+        message("time since now = " + duration);
     }
     function printDistribution(distribution) {
         message("mean:" + distribution.getMean());

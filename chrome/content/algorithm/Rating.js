@@ -24,12 +24,12 @@ function Rating() {
     this.getScore = getScore;
     this.setWeight = setWeight;
     this.getWeight = getWeight;
-
+    this.stringVersion = stringVersion;
+    
     //private variables 
-    var activityName;
-    var creationDate;
-    var score;
-    var duration;
+    var activityName = new Name();
+    var creationDate = new Date();
+    var score = 0;
     var weight = 1;
 
     //public functions
@@ -72,6 +72,14 @@ function Rating() {
 	// return weight
     function getWeight(){
         return weight;
+    }
+    function stringVersion() {
+        var result = "<Rating>";
+        result += ("<Activity>" + activityName.getName() + "</Activity>");
+        result += ("<Score>" + score + "</Score>");
+        result += ("<Date>" + creationDate.stringVersion() + "</Date>");
+        result += "</Rating>";
+        return result;
     }
 };
 

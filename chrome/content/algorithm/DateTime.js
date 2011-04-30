@@ -58,15 +58,15 @@ function DateTime(yyyymmddhhmmss) {
         var result = "";
         result += value.getFullYear();
         result += "-";
-        result += value.getUTCMonth();
+        result += value.getMonth();
         result += "-";
-        result += value.getUTCDate();
+        result += value.getDate();
         result += "T";
-        result += value.getUTCHours();
+        result += value.getHours();
         result += ":";
-        result += value.getUTCMinutes();
+        result += value.getMinutes();
         result += ":";
-        result += value.getUTCSeconds();
+        result += value.getSeconds();
         return result;
         //return value.toString();
     }

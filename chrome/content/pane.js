@@ -109,7 +109,7 @@ Bluejay.PaneController = {
             newRating.setDate(newDate);
             newRating.setScore(score);
             //alert("adding rating");
-            this.engine.addRating(newRating);	
+            this.engine.addRating(newRating);
         }
     }, 
   // this function scans the user's library and send that data to the engine
@@ -163,10 +163,13 @@ Bluejay.PaneController = {
         this.engine.addCandidate(musicCategory);    
     }
     // tell the engine to update its internal data structure
-    this.engine.updateLinks();    
-    flushMessage();
+    //this.engine.updateLinks();    
     this.isLibraryScanned = true;
+    //this.engine.readFiles();
     alert("done scanning library");
+    // read any data from the text files that gives information about the library
+    this.engine.readFiles();
+    flushMessage();
   },
   
 
