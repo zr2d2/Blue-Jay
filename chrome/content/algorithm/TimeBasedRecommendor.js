@@ -71,8 +71,6 @@ function TimeBasedRecommendor() {
     this.getCandidateWithName = getCandidateWithName;
     this.getLinkFromMovingAverages = getLinkFromMovingAverages;
     this.rateCandidate = rateCandidate;
-    this.rateCandidateByCorrelation = rateCandidateByCorrelation;
-    this.updateCandidateRatingFromParents = updateCandidateRatingFromParents;
     this.makeRecommendation = makeRecommendation;
     this.addDistributions = addDistributions;
     this.averageDistributions = averageDistributions;
@@ -191,8 +189,8 @@ function TimeBasedRecommendor() {
 						    candidate.setName(value);
 					    if (endTag.equalTo(parentIndicator))
 						    candidate.addParentName(value.makeCopy());
-					    if (endTag.equalTo(discoveryDateIndicator))
-						    candidate.setDiscoveryDate(new DateTime(value.getName()));
+					    //if (endTag.equalTo(discoveryDateIndicator))
+						//    candidate.setDiscoveryDate(new DateTime(value.getName()));
 
 
 					    // If any of these trigger, then we just read an attribute of a rating
@@ -585,59 +583,55 @@ function TimeBasedRecommendor() {
 ////////////////////////////////// Prediction functions ///////////////////////////////////////
     // calculate a rating for the given candidate
     function rateCandidate(candidate, when) {
+    
         message("rating candidate with name: " + candidate.getName().getName());
-        var parents = this.findAllSuperCategoriesOf(candidate);
+        printCandidate(candidate);
+        var parents = candidate.getParents();
+        var guesses = [];
+        var currentDistribution;
         var i;
-        message("super category count = " + parents.length + "\r\n");
-        var currentCandidate;
-        message("iterating over parents\r\n");
+        // make sure that all of the parents are rated first
         for (i = parents.length - 1; i >= 0; i--) {
-            currentCandidate = parents[i];
-            message("rating candidate " + currentCandidate.getName().getName() + "\r\n");
-		    // Calculate a rating based on PredictionLinks. If there isn't much data it won't be very good
-            currentCandidate.setCurrentRating(this.rateCandidateByCorrelation(currentCandidate, when));
-            message("rating = ");
-            printDistribution(currentCandidate.getCurrentRating());
-		    // Update the rating using parental information. This is to improve guesses for items that have little data but whose parents have data
-            updateCandidateRatingFromParents(currentCandidate);            
+            this.rateCandidate(parents[i], when);
         }
-        message("done rating candidate with name " + candidate.getName().getName() + "\r\n");
-        message("rating = ");
-        printDistribution(candidate.getCurrentRefinedRating());
-        for (i = 0; i < parents.length; i++) {
-            currentCandidate = parents[i];
-            message("name = " + currentCandidate.getName().getName());
-            message(" rating = " + currentCandidate.getCurrentRefinedRating().getMean() + "\r\n");
-        }
-        return candidate.getCurrentRefinedRating();
-    }
-    
-    // calculate a rating for the candidate with the given name
-    function rateCandidateWithName(name, when) {
-        return this.rateCandidate(getCandidateWithName(name), when);
-    }
-    
-    // compute the rating for the candidate using all of the relevant prediction links (predicting based on other moving averages)
-    function rateCandidateByCorrelation(candidate, when) {
-        message("rating candidate " + candidate.getName().getName() + " by correlation\r\n");
-	    // get some pointers to the relevant data and initialize
+        // Now get the prediction from each relevant link
         var shortTermAverageName = candidate.getActualRatingHistory().getName().getName();
         var links = predictionLinks[shortTermAverageName];
         var mapIterator = Iterator(links);
-        var currentLink;
-        var predictor;
-        var predictorName;
-        var predicteeName = candidate.getName().getName();
-        var guesses = [];
-        var currentGuess;
+	    var predictorName;
+	    var currentLink;
+	    var currentGuess;
+	    var predicteeName = candidate.getName().getName();
 	    // iterate over all relevant prediction links
+	    var childWeight = 0;
         for ([predictorName, currentLink] in mapIterator) {
             message("Predicting " + predicteeName + " from " + predictorName + "\r\n");
             currentGuess = currentLink.guess(when);
             printDistribution(currentGuess);
             guesses.push(currentGuess);
+            childWeight += currentGuess.getWeight();
         }
+        var parentScale;
+        if (childWeight < 1)
+            parentScale = 1;
+        else
+            parentScale = 1 / childWeight;
+        for (i = 0; i < parents.length; i++) {
+            currentGuess = parents[i].getCurrentRating();
+            guesses.push(new Distribution(currentGuess.getMean(), currentGuess.getStdDev(), currentGuess.getWeight() * parentScale));
+        }
+        
+        
+        // In addition to all of the above factors that may use lots of data to predict the rating
+        // of the song, we should also use some other factors.
+        // We want to:
+        // Never forget a song completely
+        // Avoid playing a song twice in a row without explicit reason to do so
+        // Believe the user's recent ratings
+        
+        
         // We don't want to ever completely forget about a song. So, move it slowly closer to perfection
+        // Whenever they give it a rating or listen to it, this resets
         var remembererDuration = candidate.getIdleDuration(when);
         if (remembererDuration < 1)
 		    remembererDuration = 1;
@@ -652,50 +646,33 @@ function TimeBasedRecommendor() {
 	    // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
 	    //double squareRoot = sqrt(remembererDuration);
 	    var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
+	    //message("building rememberer");
 	    var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot);
 	    guesses.push(rememberer);
-	    // combine all of the distributions into one final guess
-	    var guess = this.averageDistributions(guesses);
-	    // assign the calculated rating to the candidate
-	    candidate.setCurrentRating(guess);
-	    return guess;
+	    
+	    // We should also suspect that they don't want to hear the song twice in a row
+	    var spacerDuration = candidate.getDurationSinceLastPlayed(when);
+	    // if they just heard it then they we're pretty sure they don't want to hear it again
+	    // If it's been 10 hours then it's probably okay to play it again
+	    // The spacer has a max weight so it can be overpowered by learned data
+	    var spacerWeight = 20 * (1 - spacerDuration / 36000);
+	    if (spacerWeight > 0) {
+	        guesses.push(new Distribution(0, .05, spacerWeight));
+	    }
+
+        // finally, combine all the distributions and return
+        //message("averaging distributions");
+        var childRating = this.averageDistributions(guesses);
+        candidate.setCurrentRating(childRating);
+        message("done rating candidate with name: " + candidate.getName().getName());
+        return childRating;
     }
     
-    // Using the current estimated rating for the candidate and the estimates for parents, compute an updated rating for the candidate
-    // It assumes that all parents are already correct
-    function updateCandidateRatingFromParents(candidate) {
-        message("updateCandidate " +  candidate.getName().getName() + " RatingFromParents");
-    	// get the candidate's rating without parental information
-    	var currentChildDistribution = candidate.getCurrentRating();
-    	// now get the ratings for each parent
-    	var parents = candidate.getParents();
-    	var i;
-    	var currentParent;
-    	var distributions = [];
-    	var parentDistribution;
-    	var currentDistribution;
-    	var scale;
-    	// figure out by what factor to decrease the importance of the parent distributions
-	    // The child distribution is a better predictor than the parent distribution, so weight the child distribution by another factor of sqrt(n)
-	    // THIS ISN'T THE BEST APPROXIMATION BUT IT WILL DO FOR NOW. IT WOULD BE PREFERABLE TO COMPUTE THE STDDEV BETWEEN CHILDREN AND WITHIN CHILDREN AND WEIGHT ACCORDINGLY
-	    if (currentChildDistribution.getWeight() == 0)
-		    scale = 1;
-	    else
-		    scale = 1 / Math.sqrt(currentChildDistribution.getWeight());
-		    
-		for (i = 0; i < parents.length; i++) {
-	        currentParent = parents[i];
-	        parentDistribution = currentParent.getCurrentRefinedRating();
-	        currentDistribution = new Distribution(parentDistribution.getMean(), parentDistribution.getStdDev(), parentDistribution.getWeight() * scale);
-	        distributions.push(currentDistribution);
-        }
-        distributions.push(currentChildDistribution);
-        var average = candidate.getAverageRating();
-    	// Now combine the ratings of each parent with the child's
-    	var result = averageDistributions(distributions);
-    	candidate.setCurrentRefinedRating(result);
-    	return result;
+    // calculate a rating for the candidate with the given name
+    function rateCandidateWithName(name, when) {
+        return this.rateCandidate(getCandidateWithName(name), when);
     }
+        
     // determines which candidate has the best expected score at the given time
     function makeRecommendation(when) {
         // default to the current date
@@ -720,7 +697,7 @@ function TimeBasedRecommendor() {
 	        // only bother to rate the candidates that are not categories
 	        if (currentCandidate.getNumChildren() == 0) {
 	            this.rateCandidate(currentCandidate, when);
-	            currentScore = currentCandidate.getCurrentRefinedRating().getMean();
+	            currentScore = currentCandidate.getCurrentRating().getMean();
 	            message("candidate name = " + currentCandidate.getName().getName());
 	            message("expected rating = " + currentScore + "\r\n");
 	            guesses.push(currentCandidate);
@@ -735,7 +712,7 @@ function TimeBasedRecommendor() {
 	    for (i = 0; i < guesses.length; i++) {
 	        currentCandidate = guesses[i];
 	        message("candidate name = " + currentCandidate.getName().getName());
-	        message(" expected rating = " + currentCandidate.getCurrentRefinedRating().getMean() + "\r\n");
+	        message(" expected rating = " + currentCandidate.getCurrentRating().getMean() + "\r\n");
 	    }
 	    /* // print the distributions in order
 	    var distributionIterator = Iterator(guesses, true);
@@ -826,7 +803,8 @@ function TimeBasedRecommendor() {
 		    message("variance2 = ");
 		    message(variance2);
 		    message("\r\n");
-		    stdDev = Math.sqrt(variance1 + variance2);
+		    //stdDev = Math.sqrt(variance1 + variance2);
+		    stdDev = Math.sqrt(variance2);
 		    result = new Distribution(newAverage, stdDev, outputWeight);
 	    }
 	    
@@ -838,9 +816,10 @@ function TimeBasedRecommendor() {
     // print functions
     function printCandidate(candidate) {
         //message("printing candidate named " + candidate.getName().getName());
-        message(candidate.getName().getName());
+        message(candidate.getName().getName() + "\r\n");
         var parentNames = candidate.getParentNames();
-        message("\r\nparent names:\r\n");
+        message("numParents = " + candidate.getParents().length + "\r\n");
+        message("parent names:\r\n");
         var i;
         for (i = 0; i < parentNames.length; i++) {
             message(parentNames[i].getName() + "\r\n");

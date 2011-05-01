@@ -146,7 +146,9 @@
 		    // The user interface might even require it.
 		    // We cannot claim that the standard deviation is low until we have a lot of data
 	    } else {
-		    stddev = 0.5;
+	        // If we get here then there is only 1 point
+	        // The observed deviation is zero, although there will be more added by the caller
+		    stddev = 0;
 	    }
 	    // decrease the weight based on fraction of unused points, to punish anything that doesn't use much data from its input
 	    //double fractionUsed = n / totalWeight;

@@ -65,20 +65,26 @@ function MovingAverage() {
         var i;
         var otherRatings = other.getRatings();
 
-        // find the starting index. This can be optimized with a binary search!
+        var startingIndex = other.getIndexForDate(startTime, true) + 1;
+        /* // find the starting index. This can be optimized with a binary search!
         for (i = otherRatings.length - 1; i >= 0; i--) {
             if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
 			    break;
-        }
+        }*/
         //message("MovingAverage::getCorrelationsFor pt2");
-        var startingIndex = i + 1;
+        // var startingIndex = i + 1;
         var results = [];
         var x, y, weight;
         weight = 1;
         var previousIndex = this.getValueAt(startTime, true)[1];
+        
 		
 		// count how many individual x-values will be used to create the prediction
         var numChanges = 0; 
+        
+        // don't count the transition from "undefined" to "defined" as a change
+        if ((startingIndex == 0) || (previousIndex < 0))
+            numChanges = -1;
 		
 	    // This should be improved eventually.
 	    // We should give the deviation of each point to the scatterplot in some meaningful way
@@ -95,6 +101,9 @@ function MovingAverage() {
             results.push(new Datapoint(x, y, weight));
         }
         //message("MovingAverage::getCorrelationsFor pt5");
+        // if we had to skip a change but there were none to skip, then make it zero
+        if (numChanges < 0)
+            numChanges = 0;
         return [results, numChanges];
     }
     function setName(newName) {

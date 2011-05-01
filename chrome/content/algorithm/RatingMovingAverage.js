@@ -43,10 +43,10 @@
 	this.getAverageValue = getAverageValue;
 	this.getLatestDate = getLatestDate;
 	this.subFunction = subFunction;
+	this.getIndexForDate = getIndexForDate;
 
 	
 	//private functions
-	var getIndexForDate;
 	
 	//private variables
 	var ratings = [];

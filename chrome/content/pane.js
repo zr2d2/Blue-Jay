@@ -163,7 +163,7 @@ Bluejay.PaneController = {
         this.engine.addCandidate(musicCategory);    
     }
     // tell the engine to update its internal data structure
-    //this.engine.updateLinks();    
+    //this.engine.updateLinks();
     this.isLibraryScanned = true;
     //this.engine.readFiles();
     alert("done scanning library");
@@ -257,6 +257,7 @@ Bluejay.PaneController = {
     //this.engine.makeRecommendation();
     this.desiredTrackName = this.engine.makeRecommendation().getName();
     this.changeSong(this.desiredTrackName);    
+    flushMessage();
   },
   
   changeSong: function(songName) {

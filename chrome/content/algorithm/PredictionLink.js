@@ -19,6 +19,7 @@
 	
 	/* public function */
 	this.initializeDecreasing = initializeDecreasing;
+	this.initializeIncreasing = initializeIncreasing;
 	this.update = update;
 	this.guess = guess;
 	
@@ -44,9 +45,16 @@
 			// If we get here then we're predicting the score of a Candidate based
 			// on its past frequency. Usually, if something has happened a lot recently 
 			// then it will be boring in the future
-			this.initializeDecreasing();
+			//this.initializeDecreasing();
+		} else {
+			// If we get here then we're predicting the score of a Candidate based
+			// on its current score. If we start with a small amount of suspicion that it will
+			// be positively correlated then we may save the user lots of time
+			// We use a small weight, though, so it's easy to overpower
+		    this.initializeIncreasing();
 		}
 	}
+	
 
 
 	//public function
@@ -60,13 +68,29 @@
 		var duration = 0.0;
 		
 		for (i = 0; i < numPoints; i++){
-		
-			duration = i*1500.0;
+    		
+			/*duration = i*1500.0;
 			intensity = 1.0/duration;
 			score = Math.sqrt(duration) / 250.0;
+			*/
+			duration = i * 1500;
+			intensity = 1 / duration;
+			score = i / numPoints;
+			
+			// add some extra variation to show that we aren't sure about this
+			if (i % 2 == 0)
+			    score = (1 + score) / 2;
+			else
+			    score = score / 2;
 			plot.addDataPoint(new Datapoint(intensity, score, 1));
 		}
 		numChanges = numChanges + numPoints;
+	}
+	
+	function initializeIncreasing(){
+	    plot.addDataPoint(new Datapoint(0, 0, 1));
+	    plot.addDataPoint(new Datapoint(1, 1, 1));
+	    numChanges += 2;
 	}
 	
 	// updates the scatterplot with any new data that it hadn't yet 
@@ -99,14 +123,14 @@
 		var input = inputData.getCurrentValue(when, false);
 		var middle = plot.predict(input.getMean());
 		
-		//document.writeln('x ='+input.getMean());
-		//document.writeln('middle = ' + middle.getMean());
+		message("x ="+input.getMean());
+		message("middle = " + middle.getMean());
 		
 		var leftOneStdDev = plot.predict(input.getMean() - input.getStdDev());
-		//document.writeln(' left = ' + leftOneStdDev.getMean());
+		message(" left = " + leftOneStdDev.getMean());
 		
 		var rightOneStdDev = plot.predict(input.getMean() + input.getStdDev());
-		//document.writeln(' right = ' + rightOneStdDev.getMean());
+		message(" right = " + rightOneStdDev.getMean());
 		
 		//alert("PredictionLink::guess pt2");
 		
@@ -116,19 +140,17 @@
 
 		//alert("PredictionLink::guess pt3");
 		
-		var weight = numChanges - 1.0;
+		//var weight = numChanges - 1.0;
+		var weight = numChanges;
 		if (weight < 0.0){
 			weight = 0.0;
 		}
-		
 		var stdDev2;
-		
-		if (weight >= 1){
-			stdDev2 = 1.0 / weight;
-		} else {
-			stdDev2 = 1.0;
-		}
-		
+		if (numChanges > 0)
+		    stdDev2 = .5 / numChanges;
+		else
+    		stdDev2 = 0.5;
+    				
 		var result = new Distribution(middle.getMean(), stdDev + stdDev2, weight);
 		//alert("PredictionLink::guess pt4");
 		return result;

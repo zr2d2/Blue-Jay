@@ -58,21 +58,16 @@
 	// the current expected rating, based on data from other Candidates
 	this.getCurrentRating = getCurrentRating;
 	this.setCurrentRating = setCurrentRating;
-	
-	// the current expected rating, but moved slightly closer to the 
-	// rating of any parent Candidates
-	this.getCurrentRefinedRating = getCurrentRefinedRating;
-	this.setCurrentRefinedRating = setCurrentRefinedRating;
-	
+		
 	// whether the parent pointers are up to date
 	this.needToUpdateParentPointers = needToUpdateParentPointers;
 	
 	// the date it was added to your library
-	this.setDiscoveryDate = setDiscoveryDate;
+	//this.setDiscoveryDate = setDiscoveryDate;
 	
 	// the duration (in seconds) between the latest listening and the time at 'when'
 	this.getIdleDuration = getIdleDuration;
-	
+	this.getDurationSinceLastPlayed = getDurationSinceLastPlayed;
 	// the average of all given ratings 
 	this.getAverageRating = getAverageRating;
 	
@@ -94,13 +89,11 @@
 	var frequencyEstimators = [];
 	var actualRatingHistory = new RatingMovingAverage();
 	var numRatings = false;
-	var latestRatingTime = new DateTime();
+	var latestInteractionDate = new DateTime();
+	var lastPlayDate = new DateTime();
 	
 	// the rating based on PredictionLinks before incorporating information about the parents
-	var currentRating = new Distribution();
-	
-	// the rating after moving slightly closer to the parent rating
-	var currentRefinedRating = new Distribution();
+	var currentRating = new Distribution();	
 	var parentLinksNeedUpdating = false;
 	var discoveryDate = new DateTime();
     
@@ -173,6 +166,7 @@
 			ratingEstimators[i].addRating(rating);
 		}
 		actualRatingHistory.addRating(rating);
+		latestInteractionDate = rating.getDate();
 	}
 	
 	// inform the Candidate that it was listened to during a certain interval
@@ -185,7 +179,7 @@
 			frequencyEstimators[i].addParticipationInterval(participation);
 		}
 		numRatings++;
-		latestRatingTime = participation.getEndTime();
+		lastPlayDate = latestInteractionDate = participation.getEndTime();
 	}
 	
 	// returns the number of MovingAverages that try to estimate the current rating
@@ -229,18 +223,7 @@
 	
 		currentRating = value;
 	}
-	
-	
-	function getCurrentRefinedRating(){
-	
-		return currentRefinedRating;
-	}
-	
-	function setCurrentRefinedRating(value){
-		
-		return currentRefinedRating = value;
-	}
-	
+			
 	function needToUpdateParentPointers(){
 	
 		if(parentLinksNeedUpdating == true){
@@ -256,20 +239,12 @@
 		discoveryDate = when;
 	}
 	
-	// Tells how long it has been since the song was heard. 
-	// If it's never been heard then it tells how longs it's been since the song was discovered
+	// Tells how long it has been since the song was heard or rated
 	function getIdleDuration(when){
-	
-		var latestDate = new DateTime();
-		var frequencies = getFrequencyEstimatorAtIndex(0);
-		if (frequencies.getNumParticipations() > 0){
-		
-			latestDate = frequencies.getLatestDate();
-		} else{
-			latestDate = discoveryDate;
-		}
-		
-		return latestDate.timeUntil(when);
+		return latestInteractionDate.timeUntil(when);
+	}
+	function getDurationSinceLastPlayed(when){
+		return lastPlayDate.timeUntil(when);
 	}
 	
 	function getAverageRating(){
