@@ -120,8 +120,8 @@ Bluejay.PaneController = {
     alert("push [ok] to start scanning library");
     var length = list.length;
     // limit the number of songs (for testing)
-    if (length > 50)
-        length = 50;
+    if (length > 65)
+        length = 65;
     var music = new Name("Song");
     for (i = 0; i < length; i++){
         var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
