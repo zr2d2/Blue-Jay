@@ -22,6 +22,7 @@ function TimeBasedRecommendor() {
     // So we store everything, then create the candidates, then add the ratings
 	
     var candidates = {};        // a map of all candidates (with key equal to its name)
+    var leafVector = [];    // a vector of all candidates with no children
     var ratings = [];           // a vector of all ratings
     var participations = [];    // a vector of all partipations
     var predictionLinks = {};   // the set of all prediction links
@@ -447,6 +448,14 @@ function TimeBasedRecommendor() {
 		        message("update was not required\r\n");
 		    }
 	    }
+	    // keep track of all candidates that have no children
+	    leafVector.length = 0;
+	    candidateIterator = Iterator(candidates);
+	    for ([candidateName, currentCandidate] in candidateIterator) {
+	        if (currentCandidate.getChildren().length == 0) {
+	            leafVector.push(currentCandidate);
+	        }
+	    }
     }
     
     // creates a bunch of PredictionLinks to predict the ratings of some Candidates from others
@@ -605,7 +614,8 @@ function TimeBasedRecommendor() {
 	    // iterate over all relevant prediction links
 	    var childWeight = 0;
         for ([predictorName, currentLink] in mapIterator) {
-            message("Predicting " + predicteeName + " from " + predictorName + "\r\n");
+            currentLink.update();
+            message("Predicting " + predicteeName + " from " + predictorName + "\r\n");            
             currentGuess = currentLink.guess(when);
             printDistribution(currentGuess);
             guesses.push(currentGuess);
@@ -692,7 +702,12 @@ function TimeBasedRecommendor() {
 	    var bestScore = -1;
 	    var currentScore = -1;
 	    var bestName = new Name("[no data]");
-	    for ([candidateKey, currentCandidate] in candidateIterator) {
+	    //for ([candidateKey, currentCandidate] in candidateIterator) {
+	    var i, index;
+	    for (i = 0; i < 10; i++) {
+	        // choose a random candidate
+	        index = Math.floor(Math.random() * leafVector.length);
+	        currentCandidate = leafVector[index];
 	        message("considering candidate" + currentCandidate.getName().getName());
 	        // only bother to rate the candidates that are not categories
 	        if (currentCandidate.getNumChildren() == 0) {

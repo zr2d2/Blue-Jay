@@ -120,8 +120,8 @@ Bluejay.PaneController = {
     alert("push [ok] to start scanning library");
     var length = list.length;
     // limit the number of songs (for testing)
-    if (length > 65)
-        length = 65;
+    //if (length > 65)
+    //    length = 65;
     var music = new Name("Song");
     for (i = 0; i < length; i++){
         var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
@@ -249,12 +249,7 @@ Bluejay.PaneController = {
     if (!this.isLibraryScanned) {
         this.scanLibrary();
     }
-    //var newDate = new DateTime();
-    //newDate.setNow();
-    //alert(newDate.stringVersion());
-    //this.engine.readFiles();
-    this.engine.updatePredictions();
-    //this.engine.makeRecommendation();
+    //this.engine.updatePredictions();
     this.desiredTrackName = this.engine.makeRecommendation().getName();
     this.changeSong(this.desiredTrackName);    
     flushMessage();
