@@ -58,6 +58,9 @@
 	// the current expected rating, based on data from other Candidates
 	this.getCurrentRating = getCurrentRating;
 	this.setCurrentRating = setCurrentRating;
+
+    // the latest date for which a rating was assigned	
+	this.getLatestRatingDate = getLatestRatingDate;
 		
 	// whether the parent pointers are up to date
 	this.needToUpdateParentPointers = needToUpdateParentPointers;
@@ -94,6 +97,7 @@
 	
 	// the rating based on PredictionLinks before incorporating information about the parents
 	var currentRating = new Distribution();	
+	var latestRatingDate = new DateTime();	
 	var parentLinksNeedUpdating = false;
 	var discoveryDate = new DateTime();
     
@@ -219,9 +223,15 @@
 	}
 	
 	// set current rating
-	function setCurrentRating(value){
+	function setCurrentRating(value, when){
 	
 		currentRating = value;
+		latestRatingDate = when;
+	}
+
+    // get the latest date for which a rating was assigned	
+	function getLatestRatingDate() {
+	    return latestRatingDate;
 	}
 			
 	function needToUpdateParentPointers(){

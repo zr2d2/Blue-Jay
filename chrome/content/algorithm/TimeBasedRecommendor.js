@@ -599,9 +599,15 @@ function TimeBasedRecommendor() {
         var guesses = [];
         var currentDistribution;
         var i;
+        var currentParent;
         // make sure that all of the parents are rated first
         for (i = parents.length - 1; i >= 0; i--) {
-            this.rateCandidate(parents[i], when);
+            currentParent = parents[i];
+            // figure out if the parent was rated recently enough
+            if (strictlyChronologicallyOrdered(currentParent.getLatestRatingDate(), when)) {
+                // if we get here then the parent rating needs updating
+                this.rateCandidate(currentParent, when);
+            }
         }
         // Now get the prediction from each relevant link
         var shortTermAverageName = candidate.getActualRatingHistory().getName().getName();
@@ -673,7 +679,7 @@ function TimeBasedRecommendor() {
         // finally, combine all the distributions and return
         //message("averaging distributions");
         var childRating = this.averageDistributions(guesses);
-        candidate.setCurrentRating(childRating);
+        candidate.setCurrentRating(childRating, when);
         message("done rating candidate with name: " + candidate.getName().getName());
         return childRating;
     }
@@ -704,7 +710,7 @@ function TimeBasedRecommendor() {
 	    var bestName = new Name("[no data]");
 	    //for ([candidateKey, currentCandidate] in candidateIterator) {
 	    var i, index;
-	    for (i = 0; i < 10; i++) {
+	    for (i = 0; i < 8; i++) {
 	        // choose a random candidate
 	        index = Math.floor(Math.random() * leafVector.length);
 	        currentCandidate = leafVector[index];
