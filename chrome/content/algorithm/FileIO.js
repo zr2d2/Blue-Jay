@@ -127,10 +127,20 @@ FileIO = {
 
 };
 
-function message(text) {
+// the text is the message to send
+// the priority determines whether it's a debug messgae or an important one
+function message(text, priority) {
+    // supply a default priority of 0 if none is provided
+    if (!priority) {
+        priority = 0;
+    }
     //messageToWrite += text;
-    // append the text to the end of the output file
-    //FileIO.writeFile("output.txt", text, 1);
+    // only save messages that we care about
+    // If we're not debugging then don't include debug messages
+    if (priority > 0) {
+        // append the text to the end of the output file
+        FileIO.writeFile("output.txt", text, 1);
+    }
 };
 
 function flushMessage() {

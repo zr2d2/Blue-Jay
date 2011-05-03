@@ -621,9 +621,10 @@ function TimeBasedRecommendor() {
 	    var childWeight = 0;
         for ([predictorName, currentLink] in mapIterator) {
             currentLink.update();
-            message("Predicting " + predicteeName + " from " + predictorName + "\r\n");            
+            message("Predicting " + predicteeName + " from " + predictorName, 1);
             currentGuess = currentLink.guess(when);
-            printDistribution(currentGuess);
+            message(" score: " + currentGuess.getMean() + "\r\n", 1);
+            //printDistribution(currentGuess);
             guesses.push(currentGuess);
             childWeight += currentGuess.getWeight();
         }
@@ -680,7 +681,7 @@ function TimeBasedRecommendor() {
         //message("averaging distributions");
         var childRating = this.averageDistributions(guesses);
         candidate.setCurrentRating(childRating, when);
-        message("done rating candidate with name: " + candidate.getName().getName());
+        message("name: " + candidate.getName().getName() + " score: " + childRating.getMean() + "\r\n", 1);
         return childRating;
     }
     
@@ -697,7 +698,7 @@ function TimeBasedRecommendor() {
             when = new DateTime();
             when.setNow();
         }
-        message("make recommendation for date:" + when.stringVersion() + "\r\n");
+        message("make recommendation for date:" + when.stringVersion() + "\r\n", 1);
         var candidateIterator = Iterator(candidates);
 	    // make sure that there is at least one candidate to choose from
 	    // setup a map to sort by expected rating
