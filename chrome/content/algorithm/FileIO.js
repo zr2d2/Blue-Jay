@@ -134,17 +134,17 @@ function message(text, priority) {
     if (!priority) {
         priority = 0;
     }
-    //messageToWrite += text;
     // only save messages that we care about
     // If we're not debugging then don't include debug messages
     if (priority > 0) {
         // append the text to the end of the output file
-        FileIO.writeFile("output.txt", text, 1);
+        //FileIO.writeFile("output.txt", text, 1);
+        messageToWrite += text;
     }
 };
 
 function flushMessage() {
     // append the text to the end of the output file
-    //FileIO.writeFile("output.txt", messageToWrite, 1);
+    FileIO.writeFile("output.txt", messageToWrite, 1);
     messageToWrite = "";
 }
