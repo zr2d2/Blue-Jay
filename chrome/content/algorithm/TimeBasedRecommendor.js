@@ -26,23 +26,24 @@ function TimeBasedRecommendor() {
     var ratings = [];           // a vector of all ratings
     var participations = [];    // a vector of all partipations
     var predictionLinks = {};   // the set of all prediction links
-    var latestDate = new DateTime();
+    var latestDate = new DateTime();    // the latest date for which we have data about something
     
     var ratingsFilename = "bluejay_ratings.txt";
     var inheritancesFilename = "bluejay_inheritances.txt";
-    //alert("constructing a recommendor point 2");
 
 	/* Public Methods */
-
-	// the functions parseArguments has been skipped for now
     
     /* function prototypes */
 	
     // functions to add data
-    this.updateLinks = updateLinks;
+    // read the usual files and put their data into the recommendor
     this.readFiles = readFiles;
+    // read a file and put its data into the recommendor
     this.readFile = readFile;
+    // add a Candidate for the engine to track
     this.addCandidate = addCandidate;
+    // add any necessary links between Candidates
+    this.updateLinks = updateLinks;
     // give the previously unseen rating to the engine
     this.addRating = addRating;
     // restore the previously seen rating and don't write it to a file
@@ -59,19 +60,30 @@ function TimeBasedRecommendor() {
     this.cascadeRating = cascadeRating;
     // give this participation to all the Candidates that need it
     this.cascadeParticipation = cascadeParticipation;
+    // create a PredictionLink to predict one Candidate from another
     this.linkCandidates = linkCandidates;
+    // create a PredictionLink to predict a RatingMovingAverage from a RatingMovingAverage
     this.linkAverages = linkAverages;
+    // inform each Candidate of each of its children and parents
     this.updateChildPointers = updateChildPointers;
+    // create some PredictionLinks to predict some Candidates from others
     this.addSomeTestLinks = addSomeTestLinks;
     this.updatePredictions = updatePredictions;
+    // create the necessary files on disk
     this.createFiles = createFiles;
+    // save the given participation to disk
     this.writeParticipation = writeParticipation;
 	
     // search functions
+    // returns this Candidate and all its ancestors
     this.findAllSuperCategoriesOf = findAllSuperCategoriesOf;
+    // get the Candidate given the name
     this.getCandidateWithName = getCandidateWithName;
+    // get the link between two MovingAverages
     this.getLinkFromMovingAverages = getLinkFromMovingAverages;
+    // estimate what rating this Candidate would get if it were played at this time
     this.rateCandidate = rateCandidate;
+    // choose the name of the next song to play
     this.makeRecommendation = makeRecommendation;
     this.addDistributions = addDistributions;
     this.averageDistributions = averageDistributions;
@@ -85,18 +97,21 @@ function TimeBasedRecommendor() {
     // functions for testing that it all works
     this.test = test;
 
+    // updates the structure of the Candidates
+    // This informs each Candidate of each of children and parents, and
+    // creates PredictionLinks between some of them
     function updateLinks() {
         alert("recommendor updating child pointers");
         this.updateChildPointers();
         alert("recommendor adding test links");
 		this.addSomeTestLinks();
-        //alert("recommendor updating predictiongs");
+        //alert("recommendor updating predictions");
 		//this.updatePredictions();
     }
     // function definitions
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
-        alert("recommendor reading files");
+        //alert("recommendor reading files");
         //this.readFile(inheritancesFilename);
         this.createFiles();
         this.readFile(ratingsFilename);
@@ -105,7 +120,7 @@ function TimeBasedRecommendor() {
 		message("recommendor done reading files\r\n");
 		alert("recommendor done reading files");
     }
-    // reads one file
+    // reads one file and put its data into the TimeBasedRecommendor
     function readFile(fileName) {
         //alert("recommendor reading file");
         

@@ -23,7 +23,7 @@ FileIO = {
 
         var file = homeDirFile;
         file.append(fileName);
-        //alert("FileIO reading file" + file.path);
+        alert("FileIO reading file" + file.path);
         //alert("making input stream");
 		
         // open an input stream from the file
