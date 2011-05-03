@@ -139,12 +139,12 @@ function message(text, priority) {
     if (priority > 0) {
         // append the text to the end of the output file
         //FileIO.writeFile("output.txt", text, 1);
-        messageToWrite += text;
+        //messageToWrite += text;
     }
 };
 
 function flushMessage() {
     // append the text to the end of the output file
-    FileIO.writeFile("output.txt", messageToWrite, 1);
+    //FileIO.writeFile("output.txt", messageToWrite, 1);
     messageToWrite = "";
 }
