@@ -6,3 +6,16 @@ This will allow the engine to make educated guesses based on which songs go toge
 
 TECHNOLOGY:
 We have created a plugin for the open-source media player Songbird
+
+INSTALLATION INSTRUCTIONS:
+You must have the music player Songbird, which is a free and open source download available at http://getsongbird.com/
+To install Blue-Jay:
+1. Open Songbird.
+2. Go to Tools->Addons and click "Install"
+3. Navigate to the file "InstallableBlueJay.xpi" on your computer
+4. When Songbird prompts you to restart Songbird, restart Songbird
+
+USAGE INSTRUCTIONS:
+1. After starting Songbird, click the pane button at the top-right corner of the screen to view the Blue-Jay user interface.
+2. You may need to push Songbird's play button to start the player.
+3. Now click the "One-Click Mix" button to start the engine. Click "ok" on each of the windows. Once the song changes, the engine has started successfully
