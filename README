@@ -19,3 +19,7 @@ USAGE INSTRUCTIONS:
 1. After starting Songbird, click the pane button at the top-right corner of the screen to view the Blue-Jay user interface.
 2. You may need to push Songbird's play button to start the player.
 3. Now click the "One-Click Mix" button to start the engine. Click "ok" on each of the windows. Once the song changes, the engine has started successfully
+
+To rate a song, use the bar on the right-hand side of the screen, to the right of the words "Rate Song." This gives the rating to Blue-Jay. Each rating you assign to a song has a timestamp associated with it. Just because you like a song now doesn't mean you will like it later, and vice versa.
+
+Blue-Jay also keeps track of when you skip a song and will override the newly chosen song with a song chosen by Blue-Jay.
