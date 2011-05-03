@@ -365,34 +365,34 @@ function TimeBasedRecommendor() {
         }
     }
     // create the necessary PredictionLink to predict each candidate from the other
-    function linkCandidates(candidateOne, candidateTwo) {
-        message("linking candidates " + candidateOne.getName().getName() + " and " + candidateTwo.getName().getName() + "\r\n");
-	    var frequencyCountA = candidateOne.getNumFrequencyEstimators();
-	    var ratingCountA = candidateOne.getNumRatingEstimators();
-	    var frequencyCountB = candidateTwo.getNumFrequencyEstimators();
-	    var ratingCountB = candidateTwo.getNumRatingEstimators();
+    function linkCandidates(predictor, predictee) {
+        message("linking candidates " + predictor.getName().getName() + " and " + predictee.getName().getName() + "\r\n");
+	    var frequencyCountA = predictor.getNumFrequencyEstimators();
+	    var ratingCountA = predictor.getNumRatingEstimators();
+	    var frequencyCountB = predictee.getNumFrequencyEstimators();
+	    var ratingCountB = predictee.getNumRatingEstimators();
 	    var i, j;
 	    // using the frequency of A, try to predict the rating for B
 	    for (i = 0; i < frequencyCountA; i++) {
     	    message("getting frequency estimator\r\n");
-	        var predictor = candidateOne.getFrequencyEstimatorAtIndex(i);
+	        var predictorAverage = predictor.getFrequencyEstimatorAtIndex(i);
     	    message("getting actual rating history\r\n");
-	        var predictee = candidateTwo.getActualRatingHistory();
+	        var predicteeAverage = predictee.getActualRatingHistory();
             message("linking averages\r\n");
-		    this.linkAverages(predictor, predictee);
+		    this.linkAverages(predictorAverage, predicteeAverage);
 	    }
 	    // using the frequency of B, try to predict the rating for A
-	    for (j = 0; j < frequencyCountB; j++) {
-		    this.linkAverages(candidateTwo.getFrequencyEstimatorAtIndex(j), candidateOne.getActualRatingHistory());
-	    }
+	    /*for (j = 0; j < frequencyCountB; j++) {
+		    this.linkAverages(predictee.getFrequencyEstimatorAtIndex(j), predictor.getActualRatingHistory());
+	    }*/
 	    // using the rating for A, try to predict the rating for B
 	    for (i = 0; i < ratingCountA; i++) {
-		    this.linkAverages(candidateOne.getRatingEstimatorAtIndex(i), candidateTwo.getActualRatingHistory());
+		    this.linkAverages(predictor.getRatingEstimatorAtIndex(i), predictee.getActualRatingHistory());
 	    }
 	    // using the rating for B, try to predict the rating for A
-	    for (j = 0; j < ratingCountB; j++) {
-		    this.linkAverages(candidateTwo.getRatingEstimatorAtIndex(j), candidateOne.getActualRatingHistory());
-	    }
+	    /*for (j = 0; j < ratingCountB; j++) {
+		    this.linkAverages(predictee.getRatingEstimatorAtIndex(j), predictor.getActualRatingHistory());
+	    }*/
     }
     // create the necessary PredictionLink to predict the predictee from the predictor
     function linkAverages(predictor, predictee) {
@@ -483,12 +483,15 @@ function TimeBasedRecommendor() {
 	    var i;
 	    var currentParent;
 	    for ([name1, candidate1] in iterator1) {
-	        // for speed, only compare against oneself and ones immediate parents
+	        // for speed, only compare against oneself and one's immediate parents
             this.linkCandidates(candidate1, candidate1);
 	        parents = candidate1.getParents();
 	        //parents = this.findAllSuperCategoriesOf(candidate1);
 	        for (i = 0; i < parents.length; i++) {
-	            this.linkCandidates(candidate1, parents[i]);
+	            // try to predict the rating of the parent from data about the child
+	            // this.linkCandidates(candidate1, parents[i]);
+	            // try to predict the rating of this candidate from data about the parents
+	            this.linkCandidates(parents[i], candidate1);
 	        }
 	    }
     }

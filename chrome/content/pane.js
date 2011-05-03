@@ -221,7 +221,7 @@ Bluejay.PaneController = {
         //alert("song changed pt4");
         if (songName != this.desiredTrackName) {
             // if a song was chosen randomly, and we then skip it automatically, that's not a downvote
-            this.ignoredSongname = songName
+            this.ignoredSongname = songName;
 	        this.makePlaylist();
         }
   },
