@@ -28,10 +28,12 @@
  
  <hbox id="pane-header-box" align="center">
     <description id="pane-header-label" value="&bluejay.pane.label;" />
+  </hbox>
+  <hbox>
+	<button id="off" label="Turn Off"/>
 	<spacer flex="1"/>
 	<button id="scan-button" label="Scan Library"/>
   </hbox>
-
 <box>
 	<groupbox min-width="50" flex="1">
 		<hbox>

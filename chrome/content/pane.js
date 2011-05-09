@@ -34,6 +34,7 @@ Bluejay.PaneController = {
     this.songEndDate = null;
     this.isLibraryScanned = false;
     this.desiredTrackName = null;
+	this.state = "on";
 
     // Make a local variable for this controller so that
     // it is easy to access from closures.
@@ -56,6 +57,11 @@ Bluejay.PaneController = {
     this._mixbutton = document.getElementById("action-button");
     this._mixbutton.addEventListener("command", 
         function() { controller.makePlaylist(); }, false);
+		
+	//Hook up the On/Off button
+	this._offbutton = document.getElementById("off");
+    this._offbutton.addEventListener("command", 
+        function() { controller.turnOff(); }, false);
 	
 	// Hook up the ratings menu (five entries)
 	this._1star = document.getElementById("1star");
@@ -112,6 +118,10 @@ Bluejay.PaneController = {
             this.engine.addRating(newRating);
         }
     }, 
+	
+	turnOff : function() {
+		this.state="off";
+	},
   // this function scans the user's library and send that data to the engine
   scanLibrary : function() {
     var list = LibraryUtils.mainLibrary;
@@ -174,56 +184,58 @@ Bluejay.PaneController = {
   
 
   songChanged: function(ev) {
-	    //alert("song changed");
-	    // get the data for the new track
-		var mediaItem = ev.data;
-		var songName = mediaItem.getProperty(SBProperties.trackName)
-	    //alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-	    var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
-	    // get the current date
-        this.songEndDate = new DateTime();
-        this.songEndDate.setNow();
-        //alert("song changed pt2");
-	    // check if we were previously playing a song
-	    if (this.currentSongName && (this.currentSongName != this.ignoredSongname)) {
-            //alert("song changed pt2a");
-	        // if we get here then we were previously playing a song
-	        // compute the duration it actually played
-	        var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
-	        //alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
-	        // decide whether it was skipped based on the duration
-	        if (playedDuration >= this.currentSongDuration * 0.75) {
-	            // if we get here then it was not skipped
-	            //alert("song named " + this.currentSongName + " finished");
-	            var newParticipation = new Participation();
-	            newParticipation.setStartTime(this.songStartDate);
-	            newParticipation.setEndTime(this.songEndDate);
-	            newParticipation.setIntensity(1);
-	            newParticipation.setActivityName(new Name(this.currentSongName));
-	            this.engine.addParticipation(newParticipation);
-	        } else {
-	            //alert("song named " + this.currentSongName + " got skipped");
-	            var newRating = new Rating();
-	            newRating.setActivity(new Name(this.currentSongName));
-	            newRating.setDate(this.songEndDate);
-	            newRating.setScore(0);
-	            this.engine.addRating(newRating);
-	        }
-	        //alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
-	    }
-        //alert("song changed pt3");
-        // update the current song
-        this.currentSongName = songName;
-        this.songStartDate = this.songEndDate;
-        this.currentSongDuration = songLength;
-	    //alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
-	    //alert("writing participation to file");
-        //alert("song changed pt4");
-        if (songName != this.desiredTrackName) {
-            // if a song was chosen randomly, and we then skip it automatically, that's not a downvote
-            this.ignoredSongname = songName;
-	        this.makePlaylist();
-        }
+		if(this.state=="on"){
+			//alert("song changed");
+			// get the data for the new track
+			var mediaItem = ev.data;
+			var songName = mediaItem.getProperty(SBProperties.trackName)
+			//alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+			var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
+			// get the current date
+			this.songEndDate = new DateTime();
+			this.songEndDate.setNow();
+			//alert("song changed pt2");
+			// check if we were previously playing a song
+			if (this.currentSongName && (this.currentSongName != this.ignoredSongname)) {
+				//alert("song changed pt2a");
+				// if we get here then we were previously playing a song
+				// compute the duration it actually played
+				var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
+				//alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
+				// decide whether it was skipped based on the duration
+				if (playedDuration >= this.currentSongDuration * 0.75) {
+					// if we get here then it was not skipped
+					//alert("song named " + this.currentSongName + " finished");
+					var newParticipation = new Participation();
+					newParticipation.setStartTime(this.songStartDate);
+					newParticipation.setEndTime(this.songEndDate);
+					newParticipation.setIntensity(1);
+					newParticipation.setActivityName(new Name(this.currentSongName));
+					this.engine.addParticipation(newParticipation);
+				} else {
+					//alert("song named " + this.currentSongName + " got skipped");
+					var newRating = new Rating();
+					newRating.setActivity(new Name(this.currentSongName));
+					newRating.setDate(this.songEndDate);
+					newRating.setScore(0);
+					this.engine.addRating(newRating);
+				}
+				//alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
+			}
+			//alert("song changed pt3");
+			// update the current song
+			this.currentSongName = songName;
+			this.songStartDate = this.songEndDate;
+			this.currentSongDuration = songLength;
+			//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
+			//alert("writing participation to file");
+			//alert("song changed pt4");
+			if (songName != this.desiredTrackName) {
+				// if a song was chosen randomly, and we then skip it automatically, that's not a downvote
+				this.ignoredSongname = songName;
+				this.makePlaylist();
+			}
+		}
   },
 
 
@@ -249,6 +261,7 @@ Bluejay.PaneController = {
     if (!this.isLibraryScanned) {
         this.scanLibrary();
     }
+	this.state="on";
     //this.engine.updatePredictions();
     this.desiredTrackName = this.engine.makeRecommendation().getName();
     this.changeSong(this.desiredTrackName);    
