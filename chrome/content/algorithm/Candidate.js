@@ -31,8 +31,10 @@
 	this.getChildren = getChildren;
 	this.getNumChildren = getNumChildren;
 	
-	// informing the Candidate when it is rated
+	// informing the Candidate whenever the user rates it
 	this.giveRating = giveRating;
+	// informing the Candidate of its first rating
+	this.giveInitialRating = giveInitialRating;
 	
 	// informing the Candidate when it is listened to
 	this.giveParticipation = giveParticipation;
@@ -69,6 +71,8 @@
 	this.setDiscoveryDate = setDiscoveryDate;
 	this.getDiscoveryDate = getDiscoveryDate;
 	this.suspectDiscoveryDate = suspectDiscoveryDate;
+
+	this.applyInitialRating = applyInitialRating;
 	
 	// the duration (in seconds) between the latest listening and the time at 'when'
 	this.getIdleDuration = getIdleDuration;
@@ -102,6 +106,7 @@
 	var latestRatingDate = new DateTime();	
 	var parentLinksNeedUpdating = false;
 	var discoveryDate;
+	var initialRating;
     
 	// call the constructor
 	if (name) {
@@ -178,6 +183,12 @@
 		if ((!discoveryDate) || (strictlyChronologicallyOrdered(rating.getDate(), discoveryDate))) {
 		    discoveryDate = rating.getDate();
 		}
+	}
+
+    // Songs in the user's library already have ratings, but they don't have helpful timestamps
+    // So, we provide support for one timeless rating, which gets placed at the beginning of time
+	function giveInitialRating(rating) {
+	    initialRating = rating;
 	}
 	
 	// inform the Candidate that it was listened to during a certain interval
@@ -269,6 +280,17 @@
             latestInteractionDate = when;
         }
         discoveryDate = when;
+	}
+	// tells the Candidate that the discovery date can't change any more
+	function applyInitialRating() {
+        if (initialRating) {
+            // We have an initial rating that needs to have the correct timestamp applied
+            // Now that we know when this song was discovered, we know the timestamp to give to the initial rating
+            initialRating.setDate(this.getDiscoveryDate());
+            // Add the rating and clear it
+            this.giveRating(initialRating);
+            initialRating = null;
+        }
 	}
 	// get the estimate for the date at which this Candidate was discovered
 	function getDiscoveryDate(when) {

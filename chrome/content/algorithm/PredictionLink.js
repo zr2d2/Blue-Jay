@@ -90,8 +90,14 @@
 	function initializeIncreasing(){
 	    plot.addDataPoint(new Datapoint(0, 0, 1));
 	    plot.addDataPoint(new Datapoint(0, 0, 1));
+	    plot.addDataPoint(new Datapoint(0, 0, 1));
+	    plot.addDataPoint(new Datapoint(.25, .25, 1));
+	    plot.addDataPoint(new Datapoint(.5, .5, 1));
+	    plot.addDataPoint(new Datapoint(.75, .75, 1));
 	    plot.addDataPoint(new Datapoint(1, 1, 1));
 	    plot.addDataPoint(new Datapoint(1, 1, 1));
+	    plot.addDataPoint(new Datapoint(1, 1, 1));
+	    // numChanges is a measure of how certain we are. It doesn't need to equal the number of data points
 	    numChanges += 4;
 	}
 	

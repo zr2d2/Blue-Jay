@@ -113,7 +113,7 @@ function TimeBasedRecommendor() {
         this.updateChildPointers();
         //alert("computing discovery dates");
         this.estimateDiscoveryDates();
-        alert("recommendor adding test links");
+        alert("recommendor adding prediction links");
 		this.addSomeTestLinks();
         //alert("recommendor updating predictions");
 		//this.updatePredictions();
@@ -571,6 +571,8 @@ function TimeBasedRecommendor() {
                 // So fix that
                 currentCandidate.setDiscoveryDate(firstDate);
             }
+            // Now we promise to the Candidate that the discovery date cannot change any more, so it can assign that timestamp to its initial rating
+            currentCandidate.applyInitialRating();
             message("discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
 	    }
                 
@@ -956,7 +958,7 @@ function TimeBasedRecommendor() {
 	    }
 	    var result;
 	    if (sumWeight == 0) {
-	        result = new Distribution(0, 0, 0);
+	        result = new Distribution(.5, .5, 0);
 	    }
 	    else{
 		    // If we did have a distribution to predict from then we can calculate the average and standard deviations

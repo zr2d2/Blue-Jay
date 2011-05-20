@@ -72,7 +72,7 @@
 	            lowerIndex = middleIndex;
 	        }
 	    }
-	    if (datapoints[lowerIndex].getX() >= x) {
+	    if (datapoints[lowerIndex].getX() + datapoints[upperIndex].getX() >= 2 * x) {
 	        middleIndex = lowerIndex;
 	    } else {
 	        middleIndex = upperIndex;
@@ -99,7 +99,7 @@
 			    if (upperIndex < datapoints.length - 1) {
 				    // if we get here then both the next and previous points exist
 				    // choose the next closest point to include
-				    if (Math.abs(datapoints[upperIndex + 1].getX() - x) < Math.abs(datapoints[lowerIndex - 1].getX() - x)) {
+				    if (Math.abs(datapoints[upperIndex + 1].getX() - x) <= Math.abs(datapoints[lowerIndex - 1].getX() - x)) {
 					    upperIndex++;
 				    } else {
 					    lowerIndex--;

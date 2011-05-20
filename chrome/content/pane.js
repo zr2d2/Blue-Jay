@@ -142,20 +142,29 @@ Bluejay.PaneController = {
         var songName = new Name(item.getProperty(SBProperties.trackName));
         // make sure the song name is something sensible
         if (!songName.isNull()) {
-            // get the artist name
-            var artistName = new Name(item.getProperty(SBProperties.artistName));
-            // get the genre
-            var genre = new Name(item.getProperty(SBProperties.genre));
+            // make a new candidate to represent the song
+            var songCandidate = new Candidate();
+            songCandidate.setName(songName);
             // get the date it was added to the library
             var timeString = item.getProperty(SBProperties.created);
             var deltaTime = parseInt(item.getProperty(SBProperties.created));
             var discoveryDate = new DateTime();
             discoveryDate.setDurationSinceReference(deltaTime / 1000);
-
-            // make a new candidate to represent the song
-            var songCandidate = new Candidate();
-            songCandidate.setName(songName);
             songCandidate.setDiscoveryDate(discoveryDate);
+            message("getting rating");
+            // get the song's rating if it has been rated yet
+            var starCount = item.getProperty(SBProperties.rating);
+            message(starCount + "\r\n");
+            if (starCount > 0) {
+                var songRating = new Rating();
+                songRating.setActivity(songName);
+                songRating.setScore((starCount - 1) / 4);
+                songCandidate.giveInitialRating(songRating);
+            }
+
+
+            // get the artist name
+            var artistName = new Name(item.getProperty(SBProperties.artistName));
             // if the artist name is unknown, group it with other songs with unknown genre
             if (artistName.isNull()) {
                 artistName = new Name("Unspecified Artist");
@@ -164,26 +173,32 @@ Bluejay.PaneController = {
             var artistCandidate = new Candidate();
             artistCandidate.setName(artistName);
             artistCandidate.addParentName(music);
-            // give this candidate to the engine
+            // give the artist candidate to the engine
             this.engine.addCandidate(artistCandidate);
             // add the artist as a parent of the song
             songCandidate.addParentName(artistName);
+
+
+            // get the genre
+            var genre = new Name(item.getProperty(SBProperties.genre));
             // if the genre is unknown, group it with other songs with unknown genre
             if (genre.isNull()) {
                 genre = new Name("Unspecified Genre");
             }
-            // create a Candidate representing the artist
+            // create a Candidate representing the genre
             var genreCandidate = new Candidate();
             genreCandidate.setName(genre);
             genreCandidate.addParentName(music);
-            // give this candidate to the engine
+            // give the genre candidate to the engine
             this.engine.addCandidate(genreCandidate);
             // add the artist as a parent of the song
             songCandidate.addParentName(genre);
-            // if the artist name and genre name are unknown, then the song is a direct child of the category "Song"
+            
+            /* // if the artist name and genre name are unknown, then the song is a direct child of the category "Song"
             if (artistName.isNull() && genre.isNull()) {
                 songCandidate.addParentName(music);
-            }
+            }*/ 
+            
             // give the song to the engine
             this.engine.addCandidate(songCandidate);
         }
