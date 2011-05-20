@@ -17,8 +17,8 @@ FileIO = {
 
     /* Public Methods */
 
+    // read the file and return a string containing the file contents
     readFile : function(fileName) {
-    
         var homeDirFile = FileIO.getHomeDirectory();
 
         var file = homeDirFile;
@@ -46,16 +46,16 @@ FileIO = {
             stringContents += tempString.value;
         }
 
-        //data = converter.readString();
         //alert("reading point 6");
         converter.close(); // this closes foStream
 
-        // do something with read data
+        // do something with the read data
         //alert("filecontents = " + stringContents);
         alert("done getting file data");
         return stringContents;
     },
     
+    // Writes the given string to the file. "append" tells whether to append the data or clear the file first
     writeFile : function(fileName, stringData, append) {
         homeDirFile = FileIO.getHomeDirectory();
 
@@ -131,7 +131,7 @@ FileIO = {
 };
 
 // the text is the message to send
-// the priority determines whether it's a debug messgae or an important one
+// the priority determines whether it's a debug message or an important one
 function message(text, priority) {
     // supply a default priority of 0 if none is provided
     if (!priority) {
@@ -147,10 +147,10 @@ function message(text, priority) {
     }
 };
 
+// append the text to the end of the output file
 function flushMessage() {
-    // append the text to the end of the output file
     if (messageToWrite.length > 0) {
-        FileIO.writeFile("output.txt", messageToWrite, 1);
+        FileIO.writeFile("bluejay_output.txt", messageToWrite, 1);
         messageToWrite = "";
     }
 }

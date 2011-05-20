@@ -135,14 +135,14 @@
 		var input = inputData.getCurrentValue(when, false);
 		var middle = plot.predict(input.getMean());
 		
-		message("x ="+input.getMean());
+		message("PredictionLink input = "+input.getMean());
 		message("middle = " + middle.getMean());
 		
 		var leftOneStdDev = plot.predict(input.getMean() - input.getStdDev());
-		message(" left = " + leftOneStdDev.getMean());
+		message(" left output = " + leftOneStdDev.getMean());
 		
 		var rightOneStdDev = plot.predict(input.getMean() + input.getStdDev());
-		message(" right = " + rightOneStdDev.getMean());
+		message(" right output = " + rightOneStdDev.getMean());
 		
 		//alert("PredictionLink::guess pt2");
 		

@@ -106,10 +106,12 @@ Bluejay.PaneController = {
 	//alert("created listener");
  	 
   },
+  
 	giveRating : function(score) {
+	    // make sure we know which song to assign the rating to
     	if (this.currentSongName) {
 	        var newRating = new Rating();
-            newRating.setActivity(new Name(this.currentSongName));
+            newRating.setActivityName(new Name(this.currentSongName));
             var newDate = new DateTime();
             newDate.setNow();
             newRating.setDate(newDate);
@@ -119,7 +121,7 @@ Bluejay.PaneController = {
             flushMessage();
         }
     }, 
-	
+	// disable the recommendation engine until it is re-enabled
 	turnOff : function() {
 		this.state="off";
 	},
@@ -156,10 +158,13 @@ Bluejay.PaneController = {
             var starCount = item.getProperty(SBProperties.rating);
             message(starCount + "\r\n");
             if (starCount > 0) {
+                // create the rating and add it
                 var songRating = new Rating();
-                songRating.setActivity(songName);
+                songRating.setActivityName(songName);
                 songRating.setScore((starCount - 1) / 4);
-                songCandidate.giveInitialRating(songRating);
+                // setting an invalid date means we want it to be the earliest possible date
+                songRating.setDate(null);
+                this.engine.putRatingInMemory(songRating);
             }
 
 
@@ -216,7 +221,7 @@ Bluejay.PaneController = {
     flushMessage();
   },
   
-
+  // this function gets called whenever the song changes
   songChanged: function(ev) {
 		if(this.state=="on"){
 			//alert("song changed");
@@ -247,9 +252,10 @@ Bluejay.PaneController = {
 					newParticipation.setActivityName(new Name(this.currentSongName));
 					this.engine.addParticipation(newParticipation);
 				} else {
+					// if we get here then the song was skipped
 					//alert("song named " + this.currentSongName + " got skipped");
 					var newRating = new Rating();
-					newRating.setActivity(new Name(this.currentSongName));
+					newRating.setActivityName(new Name(this.currentSongName));
 					newRating.setDate(this.songEndDate);
 					newRating.setScore(0);
 					this.engine.addRating(newRating);
@@ -301,7 +307,7 @@ Bluejay.PaneController = {
     this.changeSong(this.desiredTrackName);    
     flushMessage();
   },
-  
+  // changes the currently playing song to the song named songName
   changeSong: function(songName) {
         //alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);

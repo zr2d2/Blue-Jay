@@ -11,8 +11,8 @@
 /* Name: ScatterPlot
  * Description: the ScatterPlot represents a bunch of Datapoints that 
  * have x, y, and weight. It is used to predict y from x
- * Currently it uses nearby x-values atlthough it may later be changed 
- * to compute the least-squares-regression-line
+ * Currently it uses nearby x-values although it could later be changed 
+ * to compute the least-squares-regression-line if that is a better estimate
  */
  
  function ScatterPlot(){
@@ -26,8 +26,8 @@
 	//private variables
 	var datapoints = [];
 	var debugHistory = [];
-	var upperChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
-	var lowerChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
+	//var upperChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
+	//var lowerChild; // don't initialize here because that creates an infinite loop // = new ScatterPlot();
 	var totalWeight = 0.0;
 	
 	/* public function definition */

@@ -98,6 +98,7 @@
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier){
 		//alert("RatingMovingAverage::getValueAt pt a\r\n");
+		message("number of ratings = " + ratings.length + "\r\n");
 		if (sumRatings.length == 0){
 			return [new Distribution(0, 0, 0), -1];
 		}

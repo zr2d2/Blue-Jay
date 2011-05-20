@@ -17,8 +17,8 @@ function TimeBasedRecommendor() {
 
 	/* Private Member Variables */
 
-    // setup some maps so that we can store all the data in memory and then update properly
-    // Basically the concern is that can't add a rating to a candidate that doesn't exist yet
+    // Setup some maps so that we can store all the data in memory and then update properly
+    // Basically, the concern is that we can't add a rating to a candidate that doesn't exist yet
     // So we store everything, then create the candidates, then add the ratings
 	
     var candidates = {};        // a map of all candidates (with key equal to its name)
@@ -35,32 +35,40 @@ function TimeBasedRecommendor() {
 	/* Public Methods */
     
     /* function prototypes */
-	
-    // functions to add data
+
+    // Functions that should be called by outside code
     // read the usual files and put their data into the recommendor
     this.readFiles = readFiles;
     // read a file and put its data into the recommendor
     this.readFile = readFile;
     // add a Candidate for the engine to track
     this.addCandidate = addCandidate;
-    // add any necessary links between Candidates
-    this.updateLinks = updateLinks;
     // give the previously unseen rating to the engine
     this.addRating = addRating;
-    // restore the previously seen rating and don't write it to a file
-    this.putRatingInMemory = putRatingInMemory;
-    // save this rating to a text file
-    this.writeRating = writeRating;
     // give the previously unseen participation to the engine and write it to a file
     this.addParticipation = addParticipation;
-    // restore the previously seen participation and don't write it to a file
-    this.putParticipationInMemory = putParticipationInMemory;
-    // save this participation to a text file
-    this.writeParticipation = writeParticipation;
     // give this rating to all the Candidates that need it    
     this.cascadeRating = cascadeRating;
     // give this participation to all the Candidates that need it
     this.cascadeParticipation = cascadeParticipation;
+    // create the necessary files on disk
+    this.createFiles = createFiles;
+
+    // functions to add data
+    // Restore the previously seen rating and don't write it to a file. This adds it to a vector and gives it to the Candidates later
+    this.putRatingInMemory = putRatingInMemory;
+    // save this rating to a text file
+    this.writeRating = writeRating;
+    // save the given participation to disk
+    this.writeParticipation = writeParticipation;
+    // Restore the previously seen participation and don't write it to a file. This adds it to a vector and gives it to the Candidates later
+    this.putParticipationInMemory = putParticipationInMemory;
+    // save this participation to a text file
+    this.writeParticipation = writeParticipation;
+
+    // functions to update the links between Candidates    
+    // add any necessary links between Candidates
+    this.updateLinks = updateLinks;
     // create a PredictionLink to predict one Candidate from another
     this.linkCandidates = linkCandidates;
     // create a PredictionLink to predict a RatingMovingAverage from a RatingMovingAverage
@@ -68,7 +76,9 @@ function TimeBasedRecommendor() {
     // inform each Candidate of each of its children and parents
     this.updateChildPointers = updateChildPointers;
     // create some PredictionLinks to predict some Candidates from others
-    this.addSomeTestLinks = addSomeTestLinks;
+    this.addPredictionLinks = addPredictionLinks;
+
+    // functions to update internal data
     // update the output value of each PredictionLink
     this.updatePredictions = updatePredictions;
     // for each candidate, estimate the date at which it was discovered
@@ -77,10 +87,6 @@ function TimeBasedRecommendor() {
     this.estimateDiscoveryDate = estimateDiscoveryDate;
     // returns the earliest date for which we have data    
     this.getEarliestInteractionDate = getEarliestInteractionDate;
-    // create the necessary files on disk
-    this.createFiles = createFiles;
-    // save the given participation to disk
-    this.writeParticipation = writeParticipation;
 	
     // search functions
     // returns this Candidate and all its ancestors
@@ -89,11 +95,15 @@ function TimeBasedRecommendor() {
     this.getCandidateWithName = getCandidateWithName;
     // get the link between two MovingAverages
     this.getLinkFromMovingAverages = getLinkFromMovingAverages;
+    
+    // prediction functions
     // estimate what rating this Candidate would get if it were played at this time
     this.rateCandidate = rateCandidate;
     // choose the name of the next song to play
     this.makeRecommendation = makeRecommendation;
+    // combine multiple distributions into one
     this.addDistributions = addDistributions;
+    // combine multiple distributions into one
     this.averageDistributions = averageDistributions;
     
     // print functions
@@ -105,20 +115,20 @@ function TimeBasedRecommendor() {
     // functions for testing that it all works
     this.test = test;
 
+    // Function definitions
+
     // updates the structure of the Candidates
-    // This informs each Candidate of each of children and parents, and
-    // creates PredictionLinks between some of them
+    // This informs each Candidate of each of its children and parents, and creates PredictionLinks between some of them
     function updateLinks() {
         alert("recommendor updating child pointers");
         this.updateChildPointers();
         //alert("computing discovery dates");
         this.estimateDiscoveryDates();
         alert("recommendor adding prediction links");
-		this.addSomeTestLinks();
+		this.addPredictionLinks();
         //alert("recommendor updating predictions");
 		//this.updatePredictions();
     }
-    // function definitions
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
         //alert("recommendor reading files");
@@ -131,6 +141,8 @@ function TimeBasedRecommendor() {
 		alert("recommendor done reading files");
     }
     // reads one file and put its data into the TimeBasedRecommendor
+    // The data is expected to be in XML, and there is no error-checking
+    // Essentially this is an XML parser that creates Candidate, Rating, or Participation objects and adds them to the TimeBasedRecommendor
     function readFile(fileName) {
         //alert("recommendor reading file");
         
@@ -210,7 +222,7 @@ function TimeBasedRecommendor() {
 				    if (stackCount == 2) {
 					    // If we get here, then we just read an attribute of the object
 
-					    // If any of these trigger, then we just read an attribute of a candidate (which is a song, artist, genre or whatever)
+					    // If any of these trigger, then we just read an attribute of a Candidate (which is a song, artist, genre or whatever)
 					    if (endTag.equalTo(nameIndicator))
 						    candidate.setName(value);
 					    if (endTag.equalTo(parentIndicator))
@@ -222,7 +234,7 @@ function TimeBasedRecommendor() {
 					    // If any of these trigger, then we just read an attribute of a rating
 					    // Tags associated with ratings
 					    if (endTag.equalTo(ratingActivityIndicator))
-						    rating.setActivity(value);
+						    rating.setActivityName(value);
 					    if (endTag.equalTo(ratingDateIndicator)) {
 						    // keep track of the latest date ever encountered
 						    //message("assigning date to rating\r\n");
@@ -261,7 +273,7 @@ function TimeBasedRecommendor() {
                         //message("object name = " + objectName.getName());
 					    // If we get here then we just finished reading an object
 					    if (objectName.equalTo(candidateIndicator)) {
-						    // If we get here then we just finished reading a candidate (which is a song, artist, genre or whatever)
+						    // If we get here then we just finished reading a Candidate (which is a song, artist, genre or whatever)
 						    // add the candidate to the inheritance hierarchy
 						    //alert("adding candidate");
 						    this.addCandidate(candidate);
@@ -343,17 +355,19 @@ function TimeBasedRecommendor() {
         message("saving rating " + text);
         FileIO.writeFile(ratingsFilename, text + "\r\n", 1);
     }
+    // Appends the rating to the end of a vector, in preparation for giving the rating to the relevant Candidates later
     function putRatingInMemory(newRating) {
         message("adding rating ");
         printRating(newRating);
         message("\r\n");
         // save the rating
-        ratings.length += 1;
-        ratings[ratings.length - 1] = newRating;
+        ratings.push(newRating);
         // update the earliest date at which anything happened
         var ratingDate = newRating.getDate();
-        if ((!earliestInteractionDate) || (strictlyChronologicallyOrdered(ratingDate, earliestInteractionDate))) {
-            earliestInteractionDate = ratingDate;
+        if (ratingDate) {
+            if ((!earliestInteractionDate) || (strictlyChronologicallyOrdered(ratingDate, earliestInteractionDate))) {
+                earliestInteractionDate = ratingDate;
+            }
         }
     }
     // adds a participation to each relevant Candidate that exists
@@ -370,19 +384,19 @@ function TimeBasedRecommendor() {
         message("saving participation " + text);
         FileIO.writeFile(ratingsFilename, text + "\r\n", 1);
     }
+    // Appends the participation to the end of a vector, in preparation for giving the participation to the relevant Candidates later
     function putParticipationInMemory(newParticipation) {
         message("adding participation");
         printParticipation(newParticipation);
         // save the listening
-        participations.length += 1;
-        participations[participations.length - 1] = newParticipation;
+        participations.push(newParticipation);
         // update the earliest date at which anything happened
         var participationDate = newParticipation.getStartTime();
         if ((!earliestInteractionDate) || (strictlyChronologicallyOrdered(participationDate, earliestInteractionDate))) {
             earliestInteractionDate = participationDate;
         }
     }
-    // returns the earliest date at which something happened
+    // returns the earliest date at which something happened. This is used as an estimate for the date that Blue-Jay first started running
     function getEarliestInteractionDate() {
         //alert("getting earliest interaction date");
         if (earliestInteractionDate) {
@@ -410,9 +424,13 @@ function TimeBasedRecommendor() {
     }
     // adds the rating to the necessary candidate and all its parents
     function cascadeRating(newRating) {
-        message("cascading rating with name" + newRating.getActivity().getName() + "\r\n");
-	    var candidate = getCandidateWithName(newRating.getActivity());
+        message("cascading rating with name" + newRating.getActivityName().getName() + "\r\n");
+	    var candidate = getCandidateWithName(newRating.getActivityName());
 	    if (candidate) {
+	        // if the rating's date was previously undefined, set it to the date at which this candidate was discovered
+	        if (!newRating.getDate()) {
+	            newRating.setDate(candidate.getDiscoveryDate());
+	        }
 	        var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
 	        var i, j;
 	        for (i = 0; candidatesToUpdate[i]; i++) {
@@ -422,7 +440,7 @@ function TimeBasedRecommendor() {
 	        }
         }
     }
-    // create the necessary PredictionLink to predict each candidate from the other
+    // create the necessary PredictionLink to predict the predictee from the predictor
     function linkCandidates(predictor, predictee) {
         message("linking candidates " + predictor.getName().getName() + " and " + predictee.getName().getName() + "\r\n");
 	    var frequencyCountA = predictor.getNumFrequencyEstimators();
@@ -506,7 +524,7 @@ function TimeBasedRecommendor() {
 		        message("update was not required\r\n");
 		    }
 	    }
-	    // keep track of all candidates that have no children
+	    // save in "leafVector" all candidates that have no children
 	    leafVector.length = 0;
 	    candidateIterator = Iterator(candidates);
 	    for ([candidateName, currentCandidate] in candidateIterator) {
@@ -517,8 +535,8 @@ function TimeBasedRecommendor() {
     }
     
     // creates a bunch of PredictionLinks to predict the ratings of some Candidates from others
-    function addSomeTestLinks() {
-    	message("adding some test links\r\n");
+    function addPredictionLinks() {
+    	message("adding some prediction links\r\n");
 	    var iterator1 = Iterator(candidates);
 	    var name1;
 	    var name2;
@@ -537,6 +555,7 @@ function TimeBasedRecommendor() {
 		    }
 	    }*/
 	    // to make the algorithm run quickly, we currently only predict a song based on itself and supercategories
+	    // TODO add a small number (O(1)) of additional prediction links to estimate the rating of a Candidate from a few other unrelated Candidates that empirically show good correlation
 	    var parents;
 	    var i;
 	    var currentParent;
@@ -553,7 +572,7 @@ function TimeBasedRecommendor() {
 	        }
 	    }
     }
-    // for each Candidate, estimate the date at which it was discovered
+    // for each Candidate, estimate the date at which it was discovered and give it that date
     function estimateDiscoveryDates() {
         var i;
         alert("estimating discovery dates");
@@ -572,7 +591,7 @@ function TimeBasedRecommendor() {
                 currentCandidate.setDiscoveryDate(firstDate);
             }
             // Now we promise to the Candidate that the discovery date cannot change any more, so it can assign that timestamp to its initial rating
-            currentCandidate.applyInitialRating();
+            //currentCandidate.applyInitialRating();
             message("discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
 	    }
                 
@@ -596,7 +615,7 @@ function TimeBasedRecommendor() {
         discoveryDataString += "</Discovery>";
         // write the discovery data to the file
         FileIO.writeFile(ratingsFilename, discoveryDataString, 1); 
-        */   
+        */
     }
     // for the given Candidate, estimate the date at which it was discovered
     // This function is currently unused because it would be unable to differentiate between a song that was recently added and a song that was never played before
@@ -664,7 +683,7 @@ function TimeBasedRecommendor() {
     	
     	// for each candidate, get the map of predictions links that have it as the predictor
     	for ([currentKey, currentMap] in mapIterator) {
-    	    message("making iterator out of map " + currentKey + "\r\n");
+    	    //message("making iterator out of map " + currentKey + "\r\n");
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
     	    for ([currentPredictionKey, currentLink] in predictionIterator) {
@@ -789,7 +808,7 @@ function TimeBasedRecommendor() {
         
         // We don't want to ever completely forget about a song. Check if this is a song (rather than a supercategory)
         if (candidate.getChildren().length <= 0) {
-            // So, move it slowly closer to perfection
+            // Move the song slowly closer to perfection
             // Whenever they give it a rating or listen to it, this resets
             var remembererDuration = candidate.getIdleDuration(when);
             if (remembererDuration < 1)
@@ -995,13 +1014,18 @@ function TimeBasedRecommendor() {
         message("\r\n");        
     }
     function printRating(rating) {
-        message("name:" + rating.getActivity().getName() + "\r\n");
-        message("date:" + rating.getDate().stringVersion() + "\r\n");
+        message("name:" + rating.getActivityName().getName() + "\r\n");
+        var ratingDate = rating.getDate();
+        if (ratingDate) {
+            message("date:" + ratingDate.stringVersion() + "\r\n");
+        }
         message("score:" + rating.getScore() + "\r\n");
-        var now = new DateTime();
-        now.setNow();
-        var duration = rating.getDate().timeUntil(now);
-        message("time since now = " + duration);
+        if (ratingDate) {
+            var now = new DateTime();
+            now.setNow();
+            var duration = ratingDate.timeUntil(now);
+            message("time since now = " + duration);
+        }
     }
     function printDistribution(distribution) {
         message("mean:" + distribution.getMean());
@@ -1015,6 +1039,7 @@ function TimeBasedRecommendor() {
         message("intensity = " + participation.getIntensity() + "\r\n");
     }
 
+    // test the engine
     function test() {
         //alert("testing");
         //this.readFiles();
@@ -1022,8 +1047,8 @@ function TimeBasedRecommendor() {
         //FileIO.writeFile("appendedFile.txt", "appended data", 1);
         /*
         var r1 = new Rating();
-        r1.setActivity("Holding on for a hero");
-        alert(r1.getActivity());
+        r1.setActivityName("Holding on for a hero");
+        alert(r1.getActivityName());
         var dt = new DateTime();
         alert("setting date");
         r1.setDate(dt);
@@ -1082,7 +1107,7 @@ function TimeBasedRecommendor() {
         //    alert(text);
     }*/
 // recommend function
-    function recommend() {
+    /*function recommend() {
         var songName = "Come on Eileen";
         alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
@@ -1093,9 +1118,5 @@ function TimeBasedRecommendor() {
         var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
         gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
         alert("done selecting song");
-    }  
-
-	/* Private Methods */
-
-
+    } */ 
 };

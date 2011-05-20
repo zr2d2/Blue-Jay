@@ -16,8 +16,8 @@
 
 function Rating() {
     //public function prototypes
-    this.setActivity = setActivity;
-    this.getActivity = getActivity;
+    this.setActivityName = setActivityName;
+    this.getActivityName = getActivityName;
     this.setDate = setDate;
     this.getDate = getDate;
     this.setScore = setScore;
@@ -35,12 +35,11 @@ function Rating() {
     //public functions
 	
 	// set activity name
-    function setActivity(name){
+    function setActivityName(name){
         activityName = name.makeCopy();
     }
-
 	// return activity name
-    function getActivity(){
+    function getActivityName(){
         return activityName;
     }
 
@@ -48,7 +47,6 @@ function Rating() {
     function setDate(date){
         creationDate = date;
     }
-
 	// retun the date when it was created
     function getDate(){
         return creationDate;
@@ -58,7 +56,6 @@ function Rating() {
     function setScore(newValue){
         score = newValue;
     }
-
 	// return score
     function getScore(){
         return score;
@@ -68,16 +65,19 @@ function Rating() {
     function setWeight(newWeight){
         weight = newWeight;
     }
-
 	// return weight
     function getWeight(){
         return weight;
     }
+
+    // returns a string representing this Rating
     function stringVersion() {
         var result = "<Rating>";
         result += ("<Activity>" + activityName.getName() + "</Activity>");
         result += ("<Score>" + score + "</Score>");
-        result += ("<Date>" + creationDate.stringVersion() + "</Date>");
+        if (creationDate) {
+            result += ("<Date>" + creationDate.stringVersion() + "</Date>");
+        }
         result += "</Rating>";
         return result;
     }
@@ -104,6 +104,6 @@ function RatingPrecedes() {
         }
 
         // break ties by name
-        return r1.getActivity() < r2.getActivity();
+        return r1.getActivityName() < r2.getActivityName();
     }
 };
