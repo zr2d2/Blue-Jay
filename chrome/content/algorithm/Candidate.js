@@ -66,7 +66,9 @@
 	this.needToUpdateParentPointers = needToUpdateParentPointers;
 	
 	// the date it was added to your library
-	//this.setDiscoveryDate = setDiscoveryDate;
+	this.setDiscoveryDate = setDiscoveryDate;
+	this.getDiscoveryDate = getDiscoveryDate;
+	this.suspectDiscoveryDate = suspectDiscoveryDate;
 	
 	// the duration (in seconds) between the latest listening and the time at 'when'
 	this.getIdleDuration = getIdleDuration;
@@ -91,7 +93,7 @@
 	var ratingEstimators = [];
 	var frequencyEstimators = [];
 	var actualRatingHistory = new RatingMovingAverage();
-	var numRatings = false;
+	// the latest date at which there was an interaction
 	var latestInteractionDate = new DateTime();
 	var lastPlayDate = new DateTime();
 	
@@ -99,7 +101,7 @@
 	var currentRating = new Distribution();	
 	var latestRatingDate = new DateTime();	
 	var parentLinksNeedUpdating = false;
-	var discoveryDate = new DateTime();
+	var discoveryDate;
     
 	// call the constructor
 	if (name) {
@@ -151,56 +153,61 @@
 	
 	// get child
 	function getChildren(){
-	
 		return children;
 	}
 	
 	// get number of children
 	function getNumChildren() {
-	
 	    return children.length;
 	}
 	
 	// inform the candidate that the user gave it this rating
 	function giveRating(rating)	{
-
+	    // record the rating
 		var i = 0;
-		for (i=0; i<ratingEstimators.length; i++){
-			
+		for (i = 0; i < ratingEstimators.length; i++){
 			ratingEstimators[i].addRating(rating);
 		}
 		actualRatingHistory.addRating(rating);
+
+		// update the latest interaction date
 		latestInteractionDate = rating.getDate();
+		
+		// If we don't know when we were discovered, then assume we were discovered along with the first rating
+		// If we think we were discovered after this rating, then it is actually more reasonable to say we were discovered when this rating was created 
+		if ((!discoveryDate) || (strictlyChronologicallyOrdered(rating.getDate(), discoveryDate))) {
+		    discoveryDate = rating.getDate();
+		}
 	}
 	
 	// inform the Candidate that it was listened to during a certain interval
 	function giveParticipation(participation){
-	
 		var i = 0;
 		// update the moving averages of the ratings
-		for (i=0; i<frequencyEstimators.length; i++){
-		
+		for (i = 0; i < frequencyEstimators.length; i++){
 			frequencyEstimators[i].addParticipationInterval(participation);
 		}
-		numRatings++;
 		lastPlayDate = latestInteractionDate = participation.getEndTime();
+
+		// If we don't know when we were discovered, then assume we were discovered along with the first participation
+		// If we think we were discovered after this rating, then it is actually more reasonable to say we were discovered when this rating was created 
+		if ((!discoveryDate) || (strictlyChronologicallyOrdered(participation.getStartTime(), discoveryDate))) {
+		    discoveryDate = participation.getStartTime();
+		}
 	}
 	
 	// returns the number of MovingAverages that try to estimate the current rating
 	function getNumRatingEstimators(){
-		
 		return ratingEstimators.length;
 	}
 	
 	// returns a particular rating estimator
 	function getRatingEstimatorAtIndex(index){
-	
 		return ratingEstimators[index];
 	}
 	
 	// returns the number of MovingAverages that try to estimate how often this song has been listened to recently
 	function getNumFrequencyEstimators(){
-	
 		return frequencyEstimators.length;
 	}
 	
@@ -244,9 +251,37 @@
 		return false;
 	}
 	
-	function setDiscoveryDate(when){
-	
-		discoveryDate = when;
+	// set the estimate for the date at which this Candidate was discovered
+	// Returns true if the estimate is believable, false if the estimate is not believable
+	function suspectDiscoveryDate(when) {
+	    // Internally we estimate the discovery date based on the first time this song was played or rated.
+	    // So, we only use outside suspicion of the discovery date if it does not move the discovery date later
+	    if ((!discoveryDate) || (strictlyChronologicallyOrdered(when, discoveryDate))) {
+	        this.setDiscoveryDate(when);
+	        return true;
+        }
+        return false;
+	}
+	// declares that this Candidate was discovered that the given date
+	function setDiscoveryDate(when) {
+        // update the latest date at which there was an interaction
+        if (strictlyChronologicallyOrdered(latestInteractionDate, when)) {
+            latestInteractionDate = when;
+        }
+        discoveryDate = when;
+	}
+	// get the estimate for the date at which this Candidate was discovered
+	function getDiscoveryDate(when) {
+	    // if discoveryDate is valid...
+	    if (discoveryDate) {
+	        // ...then return it
+    	    return discoveryDate;
+        }
+        else {
+            // If we get here, then we don't have any data suggesting a discovery date.
+            // So, assume it was discovered an extremely long time agon
+            return new DateTime();
+        }
 	}
 	
 	// Tells how long it has been since the song was heard or rated
@@ -263,20 +298,16 @@
 	
 	// constructor stuff
 	function initialize(){
-    	//alert("initializing candidate");
-		numRatings = 0;
 		var numAverages = 1;
 		var i = 0;
 		ratingEstimators.length = numAverages;
 		frequencyEstimators.length = numAverages;
-    	//alert("initializing participation averages");
 		for (i = 0; i < numAverages; i++){
 		    var newAverage = new ParticipationMovingAverage();
 			newAverage.setName(new Name(name.getName() + " (participations) " + i));
 			newAverage.setOwnerName(name);
 			frequencyEstimators[i] = newAverage;
 		}
-    	//alert("done initializing participation averages");
 		
 		for (i = 0; i < numAverages; i++){
     		var newAverage = new RatingMovingAverage();
@@ -284,12 +315,10 @@
 			newAverage.setOwnerName(name);
 			ratingEstimators[i] = newAverage;		
 		}
-    	//alert("done initializing rating averages");
 		
 		actualRatingHistory.setName(new Name(name.getName() + " actual"));
 		actualRatingHistory.setOwnerName(name);
 		
-    	//alert("done initializing candidate ");
 		
 	}
 	

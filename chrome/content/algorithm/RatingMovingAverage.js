@@ -39,6 +39,7 @@
     // these functions are defined in the subclass
     this.addRating = addRating;
 	this.getRatings = getRatings;
+	this.getNumRatings = getNumRatings;
 	this.getNameRatings = getNumRatings;
 	this.getAverageValue = getAverageValue;
 	this.getLatestDate = getLatestDate;
@@ -55,7 +56,6 @@
 	
 	//public functions
 	function addRating(rating){
-
 		var totalScore = 0.0; 
 		var totalWeight = 0.0;
 		var totalSquaredScore = 0.0;
@@ -149,23 +149,41 @@
 		return [result, latestRatingIndex];
 	}
 	
-	function getRatings(){
+	function getRatings() {
 		return ratings;
+	}
+	function getNumRatings() {
+	    return ratings.length;
 	}
 	
 	function getNumRatings(){
 		return sumRatings.length;
 	}
-	
+    
+    // returns the index of the latest rating before the given date ("when")	
 	function getIndexForDate(when, strictlyEarlier){
 		if(sumRatings.length < 1){
 			return -1;
 		}
+		
+		// check whether the target date is before the earliest date for which we have data
+		var firstDate = sumRatings[0].getDate();
+		if (strictlyEarlier) {
+		    if (!strictlyChronologicallyOrdered(firstDate, when)) {
+		        return -1;
+		    }
+        } else {
+		    if (strictlyChronologicallyOrdered(when, firstDate)) {
+		        return -1;
+		    }
+        }
+		
 
+		// check whether the target date is after the most recent date
         //alert("RatingMovingAverage::getIndexForDate nonzero");
 		var finalDate = sumRatings[sumRatings.length - 1].getDate();
         //alert("RatingMovingAverage::getIndexForDate comparing last");
-		if(strictlyChronologicallyOrdered(finalDate, when)){
+		if(strictlyChronologicallyOrdered(finalDate, when)) {
             //alert("RatingMovingAverage::getIndexForDate was last");
 			return sumRatings.length - 1;
 		}
@@ -176,8 +194,7 @@
 		var upperIndex = sumRatings.length - 1;
 		var middleIndex = 0;
 		
-		while (upperIndex > lowerIndex + 1)
-		{
+		while (upperIndex > lowerIndex + 1) {
 			middleIndex = Math.floor((lowerIndex + upperIndex) / 2);
 			//alert("middleIndex = " + middleIndex);
 			if (strictlyChronologicallyOrdered(sumRatings[middleIndex].getDate(), when)){
@@ -194,10 +211,8 @@
 		if (strictlyEarlier){
 			return lowerIndex;
 		}
-		
-		else
-		{
-			if(strictlyChronologicallyOrdered(when, nextRating.getDate())){
+		else {
+			if(strictlyChronologicallyOrdered(when, nextRating.getDate())) {
 				return lowerIndex;
 			}
 			else{
@@ -206,11 +221,10 @@
 		}
 	}
 	
-	function getAverageValue(){
+	function getAverageValue() {
 		if(sumRatings.length < 1){
 			return 0;
 		}
-		
 		return sumRatings[sumRatings.length -1].getScore()/(sumRatings.length);
 	}
 	

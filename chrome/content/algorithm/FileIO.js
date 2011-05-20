@@ -36,11 +36,13 @@ FileIO = {
          var converter = Components.classes["@mozilla.org/intl/converter-input-stream;1"].
                 createInstance(Components.interfaces.nsIConverterInputStream);
         //alert("reading point 4");
-        converter.init(istream, "UTF-8", 0, 0);
+        var replacementCharacter = Components.interfaces.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER
+        converter.init(istream, "UTF-8", 0, replacementCharacter);
         //alert("reading point 5");
         var stringContents = "";
         var tempString = {};
         while (converter.readString(4096, tempString) != 0) {
+            //message(tempString.value, 3);
             stringContents += tempString.value;
         }
 
@@ -50,6 +52,7 @@ FileIO = {
 
         // do something with read data
         //alert("filecontents = " + stringContents);
+        alert("done getting file data");
         return stringContents;
     },
     
@@ -134,6 +137,7 @@ function message(text, priority) {
     if (!priority) {
         priority = 0;
     }
+    //priority = 0;
     // only save messages that we care about
     // If we're not debugging then don't include debug messages
     if (priority > 0) {
@@ -145,6 +149,8 @@ function message(text, priority) {
 
 function flushMessage() {
     // append the text to the end of the output file
-    //FileIO.writeFile("output.txt", messageToWrite, 1);
-    messageToWrite = "";
+    if (messageToWrite.length > 0) {
+        FileIO.writeFile("output.txt", messageToWrite, 1);
+        messageToWrite = "";
+    }
 }

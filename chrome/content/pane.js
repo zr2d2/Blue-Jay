@@ -116,6 +116,7 @@ Bluejay.PaneController = {
             newRating.setScore(score);
             //alert("adding rating");
             this.engine.addRating(newRating);
+            flushMessage();
         }
     }, 
 	
@@ -130,37 +131,55 @@ Bluejay.PaneController = {
     alert("push [ok] to start scanning library");
     var length = list.length;
     // limit the number of songs (for testing)
-    //if (length > 65)
+    // if (length > 65) {
     //    length = 65;
+    // }
+    var i;
     var music = new Name("Song");
     for (i = 0; i < length; i++){
-        var songName = new Name(list.getItemByIndex(i).getProperty(SBProperties.trackName));
+        var item = list.getItemByIndex(i);
+        // get the song name
+        var songName = new Name(item.getProperty(SBProperties.trackName));
+        // make sure the song name is something sensible
         if (!songName.isNull()) {
-            var artistName = new Name(list.getItemByIndex(i).getProperty(SBProperties.artistName));
-            var genre = new Name(list.getItemByIndex(i).getProperty(SBProperties.genre));
+            // get the artist name
+            var artistName = new Name(item.getProperty(SBProperties.artistName));
+            // get the genre
+            var genre = new Name(item.getProperty(SBProperties.genre));
+            // get the date it was added to the library
+            var timeString = item.getProperty(SBProperties.created);
+            var deltaTime = parseInt(item.getProperty(SBProperties.created));
+            var discoveryDate = new DateTime();
+            discoveryDate.setDurationSinceReference(deltaTime / 1000);
+
+            // make a new candidate to represent the song
             var songCandidate = new Candidate();
             songCandidate.setName(songName);
-            // check for all kinds of invalid types
-            if (!artistName.isNull()) {
-                // create a Candidate representing the artist
-                var artistCandidate = new Candidate();
-                artistCandidate.setName(artistName);
-                artistCandidate.addParentName(music);
-                // give this candidate to the engine
-                this.engine.addCandidate(artistCandidate);
-                // add the artist as a parent of the song
-                songCandidate.addParentName(artistName);
+            songCandidate.setDiscoveryDate(discoveryDate);
+            // if the artist name is unknown, group it with other songs with unknown genre
+            if (artistName.isNull()) {
+                artistName = new Name("Unspecified Artist");
             }
-            if (!genre.isNull()) {
-                // create a Candidate representing the artist
-                var genreCandidate = new Candidate();
-                genreCandidate.setName(genre);
-                genreCandidate.addParentName(music);
-                // give this candidate to the engine
-                this.engine.addCandidate(genreCandidate);
-                // add the artist as a parent of the song
-                songCandidate.addParentName(genre);
+            // create a Candidate representing the artist
+            var artistCandidate = new Candidate();
+            artistCandidate.setName(artistName);
+            artistCandidate.addParentName(music);
+            // give this candidate to the engine
+            this.engine.addCandidate(artistCandidate);
+            // add the artist as a parent of the song
+            songCandidate.addParentName(artistName);
+            // if the genre is unknown, group it with other songs with unknown genre
+            if (genre.isNull()) {
+                genre = new Name("Unspecified Genre");
             }
+            // create a Candidate representing the artist
+            var genreCandidate = new Candidate();
+            genreCandidate.setName(genre);
+            genreCandidate.addParentName(music);
+            // give this candidate to the engine
+            this.engine.addCandidate(genreCandidate);
+            // add the artist as a parent of the song
+            songCandidate.addParentName(genre);
             // if the artist name and genre name are unknown, then the song is a direct child of the category "Song"
             if (artistName.isNull() && genre.isNull()) {
                 songCandidate.addParentName(music);
@@ -168,10 +187,10 @@ Bluejay.PaneController = {
             // give the song to the engine
             this.engine.addCandidate(songCandidate);
         }
-        var musicCategory = new Candidate();
-        musicCategory.setName(music);
-        this.engine.addCandidate(musicCategory);    
     }
+    var musicCategory = new Candidate();
+    musicCategory.setName(music);
+    this.engine.addCandidate(musicCategory);    
     // tell the engine to update its internal data structure
     //this.engine.updateLinks();
     this.isLibraryScanned = true;

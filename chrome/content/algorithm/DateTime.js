@@ -19,6 +19,7 @@ function DateTime(yyyymmddhhmmss) {
     this.stringVersion= stringVersion;
     this.timeUntil = timeUntil;
     this.setComponents = setComponents;
+    this.setDurationSinceReference = setDurationSinceReference;
     this.getDurationSinceReference = getDurationSinceReference;
     this.setNow = setNow;   // makes the date equal to the current date
     // don't use this function from outside this class. It would be made private if possible
@@ -73,6 +74,10 @@ function DateTime(yyyymmddhhmmss) {
 
     function getDurationSinceReference() {
         return value.valueOf() / 1000.0;
+    }
+    
+    function setDurationSinceReference(numSeconds) {
+        value = new Date(numSeconds * 1000);
     }
     // the number of seconds from this to other
     function timeUntil(other) {

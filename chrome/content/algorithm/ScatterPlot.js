@@ -33,11 +33,9 @@
 	/* public function definition */
 	// add data point
 	function addDataPoint(datapoint){
-	
 		datapoints.push(datapoint);
 		var i = 0.0;
-		for (i = datapoints.length -1; i> 0; i--){
-		
+		for (i = datapoints.length - 1; i > 0; i--){
 			datapoints[i] = datapoints[i-1];
 			if (datapoints[i].getX() <= datapoint.getX()){
 				break;
@@ -85,10 +83,16 @@
 			    break;
 	    }
 	    */
+        message("datapoints=");
+	    for (i = 0; i < datapoints.length; i++) {
+	        message("x=" + datapoints[i].getX() + " y=" + datapoints[i].getY() + "\r\n");
+	    }
+	    
 	    // now search for a bunch more nearby points
 	    //var middleIndex = i;
 	    lowerIndex = middleIndex;
 	    upperIndex = middleIndex;
+	    message("middleIndex = " + middleIndex + "\r\n");
 	    var targetLength = Math.ceil(Math.sqrt(datapoints.length)) - 1;
 	    while ((upperIndex - lowerIndex) < targetLength) {
 		    if (lowerIndex > 0) {
@@ -119,7 +123,7 @@
 			    upperIndex++;
 		    }
 	    }
-	    //message("lowerIndex = " + lowerIndex + " upperIndex = " + upperIndex + "\r\n");	    
+	    message("lowerIndex = " + lowerIndex + " upperIndex = " + upperIndex + "\r\n");	    
 	    // Now compute the average and standard deviation of the points in this interval
 	    var sumY = 0.0;
 	    var sumY2 = 0.0;

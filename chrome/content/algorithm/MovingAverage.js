@@ -61,44 +61,54 @@ function MovingAverage() {
     }
 	
     // makes a bunch of datapoints that describe how the value of the 'other' distribution changes with this one
-    function getCorrelationsFor(other, startTime) {
+    function getCorrelationsFor(other, previousNumRatings) {
+        //message("MovingAverage::getCorrelationsFor pt0");
         var i;
         var otherRatings = other.getRatings();
 
-        var startingIndex = other.getIndexForDate(startTime, true) + 1;
-        /* // find the starting index. This can be optimized with a binary search!
-        for (i = otherRatings.length - 1; i >= 0; i--) {
-            if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
-			    break;
-        }*/
-        //message("MovingAverage::getCorrelationsFor pt2");
-        // var startingIndex = i + 1;
         var results = [];
-        var x, y, weight;
-        weight = 1;
-        var previousIndex = this.getValueAt(startTime, true)[1];
-        
-		
-		// count how many individual x-values will be used to create the prediction
+        // count how many individual x-values will be used to create the prediction
         var numChanges = 0; 
-        
-        // don't count the transition from "undefined" to "defined" as a change
-        if ((startingIndex == 0) || (previousIndex < 0))
-            numChanges = -1;
-		
-	    // This should be improved eventually.
-	    // We should give the deviation of each point to the scatterplot in some meaningful way
-        //message("MovingAverage::getCorrelationsFor pt3");
-        for (i = startingIndex; i < otherRatings.length; i++) {
-            var value = this.getValueAt(otherRatings[i].getDate(), true);
-            x = value[0].getMean();
-            y = otherRatings[i].getScore();
-            //message("MovingAverage::getCorrelationsFor pt4");
-            if (value[1] != previousIndex) {
-                previousIndex = value[1];
-                numChanges++;
+    
+        //var startingIndex = other.getIndexForDate(startTime, false) + 1;
+        //message("MovingAverage::getCorrelationsFor pt1");
+        var startingIndex = previousNumRatings;
+        if ((otherRatings.length > 0) && (previousNumRatings < otherRatings.length)) {
+            var startTime = otherRatings[previousNumRatings].getDate();
+            /* // find the starting index. This can be optimized with a binary search!
+            for (i = otherRatings.length - 1; i >= 0; i--) {
+                if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
+			        break;
+            }*/
+            //message("MovingAverage::getCorrelationsFor pt2");
+            // var startingIndex = i + 1;
+            var x, y, weight;
+            weight = 1;
+            var previousIndex = this.getValueAt(startTime, true)[1];
+            
+    		
+		    
+            // don't count the transition from "undefined" to "defined" as a change
+            if ((startingIndex == 0) || (previousIndex < 0))
+                numChanges = -1;
+    		
+	        // This should be improved eventually.
+	        // We should give the deviation of each point to the scatterplot in some meaningful way
+            //message("MovingAverage::getCorrelationsFor pt3");
+            for (i = startingIndex; i < otherRatings.length; i++) {
+                var value = this.getValueAt(otherRatings[i].getDate(), true);
+                x = value[0].getMean();
+                y = otherRatings[i].getScore();
+                var ourIndex = value[1];
+                if (ourIndex >= 0) {
+                    //message("MovingAverage::getCorrelationsFor pt4");
+                    if (ourIndex != previousIndex) {
+                        previousIndex = value[1];
+                        numChanges++;
+                    }
+                    results.push(new Datapoint(x, y, weight));
+                }
             }
-            results.push(new Datapoint(x, y, weight));
         }
         //message("MovingAverage::getCorrelationsFor pt5");
         // if we had to skip a change but there were none to skip, then make it zero

@@ -30,7 +30,7 @@
     //alert("constructing Scatterplot\r\n");
 	var plot = new ScatterPlot();
     //alert("constructing DateTime\r\n");
-	var latestUpdateTime = new DateTime();
+	var previousNumRatings = 0;
 	var numChanges = 0.0;
 	
 	//message("making prediction link part 1\r\n");
@@ -89,22 +89,23 @@
 	
 	function initializeIncreasing(){
 	    plot.addDataPoint(new Datapoint(0, 0, 1));
+	    plot.addDataPoint(new Datapoint(0, 0, 1));
 	    plot.addDataPoint(new Datapoint(1, 1, 1));
-	    numChanges += 2;
+	    plot.addDataPoint(new Datapoint(1, 1, 1));
+	    numChanges += 4;
 	}
 	
 	// updates the scatterplot with any new data that it hadn't yet 
 	// requested from the MovingAverage that it tries to estimate
 	function update(){
-
         //alert("PredictionLink::update\r\n");
-		var newPoints = inputData.getCorrelationsFor(outputData, latestUpdateTime);
+		var newPoints = inputData.getCorrelationsFor(outputData, previousNumRatings);
         //alert("back in PredictionLink::update\r\n");
 		
+        message("plot adding " + newPoints[0].length + " datapoints\r\n");
 		if (newPoints[0].length > 0){
 		
 			var i=0;
-            //alert("plot adding datapoints\r\n");
 			for (i = 0; i < newPoints[0].length; i++) {
 				plot.addDataPoint(newPoints[0][i]);
 			}
@@ -113,11 +114,16 @@
 			numChanges = numChanges + newPoints[1];
             //alert("plot done adding datapoints\r\n");
 		}
+		previousNumRatings = outputData.getNumRatings();
 	}
 	
 	// compute a distribution that represents the expected deviation from the overall mean
 	function guess(when){
-	
+	    // if we don't have any data...
+	    if (inputData.getIndexForDate(when, false) < 0) {
+	        // then we should return a guess with no weight
+	        return new Distribution(0, 0, 0);
+	    }
 		//alert("PredictionLink::guess");
 		
 		var input = inputData.getCurrentValue(when, false);

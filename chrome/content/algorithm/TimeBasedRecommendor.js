@@ -27,6 +27,7 @@ function TimeBasedRecommendor() {
     var participations = [];    // a vector of all partipations
     var predictionLinks = {};   // the set of all prediction links
     var latestDate = new DateTime();    // the latest date for which we have data about something
+    var earliestInteractionDate;  // the earliest date at which anything happened
     
     var ratingsFilename = "bluejay_ratings.txt";
     var inheritancesFilename = "bluejay_inheritances.txt";
@@ -68,7 +69,14 @@ function TimeBasedRecommendor() {
     this.updateChildPointers = updateChildPointers;
     // create some PredictionLinks to predict some Candidates from others
     this.addSomeTestLinks = addSomeTestLinks;
+    // update the output value of each PredictionLink
     this.updatePredictions = updatePredictions;
+    // for each candidate, estimate the date at which it was discovered
+    this.estimateDiscoveryDates = estimateDiscoveryDates;
+    // for the given candidate, estimate the date at which it was discovered
+    this.estimateDiscoveryDate = estimateDiscoveryDate;
+    // returns the earliest date for which we have data    
+    this.getEarliestInteractionDate = getEarliestInteractionDate;
     // create the necessary files on disk
     this.createFiles = createFiles;
     // save the given participation to disk
@@ -103,6 +111,8 @@ function TimeBasedRecommendor() {
     function updateLinks() {
         alert("recommendor updating child pointers");
         this.updateChildPointers();
+        //alert("computing discovery dates");
+        this.estimateDiscoveryDates();
         alert("recommendor adding test links");
 		this.addSomeTestLinks();
         //alert("recommendor updating predictions");
@@ -130,7 +140,7 @@ function TimeBasedRecommendor() {
         // display a message
         var fileContents = FileIO.readFile(fileName);
         
-        //message("initializing temporary variables");
+        message("initializing temporary variables");
 
 	    var currentChar;
 	    var startTag = new Name();
@@ -139,15 +149,15 @@ function TimeBasedRecommendor() {
 	    var readingStartTag = false;
 	    var readingValue = false;
 	    var readingEndTag = false;
-        //message("initializing local candidate");
+        message("initializing local candidate");
 	    var candidate = new Candidate();
-        //message("initializing local name");
+        message("initializing local name");
 	    var value = new Name();
 	    var objectName = new Name();
-        //message("initializing local rating");
+        message("initializing local rating");
 	    var rating = new Rating();
 	    var activityType = new Name();
-        //message("initializing local participation");
+        message("initializing local participation");
 	    var participation = new Participation();
     	
 	    // setup some strings to search for in the file
@@ -156,7 +166,7 @@ function TimeBasedRecommendor() {
 	    var parentIndicator = new Name("Parent");
 	    var discoveryDateIndicator = new Name("DiscoveryDate");
 
-        //message("done initializing some temporary variables");
+        message("done initializing some temporary variables");
         
 	    var ratingIndicator = new Name("Rating");
 	    var ratingActivityIndicator = new Name("Activity");
@@ -319,10 +329,13 @@ function TimeBasedRecommendor() {
         candidates[name] = newCandidate;
         //message("done adding candidate\r\n");
     }
-    // adds a rating to the list of ratings
+    // adds a rating to each relevant Candidate that exists
     function addRating(newRating) {
-        writeRating(newRating);
-        putRatingInMemory(newRating);
+        // save the rating to a text file
+        this.writeRating(newRating);
+        //putRatingInMemory(newRating);
+        // give the rating to each relevant Candidate
+        this.cascadeRating(newRating);
     }
     // saves the rating to the text file
     function writeRating(newRating) {
@@ -334,13 +347,22 @@ function TimeBasedRecommendor() {
         message("adding rating ");
         printRating(newRating);
         message("\r\n");
+        // save the rating
         ratings.length += 1;
         ratings[ratings.length - 1] = newRating;
+        // update the earliest date at which anything happened
+        var ratingDate = newRating.getDate();
+        if ((!earliestInteractionDate) || (strictlyChronologicallyOrdered(ratingDate, earliestInteractionDate))) {
+            earliestInteractionDate = ratingDate;
+        }
     }
-    // adds a rating to the list of participation
+    // adds a participation to each relevant Candidate that exists
     function addParticipation(newParticipation) {
-        writeParticipation(newParticipation);
-        putParticipationInMemory(newParticipation);
+        // save the participation to a text file
+        this.writeParticipation(newParticipation);
+        //putParticipationInMemory(newParticipation);
+        // give the participation to each relevant Candidate
+        this.cascadeParticipation(newParticipation);
     }
     // saves the rating to the text file
     function writeParticipation(newParticipation) {
@@ -351,8 +373,28 @@ function TimeBasedRecommendor() {
     function putParticipationInMemory(newParticipation) {
         message("adding participation");
         printParticipation(newParticipation);
+        // save the listening
         participations.length += 1;
         participations[participations.length - 1] = newParticipation;
+        // update the earliest date at which anything happened
+        var participationDate = newParticipation.getStartTime();
+        if ((!earliestInteractionDate) || (strictlyChronologicallyOrdered(participationDate, earliestInteractionDate))) {
+            earliestInteractionDate = participationDate;
+        }
+    }
+    // returns the earliest date at which something happened
+    function getEarliestInteractionDate() {
+        //alert("getting earliest interaction date");
+        if (earliestInteractionDate) {
+            // if we have a date at which something happened, return it
+            return earliestInteractionDate;
+        } else {
+            // If we don't have a date at which something happened, this is probably the first run
+            // The latest date is probably now, the startup date
+            var now = new DateTime();
+            now.setNow();
+            return now;
+        }
     }
     // adds the participation to the necessary candidate and all its parents
     function cascadeParticipation(newParticipation) {
@@ -368,6 +410,7 @@ function TimeBasedRecommendor() {
     }
     // adds the rating to the necessary candidate and all its parents
     function cascadeRating(newRating) {
+        message("cascading rating with name" + newRating.getActivity().getName() + "\r\n");
 	    var candidate = getCandidateWithName(newRating.getActivity());
 	    if (candidate) {
 	        var candidatesToUpdate = findAllSuperCategoriesOf(candidate);
@@ -509,6 +552,81 @@ function TimeBasedRecommendor() {
 	            this.linkCandidates(parents[i], candidate1);
 	        }
 	    }
+    }
+    // for each Candidate, estimate the date at which it was discovered
+    function estimateDiscoveryDates() {
+        var i;
+        alert("estimating discovery dates");
+        var firstDate = this.getEarliestInteractionDate();
+        //alert("first date = " + firstDate.stringVersion());
+        // update each candidate
+        var candidateName;
+        var currentCandidate;
+        var candidateIterator = Iterator(candidates);
+	    for ([candidateName, currentCandidate] in candidateIterator) {
+            // Each candidate should already know when it was discovered because we ask Songbird
+            // However, it is possible that a song was added before BlueJay was installed and we actually care about when BlueJay discovered it
+            if (strictlyChronologicallyOrdered(currentCandidate.getDiscoveryDate(), firstDate)) {
+                // If we get here, then the song thinks it was discovered before BlueJay was installed
+                // So fix that
+                currentCandidate.setDiscoveryDate(firstDate);
+            }
+            message("discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+	    }
+                
+        /*
+        // get the current date
+        var now = new DateTime();
+        now.setNow();
+        var numDiscoveries = 0;
+        var discoveryDataString = "<Discovery><Date>" + now.stringVersion() + "</Date>";
+        // iterate over each candidate
+        for (i = 0; i < candidates.length; i++) {
+            // tell this candidate that it was just discovered now
+            if (this.candidates[i].estimateDiscoveryDate(now)) {
+                // if the candidate was willing to believe this, then it means we have no other data for the candidate
+                // So, it probably was just discovered now, and we need to remember to save this data to a file
+                discoveryDataString += ("<Name>" + candidates[i].getName().getName() + "</Name>");
+                numDiscoveries++;
+            }
+            //this.estimateDiscoveryDate(candidates[i]);
+        }
+        discoveryDataString += "</Discovery>";
+        // write the discovery data to the file
+        FileIO.writeFile(ratingsFilename, discoveryDataString, 1); 
+        */   
+    }
+    // for the given Candidate, estimate the date at which it was discovered
+    // This function is currently unused because it would be unable to differentiate between a song that was recently added and a song that was never played before
+    function estimateDiscoveryDate(candidate) {
+        // We assume here that the parents of a Candidate must have existed whenever the Candidate existed
+        //      (If we wanted to, we could simply record whenever anything was discovered
+        //      That would take more disk space and it would slow down the initial run when we have to record it for each song)
+        // We can simply record date that Bluejay first started up as the discovery date for the Candidate that contains all songs
+        // Our assumption tells us that the Candidate cannot be any older than the newest of its parents
+        var parents = candidate.getParents();
+        var i;
+        var tempDate;
+        // get a dateTime equal to now
+        var latestDate = new DateTime();
+        tempDate.setNow();
+        var currentParent;
+        // find the most-recently-discovered parent
+        for (i = 0; i < parents.length; i++) {
+            currentParent = parents[i];
+            // make sure that the parent's discovery date is correct
+            estimateDiscoveryDate(currentParent);
+            // get the parent's discovery date and compare
+            tempDate = currentParent.getDiscoveryDate();
+            if (strictlyChronologicallyOrdered(latestDate, tempDate)) {
+                latestDate = tempDate;
+            }
+        }
+        // if the candidate thinks it was discovered longer ago than its most recent parent...
+        if (strictlyChronologicallyOrdered(latestDate, candidate.getDiscoveryDate())) {
+            // ...then tell the Candidate that it is probably wrong
+            candidate.suspectDiscoveryDate(latestDate);
+        }
     }
     // inform everything of any new data that was added recently that it needs to know about    
     function updatePredictions() {
@@ -665,35 +783,42 @@ function TimeBasedRecommendor() {
         // Believe the user's recent ratings
         
         
-        // We don't want to ever completely forget about a song. So, move it slowly closer to perfection
-        // Whenever they give it a rating or listen to it, this resets
-        var remembererDuration = candidate.getIdleDuration(when);
-        if (remembererDuration < 1)
-		    remembererDuration = 1;
-		    
-		// The goal is to make d = sqrt(t) where d is the duration between listenings and t = num seconds
-	    // Then n = sqrt(t) where n is the number of ratings
-	    // If the user reliably rates a song down, then for calculated distributions, stddev = 1 / n = 1 / sqrt(t) and weight = n = sqrt(t)
-	    // Then it is about ideal for the rememberer to have stddev = 1 / n and weight = d
-	    // If the user only usually rates a song down, then for calculated distributions, stddev = k and weight = n
-	    // Then it is about ideal for the rememberer to have stddev = k and weight = d
-	    // This is mostly equivalent to stddev = d^(-1/3), weight = d^(2/3)
-	    // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
-	    //double squareRoot = sqrt(remembererDuration);
-	    var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
-	    //message("building rememberer");
-	    var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot);
-	    guesses.push(rememberer);
+        // We don't want to ever completely forget about a song. Check if this is a song (rather than a supercategory)
+        if (candidate.getChildren().length <= 0) {
+            // So, move it slowly closer to perfection
+            // Whenever they give it a rating or listen to it, this resets
+            var remembererDuration = candidate.getIdleDuration(when);
+            if (remembererDuration < 1)
+		        remembererDuration = 1;
+            message("rememberer duration = " + remembererDuration + "\r\n");
+		    // The goal is to make d = sqrt(t) where d is the duration between listenings and t = num seconds
+	        // Then n = sqrt(t) where n is the number of ratings
+	        // If the user reliably rates a song down, then for calculated distributions, stddev = 1 / n = 1 / sqrt(t) and weight = n = sqrt(t)
+	        // Then it is about ideal for the rememberer to have stddev = 1 / n and weight = d
+	        // If the user only usually rates a song down, then for calculated distributions, stddev = k and weight = n
+	        // Then it is about ideal for the rememberer to have stddev = k and weight = d
+	        // This is mostly equivalent to stddev = d^(-1/3), weight = d^(2/3)
+	        // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
+	        //double squareRoot = sqrt(remembererDuration);
+	        var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
+	        //message("building rememberer");
+	        var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot);
+	        guesses.push(rememberer);
+
+
+	        // We should also suspect that they don't want to hear the song twice in a row
+	        var spacerDuration = candidate.getDurationSinceLastPlayed(when);
+	        // if they just heard it then they we're pretty sure they don't want to hear it again
+	        // If it's been 10 hours then it's probably okay to play it again
+	        // The spacer has a max weight so it can be overpowered by learned data
+	        var spacerWeight = 20 * (1 - spacerDuration / 36000);
+	        if (spacerWeight > 0) {
+	            guesses.push(new Distribution(0, .05, spacerWeight));
+	        }
+
+
+        }
 	    
-	    // We should also suspect that they don't want to hear the song twice in a row
-	    var spacerDuration = candidate.getDurationSinceLastPlayed(when);
-	    // if they just heard it then they we're pretty sure they don't want to hear it again
-	    // If it's been 10 hours then it's probably okay to play it again
-	    // The spacer has a max weight so it can be overpowered by learned data
-	    var spacerWeight = 20 * (1 - spacerDuration / 36000);
-	    if (spacerWeight > 0) {
-	        guesses.push(new Distribution(0, .05, spacerWeight));
-	    }
 
         // finally, combine all the distributions and return
         //message("averaging distributions");
