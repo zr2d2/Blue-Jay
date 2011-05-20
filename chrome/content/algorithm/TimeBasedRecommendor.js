@@ -764,14 +764,16 @@ function TimeBasedRecommendor() {
             guesses.push(currentGuess);
             childWeight += currentGuess.getWeight();
         }
-        var parentScale;
+        /*var parentScale;
         if (childWeight < 1)
             parentScale = 1;
         else
             parentScale = 1 / childWeight;
+            */
+        var parentWeight = Math.sqrt(childWeight + 1);
         for (i = 0; i < parents.length; i++) {
             currentGuess = parents[i].getCurrentRating();
-            guesses.push(new Distribution(currentGuess.getMean(), currentGuess.getStdDev(), currentGuess.getWeight() * parentScale));
+            guesses.push(new Distribution(currentGuess.getMean(), currentGuess.getStdDev(), parentWeight));
         }
         
         
@@ -802,7 +804,7 @@ function TimeBasedRecommendor() {
 	        //double squareRoot = sqrt(remembererDuration);
 	        var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
 	        //message("building rememberer");
-	        var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot);
+	        var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot / 800);
 	        guesses.push(rememberer);
 
 
@@ -854,7 +856,7 @@ function TimeBasedRecommendor() {
 	    var bestName = new Name("[no data]");
 	    //for ([candidateKey, currentCandidate] in candidateIterator) {
 	    var i, index;
-	    for (i = 0; i < 8; i++) {
+	    for (i = 0; i < 10; i++) {
 	        // choose a random candidate
 	        index = Math.floor(Math.random() * leafVector.length);
 	        currentCandidate = leafVector[index];

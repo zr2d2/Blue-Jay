@@ -137,7 +137,7 @@ function message(text, priority) {
     if (!priority) {
         priority = 0;
     }
-    //priority = 0;
+    //priority = 1;
     // only save messages that we care about
     // If we're not debugging then don't include debug messages
     if (priority > 0) {
