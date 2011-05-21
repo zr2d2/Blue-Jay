@@ -959,9 +959,14 @@ function TimeBasedRecommendor() {
             }
         }
         // We should remove duplicate indices to avoid considering a song twice
+        var minRun = -1;
+        var maxRun = -1;
         for (i = 1; i < indices.length; i++) {
-            if ((indices[i] == indices[i - 1]) && (indices[i] + 1 < candidatesByScore.length)) {
-                indices[i]++;
+            if ((indices[i] >= minRun) && (indices[i] <= maxRun) && (maxRun + 1 < candidatesByScore.length)) {
+                maxRun = maxRun + 1;
+                indices[i] = maxRun;
+            } else {
+                minRun = maxRun = indices[i];
             }
         }
         // now we update the rating of each song we are considering
