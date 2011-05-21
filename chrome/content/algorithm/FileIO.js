@@ -51,7 +51,7 @@ FileIO = {
 
         // do something with the read data
         //alert("filecontents = " + stringContents);
-        alert("done getting file data");
+        //alert("done getting file data");
         return stringContents;
     },
     

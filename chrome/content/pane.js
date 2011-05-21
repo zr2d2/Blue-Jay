@@ -211,11 +211,8 @@ Bluejay.PaneController = {
     var musicCategory = new Candidate();
     musicCategory.setName(music);
     this.engine.addCandidate(musicCategory);    
-    // tell the engine to update its internal data structure
-    //this.engine.updateLinkConnections();
     this.isLibraryScanned = true;
-    //this.engine.readFiles();
-    alert("done scanning library");
+    //alert("done scanning library");
     // read any data from the text files that gives information about the library
     this.engine.readFiles();
     flushMessage();

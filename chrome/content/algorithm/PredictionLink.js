@@ -134,24 +134,29 @@
 	        return new Distribution(0, 0, 0);
 	    }
 		//alert("PredictionLink::guess");
-		
+
+        // get the current value of the input. This value is a distribution, not a float		
 		var input = inputData.getCurrentValue(when, false);
+		// make a guess for this input
 		var middle = plot.predict(input.getMean());
 		
 		message("PredictionLink input = "+input.getMean());
 		message("middle = " + middle.getMean());
 		
-		var leftOneStdDev = plot.predict(input.getMean() - input.getStdDev());
-		message(" left output = " + leftOneStdDev.getMean());
-		
-		var rightOneStdDev = plot.predict(input.getMean() + input.getStdDev());
-		message(" right output = " + rightOneStdDev.getMean());
-		
-		//alert("PredictionLink::guess pt2");
-		
-		var stdDevA = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2.0;
-		var stdDevB = middle.getStdDev();
-		var stdDev = Math.sqrt(stdDevA * stdDevA + stdDevB * stdDevB);
+	    var stdDevA = middle.getStdDev();
+	    var stdDevB = 0;
+	    // If there is uncertainty in the input, then the slope of the line affects the output uncertainty
+		if (input.getStdDev() > 0) {
+		    var leftOneStdDev = plot.predict(input.getMean() - input.getStdDev());
+		    message(" left output = " + leftOneStdDev.getMean());
+    		
+		    var rightOneStdDev = plot.predict(input.getMean() + input.getStdDev());
+		    message(" right output = " + rightOneStdDev.getMean());
+    		
+		    //alert("PredictionLink::guess pt2");
+    		stdDevB = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2.0;
+        }
+	    var stdDev = Math.sqrt(stdDevA * stdDevA + stdDevB * stdDevB);
 
 		//alert("PredictionLink::guess pt3");
 		

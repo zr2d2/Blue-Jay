@@ -145,7 +145,7 @@ function TimeBasedRecommendor() {
 		this.updateRatings();
 		this.sortCandidates();
 		message("recommendor done reading files\r\n");
-		alert("recommendor done reading files");
+		alert("Bluejay is now ready");
     }
     // reads one file and put its data into the TimeBasedRecommendor
     // The data is expected to be in XML, and there is no error-checking
@@ -199,7 +199,7 @@ function TimeBasedRecommendor() {
 
 	    var currentDate = new DateTime();
 	    var characterIndex;
-	    alert("starting to parse file text");
+	    //alert("starting to parse file text");
 	    // read until the file is finished
 	    for (characterIndex = -1; characterIndex < fileContents.length; ) {
 		    // Check if this is a new starttag or endtag
@@ -337,7 +337,7 @@ function TimeBasedRecommendor() {
 			    endTag.appendChar(currentChar);
 		    }
 	    }
-	    alert("done reading file " + fileName + "\r\n");
+	    //alert("done reading file " + fileName + "\r\n");
     }
     // adds a candidate (also known as a song, genre, or category)
     function addCandidate(newCandidate) {
@@ -487,7 +487,7 @@ function TimeBasedRecommendor() {
         //message("doing dictionary lookup\r\n");
         var links = predictionLinks[predicteeName];
         //message("checking for undefined value\r\n");
-        if (links == undefined) {
+        if (!links) {
             //message("links was undefined\r\n");
 	        links = {};
         }
@@ -582,7 +582,7 @@ function TimeBasedRecommendor() {
     // for each Candidate, estimate the date at which it was discovered and give it that date
     function estimateDiscoveryDates() {
         var i;
-        alert("estimating discovery dates");
+        //alert("estimating discovery dates");
         var firstDate = this.getEarliestInteractionDate();
         //alert("first date = " + firstDate.stringVersion());
         // update each candidate
@@ -658,8 +658,8 @@ function TimeBasedRecommendor() {
     }
     // inform everything of any new data that was added recently that it needs to know about    
     function updateLinkValues() {
-        //alert("Updating predictions. Please wait.\r\n");
-        message("giving ratings to activities\r\n");
+        alert("recommendor applying ratings\r\n");
+        message("giving ratings to candidates\r\n");
         // inform each candidate of the ratings given to it
         var ratingIterator = Iterator(ratings, true);
         var rating;
@@ -678,6 +678,7 @@ function TimeBasedRecommendor() {
         
 
 
+        alert("recommendor updating link values\r\n");
     	message("updating PredictionLinks");
     	// have each PredictionLink update itself with the changes to the appropriate MovingAverage    	
     	var mapIterator = Iterator(predictionLinks);
@@ -702,7 +703,7 @@ function TimeBasedRecommendor() {
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");
     }
     function updateRatings() {
-        alert("predicting ratings");
+        alert("recommendor predicting ratings");
         // get the current date
         var now = new DateTime();
         now.setNow();
@@ -713,7 +714,7 @@ function TimeBasedRecommendor() {
     }
     // sort the songs by their score
     function sortCandidates() {
-        alert("sorting candidates");
+        alert("recommendor sorting candidates");
         // clear all the candidates
         candidatesByScore.length = 0;
         // copy the candidates from leafVector
