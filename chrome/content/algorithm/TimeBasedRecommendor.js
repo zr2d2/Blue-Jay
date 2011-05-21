@@ -962,13 +962,25 @@ function TimeBasedRecommendor() {
 	    var j;
 	    var index2;
 	    var tempCandidate;
+	    var tempIndex;
+	    // for such a small number of items, we can do selection sort because it's fast to code and easy to read and not too slow to run
+	    for (i = 0; i < indices.length; i++) {
+	        for (j = i + 1; j < indices.length; j++) {
+	            if (indices[i] > indices[j]) {
+	                tempIndex = indices[i];
+	                indices[i] = indices[j];
+	                indices[j] = tempIndex;
+	            }
+            }
+        }
+	    
 	    // for such a small number of items, we can do selection sort because it's fast to code and easy to read and not too slow to run
 	    for (i = 0; i < indices.length; i++) {
 	        index = indices[i];
 	        for (j = i + 1; j < indices.length; j++) {
 	            index2 = indices[j];
 	            // make sure these Candidates are in the correct order
-	            if ((index < index2) != (candidatesByScore[index].getCurrentRating().getMean() > candidatesByScore[index2].getCurrentRating().getMean())) {
+	            if (candidatesByScore[index].getCurrentRating().getMean() < candidatesByScore[index2].getCurrentRating().getMean()) {
 	                // if we get here then they are in the wrong order and we must swap them
 	                tempCandidate = candidatesByScore[index];
 	                candidatesByScore[index] = candidatesByScore[index2];
