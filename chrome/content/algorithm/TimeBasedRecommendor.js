@@ -942,21 +942,6 @@ function TimeBasedRecommendor() {
             // The integral is ln(x), so the chosen index is e^(rand()*ln(n))
 	        index = Math.floor(Math.exp(Math.random() * Math.log(leafVector.length)));
     	    indices.push(index);
-	        //index = Math.floor(Math.random() * leafVector.length);
-	        message("considering candidate #" + index, 1);
-	        currentCandidate = candidatesByScore[index];
-	        message(" name= " + currentCandidate.getName().getName() + "\r\n", 1);
-	        // recalculate the rating for this candidate
-            this.rateCandidate(currentCandidate, when);
-            //currentScore = currentCandidate.getCurrentRating().getMean();
-            //message("candidate name = " + currentCandidate.getName().getName());
-            //message("expected rating = " + currentScore + "\r\n");
-            /*guesses.push(currentCandidate);
-            if ((currentScore > bestScore) || !scoreValid) {
-                bestScore = currentScore;
-                bestName = currentCandidate.getName();
-	            scoreValid = true;
-	        }*/
 	    }
 	    // now sort these candidates in place
 	    var j;
@@ -973,7 +958,31 @@ function TimeBasedRecommendor() {
 	            }
             }
         }
-	    
+        // We should remove duplicate indices to avoid considering a song twice
+        for (i = 1; i < indices.length; i++) {
+            if ((indices[i] == indices[i - 1]) && (indices[i] + 1 < candidatesByScore.length)) {
+                indices[i]++;
+            }
+        }
+        // now we update the rating of each song we are considering
+	    for (i = 0; i < indices.length; i++) {
+	        //index = Math.floor(Math.random() * leafVector.length);
+	        index = indices[i];
+	        message("considering candidate #" + index, 1);
+	        currentCandidate = candidatesByScore[index];
+	        message(" name= " + currentCandidate.getName().getName() + "\r\n", 1);
+	        // recalculate the rating for this candidate
+            this.rateCandidate(currentCandidate, when);
+            //currentScore = currentCandidate.getCurrentRating().getMean();
+            //message("candidate name = " + currentCandidate.getName().getName());
+            //message("expected rating = " + currentScore + "\r\n");
+            /*guesses.push(currentCandidate);
+            if ((currentScore > bestScore) || !scoreValid) {
+                bestScore = currentScore;
+                bestName = currentCandidate.getName();
+	            scoreValid = true;
+	        }*/
+	    }
 	    // for such a small number of items, we can do selection sort because it's fast to code and easy to read and not too slow to run
 	    for (i = 0; i < indices.length; i++) {
 	        index = indices[i];
