@@ -142,7 +142,7 @@ function message(text, priority) {
     // If we're not debugging then don't include debug messages
     if (priority > 0) {
         // append the text to the end of the output file
-        //FileIO.writeFile("output.txt", text, 1);
+        //FileIO.writeFile("bluejay_output.txt", text, 1);
         //messageToWrite += text;
     }
 };

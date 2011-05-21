@@ -14,7 +14,7 @@
  * of another song (or category)
  */
  
- function PredictionLink(passedVal1, passedVal2){
+ function PredictionLink(passedVal1, passedVal2) {
     //alert("constructing predictionLink\r\n");
 	
 	/* public function */
@@ -57,8 +57,9 @@
 	
 
 
-	//public function
-	function initializeDecreasing(){
+	//public functions
+	// initialize this PredictionLink with the assumption that the data is negatively correlated
+	function initializeDecreasing() {
 	    //message("making prediction link part 4\r\n");
 	
 		var intensity = 1;
@@ -67,7 +68,7 @@
 		var score = 0.0;
 		var duration = 0.0;
 		
-		for (i = 0; i < numPoints; i++){
+		for (i = 0; i < numPoints; i++) {
     		
 			/*duration = i*1500.0;
 			intensity = 1.0/duration;
@@ -87,13 +88,15 @@
 		numChanges = numChanges + numPoints;
 	}
 	
-	function initializeIncreasing(){
+	// initialize this PredictionLink with the assumption that the data is positively correlated
+	function initializeIncreasing() {
 	    plot.addDataPoint(new Datapoint(0, 0, 1));
 	    plot.addDataPoint(new Datapoint(0, 0, 1));
 	    plot.addDataPoint(new Datapoint(0, 0, 1));
 	    plot.addDataPoint(new Datapoint(.25, .25, 1));
 	    plot.addDataPoint(new Datapoint(.5, .5, 1));
 	    plot.addDataPoint(new Datapoint(.75, .75, 1));
+	    // We want at least sqrt(n) points with x=y=1 so that when input=1 we predict output=1
 	    plot.addDataPoint(new Datapoint(1, 1, 1));
 	    plot.addDataPoint(new Datapoint(1, 1, 1));
 	    plot.addDataPoint(new Datapoint(1, 1, 1));
@@ -103,13 +106,13 @@
 	
 	// updates the scatterplot with any new data that it hadn't yet 
 	// requested from the MovingAverage that it tries to estimate
-	function update(){
+	function update() {
         //alert("PredictionLink::update\r\n");
 		var newPoints = inputData.getCorrelationsFor(outputData, previousNumRatings);
         //alert("back in PredictionLink::update\r\n");
 		
         message("plot adding " + newPoints[0].length + " datapoints\r\n");
-		if (newPoints[0].length > 0){
+		if (newPoints[0].length > 0) {
 		
 			var i=0;
 			for (i = 0; i < newPoints[0].length; i++) {
@@ -124,7 +127,7 @@
 	}
 	
 	// compute a distribution that represents the expected deviation from the overall mean
-	function guess(when){
+	function guess(when) {
 	    // if we don't have any data...
 	    if (inputData.getIndexForDate(when, false) < 0) {
 	        // then we should return a guess with no weight
@@ -154,7 +157,7 @@
 		
 		//var weight = numChanges - 1.0;
 		var weight = numChanges;
-		if (weight < 0.0){
+		if (weight < 0.0) {
 			weight = 0.0;
 		}
 		var stdDev2;

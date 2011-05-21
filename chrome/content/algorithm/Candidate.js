@@ -111,48 +111,45 @@
 	//public functions
 	
 	// Setting the name of the Candidate must be done before assigning any ratings or participations
-	function setName(newName){
+	function setName(newName) {
 		name = newName.makeCopy();
 		initialize();
 	}
 	
 	// parent/child connections
-	function getName(){
+	function getName() {
 		return name;
 	}
 	
-	// adding new parent with name
+	// tell the candidate that it has a parent with this name
 	function addParentName(newName) {
 		parentNames.push(newName);
 		parentLinksNeedUpdating = true;
 	}
 	
-	// adding new parent with candidate
-	function addParent(newCandidate){
-		
+	// adding a parent
+	function addParent(newCandidate) {
 		parents.push(newCandidate);
 	}
 	
 	// adding child
-	function addChild(newChild){
+	function addChild(newChild) {
 	
 		children.push(newChild);
 	}
 	
-	// get parent name
-	function getParentNames(){
-	
+	// get parent names
+	function getParentNames() {
 		return parentNames;
 	}
 	
-	// get parent
-	function getParents(){
-		
+	// get parents
+	function getParents() {
 		return parents;
 	}
 	
-	// get child
-	function getChildren(){
+	// get children
+	function getChildren() {
 		return children;
 	}
 	
@@ -165,7 +162,7 @@
 	function giveRating(rating)	{
 	    // record the rating
 		var i = 0;
-		for (i = 0; i < ratingEstimators.length; i++){
+		for (i = 0; i < ratingEstimators.length; i++) {
 			ratingEstimators[i].addRating(rating);
 		}
 		actualRatingHistory.addRating(rating);
@@ -181,10 +178,10 @@
 	}
 	
 	// inform the Candidate that it was listened to during a certain interval
-	function giveParticipation(participation){
+	function giveParticipation(participation) {
 		var i = 0;
 		// update the moving averages of the ratings
-		for (i = 0; i < frequencyEstimators.length; i++){
+		for (i = 0; i < frequencyEstimators.length; i++) {
 			frequencyEstimators[i].addParticipationInterval(participation);
 		}
 		lastPlayDate = latestInteractionDate = participation.getEndTime();
@@ -197,41 +194,38 @@
 	}
 	
 	// returns the number of MovingAverages that try to estimate the current rating
-	function getNumRatingEstimators(){
+	function getNumRatingEstimators() {
 		return ratingEstimators.length;
 	}
 	
 	// returns a particular rating estimator
-	function getRatingEstimatorAtIndex(index){
+	function getRatingEstimatorAtIndex(index) {
 		return ratingEstimators[index];
 	}
 	
 	// returns the number of MovingAverages that try to estimate how often this song has been listened to recently
-	function getNumFrequencyEstimators(){
+	function getNumFrequencyEstimators() {
 		return frequencyEstimators.length;
 	}
 	
 	// returns a particular frequency estimator
-	function getFrequencyEstimatorAtIndex(index){
+	function getFrequencyEstimatorAtIndex(index) {
 	
 		return frequencyEstimators[index];
 	}
 	
 	// returns the moving average that records the exact ratings
-	function getActualRatingHistory(){
-	
+	function getActualRatingHistory() {
 		return actualRatingHistory;
 	}
 	
 	// returns current rating
-	function getCurrentRating(){
-	
+	function getCurrentRating() {
 		return currentRating;
 	}
 	
 	// set current rating
-	function setCurrentRating(value, when){
-	
+	function setCurrentRating(value, when) {
 		currentRating = value;
 		latestRatingDate = when;
 	}
@@ -241,11 +235,9 @@
 	    return latestRatingDate;
 	}
 			
-	function needToUpdateParentPointers(){
-	
-		if(parentLinksNeedUpdating == true){
-			
-			parentLinksNeedUpdating = false; // type in cpp file
+	function needToUpdateParentPointers() {
+		if(parentLinksNeedUpdating == true) {
+			parentLinksNeedUpdating = false;
 			return true;
 		}
 		return false;
@@ -285,31 +277,31 @@
 	}
 	
 	// Tells how long it has been since the song was heard or rated
-	function getIdleDuration(when){
+	function getIdleDuration(when) {
 		return latestInteractionDate.timeUntil(when);
 	}
-	function getDurationSinceLastPlayed(when){
+	function getDurationSinceLastPlayed(when) {
 		return lastPlayDate.timeUntil(when);
 	}
 	
-	function getAverageRating(){
+	function getAverageRating() {
 		return actualRatingHistory.getAverageValue();
 	}
 	
 	// constructor stuff
-	function initialize(){
+	function initialize() {
 		var numAverages = 1;
 		var i = 0;
 		ratingEstimators.length = numAverages;
 		frequencyEstimators.length = numAverages;
-		for (i = 0; i < numAverages; i++){
+		for (i = 0; i < numAverages; i++) {
 		    var newAverage = new ParticipationMovingAverage();
 			newAverage.setName(new Name(name.getName() + " (participations) " + i));
 			newAverage.setOwnerName(name);
 			frequencyEstimators[i] = newAverage;
 		}
 		
-		for (i = 0; i < numAverages; i++){
+		for (i = 0; i < numAverages; i++) {
     		var newAverage = new RatingMovingAverage();
 			newAverage.setName(new Name(name.getName() + " (ratings) " + i));
 			newAverage.setOwnerName(name);
@@ -318,8 +310,6 @@
 		
 		actualRatingHistory.setName(new Name(name.getName() + " actual"));
 		actualRatingHistory.setOwnerName(name);
-		
-		
 	}
 	
 };

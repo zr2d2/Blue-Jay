@@ -79,9 +79,8 @@ function ParticipationMovingAverage() {
 	    //alert("::addparticipation p7\r\n");
 	}
 	
-    // find the most recent participation that was started before "when"
+    // find the index of the most recent participation that was started before "when"
 	function getIndexForDate(when, strictlyEarlier) {
-	
 		//message("ParticipationMovingAverage::getIndexForDate\r\n");
 	    if (totalIntensities.length < 1) {
     	    return -1;
@@ -152,7 +151,6 @@ function ParticipationMovingAverage() {
 	// returns a pair with the distribution of expected values and an index telling which participation mattered the most in its calculation
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier) {
-	
 		//message("ParticipationMovingAverage::getValueAt\r\n");
 		// stictlyEarlier is ignored in this function at the moment
 	    // If there are no ratings then we default to 0

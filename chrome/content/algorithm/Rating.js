@@ -35,38 +35,38 @@ function Rating() {
     //public functions
 	
 	// set activity name
-    function setActivityName(name){
+    function setActivityName(name) {
         activityName = name.makeCopy();
     }
 	// return activity name
-    function getActivityName(){
+    function getActivityName() {
         return activityName;
     }
 
 	// set date
-    function setDate(date){
+    function setDate(date) {
         creationDate = date;
     }
 	// retun the date when it was created
-    function getDate(){
+    function getDate() {
         return creationDate;
     }
 
 	// set score
-    function setScore(newValue){
+    function setScore(newValue) {
         score = newValue;
     }
 	// return score
-    function getScore(){
+    function getScore() {
         return score;
     }
 
 	// set weight
-    function setWeight(newWeight){
+    function setWeight(newWeight) {
         weight = newWeight;
     }
 	// return weight
-    function getWeight(){
+    function getWeight() {
         return weight;
     }
 
@@ -90,19 +90,16 @@ function RatingPrecedes() {
 
     //public functions
     //create a new date equal to this date plus numSeconds
-    function operator(r1, r2){
+    function operator(r1, r2) {
         var t1 = r1;
         var t2 = r2;
-
         // first sort by date
-        if (strictlyChronologicallyOrdered(t1, t2)){
+        if (strictlyChronologicallyOrdered(t1, t2)) {
             return true;
         }
-
-        if (strictlyChronologicallyOrdered(t2, t1)){
+        if (strictlyChronologicallyOrdered(t2, t1)) {
             return false;
         }
-
         // break ties by name
         return r1.getActivityName() < r2.getActivityName();
     }

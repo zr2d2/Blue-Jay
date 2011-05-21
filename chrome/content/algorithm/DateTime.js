@@ -46,7 +46,7 @@ function DateTime(yyyymmddhhmmss) {
         var duration = this.timeUntil(result);
         //alert("checking equality");        
         /*
-        if (duration != numSeconds){
+        if (duration != numSeconds) {
             alert(duration + " not equal to " + numSeconds);
         }
         */
@@ -72,10 +72,12 @@ function DateTime(yyyymmddhhmmss) {
         //return value.toString();
     }
 
+    // duration is in seconds
     function getDurationSinceReference() {
         return value.valueOf() / 1000.0;
     }
     
+    // duration is in seconds
     function setDurationSinceReference(numSeconds) {
         value = new Date(numSeconds * 1000);
     }
@@ -100,7 +102,7 @@ function DateTime(yyyymmddhhmmss) {
     // assign the given datestring to this date
     // An example datestring would be "1970-00-01T01:01:01"
     function setComponents(yyyymmddhhmmss) {
-        if(!yyyymmddhhmmss){
+        if(!yyyymmddhhmmss) {
             yyyymmddhhmmss = "1970 00 01 00 00 00";
         }
         var i;
@@ -126,8 +128,8 @@ function DateTime(yyyymmddhhmmss) {
 };
 
 // returns true if t1 comes before t2, and false if t2 is equal to or after t1
-function strictlyChronologicallyOrdered(t1, t2){
-    if (t1.timeUntil(t2)>0){
+function strictlyChronologicallyOrdered(t1, t2) {
+    if (t1.timeUntil(t2)>0) {
         return true;
     }
     return false;

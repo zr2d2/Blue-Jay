@@ -53,8 +53,7 @@ function MovingAverage() {
     }
 	
     // gets the current value of whatever variable we're tracking
-    function getCurrentValue(when, strictlyEarlier)
-    {
+    function getCurrentValue(when, strictlyEarlier) {
         var resultArray = this.getValueAt(when, strictlyEarlier);
         var resultantDistribution = resultArray[0];
         return resultantDistribution;

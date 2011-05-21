@@ -21,13 +21,14 @@ function TimeBasedRecommendor() {
     // Basically, the concern is that we can't add a rating to a candidate that doesn't exist yet
     // So we store everything, then create the candidates, then add the ratings
 	
-    var candidates = {};        // a map of all candidates (with key equal to its name)
-    var leafVector = [];    // a vector of all candidates with no children
-    var ratings = [];           // a vector of all ratings
-    var participations = [];    // a vector of all partipations
-    var predictionLinks = {};   // the set of all prediction links
+    var candidates = {};                // a map of all candidates (with key equal to its name)
+    var candidatesByScore = [];         // a vector of all candidates, somewhat sorted by decreasing current score
+    var leafVector = [];                // a vector of all candidates with no children
+    var ratings = [];                   // a vector of all pending ratings still to be given to candidates
+    var participations = [];            // a vector of all pending partipations still to be given to candidates
+    var predictionLinks = {};           // the set of all prediction links
     var latestDate = new DateTime();    // the latest date for which we have data about something
-    var earliestInteractionDate;  // the earliest date at which anything happened
+    var earliestInteractionDate;        // the earliest date at which anything happened
     
     var ratingsFilename = "bluejay_ratings.txt";
     var inheritancesFilename = "bluejay_inheritances.txt";
@@ -68,7 +69,7 @@ function TimeBasedRecommendor() {
 
     // functions to update the links between Candidates    
     // add any necessary links between Candidates
-    this.updateLinks = updateLinks;
+    this.updateLinkConnections = updateLinkConnections;
     // create a PredictionLink to predict one Candidate from another
     this.linkCandidates = linkCandidates;
     // create a PredictionLink to predict a RatingMovingAverage from a RatingMovingAverage
@@ -80,7 +81,11 @@ function TimeBasedRecommendor() {
 
     // functions to update internal data
     // update the output value of each PredictionLink
-    this.updatePredictions = updatePredictions;
+    this.updateLinkValues = updateLinkValues;
+    // update the expected rating of each candidate
+    this.updateRatings = updateRatings
+    // sort the candidates in candidatesByScore by their score
+    this.sortCandidates = sortCandidates;
     // for each candidate, estimate the date at which it was discovered
     this.estimateDiscoveryDates = estimateDiscoveryDates;
     // for the given candidate, estimate the date at which it was discovered
@@ -119,7 +124,7 @@ function TimeBasedRecommendor() {
 
     // updates the structure of the Candidates
     // This informs each Candidate of each of its children and parents, and creates PredictionLinks between some of them
-    function updateLinks() {
+    function updateLinkConnections() {
         alert("recommendor updating child pointers");
         this.updateChildPointers();
         //alert("computing discovery dates");
@@ -127,7 +132,7 @@ function TimeBasedRecommendor() {
         alert("recommendor adding prediction links");
 		this.addPredictionLinks();
         //alert("recommendor updating predictions");
-		//this.updatePredictions();
+		//this.updateLinkValues();
     }
     // reads all the necessary files and updates the TimeBasedRecommendor accordingly
     function readFiles() {
@@ -135,8 +140,10 @@ function TimeBasedRecommendor() {
         //this.readFile(inheritancesFilename);
         this.createFiles();
         this.readFile(ratingsFilename);
-		this.updateLinks();
-		this.updatePredictions();
+		this.updateLinkConnections();
+		this.updateLinkValues();
+		this.updateRatings();
+		this.sortCandidates();
 		message("recommendor done reading files\r\n");
 		alert("recommendor done reading files");
     }
@@ -650,7 +657,7 @@ function TimeBasedRecommendor() {
         }
     }
     // inform everything of any new data that was added recently that it needs to know about    
-    function updatePredictions() {
+    function updateLinkValues() {
         //alert("Updating predictions. Please wait.\r\n");
         message("giving ratings to activities\r\n");
         // inform each candidate of the ratings given to it
@@ -694,6 +701,50 @@ function TimeBasedRecommendor() {
     	}
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");
     }
+    function updateRatings() {
+        alert("predicting ratings");
+        // get the current date
+        var now = new DateTime();
+        now.setNow();
+        var i;
+        for (i = 0; i < leafVector.length; i++) {
+            this.rateCandidate(leafVector[i], now);
+        }
+    }
+    // sort the songs by their score
+    function sortCandidates() {
+        alert("sorting candidates");
+        // clear all the candidates
+        candidatesByScore.length = 0;
+        // copy the candidates from leafVector
+        var i;
+        for (i = 0; i < leafVector.length; i++) {
+            candidatesByScore.push(leafVector[i]);
+        }
+        var tempCandidate;
+        // Now we sort the songs in candidatesByScore
+        // However, we don't need it perfectly sorted, so we just put each song roughly in the right spot
+        var deltaIndex = Math.floor(candidatesByScore.length / 2);
+        // start with fairly large jumps and make consecutively smaller ones down to zero
+        while (deltaIndex > 0) {
+            for (i = 0; i < candidatesByScore.length - deltaIndex; i++) {
+                // check if they are in the correct order
+                if (candidatesByScore[i].getCurrentRating().getMean() < candidatesByScore[i + deltaIndex].getCurrentRating().getMean()) {
+                    // If we get here then the candidates are in the wrong order. So swap them
+                    tempCandidate = candidatesByScore[i];
+                    candidatesByScore[i] = candidatesByScore[i + deltaIndex];
+                    candidatesByScore[i + deltaIndex] = tempCandidate;
+                }
+            }
+            // choose a smaller jump size for next time and continue
+            deltaIndex = Math.floor(deltaIndex / 2);
+        }
+        message("Scores after sorting:\r\n");
+        for (i = 0; i < candidatesByScore.length; i++) {
+            message(candidatesByScore[i].getCurrentRating().getMean() + "\r\n");
+        }
+    }
+
     function createFiles() {
         FileIO.writeFile(ratingsFilename, "", 1);    
         //FileIO.writeFile(inheritancesFilename, "", 0);    
@@ -858,6 +909,7 @@ function TimeBasedRecommendor() {
         
     // determines which candidate has the best expected score at the given time
     function makeRecommendation(when) {
+        //alert("making recommendation");
         // default to the current date
         if (!when) {
             // get the current date
@@ -865,42 +917,70 @@ function TimeBasedRecommendor() {
             when.setNow();
         }
         message("\r\nmaking recommendation for date:" + when.stringVersion() + "\r\n", 1);
+        if (leafVector.length == 0) {
+            // make sure there is at least one song to consider
+            return new Name("[no data]");
+        }
         var candidateIterator = Iterator(candidates);
 	    // make sure that there is at least one candidate to choose from
 	    // setup a map to sort by expected rating
-	    var guesses = [];
+	    //var guesses = [];
 	    var scoreValid = false;
 	    var candidateKey;
 	    var currentCandidate;
 	    var bestScore = -1;
 	    var currentScore = -1;
-	    var bestName = new Name("[no data]");
+	    //var bestName = new Name("[no data]");
 	    //for ([candidateKey, currentCandidate] in candidateIterator) {
 	    var i, index;
+	    index = 0;
+	    var indices = [];
+	    // choose a bunch of random candidates and recalculate their ratings
 	    for (i = 0; i < 10; i++) {
-	        // choose a random candidate
-	        index = Math.floor(Math.random() * leafVector.length);
-	        currentCandidate = leafVector[index];
-	        message("considering candidate" + currentCandidate.getName().getName());
-	        // only bother to rate the candidates that are not categories
-	        if (currentCandidate.getNumChildren() == 0) {
-	            this.rateCandidate(currentCandidate, when);
-	            currentScore = currentCandidate.getCurrentRating().getMean();
-	            message("candidate name = " + currentCandidate.getName().getName());
-	            message("expected rating = " + currentScore + "\r\n");
-	            guesses.push(currentCandidate);
-	            if ((currentScore > bestScore) || !scoreValid) {
-	                bestScore = currentScore;
-	                bestName = currentCandidate.getName();
-    	            scoreValid = true;
-    	        }
+            // Choose a random candidate
+            // We want the relative weight of each candidate to be 1/x, where x = (1 + the number of candidates ranked higher than this one)
+            // The integral is ln(x), so the chosen index is e^(rand()*ln(n))
+	        index = Math.floor(Math.exp(Math.random() * Math.log(leafVector.length)));
+    	    indices.push(index);
+	        //index = Math.floor(Math.random() * leafVector.length);
+	        message("considering candidate #" + index, 1);
+	        currentCandidate = candidatesByScore[index];
+	        message(" name= " + currentCandidate.getName().getName() + "\r\n", 1);
+	        // recalculate the rating for this candidate
+            this.rateCandidate(currentCandidate, when);
+            //currentScore = currentCandidate.getCurrentRating().getMean();
+            //message("candidate name = " + currentCandidate.getName().getName());
+            //message("expected rating = " + currentScore + "\r\n");
+            /*guesses.push(currentCandidate);
+            if ((currentScore > bestScore) || !scoreValid) {
+                bestScore = currentScore;
+                bestName = currentCandidate.getName();
+	            scoreValid = true;
+	        }*/
+	    }
+	    // now sort these candidates in place
+	    var j;
+	    var index2;
+	    var tempCandidate;
+	    // for such a small number of items, we can do selection sort because it's fast to code and easy to read and not too slow to run
+	    for (i = 0; i < indices.length; i++) {
+	        index = indices[i];
+	        for (j = i + 1; j < indices.length; j++) {
+	            index2 = indices[j];
+	            // make sure these Candidates are in the correct order
+	            if (candidatesByScore[index].getCurrentRating().getMean() < candidatesByScore[index2].getCurrentRating().getMean()) {
+	                // if we get here then they are in the wrong order and we must swap them
+	                tempCandidate = candidatesByScore[index];
+	                candidatesByScore[index] = candidatesByScore[index2];
+	                candidatesByScore[index2] = tempCandidate;
+	            }
 	        }
 	    }
 	    var i;
-	    for (i = 0; i < guesses.length; i++) {
-	        currentCandidate = guesses[i];
-	        message("candidate name = " + currentCandidate.getName().getName());
-	        message(" expected rating = " + currentCandidate.getCurrentRating().getMean() + "\r\n");
+	    for (i = 0; i < indices.length; i++) {
+	        currentCandidate = candidatesByScore[indices[i]];
+	        message("candidate name = " + currentCandidate.getName().getName(), 1);
+	        message(" expected rating = " + currentCandidate.getCurrentRating().getMean() + "\r\n", 1);
 	    }
 	    /* // print the distributions in order
 	    var distributionIterator = Iterator(guesses, true);
@@ -913,10 +993,11 @@ function TimeBasedRecommendor() {
 	        message(" expected rating = " + currentScore);
 	    }
 	    */
-	    message("best candidate name = " + bestName.getName() + " expected rating = " + bestScore + "\r\n", 1);
+	    var bestCandidate = candidatesByScore[indices[0]];
+	    message("best candidate name = " + bestCandidate.getName().getName() + " expected rating = " + bestCandidate.getCurrentRating().getMean() + "\r\n", 1);
 	    flushMessage();
 	    //alert("done making recommendation. Best song name = " + bestName.getName());
-	    return bestName;
+	    return bestCandidate.getName();
     }
     // compute the distribution that is formed by combining the given distributions
     function addDistributions(distributions, average) {

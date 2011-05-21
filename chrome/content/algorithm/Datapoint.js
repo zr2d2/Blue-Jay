@@ -14,7 +14,7 @@
  
 
 // simple class with x, y, and weight
-function Datapoint(x, y, weight){
+function Datapoint(x, y, weight) {
 
     // public function prototypes
     this.getX = getX;
@@ -27,17 +27,17 @@ function Datapoint(x, y, weight){
     var itsWeight = weight;
 
 	// get x value
-    function getX(){
+    function getX() {
         return itsX;
     }
 
 	// get y value
-    function getY(){
+    function getY() {
         return itsY;
     }
 	
 	// get weight value
-    function getWeight(){
+    function getWeight() {
         return itsWeight;
     }
 };

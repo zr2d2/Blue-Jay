@@ -15,7 +15,7 @@
  * to compute the least-squares-regression-line if that is a better estimate
  */
  
- function ScatterPlot(){
+ function ScatterPlot() {
 	/* public function */
 	
 	//this.ScatterPlot = ScatterPlot;
@@ -32,12 +32,12 @@
 	
 	/* public function definition */
 	// add data point
-	function addDataPoint(datapoint){
+	function addDataPoint(datapoint) {
 		datapoints.push(datapoint);
 		var i = 0.0;
-		for (i = datapoints.length - 1; i > 0; i--){
+		for (i = datapoints.length - 1; i > 0; i--) {
 			datapoints[i] = datapoints[i-1];
-			if (datapoints[i].getX() <= datapoint.getX()){
+			if (datapoints[i].getX() <= datapoint.getX()) {
 				break;
 			}
 		}
@@ -47,7 +47,7 @@
 	
 	// Find the N closest points to x, where N is the 
 	// square root of the number of points in the plot
-	function predict(x){
+	function predict(x) {
 		//return new Distribution(0, 0, 0);
 	
 	    //message("ScatterPlot::predict(" + x + ")");
@@ -163,8 +163,9 @@
 	    return result;
 	}
 	
-	function getNumPoints(){
-	
+	// Tells how many points there are from which to predict
+	// This is different from the total weight
+	function getNumPoints() {
 		return datapoints.length;
 	}
  

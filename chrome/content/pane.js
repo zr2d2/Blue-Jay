@@ -90,12 +90,12 @@ Bluejay.PaneController = {
 	
 	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
 	var myListener = {
-		onMediacoreEvent:function(ev){
-			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE){
+		onMediacoreEvent:function(ev) {
+			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE) {
 			    //alert("the song has changed");
 			    controller.songChanged(ev);
 			}
-			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END){
+			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END) {
 			    controller.songChanged(ev);
 		        //alert("End of Playlist");
 			}
@@ -138,7 +138,7 @@ Bluejay.PaneController = {
     // }
     var i;
     var music = new Name("Song");
-    for (i = 0; i < length; i++){
+    for (i = 0; i < length; i++) {
         var item = list.getItemByIndex(i);
         // get the song name
         var songName = new Name(item.getProperty(SBProperties.trackName));
@@ -212,7 +212,7 @@ Bluejay.PaneController = {
     musicCategory.setName(music);
     this.engine.addCandidate(musicCategory);    
     // tell the engine to update its internal data structure
-    //this.engine.updateLinks();
+    //this.engine.updateLinkConnections();
     this.isLibraryScanned = true;
     //this.engine.readFiles();
     alert("done scanning library");
@@ -223,7 +223,7 @@ Bluejay.PaneController = {
   
   // this function gets called whenever the song changes
   songChanged: function(ev) {
-		if(this.state=="on"){
+		if(this.state=="on") {
 			//alert("song changed");
 			// get the data for the new track
 			var mediaItem = ev.data;
@@ -302,7 +302,7 @@ Bluejay.PaneController = {
         this.scanLibrary();
     }
 	this.state="on";
-    //this.engine.updatePredictions();
+    //this.engine.updateLinkValues();
     this.desiredTrackName = this.engine.makeRecommendation().getName();
     this.changeSong(this.desiredTrackName);    
     flushMessage();
