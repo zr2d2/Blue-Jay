@@ -49,18 +49,19 @@
 		<hbox>
 			<description value="Rate Song: " style="font-size:12pt;" flex="1" />
 			<spacer flex="1" />
-			<menulist sizetopopup="always">
+			<menulist id="starmenulist" sizetopopup="always">
 				<menupopup id="ratemenu">
-					<menuitem id="5star" label="&#9733;&#9733;&#9733;&#9733;&#9733;" value="5"/>
-					<menuitem id="4star" label="&#9733;&#9733;&#9733;&#9733;" value="4"/>
+          <menuitem id="0stars" label="" value="0"/>
+          <menuitem id="5star" label="&#9733;&#9733;&#9733;&#9733;&#9733;" value="5"/>
+          <menuitem id="4star" label="&#9733;&#9733;&#9733;&#9733;" value="4"/>
 					<menuitem id="3star" label="&#9733;&#9733;&#9733;" value="3"/>
 					<menuitem id="2star" label="&#9733;&#9733;" value="2"/>
 					<menuitem id="1star" label="&#9733;" value="1"/>
 				</menupopup>
-			</menulist>
-			</hbox>
+ 			</menulist>
+		</hbox>
 	</groupbox>	
-</box>	
+</box>
   <hbox id="playlist-header-box"
         align="center">
     <description id="playlist-header-label"

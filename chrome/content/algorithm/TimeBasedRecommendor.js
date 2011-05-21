@@ -403,7 +403,7 @@ function TimeBasedRecommendor() {
             earliestInteractionDate = participationDate;
         }
     }
-    // returns the earliest date at which something happened. This is used as an estimate for the date that Blue-Jay first started running
+    // returns the earliest date at which something happened. This is used as an estimate for the date that Bluejay first started running
     function getEarliestInteractionDate() {
         //alert("getting earliest interaction date");
         if (earliestInteractionDate) {

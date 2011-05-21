@@ -79,6 +79,8 @@ Bluejay.PaneController = {
 	this._5star = document.getElementById("5star");
 	this._5star.addEventListener("command",
 		function() { controller.giveRating(1.0); }, false);
+	// keep track of the dropdown menu itself to allow us to reset the visual later
+	this._starMenuList = document.getElementById("starmenulist");
 		
 	//alert("creating listener");
 	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
@@ -123,6 +125,7 @@ Bluejay.PaneController = {
     }, 
 	// disable the recommendation engine until it is re-enabled
 	turnOff : function() {
+        //this._ratingMenu.clearStars();
 		this.state="off";
 	},
   // this function scans the user's library and send that data to the engine
@@ -220,58 +223,51 @@ Bluejay.PaneController = {
   
   // this function gets called whenever the song changes
   songChanged: function(ev) {
-		if(this.state=="on") {
-			//alert("song changed");
-			// get the data for the new track
-			var mediaItem = ev.data;
-			var songName = mediaItem.getProperty(SBProperties.trackName)
-			//alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-			var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
-			// get the current date
-			this.songEndDate = new DateTime();
-			this.songEndDate.setNow();
-			//alert("song changed pt2");
-			// check if we were previously playing a song
-			if (this.currentSongName && (this.currentSongName != this.ignoredSongname)) {
-				//alert("song changed pt2a");
-				// if we get here then we were previously playing a song
-				// compute the duration it actually played
-				var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
-				//alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
-				// decide whether it was skipped based on the duration
-				if (playedDuration >= this.currentSongDuration * 0.75) {
-					// if we get here then it was not skipped
-					//alert("song named " + this.currentSongName + " finished");
-					var newParticipation = new Participation();
-					newParticipation.setStartTime(this.songStartDate);
-					newParticipation.setEndTime(this.songEndDate);
-					newParticipation.setIntensity(1);
-					newParticipation.setActivityName(new Name(this.currentSongName));
-					this.engine.addParticipation(newParticipation);
-				} else {
-					// if we get here then the song was skipped
-					//alert("song named " + this.currentSongName + " got skipped");
-					var newRating = new Rating();
-					newRating.setActivityName(new Name(this.currentSongName));
-					newRating.setDate(this.songEndDate);
-					newRating.setScore(0);
-					this.engine.addRating(newRating);
-				}
-				//alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
+        this.clearRatingMenu();
+		// get the data for the new track
+		var mediaItem = ev.data;
+		var songName = mediaItem.getProperty(SBProperties.trackName)
+		//alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
+		var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
+		// get the current date
+		this.songEndDate = new DateTime();
+		this.songEndDate.setNow();
+		// check if we were previously playing a song
+		if (this.currentSongName && (this.currentSongName != this.ignoredSongname)) {
+			// if we get here then we were previously playing a song
+			// compute the duration it actually played
+			var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
+			//alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
+			// decide whether it was skipped based on the duration
+			if (playedDuration >= this.currentSongDuration * 0.75) {
+				// if we get here then it was not skipped
+				var newParticipation = new Participation();
+				newParticipation.setStartTime(this.songStartDate);
+				newParticipation.setEndTime(this.songEndDate);
+				newParticipation.setIntensity(1);
+				newParticipation.setActivityName(new Name(this.currentSongName));
+				this.engine.addParticipation(newParticipation);
+			} else {
+				// if we get here then the song was skipped
+				var newRating = new Rating();
+				newRating.setActivityName(new Name(this.currentSongName));
+				newRating.setDate(this.songEndDate);
+				newRating.setScore(0);
+				this.engine.addRating(newRating);
 			}
-			//alert("song changed pt3");
-			// update the current song
-			this.currentSongName = songName;
-			this.songStartDate = this.songEndDate;
-			this.currentSongDuration = songLength;
-			//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
-			//alert("writing participation to file");
-			//alert("song changed pt4");
-			if (songName != this.desiredTrackName) {
-				// if a song was chosen randomly, and we then skip it automatically, that's not a downvote
-				this.ignoredSongname = songName;
-				this.makePlaylist();
-			}
+		}
+		// update the current song
+		this.currentSongName = songName;
+		this.songStartDate = this.songEndDate;
+		this.currentSongDuration = songLength;
+		//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
+		if (songName != this.desiredTrackName) {
+			// if a song was chosen randomly, and we then skip it automatically, that's not a downvote
+			this.ignoredSongname = songName;
+			// only change the song if the user wants us to
+			if (this.state == "on") {
+    			this.makePlaylist();
+            }
 		}
   },
 
@@ -315,6 +311,9 @@ Bluejay.PaneController = {
         var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
         gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
         //alert("done selecting song");
+    },
+    clearRatingMenu: function() {
+        this._starMenuList.selectedIndex = 0;
     },
   /**
    * Load the Display Pane documentation in the main browser pane
