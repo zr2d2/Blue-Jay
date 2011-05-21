@@ -968,7 +968,7 @@ function TimeBasedRecommendor() {
 	        for (j = i + 1; j < indices.length; j++) {
 	            index2 = indices[j];
 	            // make sure these Candidates are in the correct order
-	            if (candidatesByScore[index].getCurrentRating().getMean() < candidatesByScore[index2].getCurrentRating().getMean()) {
+	            if ((index < index2) != (candidatesByScore[index].getCurrentRating().getMean() > candidatesByScore[index2].getCurrentRating().getMean())) {
 	                // if we get here then they are in the wrong order and we must swap them
 	                tempCandidate = candidatesByScore[index];
 	                candidatesByScore[index] = candidatesByScore[index2];
