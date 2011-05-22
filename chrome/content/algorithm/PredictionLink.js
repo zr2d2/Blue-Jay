@@ -111,7 +111,7 @@
 		var newPoints = inputData.getCorrelationsFor(outputData, previousNumRatings);
         //alert("back in PredictionLink::update\r\n");
 		
-        message("plot adding " + newPoints[0].length + " datapoints\r\n");
+        //message("plot adding " + newPoints[0].length + " datapoints\r\n");
 		if (newPoints[0].length > 0) {
 		
 			var i=0;

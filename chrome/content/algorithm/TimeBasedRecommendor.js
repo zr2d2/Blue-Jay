@@ -139,13 +139,19 @@ function TimeBasedRecommendor() {
         //alert("recommendor reading files");
         //this.readFile(inheritancesFilename);
         this.createFiles();
+        flushMessage();
         this.readFile(ratingsFilename);
+        flushMessage();
 		this.updateLinkConnections();
+        flushMessage();
 		this.updateLinkValues();
+        flushMessage();
 		this.updateRatings();
+        flushMessage();
 		this.sortCandidates();
 		message("recommendor done reading files\r\n");
-		alert("Bluejay is now ready");
+        flushMessage();
+		alert("Bluejay is now ready!");
     }
     // reads one file and put its data into the TimeBasedRecommendor
     // The data is expected to be in XML, and there is no error-checking
@@ -520,12 +526,15 @@ function TimeBasedRecommendor() {
 			    for (i = 0; parentNames[i]; i++) {
 		            message("parent name = " + parentNames[i].getName() + "\r\n");
 				    parent = getCandidateWithName(parentNames[i]);
-				    message("parent is named " + parent.getName().getName() + "\r\n");
-				    message("adding parent\r\n");
-				    currentCandidate.addParent(parent);
-				    message("adding child\r\n");
-				    parent.addChild(currentCandidate);
-				    message("done adding child\r\n");
+				    // don't add itself as a parent
+				    if (currentCandidate != parent) {
+				        message("parent is named " + parent.getName().getName() + "\r\n");
+				        message("adding parent\r\n");
+				        currentCandidate.addParent(parent);
+				        message("adding child\r\n");
+				        parent.addChild(currentCandidate);
+				        message("done adding child\r\n");
+                    }
 			    }
 		    } else {
 		        message("update was not required\r\n");
