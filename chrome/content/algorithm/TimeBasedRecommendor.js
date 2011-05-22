@@ -456,7 +456,7 @@ function TimeBasedRecommendor() {
     // create the necessary PredictionLink to predict the predictee from the predictor
     function linkCandidates(predictor, predictee) {
         message("linking candidates " + predictor.getName().getName() + " and " + predictee.getName().getName() + "\r\n");
-	    var frequencyCountA = predictor.getNumFrequencyEstimators();
+	    /*var frequencyCountA = predictor.getNumFrequencyEstimators();
 	    var ratingCountA = predictor.getNumRatingEstimators();
 	    var frequencyCountB = predictee.getNumFrequencyEstimators();
 	    var ratingCountB = predictee.getNumRatingEstimators();
@@ -469,18 +469,15 @@ function TimeBasedRecommendor() {
 	        var predicteeAverage = predictee.getActualRatingHistory();
             message("linking averages\r\n");
 		    this.linkAverages(predictorAverage, predicteeAverage);
-	    }
-	    // using the frequency of B, try to predict the rating for A
-	    /*for (j = 0; j < frequencyCountB; j++) {
-		    this.linkAverages(predictee.getFrequencyEstimatorAtIndex(j), predictor.getActualRatingHistory());
 	    }*/
-	    // using the rating for A, try to predict the rating for B
+	    // use the frequencies of the predictor to predict the rating of the predictee
+		this.linkAverages(predictor.getFrequencyHistory(), predictee.getRatingHistory());
+	    // use the ratings of the predictor to predict the rating of the predictee
+		this.linkAverages(predictor.getRatingHistory(), predictee.getRatingHistory());
+	    
+	    /* // using the rating for A, try to predict the rating for B
 	    for (i = 0; i < ratingCountA; i++) {
 		    this.linkAverages(predictor.getRatingEstimatorAtIndex(i), predictee.getActualRatingHistory());
-	    }
-	    // using the rating for B, try to predict the rating for A
-	    /*for (j = 0; j < ratingCountB; j++) {
-		    this.linkAverages(predictee.getRatingEstimatorAtIndex(j), predictor.getActualRatingHistory());
 	    }*/
     }
     // create the necessary PredictionLink to predict the predictee from the predictor
@@ -544,7 +541,7 @@ function TimeBasedRecommendor() {
 	    leafVector.length = 0;
 	    candidateIterator = Iterator(candidates);
 	    for ([candidateName, currentCandidate] in candidateIterator) {
-	        if (currentCandidate.getChildren().length == 0) {
+	        if (currentCandidate.isPlayable()) {
 	            leafVector.push(currentCandidate);
 	        }
 	    }
@@ -828,7 +825,7 @@ function TimeBasedRecommendor() {
             }
         }
         // Now get the prediction from each relevant link
-        var shortTermAverageName = candidate.getActualRatingHistory().getName().getName();
+        var shortTermAverageName = candidate.getRatingHistory().getName().getName();
         var links = predictionLinks[shortTermAverageName];
         var mapIterator = Iterator(links);
 	    var predictorName;
@@ -868,7 +865,7 @@ function TimeBasedRecommendor() {
         
         
         // We don't want to ever completely forget about a song. Check if this is a song (rather than a supercategory)
-        if (candidate.getChildren().length <= 0) {
+        if (candidate.isPlayable()) {
             // Move the song slowly closer to perfection
             // Whenever they give it a rating or listen to it, this resets
             var remembererDuration = candidate.getIdleDuration(when);

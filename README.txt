@@ -17,7 +17,7 @@ To install Bluejay:
 4. When Songbird prompts you to restart Songbird, restart Songbird
 
 
-USAGE INSTRUCTIONS:
+STARTUP INSTRUCTIONS:
 1. After starting Songbird, click the pane button at the top-right corner of the screen to view the Bluejay user interface.
 2. Push Songbird's play button to start the player.
 3. Click "ok" on each of the windows. Once the song changes, the engine has started successfully
@@ -35,6 +35,13 @@ In addition to the ratings you give to Bluejay, there are other factors that Blu
 Bluejay uses the ratings known to Songbird of the songs in your library. This means it can make reasonable recommendations as soon as you start it up.
 Bluejay remembers whenever you skip a song. Skipping a song acts like a downvote and makes it less likely to play again soon.
 When considering a song in your library, Bluejay factors in ratings assigned to other songs of the same genre or artist, which is especially helpful for songs with few or no ratings.
+
+
+REALITY CHECK:
+Bluejay initially assumes that you don't want to hear the same songs over and over again, and it should never forget about a song completely.
+However, you can train it to play primarily the same few songs over and over again if that's what you want. If you repeatedly give 5-star ratings to only a small number of songs, that's what will happen.
+Just keep in mind that when you rate a song, you should rate how happy you are that the song is playing right now, not how much you have liked the song in the past.
+It's also okay to skip a good song if you simply don't want to hear it now. If you've given it good ratings in the past, it will appear again soon.
 
 
 Enjoy!

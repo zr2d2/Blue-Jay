@@ -150,6 +150,7 @@ Bluejay.PaneController = {
             // make a new candidate to represent the song
             var songCandidate = new Candidate();
             songCandidate.setName(songName);
+            songCandidate.setPlayable(true);
             // get the date it was added to the library
             var timeString = item.getProperty(SBProperties.created);
             var deltaTime = parseInt(item.getProperty(SBProperties.created));
@@ -181,6 +182,7 @@ Bluejay.PaneController = {
             var artistCandidate = new Candidate();
             artistCandidate.setName(artistName);
             artistCandidate.addParentName(music);
+            artistCandidate.setPlayable(false);
             // give the artist candidate to the engine
             this.engine.addCandidate(artistCandidate);
             // add the artist as a parent of the song
@@ -197,6 +199,7 @@ Bluejay.PaneController = {
             var genreCandidate = new Candidate();
             genreCandidate.setName(genre);
             genreCandidate.addParentName(music);
+            genreCandidate.setPlayable(false);
             // give the genre candidate to the engine
             this.engine.addCandidate(genreCandidate);
             // add the artist as a parent of the song
@@ -213,6 +216,7 @@ Bluejay.PaneController = {
     }
     var musicCategory = new Candidate();
     musicCategory.setName(music);
+    musicCategory.setPlayable(false);
     this.engine.addCandidate(musicCategory);    
     this.isLibraryScanned = true;
     //alert("done scanning library");

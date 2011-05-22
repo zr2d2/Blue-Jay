@@ -20,6 +20,13 @@
 	this.setName = setName;
 	this.getName = getName;
 	
+	// unique identifier
+	this.setID = setID;
+	
+	// whether this represents an actual music track that can be played, or a genre that can't be played directly
+    this.isPlayable = isPlayable;
+    this.setPlayable = setPlayable;
+    	
 	// adding parent links
 	this.addParentName = addParentName;
 	this.addParent = addParent;
@@ -44,16 +51,11 @@
 	// get the appropriate MovingAverage
 	this.getRatingEstimatorAtIndex = getRatingEstimatorAtIndex;
 	
-	// how many MovingAverages there are to estimate how often 
-	// it has been played recently. Currently it's always 1
-	this.getNumFrequencyEstimators = getNumFrequencyEstimators;
-	
 	// get the appropriate MovingAverage for different index
-	this.getFrequencyEstimatorAtIndex = getFrequencyEstimatorAtIndex;
+	this.getFrequencyHistory = getFrequencyHistory;
 	
-	// get the MovingAverage that stores the exact ratings.
-	// Currently this is the same as the rating estimator at index 0
-	this.getActualRatingHistory =  getActualRatingHistory;
+	// get the MovingAverage that stores the ratings
+	this.getRatingHistory = getRatingHistory;
 	
 	// the current expected rating, based on data from other Candidates
 	this.getCurrentRating = getCurrentRating;
@@ -82,6 +84,8 @@
 	
 	//private variables
 	var name = passedVal;
+	var ID;
+	var playable = true;
 	
 	// parentNames is only used at the beginning for storing
 	// names before the parents exist
@@ -90,9 +94,8 @@
 	// 'parents' holds pointers to the parents themselves. It is faster to use than parentNames because removes the need for another dictionary lookup
 	var parents = [];
 	var children = [];
-	var ratingEstimators = [];
-	var frequencyEstimators = [];
-	var actualRatingHistory = new RatingMovingAverage();
+	var frequencyHistory = new ParticipationMovingAverage();
+	var ratingHistory = new RatingMovingAverage();
 	// the latest date at which there was an interaction
 	var latestInteractionDate = new DateTime();
 	var lastPlayDate = new DateTime();
@@ -113,9 +116,24 @@
 	// Setting the name of the Candidate must be done before assigning any ratings or participations
 	function setName(newName) {
 		name = newName.makeCopy();
+		// by default, the ID is the same as the name but may be given a different value
+		if (!ID) {
+		    ID = name;
+		}
 		initialize();
 	}
 	
+	// unique identifier
+	function setID(newID) {
+	    ID = newID;
+	}
+	function getID() {
+	    return ID;
+    }
+
+    function isPlayable() {
+        return playable;
+    }
 	// parent/child connections
 	function getName() {
 		return name;
@@ -134,8 +152,11 @@
 	
 	// adding child
 	function addChild(newChild) {
-	
+	    playable = false;
 		children.push(newChild);
+	}
+	function setPlayable(canBePlayed) {
+	    playable = canBePlayed;
 	}
 	
 	// get parent names
@@ -162,10 +183,10 @@
 	function giveRating(rating)	{
 	    // record the rating
 		var i = 0;
-		for (i = 0; i < ratingEstimators.length; i++) {
+		/*for (i = 0; i < ratingEstimators.length; i++) {
 			ratingEstimators[i].addRating(rating);
-		}
-		actualRatingHistory.addRating(rating);
+		}*/
+		ratingHistory.addRating(rating);
 
 		// update the latest interaction date
 		latestInteractionDate = rating.getDate();
@@ -181,9 +202,10 @@
 	function giveParticipation(participation) {
 		var i = 0;
 		// update the moving averages of the ratings
-		for (i = 0; i < frequencyEstimators.length; i++) {
+		/*for (i = 0; i < frequencyEstimators.length; i++) {
 			frequencyEstimators[i].addParticipationInterval(participation);
-		}
+		}*/
+		frequencyHistory.addParticipationInterval(participation);
 		lastPlayDate = latestInteractionDate = participation.getEndTime();
 
 		// If we don't know when we were discovered, then assume we were discovered along with the first participation
@@ -202,21 +224,15 @@
 	function getRatingEstimatorAtIndex(index) {
 		return ratingEstimators[index];
 	}
-	
-	// returns the number of MovingAverages that try to estimate how often this song has been listened to recently
-	function getNumFrequencyEstimators() {
-		return frequencyEstimators.length;
+		
+	// returns the ParticipationMovingAverage that keeps track of listenings
+	function getFrequencyHistory() {
+		return frequencyHistory;
 	}
 	
-	// returns a particular frequency estimator
-	function getFrequencyEstimatorAtIndex(index) {
-	
-		return frequencyEstimators[index];
-	}
-	
-	// returns the moving average that records the exact ratings
-	function getActualRatingHistory() {
-		return actualRatingHistory;
+	// returns the moving average that records the ratings
+	function getRatingHistory() {
+		return ratingHistory;
 	}
 	
 	// returns current rating
@@ -285,31 +301,35 @@
 	}
 	
 	function getAverageRating() {
-		return actualRatingHistory.getAverageValue();
+		return ratingHistory.getAverageValue();
 	}
 	
 	// constructor stuff
 	function initialize() {
-		var numAverages = 1;
-		var i = 0;
-		ratingEstimators.length = numAverages;
-		frequencyEstimators.length = numAverages;
-		for (i = 0; i < numAverages; i++) {
+		//var numAverages = 1;
+		//var i = 0;
+		//ratingEstimators.length = numAverages;
+		//frequencyEstimators.length = numAverages;
+		/*for (i = 0; i < numAverages; i++) {
 		    var newAverage = new ParticipationMovingAverage();
 			newAverage.setName(new Name(name.getName() + " (participations) " + i));
 			newAverage.setOwnerName(name);
 			frequencyEstimators[i] = newAverage;
-		}
+		}*/
 		
-		for (i = 0; i < numAverages; i++) {
+		/*for (i = 0; i < numAverages; i++) {
     		var newAverage = new RatingMovingAverage();
 			newAverage.setName(new Name(name.getName() + " (ratings) " + i));
 			newAverage.setOwnerName(name);
 			ratingEstimators[i] = newAverage;		
 		}
+		*/
+
+		frequencyHistory.setName(new Name(name.getName() + " (participations)"));
+		frequencyHistory.setOwnerName(name);
 		
-		actualRatingHistory.setName(new Name(name.getName() + " actual"));
-		actualRatingHistory.setOwnerName(name);
+		ratingHistory.setName(new Name(name.getName() + " (ratings)"));
+		ratingHistory.setOwnerName(name);
 	}
 	
 };
