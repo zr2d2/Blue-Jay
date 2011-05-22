@@ -313,7 +313,8 @@ Bluejay.PaneController = {
         var tracks = LibraryUtils.mainLibrary.getItemsByProperties(properties);
         //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
         var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
-        gMM.sequencer.playView(gMM.sequencer.view,gMM.sequencer.view.getIndexForItem(tracks.enumerate().getNext())); 
+        var songView = LibraryUtils.mainLibrary.createView()
+        gMM.sequencer.playView(songView, songView.getIndexForItem(tracks.enumerate().getNext())); 
         //alert("done selecting song");
     },
     clearRatingMenu: function() {
