@@ -1,13 +1,22 @@
-/* Copyright (c) 2011 Bluejay <https://github.com/zr2d2/Blue-Jay>
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the XXX License as published by the Free 
- * Sofeware Foundation.
- *
- * You should have received a copy of the XXX License along with this 
- * program. If not, please visit <http://www....>
- */
- 
+/*
+    Copyright (C) 2011 Bluejay
+
+    This file is part of Bluejay.
+
+    Bluejay is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Bluejay is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 /* Name: ScatterPlot
  * Description: the ScatterPlot represents a bunch of Datapoints that 
  * have x, y, and weight. It is used to predict y from x
