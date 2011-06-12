@@ -14,39 +14,39 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
+    along with Bluejay.  If not, see <http:/**www.gnu.org/licenses/>.
 */
 
-/* Name: Datapoint
- * Description: simple class with x, y, and weight
+/** 
+ * @class simple class with x, y, and weight
+ * simple class with x, y, and weight
  */
-
-// simple class with x, y, and weight
 function Datapoint(x, y, weight) {
 
-    // public function prototypes
+    /** public function prototypes */
     this.getX = getX;
     this.getY = getY;
     this.getWeight = getWeight;
 
-    // private variables 
+    /** private variables */
     var itsX = x;
     var itsY = y;
     var itsWeight = weight;
 
-	// get x value
+	/** get x value */
     function getX() {
         return itsX;
     }
 
-	// get y value
+	/** get y value */
     function getY() {
         return itsY;
     }
 	
-	// get weight value
+	/** get weight value */
     function getWeight() {
         return itsWeight;
     }
 };
+
 

@@ -14,38 +14,39 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
+    along with Bluejay.  If not, see <http:/**www.gnu.org/licenses/>.
 */
 
-/* Name: Distribution
- * Description: the Distribution class represents a summary of a collection 
- * of floating-point numbers it stores average, spread, and count (although even count may be fractional)
+/** @class the Distribution class represents a summary of a collection
+ * of floating-point numbers it stores average, spread, and count
+ * (although even count may be fractional)
  */
-
 function Distribution(average, stdDev, relativeWidth) {
-	//public function prototypes
+	/** public function prototypes */
 	this.getMean = getMean;
 	this.getStdDev = getStdDev;
 	this.getWeight = getWeight;
 	
-	//private variables 
+	/** private variables */
 	var mean = average;
 	var standardDeviation = stdDev;
 	var weight = relativeWidth;
 	
-	/* public functions */
+	/** public functions */
 	
-	// returns mean value
+	/** returns mean value */
 	function getMean() {
 		return mean;
 	}
 	
-	// returns standard deviation
+	/** returns standard deviation */
 	function getStdDev() {
 		return standardDeviation;
 	}
-	// returns weight
+
+	/** returns weight */
 	function getWeight() {
 		return weight;
 	}
 };
+

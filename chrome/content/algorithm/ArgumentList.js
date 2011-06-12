@@ -17,20 +17,18 @@
     along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Name: ArgumentList 
- * Description: It's not used anymore.
- */
+/** @class took argument list from the command line (depreciated) */
 
 function ArgumentList(argc, argv) {
-	//public function prototypes
+	/** public function prototypes */
 	this.getNumArguments = getNumArguments;
 	this.getArgument = getArgument;
 	
-	//private variables 
+	/** private variables */
 	var numArguments = argc | 0;
 	var argumentValues = argv | {};
 	
-	//public functions
+	/** public functions */
 	function getNumArguments() {
 		return numArguments;
 	}
@@ -41,3 +39,4 @@ function ArgumentList(argc, argv) {
 	
 	
 };
+
