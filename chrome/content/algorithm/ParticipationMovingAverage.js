@@ -26,7 +26,7 @@ function ParticipationMovingAverage() {
     this.prototype = new MovingAverage();
     /* Superclass Function Prototypes */
 	
-    // these functions are defined in the superclass and used in the subclass
+    // These functions are defined in the superclass and used in the subclass
 	// returns a distribution of the expected values at this time, and an integer identifying how many data points came before it
 	// the vector returned is the relevant datapoints and the double is the additional weight contributed by these datapoints
 	this.getCorrelationsFor = this.prototype.getCorrelationsFor;
@@ -37,8 +37,6 @@ function ParticipationMovingAverage() {
 	this.setOwnerName = this.prototype.setOwnerName;
 	this.getOwnerName = this.prototype.getOwnerName;
 	this.stringVersion = this.prototype.stringVersion;
-	this.superFunction = this.prototype.superFunction;
-	this.prototype.subFunction = subFunction;
 	
 	// functions that we are overriding
 	this.getValueAt = getValueAt;
@@ -50,14 +48,13 @@ function ParticipationMovingAverage() {
     
     /* Function Prototypes */
 	
-    // these functions are defined in the subclass
+    // these functions are defined in this subclass
 	this.addParticipationInterval = addParticipationInterval;
 	
 	// for determining if its type is ParticipationMovingAverage or not
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;
 	this.getLatestDate = getLatestDate;
 	this.getNumParticipations = getNumParticipations;
-	this.subFunction = subFunction;
 	this.getIndexForDate = getIndexForDate;
 	this.getTotalIntensityThroughDate = getTotalIntensityThroughDate;
 
@@ -66,8 +63,6 @@ function ParticipationMovingAverage() {
 	var totalIntensities = []
 
     /* Function Prototypes */
-	
-	/* Function Definitions */
 	
     // inform this ParticipationMovingAverage that the Candidate that it cares about was listened to in the given interval
 	function addParticipationInterval(interval) {
@@ -182,13 +177,11 @@ function ParticipationMovingAverage() {
 	    // If the time is before the first one then we default to 0
 	    var firstParticipation = totalIntensities[0];
 	    if (!strictlyChronologicallyOrdered(firstParticipation.getStartTime(), when)) {
-	        //message("past last participation\r\n");
 		    return [new Distribution(0, 0, 0), -1];
         }
 
 	    var mostRecentIndex = this.getIndexForDate(when, true);
 	    var averageIntensity;
-		//message("in the middle of ParticipationMovingAverage::getValueAt\r\n");
 	    if (mostRecentIndex > 0) {
 		    var previousIndex = mostRecentIndex - 1;
 		    var previousParticipation = totalIntensities[previousIndex];
@@ -204,7 +197,6 @@ function ParticipationMovingAverage() {
 		    averageIntensity = 1 / mostRecentDuration;
 	    }
 	    var result = new Distribution(averageIntensity, 0, 1);
-		//message("done with ParticipationMovingAverage::getValueAt\r\n");
 	    return [result, mostRecentIndex];
 	}
 	
@@ -247,7 +239,4 @@ function ParticipationMovingAverage() {
 	function getNumParticipations() {
 	    return totalIntensities.length;
 	}	
-	function subFunction() {
-	    alert("ParticipationMovingAverage subfunction. This is good.");
-	}
 };

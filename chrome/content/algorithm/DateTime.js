@@ -14,7 +14,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Bluejay.  If not, see <http:/**www.gnu.org/licenses/>.
+    along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /** @class simple class that holds date and time */
@@ -23,8 +23,8 @@ function DateTime(yyyymmddhhmmss) {
      * alert("constructing date");
      * public function prototypes
      */
-    this.datePlusDuration= datePlusDuration;
-    this.stringVersion= stringVersion;
+    this.datePlusDuration = datePlusDuration;
+    this.stringVersion = stringVersion;
     this.timeUntil = timeUntil;
     this.setComponents = setComponents;
     this.setDurationSinceReference = setDurationSinceReference;
@@ -62,7 +62,6 @@ function DateTime(yyyymmddhhmmss) {
         result += ":";
         result += value.getSeconds();
         return result;
-        /** return value.toString(); */
     }
 
     /** duration is in seconds */

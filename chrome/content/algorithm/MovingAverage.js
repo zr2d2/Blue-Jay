@@ -14,7 +14,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Bluejay.  If not, see <http:/**www.gnu.org/licenses/>.
+    along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
@@ -51,8 +51,6 @@ function MovingAverage() {
 	this.isAParticipationMovingAverage = isAParticipationMovingAverage;		
 	this.getLatestDate = getLatestDate;
 	this.stringVersion = stringVersion;
-	this.superFunction = superFunction;
-	this.subFunction = subFunction;
     /** function definitions */
     
     /**
@@ -174,12 +172,4 @@ function MovingAverage() {
     function stringVersion() {
         return "I am a MovingAverage";
     }
-    function superFunction() {
-        alert("super function");
-        this.subFunction();
-    }
-    function subFunction() {
-        alert("super version of sub function. This is bad");
-    }
 };
-

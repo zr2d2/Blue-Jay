@@ -717,7 +717,7 @@ function TimeBasedRecommendor() {
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");
     }
     function updateRatings() {
-        alert("Bluejay predicting ratings (5/6)");
+        alert("Bluejay predicting ratings (step 5/6)");
         // get the current date
         var now = new DateTime();
         now.setNow();
@@ -1187,15 +1187,10 @@ function TimeBasedRecommendor() {
         */
 
         /*var m1 = new MovingAverage();
-        //m1.superFunction();
         alert("creating ParticipationMovingAverage");
         var p1 = new ParticipationMovingAverage();
-        alert("p1.superFunction();");
-        p1.superFunction();
         alert("creating RatingMovingAverage");
         var r1 = new RatingMovingAverage();
-        alert("r1.superFunction();");
-        r1.superFunction();
         */
         /*
         if (m1.isAParticipationMovingAverage()) {

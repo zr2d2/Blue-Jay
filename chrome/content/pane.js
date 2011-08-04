@@ -51,7 +51,7 @@ Bluejay.PaneController = {
         this.songStartDate = null;
         this.songEndDate = null;
         this.isLibraryScanned = false;
-        this.desiredTrackName = null;
+        this.isSettingSong = false; // whether we're currently in the process of changing the song
 	    this.state = "on";
 
         // Make a local variable for this controller so that
@@ -154,7 +154,6 @@ Bluejay.PaneController = {
             var selection = mediaListView.selection;
             selection.addListener(this.songSelectionListener);
         }
-        this.didSelectionChange = false;
     },
     
     // gets rid of the selection listener for the current view
@@ -290,80 +289,92 @@ Bluejay.PaneController = {
         flushMessage();
     },
   
-    // this function gets called whenever the song changes
+    // this function gets called whenever the song changes for any reason
     songChanged: function(ev) {
-        // reset the rating menu
-        this.clearRatingMenu();
 		// get the data for the new track
 		var mediaItem = ev.data;
 		var songName = mediaItem.getProperty(SBProperties.trackName)
 		var songLength = mediaItem.getProperty(SBProperties.duration) / 1000000;
-		// get the current date
 		this.songEndDate = new DateTime();
 		this.songEndDate.setNow();
-		// check if we were previously playing a song
-		if (this.currentSongName && (this.currentSongName != this.ignoredSongname)) {
-			// if we get here then we were previously playing a song
-			// compute the duration it actually played
-			var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
-			// decide whether it was skipped based on the duration
-			if (playedDuration >= this.currentSongDuration * 0.75) {
-				// if we get here then it was not skipped
-				var newParticipation = new Participation();
-				newParticipation.setStartTime(this.songStartDate);
-				newParticipation.setEndTime(this.songEndDate);
-				newParticipation.setIntensity(1);
-				newParticipation.setActivityName(new Name(this.currentSongName));
-				this.engine.addParticipation(newParticipation);
-			} else {
-				// if we get here then the song was skipped
-				var newRating = new Rating();
-				newRating.setActivityName(new Name(this.currentSongName));
-				newRating.setDate(this.songEndDate);
-				newRating.setScore(0);
-				this.engine.addRating(newRating);
-			}
-		}
 		
-		// update some information about the current song
-		this.currentSongName = songName;
-		this.songStartDate = this.songEndDate;
-		this.currentSongDuration = songLength;
-		this.ignoredSongname = null;    // the name of the song selected automatically by Songbird, which gets overridden by Bluejay
+		// determine whether we changed the song
+		if (this.isSettingSong) {
+		    this.isSettingSong = false;
+		} else {
+		    this.outsideSourceChangedSong(ev);
+        }
+        
+        // save data for later
+        this.currentSongName = songName;
+        this.currentSongDuration = songLength;
+        this.songStartDate = this.songEndDate;
+    },
+    // this function gets called whenever the song is changed by Songbird or by the user, but not when we change it
+    outsideSourceChangedSong: function(ev) {
+		var mediaItem = ev.data;
+        // reset the rating menu
+        this.clearRatingMenu();
 
+		// check whether we were previously playing a song
+		if (this.currentSongName != null) {
+		    // compute the duration it actually played
+		    var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
+		    // decide whether it was skipped based on the duration
+		    if (playedDuration >= this.currentSongDuration * 0.75) {
+			    // if we get here then it was not skipped
+			    var newParticipation = new Participation();
+			    newParticipation.setStartTime(this.songStartDate);
+			    newParticipation.setEndTime(this.songEndDate);
+			    newParticipation.setIntensity(1);
+			    newParticipation.setActivityName(new Name(this.currentSongName));
+			    this.engine.addParticipation(newParticipation);
+		    } else {
+			    // if we get here then the song was skipped
+			    var newRating = new Rating();
+			    newRating.setActivityName(new Name(this.currentSongName));
+			    newRating.setDate(this.songEndDate);
+			    newRating.setScore(0);
+			    this.engine.addRating(newRating);
+            }
+		}
+		if ((this.currentSongName == null) && (this.getSelectedMediaItem() != null)) {
+		    // We don't setup our selection listener until after the first song starts
+		    // If no song was playing previously but something is selected, then the selection did change
+		    this.didSelectionChange = true;
+		}
 
-		// make sure that the user wants us to control which song is playing
-        if (this.state == "on") {
-            // Determine if the previously selected song changed
-            if (this.didSelectionChange) {
-                // If we get here, then the user chose this song and we should not replace it with another one
-                //alert("user chose a song");
-                var selectedMediaItem = this.getSelectedMediaItem();
-                //alert("selectedID = " + selectedID);
-	            var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
-                // the user has clicked on a song, so we will play the selected song instead
-                var newRating = new Rating();
-	            newRating.setActivityName(new Name(selectedName));
-	            newRating.setDate(this.songEndDate);
-	            newRating.setScore(1);
-	            this.engine.addRating(newRating);
-	            //alert("new song name = " + selectedName);
-	            // Only play this song if it hasn't already started
-	            if (selectedName != songName) {
-                    //alert("playing user's chosen song");
-		            this.changeSong(selectedName);
-		        }
-            } else {
-		        if (songName != this.desiredTrackName) {
-			        // if a song was chosen randomly, and we then skip it automatically, that's not a downvote
-			        this.ignoredSongname = songName;    // the name of the song selected automatically by Songbird, which gets overridden by Bluejay
-                    //alert("making playlist!");
-		            this.makePlaylist();
-		        }
+        // Determine if the previously selected song changed
+        if (this.didSelectionChange) {
+            // If we get here, then the user clicked on a song and we should make sure that we are playing the chosen song
+            var selectedMediaItem = this.getSelectedMediaItem();
+            var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
+            // upvote the chosen song
+            var newRating = new Rating();
+            newRating.setActivityName(new Name(selectedName));
+            newRating.setDate(this.songEndDate);
+            newRating.setScore(1);
+            this.engine.addRating(newRating);
+            var selectedID = selectedMediaItem.getProperty(SBProperties.GUID);
+            var playingID = mediaItem.getProperty(SBProperties.GUID);
+            // Play this song if it hasn't already started
+            if (selectedID != playingID) {
+        		// make sure that the user wants us to control which song is playing
+                if (this.state == "on") {
+    	            this.changeSong(selectedName);
+                }
+	        }
+        } else {
+	        // make sure that the user wants us to control which song is playing
+            if (this.state == "on") {
+                // So, we choose a song to override the random song
+                this.makePlaylist();
             }
         }
-        // Add our song-selection listener because we may have removed it since last time
+        // Add our song-selection listener again in case the current view changed and this view doesn't have a listener
         this.addSelectionListener();
+        // clear the flag telling whether the selection changed
+        this.didSelectionChange = false;
     },
 
 
@@ -385,7 +396,7 @@ Bluejay.PaneController = {
     },
     // changes the currently playing song to the song named songName
     changeSong: function(songName) {
-        this.desiredTrackName = songName;
+        this.isSettingSong = true;
         //alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
         //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
