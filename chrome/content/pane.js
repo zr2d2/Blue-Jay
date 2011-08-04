@@ -29,104 +29,149 @@ if (typeof(Cr) == 'undefined')
 
 // Make a namespace.
 if (typeof Bluejay == 'undefined') {
-  var Bluejay = {};
+    var Bluejay = {};
 }
 
 Cu.import("resource://app/jsmodules/sbProperties.jsm");
 Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 
-//function TimeBasedRecommendor();
 /**
  * Controller for pane.xul
  */
 Bluejay.PaneController = {
-/**
-   * Called when the pane is instantiated
-   */
-  onLoad: function() {
 
-    this._initialized = true;
-    this.currentSongName = null;
-    this.currentSongDuration = null;
-    this.songStartDate = null;
-    this.songEndDate = null;
-    this.isLibraryScanned = false;
-    this.desiredTrackName = null;
-	this.state = "on";
+    /**
+     * Called when the pane is instantiated
+     */
+    onLoad: function() {
 
-    // Make a local variable for this controller so that
-    // it is easy to access from closures.
-	var controller = this;
-	//alert("initializing");
-    //TimeBasedRecommendor.constructor();
-	//this.engine = RecommendorFactory.recommendor();
-	this.engine = new TimeBasedRecommendor();
-	//alert("engine is " + this.engine);
-	//alert("constructed successfully");
+        this._initialized = true;
+        this.currentSongName = null;
+        this.currentSongDuration = null;
+        this.songStartDate = null;
+        this.songEndDate = null;
+        this.isLibraryScanned = false;
+        this.desiredTrackName = null;
+	    this.state = "on";
 
+        // Make a local variable for this controller so that
+        // it is easy to access from closures.
+	    var controller = this;
+	    this.engine = new TimeBasedRecommendor();
 
-    // Hook up the ScanLibrary button
-	this._scanbutton = document.getElementById("scan-button");
-    this._scanbutton.addEventListener("command", 
-         function() { controller.scanLibrary(); }, false);
-	
+        // Hook up the ScanLibrary button
+	    this._scanbutton = document.getElementById("scan-button");
+        this._scanbutton.addEventListener("command", 
+             function() { controller.scanLibrary(); }, false);
 
-    // Hook up the Mix button
-    this._mixbutton = document.getElementById("action-button");
-    this._mixbutton.addEventListener("command", 
-        function() { controller.makePlaylist(); }, false);
-		
-	//Hook up the On/Off button
-	this._offbutton = document.getElementById("off");
-    this._offbutton.addEventListener("command", 
-        function() { controller.turnOff(); }, false);
-	
-	// Hook up the ratings menu (five entries)
-	this._1star = document.getElementById("1star");
-	this._1star.addEventListener("command",
-		function() { controller.giveRating(0.0); }, false);
-	this._2star = document.getElementById("2star");
-	this._2star.addEventListener("command",
-		function() { controller.giveRating(0.25); }, false);
-	this._3star = document.getElementById("3star");
-	this._3star.addEventListener("command",
-		function() { controller.giveRating(0.5); }, false);
-	this._4star = document.getElementById("4star");
-	this._4star.addEventListener("command",
-		function() { controller.giveRating(0.75); }, false);
-	this._5star = document.getElementById("5star");
-	this._5star.addEventListener("command",
-		function() { controller.giveRating(1.0); }, false);
-	// keep track of the dropdown menu itself to allow us to reset the visual later
-	this._starMenuList = document.getElementById("starmenulist");
-		
-	//alert("creating listener");
-	var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]  
-                    .getService(Components.interfaces.sbIMediacoreManager); 
-	//alert("creating listener pt0");
-	//var mediaItem = gMM.sequencer.view.getItemByIndex(gMM.sequencer.viewPosition);  
-	
-	//alert("creating listener pt1");
-	
-	//Listener for a skipped track. Currently fires for skipped AND ended tracks. 
-	var myListener = {
-		onMediacoreEvent:function(ev) {
-			if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE) {
-			    //alert("the song has changed");
-			    controller.songChanged(ev);
-			}
-			else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END) {
-			    controller.songChanged(ev);
-		        //alert("End of Playlist");
-			}
-		}
-	}
-	//alert("creating listener pt2");
-	gMM.addListener(myListener);
-	//alert("created listener");
- 	 
-  },
+        // Hook up the Mix button
+        this._mixbutton = document.getElementById("action-button");
+        this._mixbutton.addEventListener("command", 
+            function() { controller.makePlaylist(); }, false);
+    		
+	    // Hook up the On/Off button
+	    this._offbutton = document.getElementById("off");
+        this._offbutton.addEventListener("command", 
+            function() { controller.turnOff(); }, false);
+    	
+	    // Hook up the ratings menu (five entries)
+	    this._1star = document.getElementById("1star");
+	    this._1star.addEventListener("command",
+		    function() { controller.giveRating(0.0); }, false);
+	    this._2star = document.getElementById("2star");
+	    this._2star.addEventListener("command",
+		    function() { controller.giveRating(0.25); }, false);
+	    this._3star = document.getElementById("3star");
+	    this._3star.addEventListener("command",
+		    function() { controller.giveRating(0.5); }, false);
+	    this._4star = document.getElementById("4star");
+	    this._4star.addEventListener("command",
+		    function() { controller.giveRating(0.75); }, false);
+	    this._5star = document.getElementById("5star");
+	    this._5star.addEventListener("command",
+		    function() { controller.giveRating(1.0); }, false);
+	    // keep track of the dropdown menu itself to allow us to reset the visual later
+	    this._starMenuList = document.getElementById("starmenulist");
+    		
+	    var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager); 
+    	
+	    // Setup a listener for when the currently playing track changes
+	    var skipListener = {
+		    onMediacoreEvent:function(ev) {
+			    if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE) {
+			        //alert("the song has changed");
+			        controller.songChanged(ev);
+			    }
+			    else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END) {
+		            //alert("End of Playlist");
+			        controller.songChanged(ev);
+			    }
+		    }
+	    }
+	    gMM.addListener(skipListener);
+    	
+    	
+	    // Create a listener to request notification of when the playlist selection changes
+	    this.songSelectionListener = {
+	        onSelectionChanged:function() {
+	            controller.selectionChanged();
+	        },
+	        onCurrentIndexChanged:function() {
+	        }
+	    }
+    },
+    
+    // returns the current selected row of the mediaListView, or null if there is not exactly 1 row selected
+    getSelectedMediaItem : function() {
+        // Determine which song is currently selected in the view
+        var mediaListView = this.getCurrentMediaListView();
+        var selection = null;
+        if (mediaListView != null) {
+            // figure out which song is currently selected
+            var selection = mediaListView.selection;
+            if (selection.count == 1) {
+                var currentIndex = selection.currentIndex;
+                //alert("current index = " + currentIndex);
+                var selectedMediaItem = mediaListView.getItemByIndex(currentIndex);
+                return selectedMediaItem;
+            }
+        }
+        return null;
+    },
+    
+    // returns the current media list view
+    getCurrentMediaListView : function() {
+        var windowMediator = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
+        var songbirdWindow = windowMediator.getMostRecentWindow("Songbird:Main");
+        var mediaListView = songbirdWindow.gBrowser.currentMediaListView;
+        return mediaListView;
+    },
+
+    // adds a selection listener for the current view
+    addSelectionListener : function() {
+        var mediaListView = this.getCurrentMediaListView();
+        if (mediaListView != null) {
+            var selection = mediaListView.selection;
+            selection.addListener(this.songSelectionListener);
+        }
+        this.didSelectionChange = false;
+    },
+    
+    // gets rid of the selection listener for the current view
+    removeSelectionListener : function() {
+        var mediaListView = this.getCurrentMediaListView();
+        if (mediaListView != null) {
+            var selection = mediaListView.selection;
+            selection.removeListener(this.songSelectionListener);
+        }
+    },
+    
+    // this function gets called when the user changes which songs are selected
+    selectionChanged : function() {
+        this.didSelectionChange = true;
+    },
   
+    // assigns a certain rating to the currently-playing song
 	giveRating : function(score) {
 	    // make sure we know which song to assign the rating to
     	if (this.currentSongName) {
@@ -141,116 +186,118 @@ Bluejay.PaneController = {
             flushMessage();
         }
     }, 
-	// disable the recommendation engine until it is re-enabled
+    
+    // disables the Bluejay recommendation engine until it is re-enabled
 	turnOff : function() {
         //this._ratingMenu.clearStars();
 		this.state="off";
 	},
-  // this function scans the user's library and send that data to the engine
-  scanLibrary : function() {
-    var list = LibraryUtils.mainLibrary;
-    var mystring = "";
-    // iterate over each thing in the library
-    alert("push [ok] to start scanning library");
-    var length = list.length;
-    // limit the number of songs (for testing)
-    // if (length > 65) {
-    //    length = 65;
-    // }
-    var i;
-    var music = new Name("Song");
-    for (i = 0; i < length; i++) {
-        var item = list.getItemByIndex(i);
-        // get the song name
-        var songName = new Name(item.getProperty(SBProperties.trackName));
-        // make sure the song name is something sensible
-        if (!songName.isNull()) {
-            // make a new candidate to represent the song
-            var songCandidate = new Candidate();
-            songCandidate.setName(songName);
-            songCandidate.setPlayable(true);
-            // get the date it was added to the library
-            var timeString = item.getProperty(SBProperties.created);
-            var deltaTime = parseInt(item.getProperty(SBProperties.created));
-            var discoveryDate = new DateTime();
-            discoveryDate.setDurationSinceReference(deltaTime / 1000);
-            songCandidate.setDiscoveryDate(discoveryDate);
-            message("getting rating");
-            // get the song's rating if it has been rated yet
-            var starCount = item.getProperty(SBProperties.rating);
-            message(starCount + "\r\n");
-            if (starCount > 0) {
-                // create the rating and add it
-                var songRating = new Rating();
-                songRating.setActivityName(songName);
-                songRating.setScore((starCount - 1) / 4);
-                // setting an invalid date means we want it to be the earliest possible date
-                songRating.setDate(null);
-                this.engine.putRatingInMemory(songRating);
-            }
-
-
-            // get the artist name
-            var artistName = new Name(item.getProperty(SBProperties.artistName));
-            // if the artist name is unknown, group it with other songs with unknown genre
-            if (artistName.isNull()) {
-                artistName = new Name("Unspecified Artist");
-            }
-            // create a Candidate representing the artist
-            var artistCandidate = new Candidate();
-            artistCandidate.setName(artistName);
-            artistCandidate.addParentName(music);
-            artistCandidate.setPlayable(false);
-            // give the artist candidate to the engine
-            this.engine.addCandidate(artistCandidate);
-            // add the artist as a parent of the song
-            songCandidate.addParentName(artistName);
-
-
-            // get the genre
-            var genre = new Name(item.getProperty(SBProperties.genre));
-            // if the genre is unknown, group it with other songs with unknown genre
-            if (genre.isNull()) {
-                genre = new Name("Unspecified Genre");
-            }
-            // create a Candidate representing the genre
-            var genreCandidate = new Candidate();
-            genreCandidate.setName(genre);
-            genreCandidate.addParentName(music);
-            genreCandidate.setPlayable(false);
-            // give the genre candidate to the engine
-            this.engine.addCandidate(genreCandidate);
-            // add the artist as a parent of the song
-            songCandidate.addParentName(genre);
-            
-            /* // if the artist name and genre name are unknown, then the song is a direct child of the category "Song"
-            if (artistName.isNull() && genre.isNull()) {
-                songCandidate.addParentName(music);
-            }*/ 
-            
-            // give the song to the engine
-            this.engine.addCandidate(songCandidate);
-        }
-    }
-    var musicCategory = new Candidate();
-    musicCategory.setName(music);
-    musicCategory.setPlayable(false);
-    this.engine.addCandidate(musicCategory);    
-    this.isLibraryScanned = true;
-    //alert("done scanning library");
-    // read any data from the text files that gives information about the library
-    this.engine.readFiles();
-    flushMessage();
-  },
   
-  // this function gets called whenever the song changes
-  songChanged: function(ev) {
+    // scans the user's library and sends that data to the engine
+    scanLibrary : function() {
+        var list = LibraryUtils.mainLibrary;
+        var mystring = "";
+        // iterate over each thing in the library
+        alert("push [ok] to start scanning library");
+        var length = list.length;
+        // limit the number of songs (for testing)
+        // if (length > 65) {
+        //    length = 65;
+        // }
+        var i;
+        var music = new Name("Song");
+        for (i = 0; i < length; i++) {
+            var item = list.getItemByIndex(i);
+            // get the song name
+            var songName = new Name(item.getProperty(SBProperties.trackName));
+            // make sure the song name is something sensible
+            if (!songName.isNull()) {
+                // make a new candidate to represent the song
+                var songCandidate = new Candidate();
+                songCandidate.setName(songName);
+                songCandidate.setPlayable(true);
+                // get the date it was added to the library
+                var timeString = item.getProperty(SBProperties.created);
+                var deltaTime = parseInt(item.getProperty(SBProperties.created));
+                var discoveryDate = new DateTime();
+                discoveryDate.setDurationSinceReference(deltaTime / 1000);
+                songCandidate.setDiscoveryDate(discoveryDate);
+                message("getting rating");
+                // get the song's rating if it has been rated yet
+                var starCount = item.getProperty(SBProperties.rating);
+                message(starCount + "\r\n");
+                if (starCount > 0) {
+                    // create the rating and add it
+                    var songRating = new Rating();
+                    songRating.setActivityName(songName);
+                    songRating.setScore((starCount - 1) / 4);
+                    // setting an invalid date means we want it to be the earliest possible date
+                    songRating.setDate(null);
+                    this.engine.putRatingInMemory(songRating);
+                }
+
+
+                // get the artist name
+                var artistName = new Name(item.getProperty(SBProperties.artistName));
+                // if the artist name is unknown, group it with other songs with unknown genre
+                if (artistName.isNull()) {
+                    artistName = new Name("Unspecified Artist");
+                }
+                // create a Candidate representing the artist
+                var artistCandidate = new Candidate();
+                artistCandidate.setName(artistName);
+                artistCandidate.addParentName(music);
+                artistCandidate.setPlayable(false);
+                // give the artist candidate to the engine
+                this.engine.addCandidate(artistCandidate);
+                // add the artist as a parent of the song
+                songCandidate.addParentName(artistName);
+
+
+                // get the genre
+                var genre = new Name(item.getProperty(SBProperties.genre));
+                // if the genre is unknown, group it with other songs with unknown genre
+                if (genre.isNull()) {
+                    genre = new Name("Unspecified Genre");
+                }
+                // create a Candidate representing the genre
+                var genreCandidate = new Candidate();
+                genreCandidate.setName(genre);
+                genreCandidate.addParentName(music);
+                genreCandidate.setPlayable(false);
+                // give the genre candidate to the engine
+                this.engine.addCandidate(genreCandidate);
+                // add the artist as a parent of the song
+                songCandidate.addParentName(genre);
+                
+                /* // if the artist name and genre name are unknown, then the song is a direct child of the category "Song"
+                if (artistName.isNull() && genre.isNull()) {
+                    songCandidate.addParentName(music);
+                }*/ 
+                
+                // give the song to the engine
+                this.engine.addCandidate(songCandidate);
+            }
+        }
+        var musicCategory = new Candidate();
+        musicCategory.setName(music);
+        musicCategory.setPlayable(false);
+        this.engine.addCandidate(musicCategory);    
+        this.isLibraryScanned = true;
+        //alert("done scanning library");
+        // read any data from the text files that gives information about the library
+        this.engine.readFiles();
+        flushMessage();
+    },
+  
+    // this function gets called whenever the song changes
+    songChanged: function(ev) {
+        // reset the rating menu
         this.clearRatingMenu();
 		// get the data for the new track
 		var mediaItem = ev.data;
 		var songName = mediaItem.getProperty(SBProperties.trackName)
-		//alert("Selected track: \"" + songName + "\" by " + mediaItem.getProperty(SBProperties.artistName));
-		var songLength=mediaItem.getProperty(SBProperties.duration)/1000000;
+		var songLength = mediaItem.getProperty(SBProperties.duration) / 1000000;
 		// get the current date
 		this.songEndDate = new DateTime();
 		this.songEndDate.setNow();
@@ -259,7 +306,6 @@ Bluejay.PaneController = {
 			// if we get here then we were previously playing a song
 			// compute the duration it actually played
 			var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
-			//alert("played duration = " + playedDuration + " song length = " + this.currentSongDuration);
 			// decide whether it was skipped based on the duration
 			if (playedDuration >= this.currentSongDuration * 0.75) {
 				// if we get here then it was not skipped
@@ -278,75 +324,106 @@ Bluejay.PaneController = {
 				this.engine.addRating(newRating);
 			}
 		}
-		// update the current song
+		
+		// update some information about the current song
 		this.currentSongName = songName;
 		this.songStartDate = this.songEndDate;
 		this.currentSongDuration = songLength;
-		//alert("You have skipped this item " + mediaItem.getProperty(SBProperties.skipCount) + " times and its duration is " + songLength + " seconds");
-		if (songName != this.desiredTrackName) {
-			// if a song was chosen randomly, and we then skip it automatically, that's not a downvote
-			this.ignoredSongname = songName;
-			// only change the song if the user wants us to
-			if (this.state == "on") {
-    			this.makePlaylist();
+		this.ignoredSongname = null;    // the name of the song selected automatically by Songbird, which gets overridden by Bluejay
+
+
+		// make sure that the user wants us to control which song is playing
+        if (this.state == "on") {
+            // Determine if the previously selected song changed
+            if (this.didSelectionChange) {
+                // If we get here, then the user chose this song and we should not replace it with another one
+                //alert("user chose a song");
+                var selectedMediaItem = this.getSelectedMediaItem();
+                //alert("selectedID = " + selectedID);
+	            var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
+                // the user has clicked on a song, so we will play the selected song instead
+                var newRating = new Rating();
+	            newRating.setActivityName(new Name(selectedName));
+	            newRating.setDate(this.songEndDate);
+	            newRating.setScore(1);
+	            this.engine.addRating(newRating);
+	            //alert("new song name = " + selectedName);
+	            // Only play this song if it hasn't already started
+	            if (selectedName != songName) {
+                    //alert("playing user's chosen song");
+		            this.changeSong(selectedName);
+		        }
+            } else {
+		        if (songName != this.desiredTrackName) {
+			        // if a song was chosen randomly, and we then skip it automatically, that's not a downvote
+			        this.ignoredSongname = songName;    // the name of the song selected automatically by Songbird, which gets overridden by Bluejay
+                    //alert("making playlist!");
+		            this.makePlaylist();
+		        }
             }
-		}
-  },
+        }
+        // Add our song-selection listener because we may have removed it since last time
+        this.addSelectionListener();
+    },
 
 
-  /**
-   * Called when the pane is about to close
-   */
-  onUnLoad: function() {
-    this._initialized = false;
-  },
+    /**
+    * Called when the pane is about to close
+    */
+    onUnLoad: function() {
+        this._initialized = false;
+    },
   
-  readFiles : function() {
-    alert("pane reading files");
-    //TimeBasedRecommendor.constructor();
-    // for testing, write to the file first
-    //FileIO.writeFile("bluejay_ratings.txt", "Jeff's successful file IO test", 0);
-    //this.engine.createFiles();
-    // now read the file
-    this.engine.readFiles();
-    //this.engine.makeRecommendation();
-  },
-  
-  makePlaylist : function() {
-    if (!this.isLibraryScanned) {
-        this.scanLibrary();
-    }
-	this.state="on";
-    //this.engine.updateLinkValues();
-    this.desiredTrackName = this.engine.makeRecommendation().getName();
-    this.changeSong(this.desiredTrackName);    
-    flushMessage();
-  },
-  // changes the currently playing song to the song named songName
-  changeSong: function(songName) {
+    // chooses the next song to play and switches to that song
+    makePlaylist : function() {
+        if (!this.isLibraryScanned) {
+            this.scanLibrary();
+        }
+        this.state="on";
+        this.changeSong(this.engine.makeRecommendation().getName());    
+        flushMessage();
+    },
+    // changes the currently playing song to the song named songName
+    changeSong: function(songName) {
+        this.desiredTrackName = songName;
         //alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
         //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
-        properties.appendProperty(SBProperties.trackName, songName);
-        var tracks = LibraryUtils.mainLibrary.getItemsByProperties(properties);
-        //var tracks = LibraryUtils.mainLibrary.getItemsByProperty(SBProperties.artistName, "Dexys Midnight Runners");
+        var songnamePropertyId = SBProperties.trackName;
+        properties.appendProperty(songnamePropertyId, songName);
+        var songArray = LibraryUtils.mainLibrary.getItemsByProperties(properties);
         var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
-        var songView = LibraryUtils.mainLibrary.createView()
-        gMM.sequencer.playView(songView, songView.getIndexForItem(tracks.enumerate().getNext())); 
+        var songView = LibraryUtils.mainLibrary.createView();
+        var songEnumerator = songArray.enumerate();
+        var i;
+        var song;
+        // unfortunately, getItemsByProperties doesn't match case
+        // So, we have to go look for the item whose title is capitalized correctly
+        for (i = 0; i < songArray.length; i++) {
+            song = songEnumerator.getNext();
+            //alert("song name = ");
+            var actualName = song.getProperty(songnamePropertyId);
+            //alert(actualName);
+            if (actualName == songName) {
+                gMM.sequencer.playView(songView, songView.getIndexForItem(song));
+                return;
+            }        
+        }
+        
+        //gMM.sequencer.playView(songView, songView.getIndexForItem(songArray.enumerate().getNext())); 
         //alert("done selecting song");
     },
     clearRatingMenu: function() {
         this._starMenuList.selectedIndex = 0;
     },
-  /**
-   * Load the Display Pane documentation in the main browser pane
-   */
-  loadHelpPage: function() {
-    // Ask the window containing this pane (likely the main player window)
-    // to load the display pane documentation
-    top.loadURI("http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Display_Panes");
-  }
-  
+    /**
+    * Load the Display Pane documentation in the main browser pane
+    */
+    loadHelpPage: function() {
+        // Ask the window containing this pane (likely the main player window)
+        // to load the display pane documentation
+        top.loadURI("http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Display_Panes");
+    }
 };
 
 window.addEventListener("load", function(e) { Bluejay.PaneController.onLoad(e); }, false);

@@ -35,16 +35,12 @@ FileIO = {
         /** open an input stream from the file */
         var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
                       createInstance(Components.interfaces.nsIFileInputStream);
-        /** alert("reading point 2"); */
         istream.init(file, 0x01, 0444, 0);
-        /** alert("reading point 3"); */
          
          var converter = Components.classes["@mozilla.org/intl/converter-input-stream;1"].
                 createInstance(Components.interfaces.nsIConverterInputStream);
-        /** alert("reading point 4"); */
         var replacementCharacter = Components.interfaces.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER
         converter.init(istream, "UTF-8", 0, replacementCharacter);
-        /** alert("reading point 5"); */
         var stringContents = "";
         var tempString = {};
         while (converter.readString(4096, tempString) != 0) {
@@ -52,14 +48,8 @@ FileIO = {
             stringContents += tempString.value;
         }
 
-        /** alert("reading point 6"); */
-        converter.close(); /** this closes foStream
+        converter.close(); /** this closes istream */
 
-        /**
-         * do something with the read data
-         * alert("filecontents = " + stringContents);
-         * alert("done getting file data");
-         */
         return stringContents;
     },
     
@@ -76,7 +66,7 @@ FileIO = {
         
         var data = stringData
         /** file is nsIFile, data is a string */
-        var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].
+        var fileStream = Components.classes["@mozilla.org/network/file-output-stream;1"].
                        createInstance(Components.interfaces.nsIFileOutputStream);
         /** alert("writing files part 1"); */
          
@@ -93,26 +83,22 @@ FileIO = {
          *     0×80 	Exclude
          */
 	    if (append)
-            foStream.init(file, 0x02 | 0x08 | 0x10, 0666, 0);
+            fileStream.init(file, 0x02 | 0x08 | 0x10, 0666, 0);
         else
-            foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
+            fileStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0);
         
         /**
          * write, create, truncate.  In a c file operation, we have no
          * need to set file mode with or operation, directly using "r"
          * or "w" usually.  if you are sure there will never ever be any
-         * non-ascii text in data you can also call foStream.writeData
+         * non-ascii text in data you can also call fileStream.writeData
          * directly
          */
-        /** alert("writing files part 2"); */
         var converter = Components.classes["@mozilla.org/intl/converter-output-stream;1"].
                         createInstance(Components.interfaces.nsIConverterOutputStream);
-        /** alert("writing files part 3"); */
-        converter.init(foStream, "UTF-8", 0, 0);
-        /** alert("writing files part 4"); */
+        converter.init(fileStream, "UTF-8", 0, 0);
         converter.writeString(data);
-        /** alert("writing files part 5"); */
-        converter.close(); /** this closes foStream
+        converter.close(); /** this closes fileStream */
 
         /** alert("done writing file " + fileName); */
     },
@@ -122,7 +108,7 @@ FileIO = {
         /** This will choose the user's home directory */
         var dirService = Components.classes["@mozilla.org/file/directory_service;1"].
                          getService(Components.interfaces.nsIProperties);
-        var homeDirFile = dirService.get("Home", Components.interfaces.nsIFile); /** returns an nsIFile object
+        var homeDirFile = dirService.get("Home", Components.interfaces.nsIFile); /** returns an nsIFile object */
         return homeDirFile;
     }
 };
@@ -142,9 +128,9 @@ function message(text, priority) {
      * If we're not debugging then don't include debug messages
      */
     if (priority > 0) {
-        /** append the text to the end of the output file */
-        /** FileIO.writeFile("bluejay_output.txt", text, 1); */
-        /** messageToWrite += text; */
+        // append the text to the end of the output file
+        // FileIO.writeFile("bluejay_output.txt", text, 1);
+        // messageToWrite += text;
     }
 };
 
@@ -154,5 +140,4 @@ function flushMessage() {
         FileIO.writeFile("bluejay_output.txt", messageToWrite, 1);
         messageToWrite = "";
     }
-}
-
+};

@@ -101,14 +101,14 @@ function MovingAverage() {
         if ((otherRatings.length > 0) && (previousNumRatings < otherRatings.length)) {
             var startTime = otherRatings[previousNumRatings].getDate();
             /** find the starting index. This can
-            * be optimized with a binary search!
-            * for (i = otherRatings.length - 1; i >= 0; i--) {
-            *    if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
-            *	        break;
-            * }
-            * message("MovingAverage::getCorrelationsFor pt2");
-            * var startingIndex = i + 1;
-            */
+            * be optimized with a binary search! */
+            for (i = otherRatings.length - 1; i >= 0; i--) {
+                if (strictlyChronologicallyOrdered(otherRatings[i].getDate(), startTime))
+                    break;
+            }
+            message("MovingAverage::getCorrelationsFor pt2");
+            var startingIndex = i + 1;
+            
             var x, y, weight;
             weight = 1;
             var previousIndex = this.getValueAt(startTime, true)[1];
@@ -134,7 +134,7 @@ function MovingAverage() {
                 y = otherRatings[i].getScore();
                 var ourIndex = value[1];
                 if (ourIndex >= 0) {
-                    /**message("MovingAverage::getCorrelationsFor pt4");
+                    /**message("MovingAverage::getCorrelationsFor pt4");*/
                     if (ourIndex != previousIndex) {
                         previousIndex = value[1];
                         numChanges++;
@@ -143,7 +143,6 @@ function MovingAverage() {
                 }
             }
         }
-        /** message("MovingAverage::getCorrelationsFor pt5"); */
         /**
          * if we had to skip a change but there were
          * none to skip, then make it zero

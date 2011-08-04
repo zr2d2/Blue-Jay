@@ -42,9 +42,7 @@ function TimeBasedRecommendor() {
     var ratingsFilename = "bluejay_ratings.txt";
     var inheritancesFilename = "bluejay_inheritances.txt";
 
-	/* Public Methods */
-    
-    /* function prototypes */
+    /* Function Prototypes */
 
     // Functions that should be called by outside code
     // read the usual files and put their data into the recommendor
@@ -126,6 +124,7 @@ function TimeBasedRecommendor() {
     this.printDistribution = printDistribution;
     this.printParticipation = printParticipation;
     this.message = message;
+    
     // functions for testing that it all works
     this.test = test;
 
@@ -134,11 +133,11 @@ function TimeBasedRecommendor() {
     // updates the structure of the Candidates
     // This informs each Candidate of each of its children and parents, and creates PredictionLinks between some of them
     function updateLinkConnections() {
-        alert("recommendor updating child pointers");
+        alert("Bluejay updating child pointers (step 1/6)");
         this.updateChildPointers();
         //alert("computing discovery dates");
         this.estimateDiscoveryDates();
-        alert("recommendor adding prediction links");
+        alert("Bluejay adding prediction links (step 2/6)");
 		this.addPredictionLinks();
         //alert("recommendor updating predictions");
 		//this.updateLinkValues();
@@ -673,7 +672,7 @@ function TimeBasedRecommendor() {
     }
     // inform everything of any new data that was added recently that it needs to know about    
     function updateLinkValues() {
-        alert("recommendor applying ratings\r\n");
+        alert("Bluejay applying ratings (step 3/6)");
         message("giving ratings to candidates\r\n");
         // inform each candidate of the ratings given to it
         var ratingIterator = Iterator(ratings, true);
@@ -693,7 +692,7 @@ function TimeBasedRecommendor() {
         
 
 
-        alert("recommendor updating link values\r\n");
+        alert("Bluejay updating link values (step 4/6)");
     	message("updating PredictionLinks");
     	// have each PredictionLink update itself with the changes to the appropriate MovingAverage    	
     	var mapIterator = Iterator(predictionLinks);
@@ -718,7 +717,7 @@ function TimeBasedRecommendor() {
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");
     }
     function updateRatings() {
-        alert("recommendor predicting ratings");
+        alert("Bluejay predicting ratings (5/6)");
         // get the current date
         var now = new DateTime();
         now.setNow();
@@ -729,7 +728,7 @@ function TimeBasedRecommendor() {
     }
     // sort the songs by their score
     function sortCandidates() {
-        alert("recommendor sorting candidates");
+        alert("Bluejay sorting candidates (step 6/6)");
         // clear all the candidates
         candidatesByScore.length = 0;
         // copy the candidates from leafVector
@@ -761,6 +760,7 @@ function TimeBasedRecommendor() {
         }
     }
 
+    // creates the necessary output files
     function createFiles() {
         FileIO.writeFile(ratingsFilename, "", 1);    
         //FileIO.writeFile(inheritancesFilename, "", 0);    
@@ -885,13 +885,14 @@ function TimeBasedRecommendor() {
 	        // Then n = sqrt(t) where n is the number of ratings
 	        // If the user reliably rates a song down, then for calculated distributions, stddev = 1 / n = 1 / sqrt(t) and weight = n = sqrt(t)
 	        // Then it is about ideal for the rememberer to have stddev = 1 / n and weight = d
-	        // If the user only usually rates a song down, then for calculated distributions, stddev = k and weight = n
+	        // If the user only usually rates a song down, then for calculated distributions, stddev = k and weight = n, where k is small and based on how often they rate the song down
 	        // Then it is about ideal for the rememberer to have stddev = k and weight = d
 	        // This is mostly equivalent to stddev = d^(-1/3), weight = d^(2/3)
 	        // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
 	        //double squareRoot = sqrt(remembererDuration);
 	        var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
 	        //message("building rememberer");
+	        // apply a constant scale factor because these durations are in seconds, which are pretty small units
 	        var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot / 800);
 	        guesses.push(rememberer);
 
@@ -900,7 +901,7 @@ function TimeBasedRecommendor() {
 	        var spacerDuration = candidate.getDurationSinceLastPlayed(when);
 	        // if they just heard it then they we're pretty sure they don't want to hear it again
 	        // If it's been 10 hours then it's probably okay to play it again
-	        // The spacer has a max weight so it can be overpowered by learned data
+	        // The spacer has a max weight so it can be overpowered if there is enough learned data
 	        var spacerWeight = 20 * (1 - spacerDuration / 36000);
 	        if (spacerWeight > 0) {
 	            guesses.push(new Distribution(0, .05, spacerWeight));
@@ -923,7 +924,7 @@ function TimeBasedRecommendor() {
         return this.rateCandidate(getCandidateWithName(name), when);
     }
         
-    // determines which candidate has the best expected score at the given time
+    // determines which Candidate has the best expected score at the given time, and returns a Name object corresponding to that Candidate
     function makeRecommendation(when) {
         //alert("making recommendation");
         // default to the current date

@@ -29,7 +29,7 @@ function DateTime(yyyymmddhhmmss) {
     this.setComponents = setComponents;
     this.setDurationSinceReference = setDurationSinceReference;
     this.getDurationSinceReference = getDurationSinceReference;
-    this.setNow = setNow;   /** makes the date equal to the current date
+    this.setNow = setNow;   /** makes the date equal to the current date*/
     this.setInternalValue = setInternalValue;
 
     /**private variables */
@@ -40,28 +40,10 @@ function DateTime(yyyymmddhhmmss) {
     /** public functions */
     /** create a new date equal to this date plus numSeconds */
     function datePlusDuration(numSeconds) {
-        /**
-         * var duration = new Date(numSeconds*1000);
-         * alert("new Date()");
-         */
         var newValue = new Date(value.getTime() + numSeconds*1000);
-        /** alert("new DateTime()"); */
         var result = new DateTime();
-        /** alert("setInternalValue"); */
         result.setInternalValue(newValue); /** this should be a private function */
-        /**
-         * alert("my duration " + this.getDurationSinceReference());
-         * alert("other duration " + result.getDurationSinceReference());
-         * alert("timeUntil");
-         */
         var duration = this.timeUntil(result);
-        /**
-         * alert("checking equality");        
-         * if (duration != numSeconds) {
-         *     alert(duration + " not equal to " + numSeconds);
-         * }
-         * alert("returning result");
-         */
         return result;
     }
 
@@ -94,13 +76,9 @@ function DateTime(yyyymmddhhmmss) {
     }
     /** the number of seconds from this to other */
     function timeUntil(other) {
-        /** alert("::timeUntil"); */
         var myDuration = this.getDurationSinceReference();
-        /** alert("myDuration = " + myDuration); */
         var otherDuration = other.getDurationSinceReference();
-        /** alert("otherDuration = " + otherDuration); */
         var result = otherDuration - myDuration;
-        /** alert("result = " + result); */
         return result;
     }
     
@@ -140,7 +118,6 @@ function DateTime(yyyymmddhhmmss) {
     function setInternalValue(newValue) {
         value = newValue;
     }
-    /** alert("done constructing date"); */
 };
 
 /**

@@ -32,7 +32,7 @@ function Candidate(passedVal) {
 	this.setID = setID;
 	
 	/**
-        * whether this represents an actual music track that can
+     * whether this represents an actual music track that can
 	 * played, or a genre that can't be played directly
 	 */
     this.isPlayable = isPlayable;
@@ -56,9 +56,9 @@ function Candidate(passedVal) {
 	this.giveParticipation = giveParticipation;
 	
 	/**
-        * how many MovingAverages there are to estimate its rating.
+     * how many MovingAverages there are to estimate its rating.
 	 * Currently it's always 1
-        */
+     */
 	this.getNumRatingEstimators = getNumRatingEstimators;
 	
 	/** get the appropriate MovingAverage */
@@ -67,7 +67,7 @@ function Candidate(passedVal) {
 	/** get the appropriate MovingAverage for different index */
 	this.getFrequencyHistory = getFrequencyHistory;
 	
-       /** get the MovingAverage that stores the ratings */
+    /** get the MovingAverage that stores the ratings */
 	this.getRatingHistory = getRatingHistory;
 	
 	/**
@@ -107,7 +107,7 @@ function Candidate(passedVal) {
 	var playable = true;
 	
 	/**
-        * parentNames is only used at the beginning for storing
+     * parentNames is only used at the beginning for storing
 	 * names before the parents exist
 	 */
 	var parentNames = [];
@@ -347,16 +347,16 @@ function Candidate(passedVal) {
        */
        function getDiscoveryDate(when) {       /** if discoveryDate is valid... */
        if (discoveryDate) {
-       /** ...then return it */
-       return discoveryDate;
+           /** ...then return it */
+           return discoveryDate;
        }
        else {
-       /**
-        * If we get here, then we don't have any data
-        * suggesting a discovery date.  So, assume it
-        * was discovered an extremely long time agon
-        */
-       return new DateTime();
+           /**
+            * If we get here, then we don't have any data
+            * suggesting a discovery date.  So, assume it
+            * was discovered an extremely long time agon
+            */
+           return new DateTime();
 		}
 	}
 	
