@@ -92,6 +92,14 @@ Bluejay.PaneController = {
         function() { controller.giveRating(1.0); }, false);
         // keep track of the dropdown menu itself to allow us to reset the visual later
         this._starMenuList = document.getElementById("starmenulist");
+        
+        this.exactRatingLabel = document.getElementById("exactRatingLabel");
+        this.exactRatingLabel.addEventListener("mouseover", function() {controller.exactRatingLabel.value = "rating =";}, false);
+        this.exactRatingLabel.addEventListener("mouseout", function() {controller.exactRatingLabel.value = "Exact:";}, false);
+
+        this.comparisonRatingLabel = document.getElementById("comparisonRatingLabel");
+        this.comparisonRatingLabel.addEventListener("mouseover", function() {controller.comparisonRatingLabel.value = "to prev.";}, false);
+        this.comparisonRatingLabel.addEventListener("mouseout", function() {controller.comparisonRatingLabel.value = "Relative:";}, false);
             
         var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
             
