@@ -1,31 +1,31 @@
 /*
-    Copyright (C) 2011 Bluejay
+Copyright (C) 2011 Bluejay
 
-    This file is part of Bluejay.
+This file is part of Bluejay.
 
-    Bluejay is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Bluejay is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Bluejay is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Bluejay is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with Bluejay. If not, see <http://www.gnu.org/licenses/>.
 */
 
 if (typeof(Cc) == 'undefined')
-	var Cc = Components.classes;
+var Cc = Components.classes;
 if (typeof(Ci) == 'undefined')
-	var Ci = Components.interfaces;
+var Ci = Components.interfaces;
 if (typeof(Cu) == 'undefined')
-	var Cu = Components.utils;
+var Cu = Components.utils;
 if (typeof(Cr) == 'undefined')
-	var Cr = Components.results;
-	
+var Cr = Components.results;
+
 
 // Make a namespace.
 if (typeof Bluejay == 'undefined') {
@@ -36,13 +36,13 @@ Cu.import("resource://app/jsmodules/sbProperties.jsm");
 Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 
 /**
- * Controller for pane.xul
- */
+* Controller for pane.xul
+*/
 Bluejay.PaneController = {
 
     /**
-     * Called when the pane is instantiated
-     */
+    * Called when the pane is instantiated
+    */
     onLoad: function() {
 
         this._initialized = true;
@@ -52,92 +52,72 @@ Bluejay.PaneController = {
         this.songEndDate = null;
         this.isLibraryScanned = false;
         this.isSettingSong = false; // whether we're currently in the process of changing the song
-	    this.state = "on";
+        this.state = "on";
 
         // Make a local variable for this controller so that
         // it is easy to access from closures.
-	    var controller = this;
-	    this.engine = new TimeBasedRecommendor();
+        var controller = this;
+        this.engine = new TimeBasedRecommendor();
 
         // Hook up the ScanLibrary button
-	    this._scanbutton = document.getElementById("scan-button");
-        this._scanbutton.addEventListener("command", 
-             function() { controller.scanLibrary(); }, false);
+        this._scanbutton = document.getElementById("scan-button");
+        this._scanbutton.addEventListener("command",
+        function() { controller.scanLibrary(); }, false);
 
         // Hook up the Mix button
         this._mixbutton = document.getElementById("action-button");
-        this._mixbutton.addEventListener("command", 
-            function() { controller.makePlaylist(); }, false);
-    		
-	    // Hook up the On/Off button
-	    this._offbutton = document.getElementById("off");
-        this._offbutton.addEventListener("command", 
-            function() { controller.turnOff(); }, false);
-    	
-	    // Hook up the ratings menu (five entries)
-	    this._1star = document.getElementById("1star");
-	    this._1star.addEventListener("command",
-		    function() { controller.giveRating(0.0); }, false);
-	    this._2star = document.getElementById("2star");
-	    this._2star.addEventListener("command",
-		    function() { controller.giveRating(0.25); }, false);
-	    this._3star = document.getElementById("3star");
-	    this._3star.addEventListener("command",
-		    function() { controller.giveRating(0.5); }, false);
-	    this._4star = document.getElementById("4star");
-	    this._4star.addEventListener("command",
-		    function() { controller.giveRating(0.75); }, false);
-	    this._5star = document.getElementById("5star");
-	    this._5star.addEventListener("command",
-		    function() { controller.giveRating(1.0); }, false);
-	    // keep track of the dropdown menu itself to allow us to reset the visual later
-	    this._starMenuList = document.getElementById("starmenulist");
-	    
-	    // Change the text of some labels when the mouse is over them
-	    this.exactRatingLabel = document.getElementById("exactRatingLabel");
-	    this.exactRatingLabel.addEventListener("mouseover", function() {controller.exactRatingLabel.value = "equal to";}, false);
-	    this.exactRatingLabel.addEventListener("mouseout", function() {controller.exactRatingLabel.value = "Exactly:";}, false);
-
-	    this.comparisonRatingLabel = document.getElementById("comparisonRatingLabel");
-	    this.comparisonRatingLabel.addEventListener("mouseover", function() {controller.comparisonRatingLabel.value = "to latest";}, false);
-	    this.comparisonRatingLabel.addEventListener("mouseout", function() {controller.comparisonRatingLabel.value = "Compare:";}, false);
-	    
-	    /*this.betterRatingLabel = document.getElementById("betterRatingLabel");
-	    this.betterRatingLabel.addEventListener("mouseover", function() {controller.betterRatingLabel.label = "> prev."; }, false);
-	    this.betterRatingLabel.addEventListener("mouseout", function() {controller.betterRatingLabel.label = "Better"; }, false);
-
-	    this.worseRatingLabel = document.getElementById("worseRatingLabel");
-	    this.worseRatingLabel.addEventListener("mouseover", function() {controller.worseRatingLabel.label = "< prev."; }, false);
-	    this.worseRatingLabel.addEventListener("mouseout", function() {controller.worseRatingLabel.label = "Worse"; }, false);
-	    */
-    		
-    		
-	    var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager); 
-    	
-	    // Setup a listener for when the currently playing track changes
-	    var skipListener = {
-		    onMediacoreEvent:function(ev) {
-			    if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE) {
-			        //alert("the song has changed");
-			        controller.songChanged(ev);
-			    }
-			    else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END) {
-		            //alert("End of Playlist");
-			        controller.songChanged(ev);
-			    }
-		    }
-	    }
-	    gMM.addListener(skipListener);
-    	
-    	
-	    // Create a listener to request notification of when the playlist selection changes
-	    this.songSelectionListener = {
-	        onSelectionChanged:function() {
-	            controller.selectionChanged();
-	        },
-	        onCurrentIndexChanged:function() {
-	        }
-	    }
+        this._mixbutton.addEventListener("command",
+        function() { controller.makePlaylist(); }, false);
+    
+        // Hook up the On/Off button
+        this._offbutton = document.getElementById("off");
+        this._offbutton.addEventListener("command",
+        function() { controller.turnOff(); }, false);
+    
+        // Hook up the ratings menu (five entries)
+        this._1star = document.getElementById("1star");
+        this._1star.addEventListener("command",
+        function() { controller.giveRating(0.0); }, false);
+        this._2star = document.getElementById("2star");
+        this._2star.addEventListener("command",
+        function() { controller.giveRating(0.25); }, false);
+        this._3star = document.getElementById("3star");
+        this._3star.addEventListener("command",
+        function() { controller.giveRating(0.5); }, false);
+        this._4star = document.getElementById("4star");
+        this._4star.addEventListener("command",
+        function() { controller.giveRating(0.75); }, false);
+        this._5star = document.getElementById("5star");
+        this._5star.addEventListener("command",
+        function() { controller.giveRating(1.0); }, false);
+        // keep track of the dropdown menu itself to allow us to reset the visual later
+        this._starMenuList = document.getElementById("starmenulist");
+            
+        var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager);
+            
+        // Setup a listener for when the currently playing track changes
+        var skipListener = {
+            onMediacoreEvent:function(ev) {
+                if(ev.type==Ci.sbIMediacoreEvent.TRACK_CHANGE) {
+                    //alert("the song has changed");
+                    controller.songChanged(ev);
+                } else if(ev.type==Ci.sbIMediacoreEvent.STREAM_END) {
+                    //alert("End of Playlist");
+                    controller.songChanged(ev);
+                }
+            }
+        }
+        gMM.addListener(skipListener);
+            
+            
+        // Create a listener to request notification of when the playlist selection changes
+        this.songSelectionListener = {
+            onSelectionChanged:function() {
+                controller.selectionChanged();
+            },
+            onCurrentIndexChanged:function() {
+            }
+        }
     },
     
     // returns the current selected row of the mediaListView, or null if there is not exactly 1 row selected
@@ -190,10 +170,10 @@ Bluejay.PaneController = {
     },
   
     // assigns a certain rating to the currently-playing song
-	giveRating : function(score) {
-	    // make sure we know which song to assign the rating to
-    	if (this.currentSongName) {
-	        var newRating = new Rating();
+    giveRating : function(score) {
+        // make sure we know which song to assign the rating to
+        if (this.currentSongName) {
+            var newRating = new Rating();
             newRating.setActivityName(new Name(this.currentSongName));
             var newDate = new DateTime();
             newDate.setNow();
@@ -203,13 +183,13 @@ Bluejay.PaneController = {
             this.engine.addRating(newRating);
             flushMessage();
         }
-    }, 
+    },
     
     // disables the Bluejay recommendation engine until it is re-enabled
-	turnOff : function() {
+    turnOff : function() {
         //this._ratingMenu.clearStars();
-		this.state="off";
-	},
+        this.state="off";
+    },
   
     // scans the user's library and sends that data to the engine
     scanLibrary : function() {
@@ -220,7 +200,7 @@ Bluejay.PaneController = {
         var length = list.length;
         // limit the number of songs (for testing)
         // if (length > 65) {
-        //    length = 65;
+        // length = 65;
         // }
         var i;
         var music = new Name("Song");
@@ -290,8 +270,8 @@ Bluejay.PaneController = {
                 
                 /* // if the artist name and genre name are unknown, then the song is a direct child of the category "Song"
                 if (artistName.isNull() && genre.isNull()) {
-                    songCandidate.addParentName(music);
-                }*/ 
+                songCandidate.addParentName(music);
+                }*/
                 
                 // give the song to the engine
                 this.engine.addCandidate(songCandidate);
@@ -300,7 +280,7 @@ Bluejay.PaneController = {
         var musicCategory = new Candidate();
         musicCategory.setName(music);
         musicCategory.setPlayable(false);
-        this.engine.addCandidate(musicCategory);    
+        this.engine.addCandidate(musicCategory);
         this.isLibraryScanned = true;
         //alert("done scanning library");
         // read any data from the text files that gives information about the library
@@ -310,18 +290,18 @@ Bluejay.PaneController = {
   
     // this function gets called whenever the song changes for any reason
     songChanged: function(ev) {
-		// get the data for the new track
-		var mediaItem = ev.data;
-		var songName = mediaItem.getProperty(SBProperties.trackName)
-		var songLength = mediaItem.getProperty(SBProperties.duration) / 1000000;
-		this.songEndDate = new DateTime();
-		this.songEndDate.setNow();
-		
-		// determine whether we changed the song
-		if (this.isSettingSong) {
-		    this.isSettingSong = false;
-		} else {
-		    this.outsideSourceChangedSong(ev);
+        // get the data for the new track
+        var mediaItem = ev.data;
+        var songName = mediaItem.getProperty(SBProperties.trackName)
+        var songLength = mediaItem.getProperty(SBProperties.duration) / 1000000;
+        this.songEndDate = new DateTime();
+        this.songEndDate.setNow();
+
+        // determine whether we changed the song
+        if (this.isSettingSong) {
+            this.isSettingSong = false;
+        } else {
+            this.outsideSourceChangedSong(ev);
         }
         
         // save data for later
@@ -331,78 +311,71 @@ Bluejay.PaneController = {
     },
     // this function gets called whenever the song is changed by Songbird or by the user, but not when we change it
     outsideSourceChangedSong: function(ev) {
-		var mediaItem = ev.data;
+        var mediaItem = ev.data;
         // reset the rating menu
         this.clearRatingMenu();
 
-		// check whether we were previously playing a song
-		if (this.currentSongName != null) {
-		    // compute the duration it actually played
-		    var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
-		    // decide whether it was skipped based on the duration
-		    if (playedDuration >= this.currentSongDuration * 0.75) {
-			    // if we get here then it was not skipped
-			    var newParticipation = new Participation();
-			    newParticipation.setStartTime(this.songStartDate);
-			    newParticipation.setEndTime(this.songEndDate);
-			    newParticipation.setIntensity(1);
-			    newParticipation.setActivityName(new Name(this.currentSongName));
-			    this.engine.addParticipation(newParticipation);
-		    } else {
-			    // if we get here then the song was skipped
-			    var newRating = new Rating();
-			    newRating.setActivityName(new Name(this.currentSongName));
-			    newRating.setDate(this.songEndDate);
-			    newRating.setScore(0);
-			    this.engine.addRating(newRating);
+        // check whether we were previously playing a song
+        if (this.currentSongName != null) {
+            // compute the duration it actually played
+            var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
+            // decide whether it was skipped based on the duration
+            if (playedDuration >= this.currentSongDuration * 0.75) {
+                // if we get here then it was not skipped
+                var newParticipation = new Participation();
+                newParticipation.setStartTime(this.songStartDate);
+                newParticipation.setEndTime(this.songEndDate);
+                newParticipation.setIntensity(1);
+                newParticipation.setActivityName(new Name(this.currentSongName));
+                this.engine.addParticipation(newParticipation);
+            } else {
+                // if we get here then the song was skipped
+                var newRating = new Rating();
+                newRating.setActivityName(new Name(this.currentSongName));
+                newRating.setDate(this.songEndDate);
+                newRating.setScore(0);
+                this.engine.addRating(newRating);
             }
-		}
-		if ((this.currentSongName == null) && (this.getSelectedMediaItem() != null)) {
-		    // We don't setup our selection listener until after the first song starts
-		    // If no song was playing previously but something is selected, then the selection did change
-		    this.didSelectionChange = true;
-		}
+        }
+        if ((this.currentSongName == null) && (this.getSelectedMediaItem() != null)) {
+            // We don't setup our selection listener until after the first song starts
+            // If no song was playing previously but something is selected, then the selection did change
+            this.didSelectionChange = true;
+        }
 
         // Determine if the previously selected song changed
-        if (!this.didSelectionChange) {
+        if (this.didSelectionChange) {
+            // If we get here, then the user clicked on a song and we should make sure that we are playing the chosen song
+            var selectedMediaItem = this.getSelectedMediaItem();
+            var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
+            // upvote the chosen song
+            var newRating = new Rating();
+            newRating.setActivityName(new Name(selectedName));
+            newRating.setDate(this.songEndDate);
+            newRating.setScore(1);
+            this.engine.addRating(newRating);
+            var selectedID = selectedMediaItem.getProperty(SBProperties.GUID);
+            var playingID = mediaItem.getProperty(SBProperties.GUID);
+            // Play this song if it hasn't already started
+            if (selectedID != playingID) {
+                // make sure that the user wants us to control which song is playing
+                if (this.state == "on") {
+                    this.changeSong(selectedName);
+                }
+            }
+        } else {
             // make sure that the user wants us to control which song is playing
             if (this.state == "on") {
                 // So, we choose a song to override the random song
                 this.makePlaylist();
             }
-        } else {
-            // figure out what the user selected
-	        var selectedMediaItem = this.getSelectedMediaItem();
-            if (selectedMediaItem != null) {
-                // If we get here, then the user has clicked on a song and we should make sure that we are playing the chosen song
-                var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
-                // upvote the chosen song
-                var newRating = new Rating();
-                newRating.setActivityName(new Name(selectedName));
-                newRating.setDate(this.songEndDate);
-                newRating.setScore(1);
-                this.engine.addRating(newRating);
-                var selectedID = selectedMediaItem.getProperty(SBProperties.GUID);
-                var playingID = mediaItem.getProperty(SBProperties.GUID);
-                // Play this song if it hasn't already started
-                if (selectedID != playingID) {
-        		    // make sure that the user wants us to control which song is playing
-                    if (this.state == "on") {
-    	                this.changeSong(selectedName);
-    	                // indicate to the user that they have upvoted this song
-    	                this.showFiveStars();
-                    }
-	            } else {
-    	            // indicate to the user that they have upvoted this song
-    	            this.showFiveStars();
-	            }
-	        }
         }
         // Add our song-selection listener again in case the current view changed and this view doesn't have a listener
         this.addSelectionListener();
         // clear the flag telling whether the selection changed
         this.didSelectionChange = false;
     },
+
 
     /**
     * Called when the pane is about to close
@@ -416,8 +389,8 @@ Bluejay.PaneController = {
         if (!this.isLibraryScanned) {
             this.scanLibrary();
         }
-        this.state = "on";
-        this.changeSong(this.engine.makeRecommendation().getName());    
+        this.state="on";
+        this.changeSong(this.engine.makeRecommendation().getName());
         flushMessage();
     },
     // changes the currently playing song to the song named songName
@@ -435,24 +408,23 @@ Bluejay.PaneController = {
         var i;
         var song;
         // unfortunately, getItemsByProperties doesn't match case
-        // So, we have to go look for the item whose title is spelled and capitalized correctly
+        // So, we have to go look for the item whose title is capitalized correctly
         for (i = 0; i < songArray.length; i++) {
             song = songEnumerator.getNext();
+            //alert("song name = ");
             var actualName = song.getProperty(songnamePropertyId);
+            //alert(actualName);
             if (actualName == songName) {
                 gMM.sequencer.playView(songView, songView.getIndexForItem(song));
                 return;
-            }        
+            }
         }
         
-        //gMM.sequencer.playView(songView, songView.getIndexForItem(songArray.enumerate().getNext())); 
+        //gMM.sequencer.playView(songView, songView.getIndexForItem(songArray.enumerate().getNext()));
         //alert("done selecting song");
     },
     clearRatingMenu: function() {
         this._starMenuList.selectedIndex = 0;
-    },
-    showFiveStars: function() {
-        this._starMenuList.selectedIndex = 2;
     },
     /**
     * Load the Display Pane documentation in the main browser pane
