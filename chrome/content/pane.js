@@ -92,6 +92,25 @@ Bluejay.PaneController = {
 		    function() { controller.giveRating(1.0); }, false);
 	    // keep track of the dropdown menu itself to allow us to reset the visual later
 	    this._starMenuList = document.getElementById("starmenulist");
+	    
+	    // Change the text of some labels when the mouse is over them
+	    this.exactRatingLabel = document.getElementById("exactRatingLabel");
+	    this.exactRatingLabel.addEventListener("mouseover", function() {controller.exactRatingLabel.value = "equal to";}, false);
+	    this.exactRatingLabel.addEventListener("mouseout", function() {controller.exactRatingLabel.value = "Exactly:";}, false);
+
+	    this.comparisonRatingLabel = document.getElementById("comparisonRatingLabel");
+	    this.comparisonRatingLabel.addEventListener("mouseover", function() {controller.comparisonRatingLabel.value = "to latest";}, false);
+	    this.comparisonRatingLabel.addEventListener("mouseout", function() {controller.comparisonRatingLabel.value = "Compare:";}, false);
+	    
+	    /*this.betterRatingLabel = document.getElementById("betterRatingLabel");
+	    this.betterRatingLabel.addEventListener("mouseover", function() {controller.betterRatingLabel.label = "> prev."; }, false);
+	    this.betterRatingLabel.addEventListener("mouseout", function() {controller.betterRatingLabel.label = "Better"; }, false);
+
+	    this.worseRatingLabel = document.getElementById("worseRatingLabel");
+	    this.worseRatingLabel.addEventListener("mouseover", function() {controller.worseRatingLabel.label = "< prev."; }, false);
+	    this.worseRatingLabel.addEventListener("mouseout", function() {controller.worseRatingLabel.label = "Worse"; }, false);
+	    */
+    		
     		
 	    var gMM = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"].getService(Components.interfaces.sbIMediacoreManager); 
     	
@@ -345,38 +364,45 @@ Bluejay.PaneController = {
 		}
 
         // Determine if the previously selected song changed
-        if (this.didSelectionChange) {
-            // If we get here, then the user clicked on a song and we should make sure that we are playing the chosen song
-            var selectedMediaItem = this.getSelectedMediaItem();
-            var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
-            // upvote the chosen song
-            var newRating = new Rating();
-            newRating.setActivityName(new Name(selectedName));
-            newRating.setDate(this.songEndDate);
-            newRating.setScore(1);
-            this.engine.addRating(newRating);
-            var selectedID = selectedMediaItem.getProperty(SBProperties.GUID);
-            var playingID = mediaItem.getProperty(SBProperties.GUID);
-            // Play this song if it hasn't already started
-            if (selectedID != playingID) {
-        		// make sure that the user wants us to control which song is playing
-                if (this.state == "on") {
-    	            this.changeSong(selectedName);
-                }
-	        }
-        } else {
-	        // make sure that the user wants us to control which song is playing
+        if (!this.didSelectionChange) {
+            // make sure that the user wants us to control which song is playing
             if (this.state == "on") {
                 // So, we choose a song to override the random song
                 this.makePlaylist();
             }
+        } else {
+            // figure out what the user selected
+	        var selectedMediaItem = this.getSelectedMediaItem();
+            if (selectedMediaItem != null) {
+                // If we get here, then the user has clicked on a song and we should make sure that we are playing the chosen song
+                var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
+                // upvote the chosen song
+                var newRating = new Rating();
+                newRating.setActivityName(new Name(selectedName));
+                newRating.setDate(this.songEndDate);
+                newRating.setScore(1);
+                this.engine.addRating(newRating);
+                var selectedID = selectedMediaItem.getProperty(SBProperties.GUID);
+                var playingID = mediaItem.getProperty(SBProperties.GUID);
+                // Play this song if it hasn't already started
+                if (selectedID != playingID) {
+        		    // make sure that the user wants us to control which song is playing
+                    if (this.state == "on") {
+    	                this.changeSong(selectedName);
+    	                // indicate to the user that they have upvoted this song
+    	                this.showFiveStars();
+                    }
+	            } else {
+    	            // indicate to the user that they have upvoted this song
+    	            this.showFiveStars();
+	            }
+	        }
         }
         // Add our song-selection listener again in case the current view changed and this view doesn't have a listener
         this.addSelectionListener();
         // clear the flag telling whether the selection changed
         this.didSelectionChange = false;
     },
-
 
     /**
     * Called when the pane is about to close
@@ -390,7 +416,7 @@ Bluejay.PaneController = {
         if (!this.isLibraryScanned) {
             this.scanLibrary();
         }
-        this.state="on";
+        this.state = "on";
         this.changeSong(this.engine.makeRecommendation().getName());    
         flushMessage();
     },
@@ -409,12 +435,10 @@ Bluejay.PaneController = {
         var i;
         var song;
         // unfortunately, getItemsByProperties doesn't match case
-        // So, we have to go look for the item whose title is capitalized correctly
+        // So, we have to go look for the item whose title is spelled and capitalized correctly
         for (i = 0; i < songArray.length; i++) {
             song = songEnumerator.getNext();
-            //alert("song name = ");
             var actualName = song.getProperty(songnamePropertyId);
-            //alert(actualName);
             if (actualName == songName) {
                 gMM.sequencer.playView(songView, songView.getIndexForItem(song));
                 return;
@@ -426,6 +450,9 @@ Bluejay.PaneController = {
     },
     clearRatingMenu: function() {
         this._starMenuList.selectedIndex = 0;
+    },
+    showFiveStars: function() {
+        this._starMenuList.selectedIndex = 2;
     },
     /**
     * Load the Display Pane documentation in the main browser pane

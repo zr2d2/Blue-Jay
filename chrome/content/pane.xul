@@ -28,7 +28,6 @@
 <page id="bluejay-pane" title="&bluejay.pane.label;"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="pane.js"/>
-  <script src="algorithm/ArgumentList.js"/>
   <script src="algorithm/Candidate.js"/>
   <script src="algorithm/Datapoint.js"/>
   <script src="algorithm/DateTime.js"/>
@@ -65,16 +64,26 @@
  <box>
 	<groupbox min-width="50" flex="1">
 		<hbox>
-			<description value="Rate Song: " style="font-size:12pt;" flex="1" />
-			<spacer flex="1" />
+			<description value="Rate Song: " style="font-size:12pt;" flex="1"/>
+			<spacer flex="1"/>
 			<menulist id="starmenulist" sizetopopup="always">
 				<menupopup id="ratemenu">
           <menuitem id="0stars" label="" value="0"/>
+          <label id="exactRatingLabel" value="Exactly:"/>
           <menuitem id="5star" label="&#9733;&#9733;&#9733;&#9733;&#9733;" value="5"/>
           <menuitem id="4star" label="&#9733;&#9733;&#9733;&#9733;" value="4"/>
-					<menuitem id="3star" label="&#9733;&#9733;&#9733;" value="3"/>
-					<menuitem id="2star" label="&#9733;&#9733;" value="2"/>
-					<menuitem id="1star" label="&#9733;" value="1"/>
+          <menuitem id="3star" label="&#9733;&#9733;&#9733;" value="3"/>
+          <menuitem id="2star" label="&#9733;&#9733;" value="2"/>
+          <menuitem id="1star" label="&#9733;" value="1"/>
+          <label id="comparisonRatingLabel" value="Compare:"/>
+          <menuitem id="betterRatingLabel" label="&#062; prev." value="6" title="Selecting this choice means you like this song more than the previous one"/>
+          <menuitem id="worseRatingLabel" label="&#060; prev." value="7" title="Selecting this choice means you like this song less than the previous one"/>
+          <!--menuitem id="compareLabel">
+            <submenu id="comparisonList">
+              <menuitem id="betterButton" label="&#62; prev."/>
+              <menuitem id="worseButton" label="&#60; prev."/>
+            </submenu>
+          </menuitem-->
 				</menupopup>
  			</menulist>
 		</hbox>
