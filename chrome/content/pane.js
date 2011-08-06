@@ -46,10 +46,8 @@ Bluejay.PaneController = {
     onLoad: function() {
 
         this._initialized = true;
-        this.currentSongName = null;
-        this.currentSongDuration = null;
+        this.currentMediaItem = null;
         this.songStartDate = null;
-        this.songEndDate = null;
         this.isLibraryScanned = false;
         this.isSettingSong = false; // whether we're currently in the process of changing the song
         this.state = "on";
@@ -176,13 +174,12 @@ Bluejay.PaneController = {
     selectionChanged : function() {
         this.didSelectionChange = true;
     },
-  
     // assigns a certain rating to the currently-playing song
     giveRating : function(score) {
         // make sure we know which song to assign the rating to
-        if (this.currentSongName) {
+        if (this.currentMediaItem) {
             var newRating = new Rating();
-            newRating.setActivityName(new Name(this.currentSongName));
+            newRating.setActivityName(new Name(this.currentMediaItem.getProperty(SBProperties.trackName)));
             var newDate = new DateTime();
             newDate.setNow();
             newRating.setDate(newDate);
@@ -301,51 +298,58 @@ Bluejay.PaneController = {
         // get the data for the new track
         var mediaItem = ev.data;
         var songName = mediaItem.getProperty(SBProperties.trackName)
-        var songLength = mediaItem.getProperty(SBProperties.duration) / 1000000;
-        this.songEndDate = new DateTime();
-        this.songEndDate.setNow();
 
+        // save data for later
+        var previousMediaItem = this.currentMediaItem;
+        this.currentMediaItem = mediaItem;
+        var songEndDate = new DateTime();
+        songEndDate.setNow();
+        var previousStartDate = this.songStartDate;
+        this.songStartDate = songEndDate;
+        
         // determine whether we changed the song
         if (this.isSettingSong) {
             this.isSettingSong = false;
         } else {
-            this.outsideSourceChangedSong(ev);
+            this.outsideSourceChangedSong(previousMediaItem, mediaItem, previousStartDate, songEndDate);
         }
         
         // save data for later
-        this.currentSongName = songName;
-        this.currentSongDuration = songLength;
-        this.songStartDate = this.songEndDate;
+        //this.currentSongName = songName;
+        //this.currentSongDuration = songLength;
+        //this.songStartDate = this.songEndDate;
     },
     // this function gets called whenever the song is changed by Songbird or by the user, but not when we change it
-    outsideSourceChangedSong: function(ev) {
-        var mediaItem = ev.data;
+    outsideSourceChangedSong: function(oldMediaItem, newMediaItem, startDate, endDate) {
         // reset the rating menu
         this.clearRatingMenu();
 
         // check whether we were previously playing a song
-        if (this.currentSongName != null) {
+        if (oldMediaItem != null) {
             // compute the duration it actually played
-            var playedDuration = this.songStartDate.timeUntil(this.songEndDate);
-            // decide whether it was skipped based on the duration
-            if (playedDuration >= this.currentSongDuration * 0.75) {
+            var playedDuration = startDate.timeUntil(endDate);
+            var playedName = new Name(oldMediaItem.getProperty(SBProperties.trackName));
+            var songLength = oldMediaItem.getProperty(SBProperties.duration) / 1000000;
+
+            // decide whether it was skipped, based on the duration
+            if (playedDuration >= songLength * 0.75) {
                 // if we get here then it was not skipped
                 var newParticipation = new Participation();
-                newParticipation.setStartTime(this.songStartDate);
-                newParticipation.setEndTime(this.songEndDate);
+                newParticipation.setStartTime(startDate);
+                newParticipation.setEndTime(endDate);
                 newParticipation.setIntensity(1);
-                newParticipation.setActivityName(new Name(this.currentSongName));
+                newParticipation.setActivityName(playedName);
                 this.engine.addParticipation(newParticipation);
             } else {
                 // if we get here then the song was skipped
                 var newRating = new Rating();
-                newRating.setActivityName(new Name(this.currentSongName));
-                newRating.setDate(this.songEndDate);
+                newRating.setActivityName(playedName);
+                newRating.setDate(endDate);
                 newRating.setScore(0);
                 this.engine.addRating(newRating);
             }
         }
-        if ((this.currentSongName == null) && (this.getSelectedMediaItem() != null)) {
+        if ((oldMediaItem == null) && (this.getSelectedMediaItem() != null)) {
             // We don't setup our selection listener until after the first song starts
             // If no song was playing previously but something is selected, then the selection did change
             this.didSelectionChange = true;
@@ -359,17 +363,22 @@ Bluejay.PaneController = {
             // upvote the chosen song
             var newRating = new Rating();
             newRating.setActivityName(new Name(selectedName));
-            newRating.setDate(this.songEndDate);
+            newRating.setDate(endDate);
             newRating.setScore(1);
             this.engine.addRating(newRating);
             var selectedID = selectedMediaItem.getProperty(SBProperties.GUID);
-            var playingID = mediaItem.getProperty(SBProperties.GUID);
+            var playingID = newMediaItem.getProperty(SBProperties.GUID);
             // Play this song if it hasn't already started
             if (selectedID != playingID) {
                 // make sure that the user wants us to control which song is playing
                 if (this.state == "on") {
                     this.changeSong(selectedName);
+                    // show the user that this song has been automatically upvoted
+                    this.showFiveStars();
                 }
+            } else {
+                // show the user that this song has been automatically upvoted
+                this.showFiveStars();            
             }
         } else {
             // make sure that the user wants us to control which song is playing
@@ -378,10 +387,10 @@ Bluejay.PaneController = {
                 this.makePlaylist();
             }
         }
-        // Add our song-selection listener again in case the current view changed and this view doesn't have a listener
-        this.addSelectionListener();
         // clear the flag telling whether the selection changed
         this.didSelectionChange = false;
+        // Add our song-selection listener again in case the current view changed and this view doesn't have a listener
+        this.addSelectionListener();
     },
 
 
@@ -404,9 +413,7 @@ Bluejay.PaneController = {
     // changes the currently playing song to the song named songName
     changeSong: function(songName) {
         this.isSettingSong = true;
-        //alert("selecting song named " + songName);
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
-        //properties.appendProperty(SBProperties.artistName, "Dexys Midnight Runners");
         var songnamePropertyId = SBProperties.trackName;
         properties.appendProperty(songnamePropertyId, songName);
         var songArray = LibraryUtils.mainLibrary.getItemsByProperties(properties);
@@ -419,9 +426,7 @@ Bluejay.PaneController = {
         // So, we have to go look for the item whose title is capitalized correctly
         for (i = 0; i < songArray.length; i++) {
             song = songEnumerator.getNext();
-            //alert("song name = ");
             var actualName = song.getProperty(songnamePropertyId);
-            //alert(actualName);
             if (actualName == songName) {
                 gMM.sequencer.playView(songView, songView.getIndexForItem(song));
                 return;
@@ -433,6 +438,9 @@ Bluejay.PaneController = {
     },
     clearRatingMenu: function() {
         this._starMenuList.selectedIndex = 0;
+    },
+    showFiveStars: function() {
+        this._starMenuList.selectedIndex = 2;    
     },
     /**
     * Load the Display Pane documentation in the main browser pane

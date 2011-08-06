@@ -18,7 +18,7 @@
 */
 
 messageToWrite = "";
-/** @class This is a class that handles read and write a file */
+/** @class This is a class that handles reading and writing a file */
 FileIO = {
 
     /** Public Methods */
@@ -26,25 +26,25 @@ FileIO = {
     /** read the file and return a string containing the file contents */
     readFile : function(fileName) {
         var homeDirFile = FileIO.getHomeDirectory();
-
         var file = homeDirFile;
         file.append(fileName);
         alert("FileIO reading file" + file.path);
-        /**alert("making input stream"); */
 		
         /** open an input stream from the file */
         var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
                       createInstance(Components.interfaces.nsIFileInputStream);
         istream.init(file, 0x01, 0444, 0);
-         
-         var converter = Components.classes["@mozilla.org/intl/converter-input-stream;1"].
+        
+        // setup a converter to fill in a default character for anything we can't read 
+        var converter = Components.classes["@mozilla.org/intl/converter-input-stream;1"].
                 createInstance(Components.interfaces.nsIConverterInputStream);
         var replacementCharacter = Components.interfaces.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER
         converter.init(istream, "UTF-8", 0, replacementCharacter);
         var stringContents = "";
         var tempString = {};
+        
+        // read the file now
         while (converter.readString(4096, tempString) != 0) {
-            /** message(tempString.value, 3); */
             stringContents += tempString.value;
         }
 
@@ -122,14 +122,14 @@ function message(text, priority) {
     if (!priority) {
         priority = 0;
     }
-    /** priority = 1; */
+    //priority = 1;
     /**
      * only save messages that we care about
      * If we're not debugging then don't include debug messages
      */
     if (priority > 0) {
         // append the text to the end of the output file
-        // FileIO.writeFile("bluejay_output.txt", text, 1);
+        //FileIO.writeFile("bluejay_output.txt", text, 1);
         // messageToWrite += text;
     }
 };
