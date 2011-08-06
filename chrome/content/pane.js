@@ -47,14 +47,19 @@ Bluejay.PaneController = {
 
         this._initialized = true;
         this.currentMediaItem = null;
+        this.previousMediaItem = null;
         this.songStartDate = null;
         this.isLibraryScanned = false;
         this.isSettingSong = false; // whether we're currently in the process of changing the song
+        this.previousEstimatedRating = null;    // a Distribution telling what we thought the rating would be for the previous song played
+        this.currentEstimatedRating = null;     // a Distribution what we think the user's rating would be for the current song
         this.state = "on";
 
         // Make a local variable for this controller so that
         // it is easy to access from closures.
         var controller = this;
+        
+        // create the prediction engine that rates songs and chooses songs
         this.engine = new TimeBasedRecommendor();
 
         // Hook up the ScanLibrary button
@@ -72,7 +77,7 @@ Bluejay.PaneController = {
         this._offbutton.addEventListener("command",
         function() { controller.turnOff(); }, false);
     
-        // Hook up the ratings menu (five entries)
+        // Hook up the ratings menu (five entries, plus the "better" and "worse" options)
         this._1star = document.getElementById("1star");
         this._1star.addEventListener("command",
         function() { controller.giveRating(0.0); }, false);
@@ -88,6 +93,14 @@ Bluejay.PaneController = {
         this._5star = document.getElementById("5star");
         this._5star.addEventListener("command",
         function() { controller.giveRating(1.0); }, false);
+        this._moreStars = document.getElementById("moreStars");
+        this._moreStars.addEventListener("command",
+        function() { controller.rateBetterThanPrevious(); }, false);
+        this._fewerStars = document.getElementById("fewerStars");
+        this._fewerStars.addEventListener("command",
+        function() { controller.rateWorseThanPrevious(); }, false);
+        
+        
         // keep track of the dropdown menu itself to allow us to reset the visual later
         this._starMenuList = document.getElementById("starmenulist");
         
@@ -175,21 +188,107 @@ Bluejay.PaneController = {
         this.didSelectionChange = true;
     },
     // assigns a certain rating to the currently-playing song
-    giveRating : function(score) {
-        // make sure we know which song to assign the rating to
+    giveRating : function(score, name) {
+        // fill the name in if possible
         if (this.currentMediaItem) {
+            if (name == null) {
+                name = this.currentMediaItem.getProperty(SBProperties.trackName);
+            }
+        }
+        // make sure we know which song to assign the rating to
+        if (name != null) {
             var newRating = new Rating();
-            newRating.setActivityName(new Name(this.currentMediaItem.getProperty(SBProperties.trackName)));
+            newRating.setActivityName(new Name(name));
             var newDate = new DateTime();
             newDate.setNow();
             newRating.setDate(newDate);
             newRating.setScore(score);
-            //alert("adding rating");
             this.engine.addRating(newRating);
             flushMessage();
         }
     },
-    
+    // 
+    rateBetterThanPrevious : function() {
+        // make sure that we know what the previous song was
+        if ((this.previousMediaItem != null) && (this.currentMediaItem != null) && (this.currentMediaItem != this.previousMediaItem)) {
+            // get the stats of the estimate for the previous song
+            var previousSongRating = this.previousEstimatedRating;
+            var previousSongMean = previousSongRating.getMean();
+            var previousSongStdDev = previousSongRating.getStdDev();
+            
+            // get the stats of the estimate for the current song
+            var currentSongRating = this.currentEstimatedRating;
+            var currentSongMean = currentSongRating.getMean();
+            var currentSongStdDev = currentSongRating.getStdDev();
+            
+            // The mathematically correct way to interpret the statement that song A is better than song B is to recompute the probability distributions of their ratings,
+            // subject to the constraint that the rating of song A is better than the rating of song B
+            // This ends up removing a bunch of possibilities and renormalizing the distributions, giving us new, updated probability distributions
+            // Unfortunately, this doesn't fit in with the current model of assigning a point rating at a certain time; it would require adding a distribution with both positive and negative values
+            // This would be pretty complicated, and would require more CPU time to process and more time to code
+            
+            // In practice, however, the user will only say that song A is better than song B if there is only a small difference between them
+            // If there were a larger difference between the songs, then the user would simply give them numerical ratings (1-5 stars) the normal way
+            // Furthermore, Bluejay is good enough at choosing songs that most songs are pretty good anyway, so two consecutive songs should have almost the same rating anyway
+            // Therefore, it's acceptable to rate the previous song at (previousSongMean - previousSongStdDev) and the new song at (currentSongMean + currentSongStdDev) and check for some unusual cases
+            
+            var updatedOldValue = previousSongMean - previousSongStdDev;
+            if (updatedOldValue > currentSongMean) {
+                updatedOldValue = currentSongMean;
+            }
+            if (updatedOldValue < 0) {
+                updatedOldValue = 0;
+            }
+            var updatedNewValue = currentSongMean + currentSongStdDev;
+            if (updatedNewValue < previousSongMean) {
+                updatedNewValue = previousSongMean;
+            }
+            if (updatedNewValue > 1) {
+                updatedNewValue = 1;
+            }
+            
+            // create both ratings
+            this.giveRating(updatedOldValue, this.previousMediaItem.getProperty(SBProperties.trackName));
+            this.giveRating(updatedNewValue, this.currentMediaItem.getProperty(SBProperties.trackName));
+        }
+    },
+    // 
+    rateWorseThanPrevious : function() {
+        // make sure that we know what the previous song was
+        if ((this.previousMediaItem != null) && (this.currentMediaItem != null) && (this.currentMediaItem != this.previousMediaItem)) {
+            // get the stats of the estimate for the previous song
+            var previousSongRating = this.previousEstimatedRating;
+            var previousSongMean = previousSongRating.getMean();
+            var previousSongStdDev = previousSongRating.getStdDev();
+            
+            // get the stats of the estimate for the current song
+            var currentSongRating = this.currentEstimatedRating;
+            var currentSongMean = currentSongRating.getMean();
+            var currentSongStdDev = currentSongRating.getStdDev();
+            
+            // See rateBetterThanPrevious for notes about the math here
+            // Basically, we make the previous song a little worse, and the current song a little better
+            
+            var updatedOldValue = previousSongMean + previousSongStdDev;
+            if (updatedOldValue < currentSongMean) {
+                updatedOldValue = currentSongMean;
+            }
+            if (updatedOldValue > 1) {
+                updatedOldValue = 1;
+            }
+            var updatedNewValue = currentSongMean - currentSongStdDev;
+            if (updatedNewValue > previousSongMean) {
+                updatedNewValue = previousSongMean;
+            }
+            if (updatedNewValue < 0) {
+                updatedNewValue = 0;
+            }
+            // create both ratings
+            this.giveRating(updatedOldValue, this.previousMediaItem.getProperty(SBProperties.trackName));
+            this.giveRating(updatedNewValue, this.currentMediaItem.getProperty(SBProperties.trackName));
+        }
+    },
+        
     // disables the Bluejay recommendation engine until it is re-enabled
     turnOff : function() {
         //this._ratingMenu.clearStars();
@@ -300,8 +399,6 @@ Bluejay.PaneController = {
         var songName = mediaItem.getProperty(SBProperties.trackName)
 
         // save data for later
-        var previousMediaItem = this.currentMediaItem;
-        this.currentMediaItem = mediaItem;
         var songEndDate = new DateTime();
         songEndDate.setNow();
         var previousStartDate = this.songStartDate;
@@ -310,8 +407,9 @@ Bluejay.PaneController = {
         // determine whether we changed the song
         if (this.isSettingSong) {
             this.isSettingSong = false;
+            this.startingSong(mediaItem);
         } else {
-            this.outsideSourceChangedSong(previousMediaItem, mediaItem, previousStartDate, songEndDate);
+            this.outsideSourceChangedSong(this.currentMediaItem, mediaItem, previousStartDate, songEndDate);
         }
         
         // save data for later
@@ -357,6 +455,9 @@ Bluejay.PaneController = {
 
         // Determine if the previously selected song changed
         if (this.didSelectionChange) {
+            // clear the flag telling whether the selection changed
+            this.didSelectionChange = false;
+
             // If we get here, then the user clicked on a song and we should make sure that we are playing the chosen song
             var selectedMediaItem = this.getSelectedMediaItem();
             var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
@@ -368,6 +469,10 @@ Bluejay.PaneController = {
             this.engine.addRating(newRating);
             var selectedID = selectedMediaItem.getProperty(SBProperties.GUID);
             var playingID = newMediaItem.getProperty(SBProperties.GUID);
+            // If the user manually selected a song, then it doesn't make sense to say that this song was rated better or worse than another
+            // So, we don't need to worry about saving an estimated rating for it
+            this.previousEstimatedRating = this.currentEstimatedRating;
+            this.currentEstimatedRating = null;
             // Play this song if it hasn't already started
             if (selectedID != playingID) {
                 // make sure that the user wants us to control which song is playing
@@ -375,22 +480,36 @@ Bluejay.PaneController = {
                     this.changeSong(selectedName);
                     // show the user that this song has been automatically upvoted
                     this.showFiveStars();
+                } else {
+                    // do any other setup required when starting a song that we plan to play
+                    this.startingSong(newMediaItem);
                 }
             } else {
                 // show the user that this song has been automatically upvoted
-                this.showFiveStars();            
+                this.showFiveStars();
+                // do any other setup required when starting a song that we plan to play
+                this.startingSong(newMediaItem);
             }
         } else {
             // make sure that the user wants us to control which song is playing
             if (this.state == "on") {
                 // So, we choose a song to override the random song
                 this.makePlaylist();
+            } else {
+                // do any other setup required when starting a song that we plan to play
+                this.startingSong(newMediaItem);
             }
         }
-        // clear the flag telling whether the selection changed
-        this.didSelectionChange = false;
+    },
+    
+    // this function gets called when a song starts and we plan to play it all the way through (rather than skipping it as soon as possible, like a randomly-chosen song)
+    startingSong: function(mediaItem) {
+        // keep track of previous songs
+        this.previousMediaItem = this.currentMediaItem;
+        this.currentMediaItem = mediaItem;
         // Add our song-selection listener again in case the current view changed and this view doesn't have a listener
         this.addSelectionListener();
+
     },
 
 
@@ -407,7 +526,17 @@ Bluejay.PaneController = {
             this.scanLibrary();
         }
         this.state="on";
-        this.changeSong(this.engine.makeRecommendation().getName());
+        
+        // get the recommendation
+        var bestCandidate = this.engine.makeRecommendation();
+        
+        // update the rating estimates of the current and previous songs
+        // This allows us to know what to do if the user clicks that they like one song better than the other
+        this.previousEstimatedRating = this.currentEstimatedRating;
+        this.currentEstimatedRating = bestCandidate.getCurrentRating();
+
+        var songName = bestCandidate.getName().getText();
+        this.changeSong(songName);
         flushMessage();
     },
     // changes the currently playing song to the song named songName
@@ -434,7 +563,6 @@ Bluejay.PaneController = {
         }
         
         //gMM.sequencer.playView(songView, songView.getIndexForItem(songArray.enumerate().getNext()));
-        //alert("done selecting song");
     },
     clearRatingMenu: function() {
         this._starMenuList.selectedIndex = 0;

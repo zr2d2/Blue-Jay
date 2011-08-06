@@ -890,10 +890,10 @@ function TimeBasedRecommendor() {
 	        // This is mostly equivalent to stddev = d^(-1/3), weight = d^(2/3)
 	        // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
 	        //double squareRoot = sqrt(remembererDuration);
-	        var cubeRoot = Math.pow(remembererDuration, 1.0/3.0);
+	        var twoThirdsPower = Math.pow(remembererDuration, 2.0/3.0);
 	        //message("building rememberer");
 	        // apply a constant scale factor because these durations are in seconds, which are pretty small units
-	        var rememberer = new Distribution(1, 1.0 / cubeRoot, cubeRoot / 800);
+	        var rememberer = new Distribution(1, 0.5, twoThirdsPower / 1600);
 	        guesses.push(rememberer);
 
 
@@ -915,7 +915,7 @@ function TimeBasedRecommendor() {
         //message("averaging distributions");
         var childRating = this.averageDistributions(guesses);
         candidate.setCurrentRating(childRating, when);
-        message("name: " + candidate.getName().getName() + " score: " + childRating.getMean() + "\r\n", 1);
+        message("name: " + candidate.getName().getName() + " score: " + childRating.getMean() + " stddev: " + childRating.getStdDev() + "\r\n", 1);
         return childRating;
     }
     
@@ -924,7 +924,7 @@ function TimeBasedRecommendor() {
         return this.rateCandidate(getCandidateWithName(name), when);
     }
         
-    // determines which Candidate has the best expected score at the given time, and returns a Name object corresponding to that Candidate
+    // determines which Candidate has the best expected score at the given time, and returns that Candidate
     function makeRecommendation(when) {
         //alert("making recommendation");
         // default to the current date
@@ -1040,7 +1040,7 @@ function TimeBasedRecommendor() {
 	    message("best candidate name = " + bestCandidate.getName().getName() + " expected rating = " + bestCandidate.getCurrentRating().getMean() + "\r\n", 1);
 	    flushMessage();
 	    //alert("done making recommendation. Best song name = " + bestName.getName());
-	    return bestCandidate.getName();
+	    return bestCandidate;
     }
     // compute the distribution that is formed by combining the given distributions
     function addDistributions(distributions, average) {

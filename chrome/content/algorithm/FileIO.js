@@ -130,7 +130,7 @@ function message(text, priority) {
     if (priority > 0) {
         // append the text to the end of the output file
         //FileIO.writeFile("bluejay_output.txt", text, 1);
-        // messageToWrite += text;
+        //messageToWrite += text;
     }
 };
 

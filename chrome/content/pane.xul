@@ -76,8 +76,8 @@
           <menuitem id="2star" label="&#9733;&#9733;" value="2"/>
           <menuitem id="1star" label="&#9733;" value="1"/>
           <label id="comparisonRatingLabel" value="Relative:"/>
-          <menuitem id="betterRatingLabel" label="Better" value="6" title="Selecting this choice means you like this song more than the previous one"/>
-          <menuitem id="worseRatingLabel" label="Worse" value="7" title="Selecting this choice means you like this song less than the previous one"/>
+          <menuitem id="moreStars" label="Better" value="6" title="Selecting this choice means you like this song more than the previous one"/>
+          <menuitem id="fewerStars" label="Worse" value="7" title="Selecting this choice means you like this song less than the previous one"/>
 				</menupopup>
  			</menulist>
 		</hbox>

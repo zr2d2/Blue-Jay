@@ -24,6 +24,7 @@
 function Name(passedVal) {
 	//public function prototypes
 	this.getName = getName;
+	this.getText = getName;
 	this.appendChar = appendChar;
 	this.clear = clear;
 	this.equalTo = equalTo;
@@ -36,8 +37,12 @@ function Name(passedVal) {
 	var value = passedVal;
 	
 	//public functions
+	// this function will start to be replaced by the function getText() for more readibility
 	function getName() {
 		return value;
+	}
+	function getText() {
+	    return value;
 	}
 	
 	function appendChar(newChar) {
