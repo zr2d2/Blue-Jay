@@ -46,14 +46,14 @@ Bluejay.PaneController = {
     onLoad: function() {
 
         this._initialized = true;
-        this.currentMediaItem = null;
-        this.previousMediaItem = null;
+        this.currentMediaItem = null;           // the most-recently-started song that we intend to play all the way through
+        this.previousMediaItem = null;          // the most-recently-ended song that we intended to play all the way throught
         this.songStartDate = null;
         this.isLibraryScanned = false;
-        this.isSettingSong = false; // whether we're currently in the process of changing the song
+        this.isSettingSong = false;             // whether we're currently in the process of changing the song
         this.previousEstimatedRating = null;    // a Distribution telling what we thought the rating would be for the previous song played
         this.currentEstimatedRating = null;     // a Distribution what we think the user's rating would be for the current song
-        this.state = "on";
+        this.state = "on";                      // tells whether the user wants us to override the randomly chosen songs
 
         // Make a local variable for this controller so that
         // it is easy to access from closures.
@@ -143,7 +143,6 @@ Bluejay.PaneController = {
     getSelectedMediaItem : function() {
         // Determine which song is currently selected in the view
         var mediaListView = this.getCurrentMediaListView();
-        var selection = null;
         if (mediaListView != null) {
             // figure out which song is currently selected
             var selection = mediaListView.selection;
@@ -207,9 +206,10 @@ Bluejay.PaneController = {
             flushMessage();
         }
     },
-    // 
+    // Calling this function declares that the user is happier listening to the current song than to the previously played song
     rateBetterThanPrevious : function() {
         // make sure that we know what the previous song was
+        // previousMediaItem is the most-recently-ended song that we intended to play all the way through
         if ((this.previousMediaItem != null) && (this.currentMediaItem != null) && (this.currentMediaItem != this.previousMediaItem)) {
             // get the stats of the estimate for the previous song
             var previousSongRating = this.previousEstimatedRating;
@@ -252,9 +252,10 @@ Bluejay.PaneController = {
             this.giveRating(updatedNewValue, this.currentMediaItem.getProperty(SBProperties.trackName));
         }
     },
-    // 
+    // Calling this function declares that the user was happier listening to the previously played song than to the current song than
     rateWorseThanPrevious : function() {
         // make sure that we know what the previous song was
+        // previousMediaItem is the most-recently-ended song that we intended to play all the way through
         if ((this.previousMediaItem != null) && (this.currentMediaItem != null) && (this.currentMediaItem != this.previousMediaItem)) {
             // get the stats of the estimate for the previous song
             var previousSongRating = this.previousEstimatedRating;
@@ -397,6 +398,7 @@ Bluejay.PaneController = {
         // get the data for the new track
         var mediaItem = ev.data;
         var songName = mediaItem.getProperty(SBProperties.trackName)
+        message("song changed; new name = " + songName + "\r\n");
 
         // save data for later
         var songEndDate = new DateTime();
@@ -407,23 +409,24 @@ Bluejay.PaneController = {
         // determine whether we changed the song
         if (this.isSettingSong) {
             this.isSettingSong = false;
+            // do any necessary processing for when we start a song that we intend to play all the way through (as opposede to one that we skip immediately)
             this.startingSong(mediaItem);
         } else {
+            // do any necessary processing for when the user or Songbird changes the song
             this.outsideSourceChangedSong(this.currentMediaItem, mediaItem, previousStartDate, songEndDate);
         }
         
-        // save data for later
-        //this.currentSongName = songName;
-        //this.currentSongDuration = songLength;
-        //this.songStartDate = this.songEndDate;
     },
     // this function gets called whenever the song is changed by Songbird or by the user, but not when we change it
+    // oldMediaItem is the previous song that was playing for even a fraction of a moment
     outsideSourceChangedSong: function(oldMediaItem, newMediaItem, startDate, endDate) {
+        message("outside source changed song\r\n");
         // reset the rating menu
         this.clearRatingMenu();
 
         // check whether we were previously playing a song
         if (oldMediaItem != null) {
+            message("outside source changed song: old name = " + oldMediaItem.getProperty(SBProperties.trackName) + "\r\n");
             // compute the duration it actually played
             var playedDuration = startDate.timeUntil(endDate);
             var playedName = new Name(oldMediaItem.getProperty(SBProperties.trackName));
@@ -447,19 +450,19 @@ Bluejay.PaneController = {
                 this.engine.addRating(newRating);
             }
         }
-        if ((oldMediaItem == null) && (this.getSelectedMediaItem() != null)) {
+        message("outside source changed song: new name = " + newMediaItem.getProperty(SBProperties.trackName) + "\r\n");
+        var selectedMediaItem = this.getSelectedMediaItem();
+        if ((oldMediaItem == null) && (selectedMediaItem != null)) {
             // We don't setup our selection listener until after the first song starts
             // If no song was playing previously but something is selected, then the selection did change
             this.didSelectionChange = true;
         }
-
         // Determine if the previously selected song changed
-        if (this.didSelectionChange) {
+        if (this.didSelectionChange && (selectedMediaItem != null)) {
             // clear the flag telling whether the selection changed
             this.didSelectionChange = false;
 
             // If we get here, then the user clicked on a song and we should make sure that we are playing the chosen song
-            var selectedMediaItem = this.getSelectedMediaItem();
             var selectedName = selectedMediaItem.getProperty(SBProperties.trackName);
             // upvote the chosen song
             var newRating = new Rating();
@@ -504,6 +507,8 @@ Bluejay.PaneController = {
     
     // this function gets called when a song starts and we plan to play it all the way through (rather than skipping it as soon as possible, like a randomly-chosen song)
     startingSong: function(mediaItem) {
+        message("starting song: name = " + mediaItem.getProperty(SBProperties.trackName) + "\r\n");
+    
         // keep track of previous songs
         this.previousMediaItem = this.currentMediaItem;
         this.currentMediaItem = mediaItem;
@@ -541,6 +546,7 @@ Bluejay.PaneController = {
     },
     // changes the currently playing song to the song named songName
     changeSong: function(songName) {
+        message("setting song, name = " + songName + "\r\n");
         this.isSettingSong = true;
         const properties = Cc["@songbirdnest.com/Songbird/Properties/MutablePropertyArray;1"].createInstance(Ci.sbIMutablePropertyArray);
         var songnamePropertyId = SBProperties.trackName;
