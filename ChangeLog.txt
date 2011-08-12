@@ -1,0 +1,50 @@
+Copyright (C) 2011 Bluejay
+
+This file is part of Bluejay.
+
+Bluejay is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Bluejay is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Change Log:
+
+* August 12, 2011 Jeff Gaston
+
+removed the obsolete file ArgumentList.js, which was only ever created because an analagous class was used in the C++ prototype
+
+
+* August 8, 2011 Jeff Gaston
+
+fixed an error that occurred when deselecting all tracks
+
+
+* August 6, 2011 Jeff Gaston
+
+added functionality to the better/worse buttons 
+
+shows five stars when manually selecting a song 
+
+
+* August 5, 2011 Jeff Gaston
+
+added UI for the better/worse rating choices
+
+
+* August 4, 2011 Jeff Gaston
+
+added the ability to choose a song and then scan the library while playing that song, without having it override the chosen song when done scanning
+
+
+* August 3, 2011 Jeff Gaston
+
+fixed some syntax errors, fixed a song-casing issue, and fixed the issue where Bluejay would override the selection of a song by the user
