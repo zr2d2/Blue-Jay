@@ -27,7 +27,7 @@ made the engine slightly smarter by breaking ties better in ScatterPlot.js
 
 * August 12, 2011 Jeff Gaston
 
-removed the obsolete file ArgumentList.js, which was only ever created because an analagous class was used in the C++ prototype
+removed the obsolete file ArgumentList.js, which was only ever created because an analogous class was used in the C++ prototype
 
 
 * August 8, 2011 Jeff Gaston

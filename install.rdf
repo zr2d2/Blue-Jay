@@ -26,27 +26,22 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>{0686d43b-1ae0-46cb-8a79-5e190abbba0b}</em:id>
     <em:type>2</em:type>
-	
     <em:name>Bluejay</em:name>
-    <em:version>1.0.0.2</em:version>
+    <em:version>1.0.1.0</em:version>
     <em:creator>Team Bluejay</em:creator>
     <em:description>Recommendation Engine for Songbird</em:description>
-
-
     <em:optionsURL>chrome://bluejay/content/options.xul</em:optionsURL>
 	<em:aboutURL>chrome://bluejay/content/about.xul</em:aboutURL>
 	<em:iconURL>chrome://bluejay/skin/bluejay.png</em:iconURL>
 	<em:homepageURL>https://github.com/zr2d2/Blue-Jay</em:homepageURL>
-
     <em:targetApplication>
       <Description>
         <em:id>songbird@songbirdnest.com</em:id>
         <em:minVersion>1.8.0</em:minVersion>
-        <em:maxVersion>1.10.0a</em:maxVersion>
+        <em:maxVersion>1.11.0a</em:maxVersion>
       </Description>
     </em:targetApplication>
-	
-    <!-- Register a pane in the sidebar.
+	    <!-- Register a pane in the sidebar.
          See http://wiki.songbirdnest.com/Developer/Articles/Getting_Started/Display_Panes -->
     <songbird:displayPane>
       <Description>
@@ -59,8 +54,5 @@
         <songbird:showOnInstall>true</songbird:showOnInstall>
       </Description>
     </songbird:displayPane>
-
-
-
   </Description>
 </RDF>
