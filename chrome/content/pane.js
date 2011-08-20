@@ -18,13 +18,13 @@ along with Bluejay. If not, see <http://www.gnu.org/licenses/>.
 */
 
 if (typeof(Cc) == 'undefined')
-var Cc = Components.classes;
+    var Cc = Components.classes;
 if (typeof(Ci) == 'undefined')
-var Ci = Components.interfaces;
+    var Ci = Components.interfaces;
 if (typeof(Cu) == 'undefined')
-var Cu = Components.utils;
+    var Cu = Components.utils;
 if (typeof(Cr) == 'undefined')
-var Cr = Components.results;
+    var Cr = Components.results;
 
 
 // Make a namespace.
@@ -293,7 +293,8 @@ Bluejay.PaneController = {
     // disables the Bluejay recommendation engine until it is re-enabled
     turnOff : function() {
         //this._ratingMenu.clearStars();
-        this.state="off";
+        this.state = "off";
+        flushMessage();
     },
   
     // scans the user's library and sends that data to the engine

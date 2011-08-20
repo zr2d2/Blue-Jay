@@ -603,9 +603,11 @@ function TimeBasedRecommendor() {
         var candidateName;
         var currentCandidate;
         var candidateIterator = Iterator(candidates);
+        message("setting song discovery dates to no earlier than Bluejay install date\r\n");
+        
+        // Each song's discoveryDate is initialized to the date it was added to the library
+        // If this is before the date Bluejay was installed, then we didn't discover the song until Bluejay was installed
 	    for ([candidateName, currentCandidate] in candidateIterator) {
-            // Each candidate should already know when it was discovered because we ask Songbird
-            // However, it is possible that a song was added before BlueJay was installed and we actually care about when BlueJay discovered it
             if (strictlyChronologicallyOrdered(currentCandidate.getDiscoveryDate(), firstDate)) {
                 // If we get here, then the song thinks it was discovered before BlueJay was installed
                 // So fix that
@@ -613,9 +615,55 @@ function TimeBasedRecommendor() {
             }
             // Now we promise to the Candidate that the discovery date cannot change any more, so it can assign that timestamp to its initial rating
             //currentCandidate.applyInitialRating();
-            message("discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+            //message("discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
 	    }
-                
+	    // At the moment, each Candidate's discovery date is set to the Bluejay install date, or the date the song was added to the library, whichever is later
+	    // However, it's possible that some unusual scenarious could take place. For example, the song could be removed and re-added, and we'd have data about a song from before it was added
+	    // Since we have a real, timestamped rating or listening, we don't need to worry about the duration since it was last played or rated
+	    // All we will possibly use the discoveryDate for is to know the duration between when it was discovered and when it was first rated
+	    // It is safest in these situations to use the oldest possible discoveryDate
+	    // This way, even if the first rating is 5-stars, we aren't assuming that it was heard recently and then immediately rated 5-stars
+	    
+	    // To make a long story short, if we have records of listening to or rating a song before it was added, then use the Bluejay install date as the discovery date
+        message("setting song discovery dates to no later than earliest rating\r\n");
+	    for (i = 0; i < ratings.length; i++) {
+	        var currentRating = ratings[i];
+	        var candidateName = currentRating.getActivityName();
+	        currentCandidate = this.getCandidateWithName(candidateName);
+	        if (currentCandidate) {
+	            var ratingDate = currentRating.getDate();
+	            if (ratingDate != null) {
+	                if (ratingDate.timeUntil(currentCandidate.getDiscoveryDate()) > 0) {
+                        message("song name = " + candidateName.getText() + "\r\n");
+                        message("previously suspected discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+	                    currentCandidate.setDiscoveryDate(firstDate);
+                        message("more-accurate discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+                        //message("updated discovery date due to ratings = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+	                }
+	            }
+	        } else {
+	            message("nonexistent candidate name: " + candidateName.getText() + "\r\n");
+	        }
+	    }
+        message("setting song discovery dates to no later than earliest listening\r\n");
+	    for (i = 0; i < participations.length; i++) {
+	        var currentParticipation = participations[i];
+	        var candidateName = currentParticipation.getActivityName();
+	        currentCandidate = this.getCandidateWithName(candidateName);
+	        if (currentCandidate) {
+	            var participationDate = currentParticipation.getStartDate();
+                if (participationDate.timeUntil(currentCandidate.getDiscoveryDate()) > 0) {
+                    message("song name = " + candidateName.getText() + "\r\n");
+                    message("previously suspected discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+                    currentCandidate.setDiscoveryDate(firstDate);
+                    message("more-accurate discovery date = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+                    //message("updated discovery date due to listenings = " + currentCandidate.getDiscoveryDate().stringVersion() + "\r\n");
+                }
+            } else {
+	            message("nonexistent candidate name: " + candidateName.getText() + "\r\n");
+            }           
+	    }
+	    
         /*
         // get the current date
         var now = new DateTime();
@@ -709,7 +757,7 @@ function TimeBasedRecommendor() {
     	    predictionIterator = Iterator(currentMap);
     	    // iterate over each PredictionLink that shares the predictor
     	    for ([currentPredictionKey, currentLink] in predictionIterator) {
-    	        message("updating a PredictionLink " + currentPredictionKey + "\r\n");
+    	        message("updating a PredictionLink to predict " + currentKey + " from " + currentPredictionKey + "\r\n");
     	        currentLink.update();  // update the prediction link within the map
     	        numUpdates++;
     	    }
@@ -845,9 +893,9 @@ function TimeBasedRecommendor() {
 	    var childWeight = 0;
         for ([predictorName, currentLink] in mapIterator) {
             currentLink.update();
-            message("Predicting " + predicteeName + " from " + predictorName, 0);
+            message("\r\nPredicting " + predicteeName + " from " + predictorName + "\r\n", 0);
             currentGuess = currentLink.guess(when);
-            message(" score: " + currentGuess.getMean() + "\r\n", 0);
+            message("prediction: mean = " + currentGuess.getMean() + "\r\n", 0);
             //printDistribution(currentGuess);
             guesses.push(currentGuess);
             childWeight += currentGuess.getWeight();
@@ -905,6 +953,7 @@ function TimeBasedRecommendor() {
 	        var spacerWeight = 20 * (1 - spacerDuration / 36000);
 	        if (spacerWeight > 0) {
 	            guesses.push(new Distribution(0, .05, spacerWeight));
+                message("spacer weight = " + spacerWeight + "\r\n");
 	        }
 
 
@@ -1121,7 +1170,7 @@ function TimeBasedRecommendor() {
 	    
 	    message("resultant distribution = ");
 	    printDistribution(result);
-	    message("\r\n average of all distributions:" + (sumY / sumWeight) + "\r\n");
+	    message("average of all distributions:" + (sumY / sumWeight) + "\r\n");
     	return result;
     }
     // print functions

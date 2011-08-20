@@ -146,21 +146,22 @@
 
         // get the current value of the input. This value is a distribution, not a float		
 		var input = inputData.getCurrentValue(when, false);
+		message("predicting from scatterplot\r\n");
 		// make a guess for this input
 		var middle = plot.predict(input.getMean());
 		
-		message("PredictionLink input = "+input.getMean());
-		message("middle = " + middle.getMean());
+		//message("PredictionLink input = " + input.getMean());
+		//message("middle = " + middle.getMean());
 		
 	    var stdDevA = middle.getStdDev();
 	    var stdDevB = 0;
 	    // If there is uncertainty in the input, then the slope of the line affects the output uncertainty
 		if (input.getStdDev() > 0) {
 		    var leftOneStdDev = plot.predict(input.getMean() - input.getStdDev());
-		    message(" left output = " + leftOneStdDev.getMean());
+		    message("avg output for low input = " + leftOneStdDev.getMean() + "\r\n");
     		
 		    var rightOneStdDev = plot.predict(input.getMean() + input.getStdDev());
-		    message(" right output = " + rightOneStdDev.getMean());
+		    message("avg output for high input = " + rightOneStdDev.getMean() + "\r\n");
     		
 		    //alert("PredictionLink::guess pt2");
     		stdDevB = (rightOneStdDev.getMean() - leftOneStdDev.getMean()) / 2.0;

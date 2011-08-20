@@ -28,6 +28,11 @@ function Participation() {
 	this.getStartTime = getStartTime;
 	this.setEndTime = setEndTime;
 	this.getEndTime = getEndTime;
+	// The suffix "Time" here is to be replaced with the suffix "Date" in the future, for more consistency
+	this.setStartDate = setStartTime;
+	this.getStartDate = getStartTime;
+	this.setEndDate = setEndTime;
+	this.getEndDate = getEndTime;
 	this.setActivityName = setActivityName;
 	this.getActivityName = getActivityName;
 	this.setIntensity = setIntensity;

@@ -92,26 +92,43 @@
 			    break;
 	    }
 	    */
-        message("datapoints=");
-	    for (i = 0; i < datapoints.length; i++) {
-	        message("x=" + datapoints[i].getX() + " y=" + datapoints[i].getY() + "\r\n");
+	    // it takes a long time to print out all of the datapoints, so it's important to check the debug level before trying to log them all
+	    if (shouldLogMessagePriority(0)) {
+            message("datapoints:");
+	        for (i = 0; i < datapoints.length; i++) {
+	            message("x=" + datapoints[i].getX() + " y=" + datapoints[i].getY() + "\r\n");
+	        }
 	    }
 	    
 	    // now search for a bunch more nearby points
 	    //var middleIndex = i;
 	    lowerIndex = middleIndex;
 	    upperIndex = middleIndex;
-	    message("middleIndex = " + middleIndex + "\r\n");
+	    message("middleIndex = " + middleIndex + " ");
 	    var targetLength = Math.ceil(Math.sqrt(datapoints.length)) - 1;
 	    while ((upperIndex - lowerIndex) < targetLength) {
 		    if (lowerIndex > 0) {
 			    if (upperIndex < datapoints.length - 1) {
 				    // if we get here then both the next and previous points exist
 				    // choose the next closest point to include
-				    if (Math.abs(datapoints[upperIndex + 1].getX() - x) <= Math.abs(datapoints[lowerIndex - 1].getX() - x)) {
-					    upperIndex++;
+				    var nextDifference = Math.abs(datapoints[upperIndex + 1].getX() - x);
+				    var previousDifference = Math.abs(datapoints[lowerIndex - 1].getX() - x);
+				    if (previousDifference != nextDifference) {
+				        // the most common case is to get here
+				        // the closest point on the left is not the same distance as the closest point on the right, so we choose the closer one to include
+				        if (nextDifference <= previousDifference) {
+					        upperIndex++;
+				        } else {
+					        lowerIndex--;
+				        }
 				    } else {
-					    lowerIndex--;
+				        // if we get here, then both the left and right points exist, and they are the same distance away
+				        // So, we choose based on how many points we have on the left and the right
+				        if (upperIndex + lowerIndex < 2 * middleIndex) {
+				            upperIndex++;
+				        } else {
+				            lowerIndex--;
+				        }
 				    }
 			    } else {
 				    // if we get here then there is no next point. So choose the remaining lower points

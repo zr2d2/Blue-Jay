@@ -18,6 +18,13 @@ along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
 
 Change Log:
 
+* August 19, 2011 Jeff Gaston
+
+fixed an issue that could occur when there were multiple songs with duplicate names
+made the engine slightly faster by disabling some debug information more efficiently in ScatterPlot.js
+made the engine slightly smarter by breaking ties better in ScatterPlot.js
+
+
 * August 12, 2011 Jeff Gaston
 
 removed the obsolete file ArgumentList.js, which was only ever created because an analagous class was used in the C++ prototype

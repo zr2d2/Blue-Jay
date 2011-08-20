@@ -106,30 +106,28 @@
 			
     // if strictlyEarlier is true, then it will only use data from strictly before 'when'
 	function getValueAt(when, strictlyEarlier) {
-		//alert("RatingMovingAverage::getValueAt pt a\r\n");
-		message("number of ratings = " + ratings.length + "\r\n");
+		//message("number of ratings = " + ratings.length + "\r\n");
 		if (sumRatings.length == 0) {
+		    message("ratingMovingAverage value = {empty distribution} at time = " + when.stringVersion());
 			return [new Distribution(0, 0, 0), -1];
 		}
 		
-		//alert("RatingMovingAverage::getValueAt pt b\r\n");
+		//message("when = " + when.stringVersion() + "\r\n");
 		var firstRating = sumRatings[0];
 		if(!strictlyChronologicallyOrdered(firstRating.getDate(), when)) {
-    		//alert("RatingMovingAverage::getValueAt pt c\r\n");
 			return [new Distribution(0, 0, 0), -1];
+		    message("ratingMovingAverage value = {empty distribution} at time = " + when.stringVersion());
 		}
-		//alert("RatingMovingAverage::getValueAt pt d\r\n");
 		
 		var latestRatingIndex = getIndexForDate(when, strictlyEarlier);
-		//alert("index = " + latestRatingIndex);
+		//message("latest index = " + latestRatingIndex);
 		var latestRatingDate = sumRatings[latestRatingIndex].getDate();
-		//alert("calculating duration");
 		var duration = latestRatingDate.timeUntil(when);
-		//alert("constructing new date");
+		//message("latestRatingDate = " + latestRatingDate.stringVersion() + "\r\n");
 		var oldestRatingDate = latestRatingDate.datePlusDuration(-duration);
-		//alert("getting new index");
+		//message("earliest relevant date = " + oldestRatingDate.stringVersion() + "\r\n");
 		var earliestRatingIndex = getIndexForDate(oldestRatingDate, true);
-		//alert("array lookups");		
+		//message("earliest relevant index = " + earliestRatingIndex);
 		var latestSumRating = sumRatings[latestRatingIndex];
 		var latestSumSquaredRating = sumSquaredRatings[latestRatingIndex];
 		var earliestSumRating = sumRatings[earliestRatingIndex];
@@ -138,24 +136,35 @@
 		var sumY = 0.0;
 		var sumY2 = 0.0;
 		var sumWeight = 0.0;
-		//alert("in the middle of RatingMovingAverage::pt e\r\n");
+		//message("in the middle of RatingMovingAverage::pt e\r\n");
 		
 		if(strictlyChronologicallyOrdered(oldestRatingDate, sumRatings[0].getDate())) {
+		    //message("oldestRatingDate comes before sumRatings[0]\r\n");
 			sumY = latestSumRating.getScore();
 			sumY2 = latestSumSquaredRating.getScore();
 			sumWeight = latestSumRating.getWeight();
 		}
 		else{
+		    //message("oldestRatingDate is at or after sumRatings[0]\r\n");
 			sumY = latestSumRating.getScore() - earliestSumRating.getScore();
 			sumY2 = latestSumSquaredRating.getScore() - earliestSumSquaredRating.getScore();
 			sumWeight = latestSumSquaredRating.getWeight() - earliestSumSquaredRating.getWeight();
 		}
 		
-		var average = sumY/sumWeight;
-		var stdDev = Math.sqrt((sumY2 - sumY * sumY/sumWeight)/sumWeight);
+		var average = sumY / sumWeight;
+		//message("average = " + average + " ");
+		var variance = (sumY2 - sumY * sumY / sumWeight) / sumWeight;
+		//message("variance = " + variance + " ");
+		if (variance < 0) {
+		    variance = 0;
+		}
+		var stdDev = Math.sqrt(variance);
+		//message("stdDev = " + stdDev + " ");
+		//message("weight = " + sumWeight + " ");
 		var result = new Distribution(average, stdDev, sumWeight);
 		
-		//alert("done with RatingMovingAverage::getValueAt\r\n");
+		//message("done with RatingMovingAverage::getValueAt\r\n");
+		message("ratingMovingAverage value: avg = " + result.getMean() + " stdDev = " + result.getStdDev() + " weight = " + result.getWeight() + " at date = " + when.stringVersion() + "\r\n");
 		return [result, latestRatingIndex];
 	}
 	

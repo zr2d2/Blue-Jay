@@ -312,40 +312,40 @@ function Candidate(passedVal) {
 	}
 	
 	/**
-        * set the estimate for the date at which this Candidate was
-        * discovered.  Returns true if the estimate is believable,
-        * false if the estimate is not believable
-        */
+    * set the estimate for the date at which this Candidate was
+    * discovered.  Returns true if the estimate is believable,
+    * false if the estimate is not believable
+    */
 	function suspectDiscoveryDate(when) {
-		/**
+        /**
         * Internally we estimate the discovery date based on the
- * first time this song was played or rated.  So, we only
- * use outside suspicion of the discovery date if it does
- * not move the discovery date later
- */
-	    if ((!discoveryDate) || (strictlyChronologicallyOrdered(when, discoveryDate))) {
-	        this.setDiscoveryDate(when);
-	        return true;
+        * first time this song was played or rated.  So, we only
+        * use outside suspicion of the discovery date if it does
+        * not move the discovery date later
+        */
+        if ((!discoveryDate) || (strictlyChronologicallyOrdered(when, discoveryDate))) {
+            this.setDiscoveryDate(when);
+            return true;
         }
         return false;
 	}
 	/**
- * declares that this Candidate was discovered that the given date
- */
+     * declares that this Candidate was discovered at the given date
+     */
 	function setDiscoveryDate(when) {
        /**
         * update the latest date at which there was an interaction
         */
        if (strictlyChronologicallyOrdered(latestInteractionDate, when)) {
-       latestInteractionDate = when;
+           latestInteractionDate = when;
        }
        discoveryDate = when;
 	}
 	/**
-        * get the estimate for the date at which
-        * this Candidate was discovered
-       */
-       function getDiscoveryDate(when) {       /** if discoveryDate is valid... */
+    * get the estimate for the date at which
+    * this Candidate was discovered
+    */
+    function getDiscoveryDate(when) {       /** if discoveryDate is valid... */
        if (discoveryDate) {
            /** ...then return it */
            return discoveryDate;
@@ -357,8 +357,8 @@ function Candidate(passedVal) {
             * was discovered an extremely long time agon
             */
            return new DateTime();
-		}
-	}
+	    }
+    }
 	
 	/** Tells how long it has been since the song was heard or rated */
 	function getIdleDuration(when) {

@@ -197,6 +197,7 @@ function ParticipationMovingAverage() {
 		    averageIntensity = 1 / mostRecentDuration;
 	    }
 	    var result = new Distribution(averageIntensity, 0, 1);
+	    message("participationMovingAverage value = " + averageIntensity + " for date = " + when.stringVersion() + "\r\n");
 	    return [result, mostRecentIndex];
 	}
 	
@@ -225,6 +226,7 @@ function ParticipationMovingAverage() {
 	    var startIndex = this.getIndexForDate(startDate, true);
 	    averageIntensity = (mostRecentIndex - startIndex) / totalDuration;
 	    var result = new Distribution(averageIntensity, 0, 1);
+	    message("participationMovingAverage current value = " + averageIntensity + ", or once in every " + 1 / 86400 / averageIntensity + " days \r\n");
 	    return result;
 	}
 	function isAParticipationMovingAverage() {

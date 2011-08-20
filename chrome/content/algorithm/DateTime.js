@@ -124,7 +124,7 @@ function DateTime(yyyymmddhhmmss) {
  * false if t2 is equal to or after t1
  */
 function strictlyChronologicallyOrdered(t1, t2) {
-    if (t1.timeUntil(t2)>0) {
+    if (t1.timeUntil(t2) > 0) {
         return true;
     }
     return false;

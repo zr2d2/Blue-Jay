@@ -20,7 +20,7 @@
 messageToWrite = "";
 /** @class This is a class that handles reading and writing a file */
 FileIO = {
-
+    
     /** Public Methods */
 
     /** read the file and return a string containing the file contents */
@@ -28,7 +28,7 @@ FileIO = {
         var homeDirFile = FileIO.getHomeDirectory();
         var file = homeDirFile;
         file.append(fileName);
-        alert("FileIO reading file" + file.path);
+        alert("Bluejay reading file: " + file.path);
 		
         /** open an input stream from the file */
         var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
@@ -113,6 +113,14 @@ FileIO = {
     }
 };
 
+// tells whether a message with the given priority should be displayed
+function shouldLogMessagePriority(priority) {
+    if (priority > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 /**
  * the text is the message to send.  The priority determines
  * whether it's a debug message or an important one
@@ -122,15 +130,14 @@ function message(text, priority) {
     if (!priority) {
         priority = 0;
     }
-    //priority = 1;
     /**
      * only save messages that we care about
-     * If we're not debugging then don't include debug messages
+     * If we're not debugging, then don't include debug messages
      */
-    if (priority > 0) {
+    if (shouldLogMessagePriority(priority)) {
         // append the text to the end of the output file
         //FileIO.writeFile("bluejay_output.txt", text, 1);
-        //messageToWrite += text;
+        messageToWrite += text;
     }
 };
 
