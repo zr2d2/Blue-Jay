@@ -1,0 +1,157 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*
+<span class='line'>  2</span>     Copyright (C) 2011 Bluejay
+<span class='line'>  3</span> 
+<span class='line'>  4</span>     This file is part of Bluejay.
+<span class='line'>  5</span> 
+<span class='line'>  6</span>     Bluejay is free software: you can redistribute it and/or modify
+<span class='line'>  7</span>     it under the terms of the GNU General Public License as published by
+<span class='line'>  8</span>     the Free Software Foundation, either version 3 of the License, or
+<span class='line'>  9</span>     (at your option) any later version.
+<span class='line'> 10</span> 
+<span class='line'> 11</span>     Bluejay is distributed in the hope that it will be useful,
+<span class='line'> 12</span>     but WITHOUT ANY WARRANTY; without even the implied warranty of
+<span class='line'> 13</span>     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<span class='line'> 14</span>     GNU General Public License for more details.
+<span class='line'> 15</span> 
+<span class='line'> 16</span>     You should have received a copy of the GNU General Public License
+<span class='line'> 17</span>     along with Bluejay.  If not, see &lt;http://www.gnu.org/licenses/>.
+<span class='line'> 18</span> */</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="NAME">messageToWrite</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="COMM">/** @class This is a class that handles reading and writing a file */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="NAME">FileIO</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">    
+<span class='line'> 24</span>     </span><span class="COMM">/** Public Methods */</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="COMM">/** read the file and return a string containing the file contents */</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="NAME">readFile</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fileName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">homeDirFile</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FileIO.getHomeDirectory</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">homeDirFile</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">        </span><span class="NAME">file.append</span><span class="PUNC">(</span><span class="NAME">fileName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">        </span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">"Bluejay reading file: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.path</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">		
+<span class='line'> 33</span>         </span><span class="COMM">/** open an input stream from the file */</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">istream</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.classes</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/network/file-input-stream;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">                      </span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">Components.interfaces.nsIFileInputStream</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">        </span><span class="NAME">istream.init</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0x01</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0444</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">        
+<span class='line'> 38</span>         </span><span class="COMM">// setup a converter to fill in a default character for anything we can't read </span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">converter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.classes</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/intl/converter-input-stream;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">                </span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">Components.interfaces.nsIConverterInputStream</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">replacementCharacter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.interfaces.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">        </span><span class="NAME">converter.init</span><span class="PUNC">(</span><span class="NAME">istream</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"UTF-8"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">replacementCharacter</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">stringContents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tempString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">        
+<span class='line'> 46</span>         </span><span class="COMM">// read the file now</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">        </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">converter.readString</span><span class="PUNC">(</span><span class="NUMB">4096</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tempString</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">            </span><span class="NAME">stringContents</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tempString.value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="NAME">converter.close</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">/** this closes istream */</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">stringContents</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">    
+<span class='line'> 56</span>     </span><span class="COMM">/**
+<span class='line'> 57</span>      * Writes the given string to the file. "append" tells
+<span class='line'> 58</span>      * whether to append the data or clear the file first
+<span class='line'> 59</span>      */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="NAME">writeFile</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fileName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">stringData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">append</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="NAME">homeDirFile</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FileIO.getHomeDirectory</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">homeDirFile</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">file.append</span><span class="PUNC">(</span><span class="NAME">fileName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="COMM">/** alert("writing file " + file.path); */</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">        
+<span class='line'> 67</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">stringData</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">        </span><span class="COMM">/** file is nsIFile, data is a string */</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fileStream</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.classes</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/network/file-output-stream;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">                       </span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">Components.interfaces.nsIFileOutputStream</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">        </span><span class="COMM">/** alert("writing files part 1"); */</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">         
+<span class='line'> 73</span>         </span><span class="COMM">/**
+<span class='line'> 74</span>          * use 0x02 | 0x10 to open file for appending.
+<span class='line'> 75</span>          * File_io_flags 	
+<span class='line'> 76</span>          *     0�01 	Read only
+<span class='line'> 77</span>          *     0�02 	Write only
+<span class='line'> 78</span>          *     0�04    Read and Write
+<span class='line'> 79</span>          *     0�08 	Create File
+<span class='line'> 80</span>          *     0�10 	Append
+<span class='line'> 81</span>          *     0�20 	Truncate
+<span class='line'> 82</span>          *     0�40 	Sync
+<span class='line'> 83</span>          *     0�80 	Exclude
+<span class='line'> 84</span>          */</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">append</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">            </span><span class="NAME">fileStream.init</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0x02</span><span class="WHIT"> </span><span class="PUNC">|</span><span class="WHIT"> </span><span class="NUMB">0x08</span><span class="WHIT"> </span><span class="PUNC">|</span><span class="WHIT"> </span><span class="NUMB">0x10</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0666</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">        </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">            </span><span class="NAME">fileStream.init</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0x02</span><span class="WHIT"> </span><span class="PUNC">|</span><span class="WHIT"> </span><span class="NUMB">0x08</span><span class="WHIT"> </span><span class="PUNC">|</span><span class="WHIT"> </span><span class="NUMB">0x20</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0666</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">        
+<span class='line'> 90</span>         </span><span class="COMM">/**
+<span class='line'> 91</span>          * write, create, truncate.  In a c file operation, we have no
+<span class='line'> 92</span>          * need to set file mode with or operation, directly using "r"
+<span class='line'> 93</span>          * or "w" usually.  if you are sure there will never ever be any
+<span class='line'> 94</span>          * non-ascii text in data you can also call fileStream.writeData
+<span class='line'> 95</span>          * directly
+<span class='line'> 96</span>          */</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">converter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.classes</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/intl/converter-output-stream;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">                        </span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">Components.interfaces.nsIConverterOutputStream</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">        </span><span class="NAME">converter.init</span><span class="PUNC">(</span><span class="NAME">fileStream</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"UTF-8"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="NAME">converter.writeString</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">        </span><span class="NAME">converter.close</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">/** this closes fileStream */</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> </span><span class="WHIT">        </span><span class="COMM">/** alert("done writing file " + fileName); */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="WHIT">	</span><span class="COMM">/** Private Methods */</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">    </span><span class="NAME">getHomeDirectory</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">        </span><span class="COMM">/** This will choose the user's home directory */</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dirService</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.classes</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/file/directory_service;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">                         </span><span class="NAME">getService</span><span class="PUNC">(</span><span class="NAME">Components.interfaces.nsIProperties</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">homeDirFile</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dirService.get</span><span class="PUNC">(</span><span class="STRN">"Home"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Components.interfaces.nsIFile</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">/** returns an nsIFile object */</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">homeDirFile</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="COMM">// tells whether a message with the given priority should be displayed</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">shouldLogMessagePriority</span><span class="PUNC">(</span><span class="NAME">priority</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">priority</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="COMM">/**
+<span class='line'>125</span>  * the text is the message to send.  The priority determines
+<span class='line'>126</span>  * whether it's a debug message or an important one
+<span class='line'>127</span>  */</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">priority</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="COMM">/** supply a default priority of 0 if none is provided */</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">priority</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">        </span><span class="NAME">priority</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>134</span>      * only save messages that we care about
+<span class='line'>135</span>      * If we're not debugging, then don't include debug messages
+<span class='line'>136</span>      */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">shouldLogMessagePriority</span><span class="PUNC">(</span><span class="NAME">priority</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">        </span><span class="COMM">// append the text to the end of the output file</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">        </span><span class="COMM">//FileIO.writeFile("bluejay_output.txt", text, 1);</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">        </span><span class="NAME">messageToWrite</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="COMM">/** append the text to the end of the output file */</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">flushMessage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">messageToWrite.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">        </span><span class="NAME">FileIO.writeFile</span><span class="PUNC">(</span><span class="STRN">"bluejay_output.txt"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">messageToWrite</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">        </span><span class="NAME">messageToWrite</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>
