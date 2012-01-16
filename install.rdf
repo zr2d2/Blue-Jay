@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2011 Bluejay
+    Copyright (C) 2012 Bluejay
 
     This file is part of Bluejay.
 
@@ -27,7 +27,7 @@
     <em:id>{0686d43b-1ae0-46cb-8a79-5e190abbba0b}</em:id>
     <em:type>2</em:type>
     <em:name>Bluejay</em:name>
-    <em:version>1.0.1.0</em:version>
+    <em:version>1.0.2.0</em:version>
     <em:creator>Team Bluejay</em:creator>
     <em:description>Recommendation Engine for Songbird</em:description>
     <em:optionsURL>chrome://bluejay/content/options.xul</em:optionsURL>

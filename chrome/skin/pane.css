@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011 Bluejay
+    Copyright (C) 2012 Bluejay
 
     This file is part of Bluejay.
 
