@@ -133,11 +133,11 @@ function TimeBasedRecommendor() {
     // updates the structure of the Candidates
     // This informs each Candidate of each of its children and parents, and creates PredictionLinks between some of them
     function updateLinkConnections() {
-        alert("Bluejay updating child pointers (step 1/6)");
+        //alert("Bluejay updating child pointers (step 1/6)");
         this.updateChildPointers();
         //alert("computing discovery dates");
         this.estimateDiscoveryDates();
-        alert("Bluejay adding prediction links (step 2/6)");
+        //alert("Bluejay adding prediction links (step 2/6)");
 		this.addPredictionLinks();
         //alert("recommendor updating predictions");
 		//this.updateLinkValues();
@@ -159,7 +159,7 @@ function TimeBasedRecommendor() {
 		this.sortCandidates();
 		message("recommendor done reading files\r\n");
         flushMessage();
-		alert("Bluejay is now ready!");
+		//alert("Bluejay is now ready!");
     }
     // reads one file and put its data into the TimeBasedRecommendor
     // The data is expected to be in XML, and there is no error-checking
@@ -720,7 +720,7 @@ function TimeBasedRecommendor() {
     }
     // inform everything of any new data that was added recently that it needs to know about    
     function updateLinkValues() {
-        alert("Bluejay applying ratings (step 3/6)");
+        //alert("Bluejay applying ratings (step 3/6)");
         message("giving ratings to candidates\r\n");
         // inform each candidate of the ratings given to it
         var ratingIterator = Iterator(ratings, true);
@@ -740,7 +740,7 @@ function TimeBasedRecommendor() {
         
 
 
-        alert("Bluejay updating link values (step 4/6)");
+        //alert("Bluejay updating link values (step 4/6)");
     	message("updating PredictionLinks");
     	// have each PredictionLink update itself with the changes to the appropriate MovingAverage    	
     	var mapIterator = Iterator(predictionLinks);
@@ -765,7 +765,7 @@ function TimeBasedRecommendor() {
     	message("num PredictionLinks updated = " + numUpdates + "\r\n");
     }
     function updateRatings() {
-        alert("Bluejay predicting ratings (step 5/6)");
+        //alert("Bluejay predicting ratings (step 5/6)");
         // get the current date
         var now = new DateTime();
         now.setNow();
@@ -776,7 +776,7 @@ function TimeBasedRecommendor() {
     }
     // sort the songs by their score
     function sortCandidates() {
-        alert("Bluejay sorting candidates (step 6/6)");
+        //alert("Bluejay sorting candidates (step 6/6)");
         // clear all the candidates
         candidatesByScore.length = 0;
         // copy the candidates from leafVector
@@ -802,9 +802,9 @@ function TimeBasedRecommendor() {
             // choose a smaller jump size for next time and continue
             deltaIndex = Math.floor(deltaIndex / 2);
         }
-        message("Scores after sorting:\r\n");
+        message("Scores after sorting:\r\n", 1);
         for (i = 0; i < candidatesByScore.length; i++) {
-            message(candidatesByScore[i].getCurrentRating().getMean() + "\r\n");
+            message(candidatesByScore[i].getName().getName() + ":" + candidatesByScore[i].getCurrentRating().getMean() + "\r\n", 1);
         }
     }
 
@@ -938,7 +938,7 @@ function TimeBasedRecommendor() {
 	        // This is mostly equivalent to stddev = d^(-1/3), weight = d^(2/3)
 	        // So we could even make the rememberer stronger than the current stddev = d^(-1/3), weight = d^(1/3)
 	        //double squareRoot = sqrt(remembererDuration);
-	        var twoThirdsPower = Math.pow(remembererDuration, 2.0/3.0);
+	        var twoThirdsPower = Math.pow(remembererDuration, 0.7);
 	        //message("building rememberer");
 	        // apply a constant scale factor because these durations are in seconds, which are pretty small units
 	        var rememberer = new Distribution(1, 0.5, twoThirdsPower / 1600);
@@ -1005,8 +1005,8 @@ function TimeBasedRecommendor() {
 	    for (i = 0; i < 10; i++) {
             // Choose a random candidate
             // We want the relative weight of each candidate to be 1/x, where x = (1 + the number of candidates ranked higher than this one)
-            // The integral is ln(x), so the chosen index is e^(rand()*ln(n))
-	        index = Math.floor(Math.exp(Math.random() * Math.log(leafVector.length)));
+            // The integral is ln(x), so the chosen index is e^(rand()*ln(n))-1
+	        index = Math.floor(Math.exp(Math.random() * Math.log(leafVector.length))) - 1;
     	    indices.push(index);
 	    }
 	    // now sort these candidates in place
@@ -1071,8 +1071,8 @@ function TimeBasedRecommendor() {
 	    var i;
 	    for (i = 0; i < indices.length; i++) {
 	        currentCandidate = candidatesByScore[indices[i]];
-	        message("candidate name = " + currentCandidate.getName().getName(), 1);
-	        message(" expected rating = " + currentCandidate.getCurrentRating().getMean() + "\r\n", 1);
+	        message("candidate name = " + currentCandidate.getName().getName());
+	        message(" expected rating = " + currentCandidate.getCurrentRating().getMean() + "\r\n");
 	    }
 	    /* // print the distributions in order
 	    var distributionIterator = Iterator(guesses, true);

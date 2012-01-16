@@ -1,4 +1,4 @@
-Copyright (C) 2011 Bluejay
+Copyright (C) 2012 Bluejay
 
 This file is part of Bluejay.
 
@@ -17,6 +17,22 @@ along with Bluejay.  If not, see <http://www.gnu.org/licenses/>.
 
 
 Change Log:
+
+
+* January 4, 2012 Jeff Gaston
+Fixed a bug where the highest rated song would never be considered for playing
+
+
+* November 15, 2011 Jeff Gaston
+
+increased the tendency to play songs that haven't been heard recently
+added a workaround for the issue where songs occasionally get skipped (this may be related to the "No URI Handler" popup) and then downvoted
+
+
+* Octobor 20, 2011 Jeff Gaston
+
+fixed an issue where old data would remain in the engine even after clicking the "Scan Library" button
+
 
 * August 19, 2011 Jeff Gaston
 

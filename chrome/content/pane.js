@@ -184,6 +184,7 @@ Bluejay.PaneController = {
     
     // this function gets called when the user changes which songs are selected
     selectionChanged : function() {
+        message("currently selected track changed\r\n");
         this.didSelectionChange = true;
     },
     // assigns a certain rating to the currently-playing song
@@ -299,6 +300,8 @@ Bluejay.PaneController = {
   
     // scans the user's library and sends that data to the engine
     scanLibrary : function() {
+        // get rid of any old data
+        this.engine = new TimeBasedRecommendor();
         var list = LibraryUtils.mainLibrary;
         var mystring = "";
         // iterate over each thing in the library
@@ -432,23 +435,31 @@ Bluejay.PaneController = {
             var playedDuration = startDate.timeUntil(endDate);
             var playedName = new Name(oldMediaItem.getProperty(SBProperties.trackName));
             var songLength = oldMediaItem.getProperty(SBProperties.duration) / 1000000;
+            message("playedDuration = " + playedDuration);
+            message("songLength = " + songLength);
 
-            // decide whether it was skipped, based on the duration
-            if (playedDuration >= songLength * 0.75) {
-                // if we get here then it was not skipped
-                var newParticipation = new Participation();
-                newParticipation.setStartTime(startDate);
-                newParticipation.setEndTime(endDate);
-                newParticipation.setIntensity(1);
-                newParticipation.setActivityName(playedName);
-                this.engine.addParticipation(newParticipation);
-            } else {
-                // if we get here then the song was skipped
-                var newRating = new Rating();
-                newRating.setActivityName(playedName);
-                newRating.setDate(endDate);
-                newRating.setScore(0);
-                this.engine.addRating(newRating);
+            // Every once in a while, Songbird fails to play the requested song, saying something like "No URI Handler for playlist Songbird-medialist"
+            // This doesn't happen very often and so far the reason has not been determined
+            // However, the song is automatically skipped by Songbird, then it will be played only very briefly. We also don't want to create a dowvnote for it
+            // So, if the song was played for less than half a second, then we assume that it was Songbird that skipped it, not the user
+            if (playedDuration > 0.5) {
+                // decide whether it was skipped, based on the duration
+                if (playedDuration >= songLength * 0.75) {
+                    // if we get here then it was not skipped
+                    var newParticipation = new Participation();
+                    newParticipation.setStartTime(startDate);
+                    newParticipation.setEndTime(endDate);
+                    newParticipation.setIntensity(1);
+                    newParticipation.setActivityName(playedName);
+                    this.engine.addParticipation(newParticipation);
+                } else {
+                    // if we get here then the song was skipped
+                    var newRating = new Rating();
+                    newRating.setActivityName(playedName);
+                    newRating.setDate(endDate);
+                    newRating.setScore(0);
+                    this.engine.addRating(newRating);
+                }
             }
         }
         message("outside source changed song: new name = " + newMediaItem.getProperty(SBProperties.trackName) + "\r\n");

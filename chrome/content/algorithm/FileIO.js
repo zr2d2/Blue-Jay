@@ -28,7 +28,7 @@ FileIO = {
         var homeDirFile = FileIO.getHomeDirectory();
         var file = homeDirFile;
         file.append(fileName);
-        alert("Bluejay reading file: " + file.path);
+        //alert("Bluejay reading file: " + file.path);
 		
         /** open an input stream from the file */
         var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].
@@ -115,7 +115,7 @@ FileIO = {
 
 // tells whether a message with the given priority should be displayed
 function shouldLogMessagePriority(priority) {
-    if (priority > 0) {
+    if (priority > 1) {
         return true;
     } else {
         return false;
