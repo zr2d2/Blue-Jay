@@ -338,6 +338,10 @@ function TimeBasedRecommendor() {
                     currentChar = fileContents[characterIndex];
                 }
             }
+            if (currentChar == "\\") {
+                // go to the next character and treat it as text
+                characterIndex++;
+            }
             //message("start tag = ");
             //message(startTag.getName());
             // update names accordingly
@@ -351,6 +355,10 @@ function TimeBasedRecommendor() {
                 endTag.appendChar(currentChar);
             }
         }
+        if (stackCount != 0) {
+            alert("failed to parse " + fileName + "; ended at a depth of " + stackCount + ". Last recognized date in the file was " + latestDate.stringVersion()  + ". Will continue anyway, but some data will be missing.")
+        }
+        message("done reading file " + fileName)
         //alert("done reading file " + fileName + "\r\n");
     }
     // adds a candidate (also known as a song, genre, or category)

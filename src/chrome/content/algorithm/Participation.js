@@ -89,7 +89,7 @@ function Participation() {
 	
 	function stringVersion() {
 	    var result = "<Participation>";
-	    result += "<Activity>" + this.getActivityName().getName() + "</Activity>";
+	    result += "<Activity>" + this.getActivityName().getName().replace(/</g, "\\<") + "</Activity>";
 	    result += "<StartDate>" + startTime.stringVersion() + "</StartDate>";
 	    result += "<EndDate>" + endTime.stringVersion() + "</EndDate>";
 	    result += "</Participation>";

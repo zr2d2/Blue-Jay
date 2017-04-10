@@ -81,7 +81,7 @@ function Rating() {
     // returns a string representing this Rating
     function stringVersion() {
         var result = "<Rating>";
-        result += ("<Activity>" + activityName.getName() + "</Activity>");
+        result += ("<Activity>" + activityName.getName().replace(/</g, "\\<") + "</Activity>");
         result += ("<Score>" + score + "</Score>");
         if (creationDate) {
             result += ("<Date>" + creationDate.stringVersion() + "</Date>");
